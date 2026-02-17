@@ -1,4 +1,4 @@
-package inf112.mayhem._example.model;
+package inf112.mayhem.model;
 
 public class Gator implements ModelObject {
 	private double x, y, dx = 100, dy = 100;

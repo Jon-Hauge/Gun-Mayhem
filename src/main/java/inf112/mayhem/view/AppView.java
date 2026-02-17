@@ -1,4 +1,4 @@
-package inf112.mayhem._example.view;
+package inf112.mayhem.view;
 
 import java.util.HashMap;
 import java.util.List;

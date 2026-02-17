@@ -1,4 +1,4 @@
-package inf112.mayhem._example.model;
+package inf112.mayhem.model;
 
 public interface ModelObject {
 	// TODO: document this!

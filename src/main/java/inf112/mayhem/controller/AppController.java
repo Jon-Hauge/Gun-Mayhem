@@ -1,13 +1,13 @@
-package inf112.mayhem._example.controller;
+package inf112.mayhem.controller;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-import inf112.mayhem._example.model.AppWorld;
-import inf112.mayhem._example.model.Gator;
-import inf112.mayhem._example.model.ModelObject;
-import inf112.mayhem._example.view.AppView;
+import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.Gator;
+import inf112.mayhem.model.ModelObject;
+import inf112.mayhem.view.AppView;
 
 public class AppController implements ApplicationListener {
     private AppView appView = new AppView();
