@@ -47,4 +47,3 @@ You may have to compile first, with mvn compile – or in a single step, mvn com
 * `src/main/resources/blipp.ogg`– Dr. Richard Boulanger et al (CC-BY-3.0)
 
 *(You should probably delete these if you don't need them! If possible, include link to where you found them. Many resources come with instructions on how to cite properly.)*
-
