@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<!-- FIXME - set group id -->
-	<groupId>no.uib.ii.inf112</groupId>
+	<groupId>no.uib.teammayhem</groupId>
 	<!-- FIXME - set artifact name -->
-	<artifactId>gdx-template-26v</artifactId>
+	<artifactId>gun-mayhem-3</artifactId>
 	<version>1.26-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<!-- FIXME - set app name -->
-	<name>gdx-app</name>
+	<name>Team Mayhem Game</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 	<properties>
@@ -20,7 +20,7 @@
 		<slf4j.version>2.0.17</slf4j.version>
 		<junit.version>6.0.2</junit.version>
 		<!-- FIXME - set to app's main class' -->
-		<main.class>inf112.skeleton.app.MvcMain</main.class>
+		<main.class>inf112.mayhem.app.MvcMain</main.class>
 		<jvm.extra.args>--enable-native-access=ALL-UNNAMED</jvm.extra.args>
 	</properties>
 	<dependencies>
