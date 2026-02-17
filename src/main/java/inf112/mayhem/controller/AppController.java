@@ -5,12 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.Gator;
 import inf112.mayhem.model.ModelObject;
 import inf112.mayhem.view.AppView;
+import inf112.mayhem.view.screens.MainMenuView;
 
 public class AppController implements ApplicationListener {
     private AppView appView = new AppView();
+    private MainMenuView mainMenuView;
     private AppWorld world;
     private boolean paused = false;
 
@@ -23,6 +26,10 @@ public class AppController implements ApplicationListener {
 
         // VIEW: graphics
         appView.create(world.width(), world.height());
+        mainMenuView = new MainMenuView(world);
+
+        Gdx.input.setInputProcessor(mainMenuView.getStage());
+
         Gdx.graphics.setForegroundFPS(60);
     }
 
@@ -38,28 +45,34 @@ public class AppController implements ApplicationListener {
         // a large game, for instance, or if the user switches to another application
         // temporarily (e.g., incoming phone call on a phone, or something).
         appView.dispose();
+        mainMenuView.dispose();
     }
 
     @Override
     public void render() {
         // Called when the application should draw a new frame (many times per second).
 
-        // MODEL: simulate one step
-        if (!paused)
-            world.step(Gdx.graphics.getDeltaTime());
+        if (world.state() == GameState.MAIN_MENU) {
+            mainMenuView.render();
+        } else {
+            // MODEL: simulate one step
+            if (!paused)
+                world.step(Gdx.graphics.getDeltaTime());
 
-        // VIEW: draw stuff
-        appView.render(painter -> {
-            for (ModelObject obj : world) {
-                // commands to draw stuff
-                painter.draw(obj.x(), obj.y(), obj.width(), obj.height(), obj.appearance());
+            // VIEW: draw stuff
+            appView.render(painter -> {
+                for (ModelObject obj : world) {
+                    // commands to draw stuff
+                    painter.draw(obj.x(), obj.y(), obj.width(), obj.height(), obj.appearance());
+                }
+            });
+
+            // Don't handle input this way – use event handlers!
+            if (Gdx.input.justTouched()) { // check for mouse click
+                appView.playSound();
             }
-        });
-
-        // Don't handle input this way – use event handlers!
-        if (Gdx.input.justTouched()) { // check for mouse click
-            appView.playSound();
         }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
             Gdx.app.exit();
         }
@@ -70,6 +83,7 @@ public class AppController implements ApplicationListener {
         // Called whenever the window is resized (including with its original size at
         // startup)
         appView.resize(width, height);
+        mainMenuView.resize(width, height);
 
         // if appView can change the world size, we'd have to update *world* here
     }

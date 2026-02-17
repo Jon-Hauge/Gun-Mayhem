@@ -8,7 +8,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.utils.Os;
 import com.badlogic.gdx.utils.SharedLibraryLoader;
 
-import inf112.mayhem._example.controller.AppController;
+import inf112.mayhem.controller.AppController;
 
 public class MvcMain {
 	public static void main(String[] args) {

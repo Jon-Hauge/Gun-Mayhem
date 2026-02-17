@@ -9,6 +9,7 @@ public class AppWorld implements Iterable<ModelObject> {
 	double height;
 	double currentTime = 0;
 	List<ModelObject> objects = new ArrayList<>();
+	private GameState state = GameState.MAIN_MENU;
 
 	public AppWorld(double width, double height) {
 		super();
@@ -42,5 +43,13 @@ public class AppWorld implements Iterable<ModelObject> {
 
 	public void add(ModelObject obj) {
 		objects.add(obj);
+	}
+
+	public GameState state() {
+		return state;
+	}
+
+	public void setState(GameState state) {
+		this.state = state;
 	}
 }

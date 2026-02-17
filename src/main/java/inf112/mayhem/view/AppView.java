@@ -144,7 +144,7 @@ public class AppView implements Painter {
 		batch.begin();
 		// The projection matrix translates from world to view coordinates.
 		batch.setProjectionMatrix(viewport.getCamera().combined);
-		font.draw(batch, "Hello, World!", 200, 200);
+		// font.draw(batch, "Hello, World!", 200, 200);
 		try {
 			drawCommands.accept(this);
 		} finally {
@@ -152,11 +152,11 @@ public class AppView implements Painter {
 		}
 
 		// It's also possible to draw simple shapes
-		shape.begin(ShapeType.Filled);
-		shape.setProjectionMatrix(viewport.getCamera().combined);
-		shape.setColor(Color.BLUE);
-		shape.box(100, 100, 0, 100, 100, 0);
-		shape.end();
+		// shape.begin(ShapeType.Filled);
+		// shape.setProjectionMatrix(viewport.getCamera().combined);
+		// shape.setColor(Color.BLUE);
+		// shape.box(100, 100, 0, 100, 100, 0);
+		// shape.end();
 	}
 
 	public void resize(int width, int height) {
