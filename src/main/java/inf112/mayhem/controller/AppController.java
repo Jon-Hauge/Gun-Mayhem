@@ -1,17 +1,14 @@
-package inf112.skeleton.controller;
+package inf112.mayhem._example.controller;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-import inf112.skeleton._example.model.AppWorld;
-import inf112.skeleton._example.model.Gator;
-import inf112.skeleton._example.model.ModelObject;
-import inf112.skeleton._example.view.AppView;
-import inf112.skeleton.model.GameState;
+import inf112.mayhem._example.model.AppWorld;
+import inf112.mayhem._example.model.Gator;
+import inf112.mayhem._example.model.ModelObject;
+import inf112.mayhem._example.view.AppView;
 
-// FJERN _EXAMPLE NÅR FERDIG MED OPPSETT
-// Tatt fra _example / controller
 public class AppController implements ApplicationListener {
     private AppView appView = new AppView();
     private AppWorld world;
@@ -21,8 +18,8 @@ public class AppController implements ApplicationListener {
     public void create() { // Called at startup
 
         // MODEL: our virtual world
-        // Se _example: Legg til ting som skal være med i verden her
-        world = new AppWorld(1920, 1080);
+        world = new AppWorld(1280, 768);
+        world.add(new Gator(123, 456));
 
         // VIEW: graphics
         appView.create(world.width(), world.height());
