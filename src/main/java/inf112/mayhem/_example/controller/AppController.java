@@ -1,13 +1,13 @@
-package inf112.skeleton._example.controller;
+package inf112.mayhem._example.controller;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
-import inf112.skeleton._example.model.AppWorld;
-import inf112.skeleton._example.model.Gator;
-import inf112.skeleton._example.model.ModelObject;
-import inf112.skeleton._example.view.AppView;
+import inf112.mayhem._example.model.AppWorld;
+import inf112.mayhem._example.model.Gator;
+import inf112.mayhem._example.model.ModelObject;
+import inf112.mayhem._example.view.AppView;
 
 public class AppController implements ApplicationListener {
 	private AppView appView = new AppView();

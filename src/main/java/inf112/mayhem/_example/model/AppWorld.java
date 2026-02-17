@@ -1,4 +1,4 @@
-package inf112.skeleton._example.model;
+package inf112.mayhem._example.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;

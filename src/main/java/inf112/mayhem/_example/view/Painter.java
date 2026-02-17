@@ -1,4 +1,4 @@
-package inf112.skeleton._example.view;
+package inf112.mayhem._example.view;
 
 /**
  * TODO: You might want to drop this interface (used to draw things from the

@@ -21,35 +21,34 @@ Pay attention to these folders:
 
 **TODO:** You should probably edit the `pom.xml` and fill in details such as the project `name` and `artifactId`:
 
-
 ```xml
 
-	< !-- FIXME - set group id -->
-	<groupId>inf112.skeleton.app</groupId>
-	< !-- FIXME - set artifact name -->
-	<artifactId>gdx-app</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+< !-- FIXME - set group id -->
+<groupId>inf112.mayhem.app</groupId>
+< !-- FIXME - set artifact name -->
+<artifactId>gdx-app</artifactId>
+<version>1.0-SNAPSHOT</version>
+<packaging>jar</packaging>
 
-	< !-- FIXME - set app name -->
-	<name>mvn-app</name>
-	< !-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+< !-- FIXME - set app name -->
+<name>mvn-app</name>
+< !-- FIXME change it to the project's website -->
+<url>http://www.example.com</url>
 ```
 
 ## Code Structure
-* `inf112.skeleton` – code you can use as a starting point (rename to something sensible!)
-	* `inf112.skeleton.app` – classes for launching the program
-	* `inf112.skeleton.model` – empty (you might put your model classes here)
-	* `inf112.skeleton.view` – empty (you might put your view classes here)
-	* `inf112.skeleton.controller` – empty (you might put your controller classes here)
-	* `inf112.skeleton._example` – a minimal runnable example with MVC architecture (you might want to look at or even copy some of the code, then delete the rest)
+* `inf112.mayhem` – code you can use as a starting point (rename to something sensible!)
+	* `inf112.mayhem.app` – classes for launching the program
+	* `inf112.mayhem.model` – empty (you might put your model classes here)
+	* `inf112.mayhem.view` – empty (you might put your view classes here)
+	* `inf112.mayhem.controller` – empty (you might put your controller classes here)
+	* `inf112.mayhem._example` – a minimal runnable example with MVC architecture (you might want to look at or even copy some of the code, then delete the rest)
 
 ## Running
 You can run the project with Maven using `mvn exec:java`. Change the main class by modifying the `main.class` setting in `pom.xml`:
 
 ```
-		<main.class>inf112.skeleton.app.Main</main.class>
+		<main.class>inf112.mayhem.app.Main</main.class>
 ```
 
 Running the program should open a window with the text “Hello, world!” and an alligator in the lower left corner.  Clicking inside the window should play a *blip* sound. Exit by pressing *Escape* or closing the window.
