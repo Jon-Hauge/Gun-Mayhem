@@ -1,18 +1,23 @@
 # Konsept - Mayhem
 **Team:** *Team Mayhem* – *Adrian, Jon, Malik, Sverre, Andreas, Aleksander*
 
-* Spillfigur som kan styres – gå til høyre/venstre, hoppe oppover og nedover
-* Todimensjonal verden:
-    * Plattformer – horisontale flater spilleren kan stå eller gå på
-    * Spilleren beveger seg oppover ved å hoppe, og nedover ved å falle
-    * Spilleren kan dette av "mappet"
-* Fiender som beveger seg og kan skyte mot spilleren
-* Spilleren kan samle poeng ved å skyte fienden av "mappet"
-* Utfordringen i spillet er å slå fiender av økende vanskelighetsgrad
+Gun Mayhem 3 er et 2D plattform-skytespill inspirert av Gun Mayhem (1/2) 
+og Super Smash Bros. Målet er å skyte motstandere av kartet ved hjelp av 
+knockback fra våpen, mens man selv unngår å falle utfor.
 
-* Verden er bygget opp av blokker med fast størrelse (felter i et 2D-rutenett)
-* Verden har plattformer som man kan hoppe opp gjennom
-* Verden er større enn skjermen, men man ser ikke utenfor sentrum (ligndende Super Smash Bros)
-* «Power-ups» gir spilleren nye våpen
+**Kjerneaspekter:**
+* Spillfigur som kan styres – bevege seg horisontalt, hoppe og skyte
+* Prosjektiler med knockback-effekt som skyver motstandere mot kanten
+* 1–4 spillere/bots på samme kart simultaneously
+* Spillere har et begrenset antall liv – taper et liv ved å falle av kartet
+* Siste spiller med liv igjen vinner runden
 
-* Vi tar utgangspunkt av spillet "Gun Mayhem (1/2)" i tillegg til Super Smash Bros.
+**Verden:**
+* Todimensjonal verden bygget opp av plattformer med fast størrelse
+* Plattformer man kan hoppe opp gjennom nedenfra
+* Kartet er avgrenset – faller man utenfor mister man et liv
+* Kameraet følger aksjonens sentrum (lignende Super Smash Bros)
+
+**Ekstra funksjoner:**
+* Power-ups som gir spilleren nye eller sterkere våpen
+* Fiender/bots av økende vanskelighetsgrad
