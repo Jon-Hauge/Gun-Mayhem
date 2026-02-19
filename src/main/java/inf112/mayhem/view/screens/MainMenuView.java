@@ -11,13 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 
 public class MainMenuView {
     private Stage stage;
+    private AppController controller;
 
-    public MainMenuView(AppWorld world) {
+    public MainMenuView(AppWorld world, AppController controller) {
         this.stage = new Stage(new ScreenViewport());
 
         Table table = new Table();
@@ -37,7 +39,7 @@ public class MainMenuView {
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                world.setState(GameState.ACTIVE);
+                controller.startGame();
             }
         });
         table.add(startButton).padBottom(10).row();
@@ -46,7 +48,7 @@ public class MainMenuView {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                controller.exitGame();
             }
         });
         table.add(exitButton);
