@@ -3,17 +3,18 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.Gator;
 import inf112.mayhem.model.ModelObject;
 import inf112.mayhem.view.AppView;
 import inf112.mayhem.view.screens.MainMenuView;
+import inf112.mayhem.view.screens.PauseView;
 
 public class AppController implements ApplicationListener {
     private AppView appView = new AppView();
     private MainMenuView mainMenuView;
+    private PauseView pauseView;
     private AppWorld world;
     private boolean paused = false;
 
@@ -26,7 +27,8 @@ public class AppController implements ApplicationListener {
 
         // VIEW: graphics
         appView.create(world.width(), world.height());
-        mainMenuView = new MainMenuView(world);
+        mainMenuView = new MainMenuView(world, this);
+        pauseView = new PauseView(world, this);
 
         Gdx.input.setInputProcessor(mainMenuView.getStage());
 
@@ -46,35 +48,46 @@ public class AppController implements ApplicationListener {
         // temporarily (e.g., incoming phone call on a phone, or something).
         appView.dispose();
         mainMenuView.dispose();
+        pauseView.dispose();
     }
 
     @Override
     public void render() {
         // Called when the application should draw a new frame (many times per second).
-
         if (world.state() == GameState.MAIN_MENU) {
             mainMenuView.render();
-        } else {
-            // MODEL: simulate one step
-            if (!paused)
-                world.step(Gdx.graphics.getDeltaTime());
+            return;
+        }
+        // VIEW: draw stuff
+        appView.render(painter -> {
+            for (ModelObject obj : world) {
+                // commands to draw stuff
+                painter.draw(obj.x(), obj.y(), obj.width(), obj.height(), obj.appearance());
+            }
+        });
 
-            // VIEW: draw stuff
-            appView.render(painter -> {
-                for (ModelObject obj : world) {
-                    // commands to draw stuff
-                    painter.draw(obj.x(), obj.y(), obj.width(), obj.height(), obj.appearance());
-                }
-            });
-
-            // Don't handle input this way – use event handlers!
+        // Don't handle input this way – use event handlers!
+        if (!paused) {
             if (Gdx.input.justTouched()) { // check for mouse click
                 appView.playSound();
             }
         }
 
+        // MODEL: simulate one step
+        if (!paused) {
+            world.step(Gdx.graphics.getDeltaTime());
+        } else {
+            pauseView.render();
+        }
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
-            Gdx.app.exit();
+            if (paused) {
+                resume();
+                Gdx.input.setInputProcessor(mainMenuView.getStage());
+            } else {
+                pause();
+                Gdx.input.setInputProcessor(pauseView.getStage());
+            }
         }
     }
 
@@ -84,7 +97,9 @@ public class AppController implements ApplicationListener {
         // startup)
         appView.resize(width, height);
         mainMenuView.resize(width, height);
-
+        if (paused) {
+            pauseView.resize(width, height);
+        }
         // if appView can change the world size, we'd have to update *world* here
     }
 
@@ -97,4 +112,19 @@ public class AppController implements ApplicationListener {
     public void resume() {
         paused = false;
     }
+
+    public void startGame() {
+        world.setState(GameState.ACTIVE);
+    }
+
+    public void exitGame() {
+        Gdx.app.exit();
+    }
+
+    public void goToMainMenu() {
+        world.setState(GameState.MAIN_MENU);
+        paused = false;
+        Gdx.input.setInputProcessor(mainMenuView.getStage());
+    }
+
 }
