@@ -3,10 +3,11 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
-import inf112.mayhem.model.Gator;
 import inf112.mayhem.model.ModelObject;
+import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.view.AppView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
@@ -17,13 +18,16 @@ public class AppController implements ApplicationListener {
     private PauseView pauseView;
     private AppWorld world;
     private boolean paused = false;
+    private PlayerModel playerModel;
+    private float delta;
 
     @Override
     public void create() { // Called at startup
 
         // MODEL: our virtual world
         world = new AppWorld(1280, 768);
-        world.add(new Gator(123, 456));
+        playerModel = new PlayerModel(123, 456);
+        world.add(playerModel);
 
         // VIEW: graphics
         appView.create(world.width(), world.height());
@@ -33,6 +37,8 @@ public class AppController implements ApplicationListener {
         Gdx.input.setInputProcessor(mainMenuView.getStage());
 
         Gdx.graphics.setForegroundFPS(60);
+
+        delta = Gdx.graphics.getDeltaTime();
     }
 
     @Override
@@ -73,13 +79,6 @@ public class AppController implements ApplicationListener {
             }
         }
 
-        // MODEL: simulate one step
-        if (!paused) {
-            world.step(Gdx.graphics.getDeltaTime());
-        } else {
-            pauseView.render();
-        }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
             if (paused) {
                 resume();
@@ -89,6 +88,12 @@ public class AppController implements ApplicationListener {
                 Gdx.input.setInputProcessor(pauseView.getStage());
             }
         }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) playerModel.step(world, delta, "right");
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) playerModel.step(world, delta, "left");
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) playerModel.step(world, delta, "up");
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) playerModel.step(world, delta, "down");
+        
     }
 
     @Override
