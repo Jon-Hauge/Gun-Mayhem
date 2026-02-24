@@ -30,6 +30,7 @@ public class PauseView {
         BitmapFont font = new BitmapFont();
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
+        buttonStyle.font.getData().setScale(1.5f);
         buttonStyle.fontColor = Color.BLACK;
 
         TextButton startButton = new TextButton("Resume Game", buttonStyle);

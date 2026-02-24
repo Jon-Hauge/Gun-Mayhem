@@ -29,6 +29,7 @@ public class MainMenuView {
         BitmapFont font = new BitmapFont();
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
+        buttonStyle.font.getData().setScale(1.5f);
         buttonStyle.fontColor = Color.BLACK;
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
