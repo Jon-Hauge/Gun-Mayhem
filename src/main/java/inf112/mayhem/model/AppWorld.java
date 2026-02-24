@@ -22,13 +22,6 @@ public class AppWorld implements Iterable<ModelObject> {
 		return objects.iterator();
 	}
 
-	public void step(double deltaTime) {
-		currentTime += deltaTime;
-		for (var obj : objects) {
-			obj.step(this, deltaTime);
-		}
-	}
-
 	public double width() {
 		return width;
 	}

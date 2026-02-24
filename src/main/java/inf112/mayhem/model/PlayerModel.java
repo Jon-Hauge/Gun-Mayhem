@@ -1,9 +1,10 @@
 package inf112.mayhem.model;
 
-public class Gator implements ModelObject {
+public class PlayerModel implements ModelObject {
 	private double x, y, dx = 100, dy = 100;
+	private int speed = 5;
 
-	public Gator(double x, double y) {
+	public PlayerModel(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -39,15 +40,11 @@ public class Gator implements ModelObject {
 	}
 
 	@Override
-	public void step(AppWorld world, double deltaTime) {
-		double tmpX = x + dx * deltaTime, tmpY = y + dy * deltaTime;
-
-		if (tmpX + width() > world.width() || tmpX < 0)
-			dx = -dx;
-		if (tmpY + height() > world.height() || tmpY < 0)
-			dy = -dy;
-		x = x + dx * deltaTime;
-		y = y + dy * deltaTime;
+	public void step(AppWorld world, double deltaTime, String direction) {
+		if (direction.equals("right")) x += speed;
+		if (direction.equals("left")) x -= speed;
+		if (direction.equals("up")) y += speed;
+		if (direction.equals("down")) y -= speed;
 	}
 
 }

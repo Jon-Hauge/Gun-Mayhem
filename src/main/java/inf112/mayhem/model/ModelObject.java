@@ -9,5 +9,5 @@ public interface ModelObject {
 	double height();
 	String appearance();
 	String sound();
-	void step(AppWorld world, double deltaTime);
+	void step(AppWorld world, double deltaTime, String direction);
 }
