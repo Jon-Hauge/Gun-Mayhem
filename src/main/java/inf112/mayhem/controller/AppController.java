@@ -72,11 +72,17 @@ public class AppController implements ApplicationListener {
             }
         });
 
+        if(paused){
+            pauseView.render();
+        }
+
         // Don't handle input this way – use event handlers!
         if (!paused) {
-            if (Gdx.input.justTouched()) { // check for mouse click
-                appView.playSound();
-            }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) playerModel.step(world, delta, "right");
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) playerModel.step(world, delta, "left");
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) playerModel.step(world, delta, "up");
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) playerModel.step(world, delta, "down");
+
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
@@ -87,13 +93,7 @@ public class AppController implements ApplicationListener {
                 pause();
                 Gdx.input.setInputProcessor(pauseView.getStage());
             }
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) playerModel.step(world, delta, "right");
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) playerModel.step(world, delta, "left");
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) playerModel.step(world, delta, "up");
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) playerModel.step(world, delta, "down");
-        
+        }        
     }
 
     @Override
