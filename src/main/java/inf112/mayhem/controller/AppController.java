@@ -97,9 +97,7 @@ public class AppController implements ApplicationListener {
         // startup)
         appView.resize(width, height);
         mainMenuView.resize(width, height);
-        if (paused) {
-            pauseView.resize(width, height);
-        }
+        pauseView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
     }
 
