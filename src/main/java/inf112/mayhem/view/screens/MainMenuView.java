@@ -1,35 +1,45 @@
 package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 
-public class MainMenuView {
-    private Stage stage;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MainMenuView extends AbstractScreenView {
     private AppController controller;
 
-    public MainMenuView(AppWorld world, AppController controller) {
-        this.stage = new Stage(new ScreenViewport());
+    public MainMenuView(AppController controller) {
+        this.controller = controller;
+    }
 
-        Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+    @Override
+    protected void createUI() {
+        Table table = initiateTable();
 
         BitmapFont font = new BitmapFont();
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
-        buttonStyle.font.getData().setScale(1.5f);
+        buttonStyle.font.getData().setScale(2f);
         buttonStyle.fontColor = Color.BLACK;
 
         Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
@@ -53,23 +63,5 @@ public class MainMenuView {
             }
         });
         table.add(exitButton);
-    }
-
-    public void render() {
-        com.badlogic.gdx.utils.ScreenUtils.clear(Color.WHITE);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
-    }
-
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void dispose() {
-        stage.dispose();
     }
 }
