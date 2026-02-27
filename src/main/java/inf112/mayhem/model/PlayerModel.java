@@ -2,7 +2,7 @@ package inf112.mayhem.model;
 
 public class PlayerModel implements ModelObject {
 	private double x, y, dx = 100, dy = 100;
-	private int speed = 5;
+	private int speed = 10;
 
 	public PlayerModel(double x, double y) {
 		this.x = x;
@@ -41,10 +41,13 @@ public class PlayerModel implements ModelObject {
 
 	@Override
 	public void step(AppWorld world, double deltaTime, String direction) {
-		if (direction.equals("right")) x += speed;
-		if (direction.equals("left")) x -= speed;
-		if (direction.equals("up")) y += speed;
-		if (direction.equals("down")) y -= speed;
+    	switch (direction) {
+    	    case "right" -> x += speed;
+    	    case "left"  -> x -= speed;
+    	    case "up"    -> y += speed;
+    	    case "down"  -> y -= speed;
+    	}
+	    x = Math.max(0, Math.min(x, world.width()  - width()));
+	    y = Math.max(0, Math.min(y, world.height() - height()));
 	}
-
 }
