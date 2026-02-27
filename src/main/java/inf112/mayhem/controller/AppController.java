@@ -8,12 +8,12 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.ModelObject;
 import inf112.mayhem.model.PlayerModel;
-import inf112.mayhem.view.AppView;
+import inf112.mayhem.view.screens.ActiveGameView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
 
 public class AppController implements ApplicationListener {
-    private AppView appView = new AppView();
+    private ActiveGameView activeGameView = new ActiveGameView();
     private MainMenuView mainMenuView;
     private PauseView pauseView;
     private AppWorld world;
@@ -30,9 +30,11 @@ public class AppController implements ApplicationListener {
         world.add(playerModel);
 
         // VIEW: graphics
-        appView.create(world.width(), world.height());
-        mainMenuView = new MainMenuView(world, this);
-        pauseView = new PauseView(world, this);
+        activeGameView.create(world.width(), world.height(), this);
+        mainMenuView = new MainMenuView(this);
+        mainMenuView.create(world.width(), world.height());
+        pauseView = new PauseView(this);
+        pauseView.create(world.width(), world.height());
 
         Gdx.input.setInputProcessor(mainMenuView.getStage());
 
@@ -52,7 +54,7 @@ public class AppController implements ApplicationListener {
         // (We might need to do something like this when loading a new game level in
         // a large game, for instance, or if the user switches to another application
         // temporarily (e.g., incoming phone call on a phone, or something).
-        appView.dispose();
+        activeGameView.dispose();
         mainMenuView.dispose();
         pauseView.dispose();
     }
@@ -65,7 +67,7 @@ public class AppController implements ApplicationListener {
             return;
         }
         // VIEW: draw stuff
-        appView.render(painter -> {
+        activeGameView.render(painter -> {
             for (ModelObject obj : world) {
                 // commands to draw stuff
                 painter.draw(obj.x(), obj.y(), obj.width(), obj.height(), obj.appearance());
@@ -82,16 +84,13 @@ public class AppController implements ApplicationListener {
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) playerModel.step(world, delta, "left");
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) playerModel.step(world, delta, "up");
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) playerModel.step(world, delta, "down");
-
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
             if (paused) {
                 resume();
-                Gdx.input.setInputProcessor(mainMenuView.getStage());
             } else {
                 pause();
-                Gdx.input.setInputProcessor(pauseView.getStage());
             }
         }        
     }
@@ -100,7 +99,7 @@ public class AppController implements ApplicationListener {
     public void resize(int width, int height) {
         // Called whenever the window is resized (including with its original size at
         // startup)
-        appView.resize(width, height);
+        activeGameView.resize(width, height);
         mainMenuView.resize(width, height);
         pauseView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
@@ -109,15 +108,18 @@ public class AppController implements ApplicationListener {
     @Override
     public void pause() {
         paused = true;
+        Gdx.input.setInputProcessor(pauseView.getStage());
     }
 
     @Override
     public void resume() {
         paused = false;
+        Gdx.input.setInputProcessor(activeGameView.getStage());
     }
 
     public void startGame() {
         world.setState(GameState.ACTIVE);
+        Gdx.input.setInputProcessor(activeGameView.getStage());
     }
 
     public void exitGame() {

@@ -2,30 +2,37 @@ package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
+import org.w3c.dom.views.AbstractView;
 
-public class PauseView {
-    private Stage stage;
+import java.util.HashMap;
+import java.util.Map;
+
+public class PauseView extends AbstractScreenView {
     private AppController controller;
 
-    public PauseView(AppWorld world, AppController controller) {
-        this.stage = new Stage(new ScreenViewport());
+    public PauseView(AppController controller) {
         this.controller = controller;
+    }
 
-        Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+    @Override
+    protected void createUI() {
+        Table table = initiateTable();
 
         BitmapFont font = new BitmapFont();
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -52,21 +59,9 @@ public class PauseView {
         table.add(exitToMainMenuButton);
     }
 
+    @Override
     public void render() {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
-
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void dispose() {
-        stage.dispose();
-    }
-
 }
