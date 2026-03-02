@@ -34,7 +34,14 @@ public class MainMenuView extends AbstractScreenView {
 
     @Override
     protected void createUI() {
-        Table table = initiateTable();
+        Table mainMenuButtons = createButtons();
+        stage.addActor(mainMenuButtons);
+    }
+
+    @Override
+    protected Table createButtons() {
+        Table table = new Table();
+        table.setFillParent(true);
 
         BitmapFont font = new BitmapFont();
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -46,7 +53,7 @@ public class MainMenuView extends AbstractScreenView {
         Label title = new Label("TEAM MAYHEM", labelStyle);
         table.add(title).padBottom(20).row();
 
-        TextButton startButton = new TextButton("Start Game", buttonStyle);
+        TextButton startButton = new TextButton("Start button", buttonStyle);
         startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -55,7 +62,7 @@ public class MainMenuView extends AbstractScreenView {
         });
         table.add(startButton).padBottom(10).row();
 
-        TextButton exitButton = new TextButton("Exit", buttonStyle);
+        TextButton exitButton = new TextButton("Exit button", buttonStyle);
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -63,5 +70,7 @@ public class MainMenuView extends AbstractScreenView {
             }
         });
         table.add(exitButton);
+
+        return table;
     }
 }

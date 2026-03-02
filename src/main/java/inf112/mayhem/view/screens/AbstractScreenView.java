@@ -18,25 +18,15 @@ public abstract class AbstractScreenView {
     public void create(double worldWidth, double worldHeight) {
         this.stage = new Stage(new FillViewport((float) worldWidth, (float) worldHeight));
         createUI();
-
-        Gdx.graphics.setForegroundFPS(60);
     }
 
     /// Creates UI for the game
     ///
     protected abstract void createUI();
 
-    /// Initiates a simple table, adding it to the stage
+    /// Creates a table containing the game-buttons separately from the stage
     ///
-    /// @return initiated table
-    ///
-    public Table initiateTable() {
-        Table table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
-
-        return table;
-    }
+    protected abstract Table createButtons();
 
     /// Renders the game world
     /// Happens multiple times per second

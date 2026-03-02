@@ -32,7 +32,14 @@ public class PauseView extends AbstractScreenView {
 
     @Override
     protected void createUI() {
-        Table table = initiateTable();
+        Table pauseButtons = createButtons();
+        stage.addActor(pauseButtons);
+    }
+
+    @Override
+    protected Table createButtons() {
+        Table table = new Table();
+        table.setFillParent(true);
 
         BitmapFont font = new BitmapFont();
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -57,6 +64,8 @@ public class PauseView extends AbstractScreenView {
             }
         });
         table.add(exitToMainMenuButton);
+
+        return table;
     }
 
     @Override
