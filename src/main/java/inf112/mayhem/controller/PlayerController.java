@@ -33,7 +33,7 @@ public class PlayerController {
 	    player.velocity.x = x * SPEED;
 	        
 	    //JUMP INPUT
-	    if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+	    if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
 	        player.jump();
 	    }
 	        

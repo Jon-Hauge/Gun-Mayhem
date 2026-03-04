@@ -3,7 +3,6 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
@@ -20,8 +19,7 @@ public class AppController implements ApplicationListener {
     private boolean paused = false;
     private PlayerModel playerModel;
     private PlayerController playerController;
-    private InputMultiPlexer multiplexer;
-
+    
     @Override
     public void create() { // Called at startup
 
@@ -37,11 +35,11 @@ public class AppController implements ApplicationListener {
         mainMenuView.create(world.width(), world.height());
         pauseView = new PauseView(this);
         pauseView.create(world.width(), world.height());
-
-        Gdx.input.setInputProcessor(mainMenuView.getStage());
+        
 
         Gdx.graphics.setForegroundFPS(60);
 
+        updateInputProcessor();
         
     }
 
@@ -66,34 +64,24 @@ public class AppController implements ApplicationListener {
     	
     	float delta = Gdx.graphics.getDeltaTime();
     	
-        // Called when the application should draw a new frame (many times per second).
-        if (world.state() == GameState.MAIN_MENU) {
-            mainMenuView.render();
-            return;
+    	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            if (paused) resume();
+            else pause();
         }
-        
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
-            if (paused) {
-                resume();
-            } else {
-                pause();
-            }
-        }    
-        
-        // Don't handle input this way – use event handlers!
-        if (!paused) {
-            playerController.update();
-            playerModel.update(world,  delta);
-        }
-
-        
-        // VIEW: draw stuff
-        activeGameView.render(world);
-
-        if(paused){
-            pauseView.render();
-        }
-  
+    	
+    	switch (world.state()) {
+        case MAIN_MENU -> mainMenuView.render();
+        case ACTIVE    -> {
+        	playerController.update();
+        	playerModel.update(world, delta);
+        	activeGameView.render(world);
+        	}
+        case PAUSED    -> {
+        	activeGameView.render(world);
+        	pauseView.getStage();
+        	}
+    	}
+    	
     }
 
     @Override
@@ -108,19 +96,21 @@ public class AppController implements ApplicationListener {
 
     @Override
     public void pause() {
+    	world.setState(GameState.PAUSED);
         paused = true;
-        Gdx.input.setInputProcessor(pauseView.getStage());
+        updateInputProcessor();
     }
 
     @Override
     public void resume() {
+    	world.setState(GameState.ACTIVE);
         paused = false;
-        Gdx.input.setInputProcessor(activeGameView.getStage());
+        updateInputProcessor();
     }
 
     public void startGame() {
         world.setState(GameState.ACTIVE);
-        Gdx.input.setInputProcessor(activeGameView.getStage());
+        updateInputProcessor();
     }
 
     public void exitGame() {
@@ -130,7 +120,17 @@ public class AppController implements ApplicationListener {
     public void goToMainMenu() {
         world.setState(GameState.MAIN_MENU);
         paused = false;
-        Gdx.input.setInputProcessor(mainMenuView.getStage());
+        updateInputProcessor();
+    }
+    
+    private void updateInputProcessor() {
+
+        switch (world.state()) {
+            case MAIN_MENU -> Gdx.input.setInputProcessor(mainMenuView.getStage());
+            case ACTIVE    -> Gdx.input.setInputProcessor(activeGameView.getStage());
+            case PAUSED    -> Gdx.input.setInputProcessor(pauseView.getStage());
+        }
+
     }
 
 }
