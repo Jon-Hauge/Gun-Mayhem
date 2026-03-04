@@ -7,7 +7,9 @@ public interface EntityModel {
 	float width();
 	float height();
 	EntityType type();
+	EntityState state();
 	
+	void updateState();
 	void update(AppWorld world, float delta);
 
 }
