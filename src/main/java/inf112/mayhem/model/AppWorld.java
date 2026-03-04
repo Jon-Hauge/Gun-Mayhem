@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class AppWorld implements Iterable<ModelObject> {
+public class AppWorld implements Iterable<EntityModel> {
 	double width;
 	double height;
 	double currentTime = 0;
-	List<ModelObject> objects = new ArrayList<>();
+	List<EntityModel> objects = new ArrayList<>();
 	private GameState state = GameState.MAIN_MENU;
 
 	public AppWorld(double width, double height) {
@@ -18,7 +18,7 @@ public class AppWorld implements Iterable<ModelObject> {
 	}
 
 	@Override
-	public Iterator<ModelObject> iterator() {
+	public Iterator<EntityModel> iterator() {
 		return objects.iterator();
 	}
 
@@ -34,7 +34,7 @@ public class AppWorld implements Iterable<ModelObject> {
 		return currentTime;
 	}
 
-	public void add(ModelObject obj) {
+	public void add(EntityModel obj) {
 		objects.add(obj);
 	}
 

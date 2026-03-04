@@ -1,33 +1,26 @@
 package inf112.mayhem.view.screens;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.view.Painter;
+import inf112.mayhem.model.EntityModel;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
-public class ActiveGameView implements Painter {
+public class ActiveGameView {
 
     private Viewport viewport; // defines screen / world size, aspect ratio and camera
     private SpriteBatch batch; // used for drawing images / textures
@@ -106,17 +99,6 @@ public class ActiveGameView implements Painter {
         });
     }
 
-    @Override
-    public void draw(double x, double y, double w, double h, String textureName) {
-        Texture texture = getTexture(textureName);
-        if (texture != null) {
-            batch.draw(texture, //
-                    (float) x, //
-                    (float) y, //
-                    (float) w, //
-                    (float) h);
-        }
-    }
 
     public void playSound() {
         // TODO: play different sounds
@@ -141,20 +123,25 @@ public class ActiveGameView implements Painter {
     ///
     /// @param drawCommands
     ///
-    public void render(Consumer<Painter> drawCommands) {
+    public void render(AppWorld world) {
         // Called when the application should draw a new frame (many times per second).
 
         // Start with a blank screen
 
         ScreenUtils.clear(Color.WHITE);
-
-        // Draw calls should be wrapped in batch.begin() ... batch.end()
-        batch.begin();
+        
         // The projection matrix translates from world to view coordinates.
         batch.setProjectionMatrix(viewport.getCamera().combined);
+        
+        // Draw calls should be wrapped in batch.begin() ... batch.end()
+        batch.begin();
+        
         // font.draw(batch, "Hello, World!", 200, 200);
         try {
-            drawCommands.accept(this);
+        	for (EntityModel obj: world) {
+        		Texture tex = getTexture("obligator.png");
+        		batch.draw(tex, obj.x(), obj.y(), obj.width(), obj.height());
+        	}
         } finally {
             batch.end(); // if you forget this, resources will leak!
         }

@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.GameState;
-import inf112.mayhem.model.ModelObject;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.view.screens.ActiveGameView;
 import inf112.mayhem.view.screens.MainMenuView;
@@ -19,7 +19,7 @@ public class AppController implements ApplicationListener {
     private AppWorld world;
     private boolean paused = false;
     private PlayerModel playerModel;
-    private float delta;
+    private PlayerController playerController;
 
     @Override
     public void create() { // Called at startup
@@ -27,6 +27,7 @@ public class AppController implements ApplicationListener {
         // MODEL: our virtual world
         world = new AppWorld(1280, 768);
         playerModel = new PlayerModel(123, 456);
+        playerController = new PlayerController(playerModel, world);
         world.add(playerModel);
 
         // VIEW: graphics
@@ -40,7 +41,7 @@ public class AppController implements ApplicationListener {
 
         Gdx.graphics.setForegroundFPS(60);
 
-        delta = Gdx.graphics.getDeltaTime();
+        
     }
 
     @Override
@@ -61,38 +62,37 @@ public class AppController implements ApplicationListener {
 
     @Override
     public void render() {
+    	
+    	float delta = Gdx.graphics.getDeltaTime();
+    	
         // Called when the application should draw a new frame (many times per second).
         if (world.state() == GameState.MAIN_MENU) {
             mainMenuView.render();
             return;
         }
-        // VIEW: draw stuff
-        activeGameView.render(painter -> {
-            for (ModelObject obj : world) {
-                // commands to draw stuff
-                painter.draw(obj.x(), obj.y(), obj.width(), obj.height(), obj.appearance());
-            }
-        });
-
-        if(paused){
-            pauseView.render();
-        }
-
-        // Don't handle input this way – use event handlers!
-        if (!paused) {
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) playerModel.step(world, delta, "right");
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) playerModel.step(world, delta, "left");
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) playerModel.step(world, delta, "up");
-            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) playerModel.step(world, delta, "down");
-        }
-
+        
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) { // check for key press
             if (paused) {
                 resume();
             } else {
                 pause();
             }
-        }        
+        }    
+        
+        // Don't handle input this way – use event handlers!
+        if (!paused) {
+            playerController.update();
+            playerModel.update(world,  delta);
+        }
+
+        
+        // VIEW: draw stuff
+        activeGameView.render(world);
+
+        if(paused){
+            pauseView.render();
+        }
+  
     }
 
     @Override
