@@ -20,19 +20,14 @@ public class PlayerController {
 	}
 	
 	 public void update() {
-	        float x = 0, y = 0;
+	        float x = 0;
 
 	        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))  x -= 1;
 	        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)|| Gdx.input.isKeyPressed(Input.Keys.D)) x += 1;
-	        if (Gdx.input.isKeyPressed(Input.Keys.UP)   || Gdx.input.isKeyPressed(Input.Keys.W)) y += 1;
-	        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) y -= 1;
-
-	        if (x != 0 || y != 0) {
-	            float len = Vector2.len(x, y);
-	            x /= len; y /= len;
-	        }
-
-	        player.velocity.set(x * SPEED, y * SPEED);
+	        
+	        player.velocity.x = x * SPEED;
+	        
+	        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) player.jump();
 	    }
 	
 }

@@ -20,7 +20,11 @@ public class PlayerModel implements EntityModel {
 	
 	 private void updateBounds() {
 	        bounds.set(position.x, position.y, size.x, size.y);
-	    }
+	}
+	 
+	 public void jump() {
+		 velocity.y = 100f;
+	 }
 
 	@Override
 	public float x() {
@@ -50,6 +54,7 @@ public class PlayerModel implements EntityModel {
 	@Override
 	public void update(AppWorld world, float delta) {
         // integrer bevegelse
+		velocity.y -= 250f * delta;
         position.mulAdd(velocity, delta);
 
         // clamp i world
