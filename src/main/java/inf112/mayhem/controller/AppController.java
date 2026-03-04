@@ -3,9 +3,9 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.view.screens.ActiveGameView;
@@ -20,6 +20,7 @@ public class AppController implements ApplicationListener {
     private boolean paused = false;
     private PlayerModel playerModel;
     private PlayerController playerController;
+    private InputMultiPlexer multiplexer;
 
     @Override
     public void create() { // Called at startup
