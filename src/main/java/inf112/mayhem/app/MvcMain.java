@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
 import inf112.mayhem.controller.AppController;
 
 public class MvcMain {
+	
 	public static void main(String[] args) {
 		// enable assertion checking by default
 		MvcMain.class.getClassLoader().setDefaultAssertionStatus(true);

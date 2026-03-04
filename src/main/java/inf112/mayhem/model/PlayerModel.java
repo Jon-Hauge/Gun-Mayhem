@@ -1,53 +1,63 @@
 package inf112.mayhem.model;
 
-public class PlayerModel implements ModelObject {
-	private double x, y, dx = 100, dy = 100;
-	private int speed = 10;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
-	public PlayerModel(double x, double y) {
-		this.x = x;
-		this.y = y;
+public class PlayerModel implements EntityModel {
+	private final Vector2 position = new Vector2();
+    public final Vector2 velocity = new Vector2();
+    private final Vector2 size = new Vector2(32, 32);
+    
+    private final Rectangle bounds = new Rectangle();
+    
+    private final EntityType type = EntityType.PLAYER;
+
+
+	public PlayerModel(float startX, float startY) {
+		position.set(startX, startY);
+        updateBounds();
+	}
+	
+	 private void updateBounds() {
+	        bounds.set(position.x, position.y, size.x, size.y);
+	    }
+
+	@Override
+	public float x() {
+		return position.x;
 	}
 
 	@Override
-	public double x() {
-		return x;
+	public float y() {
+		return position.y;
 	}
 
 	@Override
-	public double y() {
-		return y;
+	public float width() {
+		return size.x;
 	}
 
 	@Override
-	public double width() {
-		return 100;
+	public float height() {
+		return size.y;
+	}
+	
+	@Override
+	public EntityType type() {
+		return type;
 	}
 
 	@Override
-	public double height() {
-		return 100;
-	}
+	public void update(AppWorld world, float delta) {
+        // integrer bevegelse
+        position.mulAdd(velocity, delta);
 
-	@Override
-	public String appearance() {
-		return "obligator.png";
-	}
+        // clamp i world
+        position.x = Math.max(0, Math.min(position.x, (float) world.width()  - size.x));
+        position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
 
-	@Override
-	public String sound() {
-		return "blipp.ogg";
-	}
-
-	@Override
-	public void step(AppWorld world, double deltaTime, String direction) {
-    	switch (direction) {
-    	    case "right" -> x += speed;
-    	    case "left"  -> x -= speed;
-    	    case "up"    -> y += speed;
-    	    case "down"  -> y -= speed;
-    	}
-	    x = Math.max(0, Math.min(x, world.width()  - width()));
-	    y = Math.max(0, Math.min(y, world.height() - height()));
-	}
+        updateBounds();
+    }
 }
+
+	
