@@ -20,31 +20,23 @@ public class PlayerController {
 		this.world = world;
 	}
 	
-	 public void update() {
-	        float x = 0;
+	public void update() {
+	    float x = 0f;
 	        
-	        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-	        	player.jump();	       
-	        }
+	    //INPUT
+	    if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
+	        x -= 1;
+	    if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)|| Gdx.input.isKeyPressed(Input.Keys.D))
+	        x += 1;
 	        
-	        if (!player.isGrounded()) {
-	        	player.state = EntityState.JUMPING;       	
-	        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))  {
-	        	x -= 1;
-	        	player.state = EntityState.WALKING_LEFT;
-	        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)|| Gdx.input.isKeyPressed(Input.Keys.D)) {
-	        	x += 1;
-	        	player.state = EntityState.WALKING_RIGHT;
-	        } else {
-	        	player.state = EntityState.IDLE;
-	        	System.out.println("IDLE");
-	        }
+	    //VELOCITY
+	    player.velocity.x = x * SPEED;
 	        
-	        
-	       
-	        
-	        player.velocity.x = x * SPEED;
-
+	    //JUMP INPUT
+	    if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+	        player.jump();
 	    }
-	
+	        
+	    player.updateState();
+	}
 }

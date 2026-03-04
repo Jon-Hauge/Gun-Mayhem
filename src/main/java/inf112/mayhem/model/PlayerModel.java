@@ -12,8 +12,10 @@ public class PlayerModel implements EntityModel {
     private final EntityType type = EntityType.PLAYER;
     
     private final float GRAVITY = 400f;
+    private final float JUMP_FORCE = 100f;
     
-    public EntityState state = EntityState.IDLE;
+    private EntityState state = EntityState.IDLE;
+    private boolean isGrounded = false;
 
 	public PlayerModel(float startX, float startY) {
 		position.set(startX, startY);
@@ -24,13 +26,12 @@ public class PlayerModel implements EntityModel {
 	        bounds.set(position.x, position.y, size.x, size.y);
 	}
 	 
-	public boolean isGrounded() {
-		return position.y <= 0;
-	}
-	 
-	 public void jump() {
-		 if (isGrounded()) {
-			 velocity.y = 100f;
+	public void jump() {
+		 
+		 //NEEDS TO BE CHANGED ONCE WE HAVE DIFFERENT LAYERS OF "GROUND"
+		 if (position.y <= 0) {
+			 velocity.y = JUMP_FORCE;
+			 isGrounded = false;
 		 }
 	 }
 
@@ -63,11 +64,27 @@ public class PlayerModel implements EntityModel {
 	public EntityState state() {
 		return state;
 	}
+	
+	@Override
+	public void updateState() {
+		if (!isGrounded) {
+	        state = EntityState.JUMPING;
+	    } 
+	    else if (velocity.x < 0) {
+	        state = EntityState.WALKING_LEFT;
+	    } 
+	    else if (velocity.x > 0) {
+	        state = EntityState.WALKING_RIGHT;
+	    } 
+	    else {
+	        state = EntityState.IDLE;
+	    }
+	}
 
 	@Override
 	public void update(AppWorld world, float delta) {
 		//Players ability to move
-		velocity.y -= 250f * delta;
+		velocity.y -= GRAVITY * delta;
         position.mulAdd(velocity, delta);
 
         // clamp i world
@@ -75,8 +92,9 @@ public class PlayerModel implements EntityModel {
         position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
         
         //Resets downward velocity when grounded
-        if (isGrounded()) {
+        if (position.y <= 0) {
         	velocity.y = 0;
+        	isGrounded = true;
         }
 
         updateBounds();
