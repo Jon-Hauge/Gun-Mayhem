@@ -52,7 +52,7 @@ public class ActiveGameView {
      * Loading everything at startup prevents glitches later on.
      */
     private void preloadTextures() {
-        for (String fileName : List.of("obligator.png")) {
+        for (String fileName : List.of("obligator.png", "orig_big.png")) {
             getTexture(fileName);
         }
     }
@@ -121,29 +121,50 @@ public class ActiveGameView {
     /// Doing it this way has the advantage of making sure that SpriteBatch's begin()
     /// and end() methods are called properly.
     ///
-    /// @param drawCommands
-    ///
     public void render(AppWorld world) {
         // Called when the application should draw a new frame (many times per second).
 
         // Start with a blank screen
-
         ScreenUtils.clear(Color.WHITE);
-        
+
         // The projection matrix translates from world to view coordinates.
         batch.setProjectionMatrix(viewport.getCamera().combined);
-        
+        shape.setProjectionMatrix(viewport.getCamera().combined);
+
         // Draw calls should be wrapped in batch.begin() ... batch.end()
         batch.begin();
-        
-        // font.draw(batch, "Hello, World!", 200, 200);
         try {
-        	for (EntityModel obj: world) {
-        		Texture tex = getTexture("obligator.png");
-        		batch.draw(tex, obj.x(), obj.y(), obj.width(), obj.height());
-        	}
+            // Background
+            Texture background = getTexture("orig_big.png");
+            if (background != null) {
+                batch.draw(background, 0, 0, (float) worldWidth(), (float) worldHeight());
+            }
+
+            // font.draw(batch, "Hello, World!", 200, 200);
+            for (EntityModel obj : world) {
+                Texture tex = getTexture("obligator.png");
+                if (tex != null) {
+                    batch.draw(tex, obj.x(), obj.y(), obj.width(), obj.height());
+                }
+            }
         } finally {
             batch.end(); // if you forget this, resources will leak!
+        }
+
+        // Draw a simple platform shape after batch is closed.
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        try {
+            shape.setColor(Color.BLUE);
+            // BOTTOM LAYER
+            shape.rect(128f, 100f, 1024f, 20f);
+            // MIDDLE LAYER LEFT
+            shape.rect(192f, 220f, 256f, 20f);
+            // MIDDLE LAYER RIGHT
+            shape.rect(1280-192-256f, 220f, 256f, 20f);
+            // TOP LAYER
+            shape.rect(640-512/2f, 340f, 512f, 20f);
+        } finally {
+            shape.end();
         }
 
         // It's also possible to draw simple shapes
@@ -152,6 +173,7 @@ public class ActiveGameView {
         // shape.setColor(Color.BLUE);
         // shape.box(100, 100, 0, 100, 100, 0);
         // shape.end();
+
     }
 
     public void resize(int width, int height) {
