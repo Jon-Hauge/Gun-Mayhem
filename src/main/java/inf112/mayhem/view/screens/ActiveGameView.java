@@ -146,7 +146,7 @@ public class ActiveGameView {
     /// Doing it this way has the advantage of making sure that SpriteBatch's begin()
     /// and end() methods are called properly.
     ///
-    public void render(AppWorld world) {
+    public void render(AppWorld world, float delta) {
         // Called when the application should draw a new frame (many times per second).
 
         // Start with a blank screen
@@ -158,9 +158,6 @@ public class ActiveGameView {
         // The projection matrix translates from world to view coordinates.
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
-
-        // Accumulate elapsed time since last frame
-        elapsedTime += Gdx.graphics.getDeltaTime();
 
         // Draw calls should be wrapped in batch.begin() ... batch.end()
         batch.begin();
@@ -185,7 +182,7 @@ public class ActiveGameView {
             // font.draw(batch, "Hello, World!", 200, 200);
             for (EntityModel obj : world) {
                 // Get current frame from animation
-                TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
+                TextureRegion currentFrame = animation.getKeyFrame(delta, true);
                 if (currentFrame != null) {
                     batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
