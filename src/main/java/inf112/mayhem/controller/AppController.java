@@ -3,20 +3,22 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.view.screens.ActiveGameView;
+import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
 
 public class AppController implements ApplicationListener {
-    private ActiveGameView activeGameView = new ActiveGameView();
+    private ActiveGameView activeGameView;
     private MainMenuView mainMenuView;
     private PauseView pauseView;
+    private GameOverView gameOverView;
     private AppWorld world;
     private boolean paused = false;
+    private boolean gameOver = false;
     private PlayerModel playerModel;
     private PlayerController playerController;
     
@@ -30,12 +32,14 @@ public class AppController implements ApplicationListener {
         world.add(playerModel);
 
         // VIEW: graphics
+        activeGameView = new ActiveGameView();
         activeGameView.create(world.width(), world.height(), this);
         mainMenuView = new MainMenuView(this);
         mainMenuView.create(world.width(), world.height());
         pauseView = new PauseView(this);
         pauseView.create(world.width(), world.height());
-        
+        gameOverView = new GameOverView(this);
+        gameOverView.create(world.width(), world.height());
 
         Gdx.graphics.setForegroundFPS(60);
 
@@ -57,29 +61,32 @@ public class AppController implements ApplicationListener {
         activeGameView.dispose();
         mainMenuView.dispose();
         pauseView.dispose();
+        gameOverView.dispose();
     }
 
     @Override
     public void render() {
-    	
-    	float delta = Gdx.graphics.getDeltaTime();
-    	
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (paused) resume();
             else pause();
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            restartGame();
+        }
+
+        if (!playerModel.isInBounds(world)) gameOver = true;
     	
     	switch (world.state()) {
-        case MAIN_MENU -> mainMenuView.render();
-        case ACTIVE    -> {
-        	playerController.update(delta);
-        	playerModel.update(world, delta);
-        	activeGameView.render(world);
-        	}
-        case PAUSED    -> {
-        	activeGameView.render(world);
-        	pauseView.getStage();
-        	}
+            case MAIN_MENU -> mainMenuView.render();
+            case ACTIVE    -> {
+                float delta = Gdx.graphics.getDeltaTime();
+                playerController.update(delta);
+                playerModel.update(world, delta);
+                activeGameView.render(world);
+            }
+            case PAUSED    -> pauseView.render();
+            case GAME_OVER -> gameOverView.render();
     	}
     	
     }
@@ -91,6 +98,7 @@ public class AppController implements ApplicationListener {
         activeGameView.resize(width, height);
         mainMenuView.resize(width, height);
         pauseView.resize(width, height);
+        gameOverView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
     }
 
@@ -117,6 +125,13 @@ public class AppController implements ApplicationListener {
         Gdx.app.exit();
     }
 
+    public void restartGame() {
+        create();
+        world.setState(GameState.ACTIVE);
+        gameOver = false;
+        updateInputProcessor();
+    }
+
     public void goToMainMenu() {
         world.setState(GameState.MAIN_MENU);
         paused = false;
@@ -129,6 +144,7 @@ public class AppController implements ApplicationListener {
             case MAIN_MENU -> Gdx.input.setInputProcessor(mainMenuView.getStage());
             case ACTIVE    -> Gdx.input.setInputProcessor(activeGameView.getStage());
             case PAUSED    -> Gdx.input.setInputProcessor(pauseView.getStage());
+            case GAME_OVER ->  Gdx.input.setInputProcessor(gameOverView.getStage());
         }
 
     }
