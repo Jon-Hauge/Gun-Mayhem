@@ -11,7 +11,7 @@ import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
 
-public class AppController implements ApplicationListener {
+public class AppController implements ApplicationListener, IController {
     private ActiveGameView activeGameView;
     private MainMenuView mainMenuView;
     private PauseView pauseView;
@@ -23,7 +23,7 @@ public class AppController implements ApplicationListener {
     private PlayerController playerController;
     
     @Override
-    public void create() { // Called at startup
+    public void create() {
 
         // MODEL: our virtual world
         world = new AppWorld(1280, 768);
@@ -49,15 +49,6 @@ public class AppController implements ApplicationListener {
 
     @Override
     public void dispose() {
-        // Called at shutdown
-
-        // Graphics and sound resources aren't managed by Java's garbage collector, so
-        // they must generally be disposed of manually when no longer needed. But,
-        // any remaining resources are typically cleaned up automatically when the
-        // application exits, so these aren't strictly necessary here.
-        // (We might need to do something like this when loading a new game level in
-        // a large game, for instance, or if the user switches to another application
-        // temporarily (e.g., incoming phone call on a phone, or something).
         activeGameView.dispose();
         mainMenuView.dispose();
         pauseView.dispose();
@@ -74,8 +65,6 @@ public class AppController implements ApplicationListener {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             restartGame();
         }
-
-        if (!playerModel.isInBounds(world)) gameOver = true;
     	
     	switch (world.state()) {
             case MAIN_MENU -> mainMenuView.render();
@@ -84,6 +73,7 @@ public class AppController implements ApplicationListener {
                 playerController.update(delta);
                 playerModel.update(world, delta);
                 activeGameView.render(world);
+                if (!playerModel.isInBounds(world)) gameOver = true;
             }
             case PAUSED    -> pauseView.render();
             case GAME_OVER -> gameOverView.render();
@@ -93,8 +83,6 @@ public class AppController implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        // Called whenever the window is resized (including with its original size at
-        // startup)
         activeGameView.resize(width, height);
         mainMenuView.resize(width, height);
         pauseView.resize(width, height);
@@ -116,15 +104,18 @@ public class AppController implements ApplicationListener {
         updateInputProcessor();
     }
 
+    @Override
     public void startGame() {
         world.setState(GameState.ACTIVE);
         updateInputProcessor();
     }
 
+    @Override
     public void exitGame() {
         Gdx.app.exit();
     }
 
+    @Override
     public void restartGame() {
         create();
         world.setState(GameState.ACTIVE);
@@ -132,6 +123,7 @@ public class AppController implements ApplicationListener {
         updateInputProcessor();
     }
 
+    @Override
     public void goToMainMenu() {
         world.setState(GameState.MAIN_MENU);
         paused = false;
@@ -139,7 +131,6 @@ public class AppController implements ApplicationListener {
     }
     
     private void updateInputProcessor() {
-
         switch (world.state()) {
             case MAIN_MENU -> Gdx.input.setInputProcessor(mainMenuView.getStage());
             case ACTIVE    -> Gdx.input.setInputProcessor(activeGameView.getStage());
