@@ -7,10 +7,12 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -19,15 +21,19 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityModel;
+import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
 
     private Viewport viewport; // defines screen / world size, aspect ratio and camera
+    private OrthographicCamera camera; // defines which part of the world to show
     private SpriteBatch batch; // used for drawing images / textures
     private BitmapFont font; // used for writing
     private ShapeRenderer shape; // used for drawing shapes
     private Map<String, Texture> textures = new HashMap<>();
     private AppController controller;
+    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
+    private TileMapHelper tileMapHelper = new TileMapHelper();
 
     public void create(double worldWidth, double worldHeight, AppController controller) {
 
@@ -36,9 +42,13 @@ public class ActiveGameView {
         // ExtendViewport keeps aspect by extending the world size in one direction.
         // FillViewport keeps aspect by hiding part of the world in the other direction.
         this.viewport = new FillViewport((float) worldWidth, (float) worldHeight);
+        this.camera = (OrthographicCamera) viewport.getCamera();
         this.batch = new SpriteBatch();
         this.shape = new ShapeRenderer();
         this.controller = controller;
+
+        this.tileMapHelper = new TileMapHelper();
+        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
 
         this.font = new BitmapFont();
         font.setColor(Color.RED);
@@ -125,21 +135,34 @@ public class ActiveGameView {
         // Called when the application should draw a new frame (many times per second).
 
         // Start with a blank screen
-        ScreenUtils.clear(Color.WHITE);
+        ScreenUtils.clear(Color.BLACK);
+
+        // camera
+        camera.update();
 
         // The projection matrix translates from world to view coordinates.
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
 
-        // Draw calls should be wrapped in batch.begin() ... batch.end()
+        // Background
         batch.begin();
         try {
-            // Background
             Texture background = getTexture("orig_big.png");
             if (background != null) {
                 batch.draw(background, 0, 0, (float) worldWidth(), (float) worldHeight());
             }
+        } finally {
+            batch.end();
+        }
 
+        // Tiled Map
+        orthogonalTiledMapRenderer.setView(camera);
+        orthogonalTiledMapRenderer.render();
+
+        // Entities
+        // Draw calls should be wrapped in batch.begin() ... batch.end()
+        batch.begin();
+        try {
             // font.draw(batch, "Hello, World!", 200, 200);
             for (EntityModel obj : world) {
                 Texture tex = getTexture("obligator.png");
@@ -152,20 +175,20 @@ public class ActiveGameView {
         }
 
         // Draw a simple platform shape after batch is closed.
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        try {
-            shape.setColor(Color.BLUE);
-            // BOTTOM LAYER
-            shape.rect(128f, 100f, 1024f, 20f);
-            // MIDDLE LAYER LEFT
-            shape.rect(192f, 220f, 256f, 20f);
-            // MIDDLE LAYER RIGHT
-            shape.rect(1280-192-256f, 220f, 256f, 20f);
-            // TOP LAYER
-            shape.rect(640-512/2f, 340f, 512f, 20f);
-        } finally {
-            shape.end();
-        }
+//        shape.begin(ShapeRenderer.ShapeType.Filled);
+//        try {
+//            shape.setColor(Color.BLUE);
+//            // BOTTOM LAYER
+//            shape.rect(128f, 100f, 1024f, 20f);
+//            // MIDDLE LAYER LEFT
+//            shape.rect(192f, 220f, 256f, 20f);
+//            // MIDDLE LAYER RIGHT
+//            shape.rect(1280-192-256f, 220f, 256f, 20f);
+//            // TOP LAYER
+//            shape.rect(640-512/2f, 340f, 512f, 20f);
+//        } finally {
+//            shape.end();
+//        }
 
         // It's also possible to draw simple shapes
         // shape.begin(ShapeType.Filled);
