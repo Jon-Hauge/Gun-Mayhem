@@ -71,6 +71,7 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void render() {
+    	float delta = Gdx.graphics.getDeltaTime();
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (paused) resume();
             else pause();
@@ -82,22 +83,24 @@ public class AppController implements ApplicationListener, IController {
     	
     	switch (world.state()) {
             case MAIN_MENU -> mainMenuView.render();
-            case ACTIVE    -> {
-                float delta = Gdx.graphics.getDeltaTime();
+            case ACTIVE -> {
+                // 1. Oppdater fysikk og isGrounded
+                for (var obj : world) {
+                    if (!obj.isActive()) {
+                        world.addToRemove(obj);
+                    }
+                    obj.update(world, delta);
+                }
 
-        playerController.update(delta);
+                // 2. Les input etter isGrounded er oppdatert
+                playerController.update(delta);
 
-     for (var obj : world) {
-            if (!obj.isActive()) {
-                world.addToRemove(obj);
-            }
-            obj.update(world, delta);
-    }
+                // 3. Kollisjon og rydding
+                world.collisions();
+                world.removeAllInactive();
 
-    world.collisions();
-    world.removeAllInactive();
-
-    activeGameView.render(world);
+                // 4. Tegn til slutt
+                activeGameView.render(world, delta);
             }
             case PAUSED    -> pauseView.render();
             case GAME_OVER -> gameOverView.render();

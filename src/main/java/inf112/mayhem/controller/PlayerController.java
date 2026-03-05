@@ -8,7 +8,7 @@ import inf112.mayhem.model.PlayerModel;
 
 public class PlayerController {
 	
-	private static final float SPEED = 220f;
+	private static final float SPEED = 100f;
 	private static final float COOLDOWN_DURATION = 0.3f;
 	private float COOLDOWN_TIMER = 0;
 

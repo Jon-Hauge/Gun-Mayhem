@@ -31,5 +31,10 @@ public class MapCollisionHandler {
 	    return false;
 	}
 	
+	public float getGroundY(Rectangle bounds) {
+	    int tileY = (int) (bounds.y / 32);
+	    return (tileY + 1) * 32; // toppen av tilen under spilleren
+	}
+	
 
 }

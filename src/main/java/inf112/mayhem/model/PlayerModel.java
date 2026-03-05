@@ -16,7 +16,7 @@ public class PlayerModel implements EntityModel {
     private final EntityType type = EntityType.PLAYER;
     
     private final float GRAVITY = 400f;
-    private final float JUMP_FORCE = 100f;
+    private final float JUMP_FORCE = 250f;
 	private boolean active = true;
 
     
@@ -34,12 +34,11 @@ public class PlayerModel implements EntityModel {
 	}
 	 
 	public void jump() {
-		 
-		 //NEEDS TO BE CHANGED ONCE WE HAVE DIFFERENT LAYERS OF "GROUND"
-		 if (position.y <= 0) {
-			 velocity.y = JUMP_FORCE;
-			 isGrounded = false;
-		 }
+		
+		//NEEDS TO BE CHANGED ONCE WE HAVE DIFFERENT LAYERS OF "GROUND"
+		if (isGrounded) {
+			velocity.y = JUMP_FORCE;
+		}
 	 }
 
 	@Override
@@ -93,21 +92,23 @@ public class PlayerModel implements EntityModel {
 		
 		//Players ability to move
 		velocity.y -= GRAVITY * delta;
-        position.mulAdd(velocity, delta);
+		position.mulAdd(velocity, delta);
+		
+		//Resets downward velocity when grounded   
+		if (collision.isGrounded(bounds, velocity.y)) {
+		    velocity.y = 0;
+		    isGrounded = true;
+		    position.y = collision.getGroundY(bounds);
+		    updateBounds();
+		} else {
+		    isGrounded = false;
+		}
 
         // clamp i world
         position.x = Math.max(0, Math.min(position.x, (float) world.width()  - size.x));
         position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
         
-        //Resets downward velocity when grounded
-        
-        if (collision.isGrounded(bounds, velocity.y)) {
-            velocity.y = 0;
-            isGrounded = true;
-        } else {
-            isGrounded = false;
-        }
-
+       
         updateBounds();
     }
 
