@@ -1,5 +1,7 @@
 package inf112.mayhem.model;
 
+import com.badlogic.gdx.math.Rectangle;
+
 public interface EntityModel {
 	
 	float x();
@@ -11,6 +13,11 @@ public interface EntityModel {
 	
 	void updateState();
 	void update(AppWorld world, float delta);
-	boolean isInBounds(AppWorld world);
+
+	Rectangle bounds();
+	boolean isActive();
+	void setActive(boolean active);
+	void hit(EntityModel obj);
+
 
 }
