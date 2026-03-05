@@ -3,6 +3,7 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
@@ -70,10 +71,20 @@ public class AppController implements ApplicationListener, IController {
             case MAIN_MENU -> mainMenuView.render();
             case ACTIVE    -> {
                 float delta = Gdx.graphics.getDeltaTime();
-                playerController.update(delta);
-                playerModel.update(world, delta);
-                activeGameView.render(world);
-                if (!playerModel.isInBounds(world)) gameOver = true;
+
+        playerController.update(delta);
+
+     for (var obj : world) {
+            if (!obj.isActive()) {
+                world.addToRemove(obj);
+            }
+            obj.update(world, delta);
+    }
+
+    world.collisions();
+    world.removeAllInactive();
+
+    activeGameView.render(world);
             }
             case PAUSED    -> pauseView.render();
             case GAME_OVER -> gameOverView.render();

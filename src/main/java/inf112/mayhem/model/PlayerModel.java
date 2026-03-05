@@ -6,13 +6,17 @@ import com.badlogic.gdx.math.Vector2;
 public class PlayerModel implements EntityModel {
 	private final Vector2 position = new Vector2();
     public final Vector2 velocity = new Vector2();
-    private final Vector2 size = new Vector2(100, 100);
+    private final Vector2 size = new Vector2(32, 32);
     private final Rectangle bounds = new Rectangle();
+	private int direction = 1; // 1 right -1 left
+
     
     private final EntityType type = EntityType.PLAYER;
     
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 100f;
+	private boolean active = true;
+
     
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
@@ -100,12 +104,48 @@ public class PlayerModel implements EntityModel {
         updateBounds();
     }
 
+	
+
+
+		public void setDirection(int direction) {
+		if (direction == -1 || direction == 1) {
+			this.direction = direction;
+		} else {
+			throw new IllegalArgumentException("Direction must be -1 or 1");
+		}
+	}
+
+
+	public int getDirection() {
+		return this.direction;
+	}
+
 	@Override
-	public boolean isInBounds(AppWorld world) {
-		float x = position.x;
-		float y = position.y;
-        return !(x <= 0) && !(y <= 0) && !(x >= world.width()) && !(y >= world.height());
-    }
+	public void hit(EntityModel obj) {
+		ProjectileModel projectile = (ProjectileModel) obj;
+
+		float knockBack = projectile.getKnockBackMultiplier();
+
+		velocity.x += knockBack * projectile.getDirection();
+
+		//Todo Update Posistion
+	}
+
+	@Override
+	public Rectangle bounds() {
+		return this.bounds;
+	}
+
+	@Override
+	public boolean isActive() {
+		return this.active;
+	}
+
+	@Override
+	public void setActive(boolean active) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'setActive'");
+	}
 }
 
 	
