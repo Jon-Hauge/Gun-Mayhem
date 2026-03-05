@@ -1,9 +1,11 @@
 package inf112.mayhem.model;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerModel implements EntityModel {
+	private MapCollisionHandler collision;
 	private final Vector2 position = new Vector2();
     public final Vector2 velocity = new Vector2();
     private final Vector2 size = new Vector2(32, 32);
@@ -21,7 +23,8 @@ public class PlayerModel implements EntityModel {
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
 
-	public PlayerModel(float startX, float startY) {
+	public PlayerModel(float startX, float startY, TiledMap map) {
+		this.collision = new MapCollisionHandler(map);
 		position.set(startX, startY);
         updateBounds();
 	}
@@ -87,6 +90,7 @@ public class PlayerModel implements EntityModel {
 
 	@Override
 	public void update(AppWorld world, float delta) {
+		
 		//Players ability to move
 		velocity.y -= GRAVITY * delta;
         position.mulAdd(velocity, delta);
@@ -96,9 +100,12 @@ public class PlayerModel implements EntityModel {
         position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
         
         //Resets downward velocity when grounded
-        if (position.y <= 0) {
-        	velocity.y = 0;
-        	isGrounded = true;
+        
+        if (collision.isGrounded(bounds, velocity.y)) {
+            velocity.y = 0;
+            isGrounded = true;
+        } else {
+            isGrounded = false;
         }
 
         updateBounds();

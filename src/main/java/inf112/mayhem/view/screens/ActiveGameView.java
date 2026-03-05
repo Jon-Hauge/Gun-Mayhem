@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -31,12 +32,14 @@ public class ActiveGameView {
     private ShapeRenderer shape; // used for drawing shapes
     private Map<String, Texture> textures = new HashMap<>();
     private AppController controller;
-    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
-    private TileMapHelper tileMapHelper = new TileMapHelper();
     private Texture texture;
     private Animation<TextureRegion> animation;
     private float elapsedTime = 0f;
-
+    
+    //TILEMAP
+    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
+    private TileMapHelper tileMapHelper = new TileMapHelper();
+    
     public void create(double worldWidth, double worldHeight, AppController controller) {
 
         // To preserve aspect ratio, use FitViewport, ExtendViewport or FillViewport.
@@ -55,9 +58,11 @@ public class ActiveGameView {
         TextureRegion[] frames = tmp[0];
         this.animation = new Animation<TextureRegion>(0.15f, frames);
         animation.setPlayMode(Animation.PlayMode.LOOP);
-
+        
+        //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
-        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        tileMapHelper.setupMap();
+        this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
 
         this.font = new BitmapFont();
         font.setColor(Color.RED);

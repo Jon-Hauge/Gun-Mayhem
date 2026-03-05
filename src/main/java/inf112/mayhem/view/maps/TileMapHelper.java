@@ -5,15 +5,16 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class TileMapHelper {
+    private TiledMap map;
+    private OrthogonalTiledMapRenderer renderer;
 
-    private TiledMap tiledMap;
-
-    public TileMapHelper(){
-
+    public TiledMap setupMap() {
+        map = new TmxMapLoader().load("maps/level1.tmx");
+        return map;
     }
 
-    public OrthogonalTiledMapRenderer setupMap(){
-        tiledMap = new TmxMapLoader().load("maps/level1.tmx");
-        return new OrthogonalTiledMapRenderer(tiledMap);
+    public OrthogonalTiledMapRenderer getRenderer() {
+    	renderer = new OrthogonalTiledMapRenderer(map);
+        return renderer;
     }
 }
