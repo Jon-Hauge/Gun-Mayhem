@@ -72,7 +72,7 @@ public class AppController implements ApplicationListener {
     	switch (world.state()) {
         case MAIN_MENU -> mainMenuView.render();
         case ACTIVE    -> {
-        	playerController.update();
+        	playerController.update(delta);
         	playerModel.update(world, delta);
         	activeGameView.render(world);
         	}
