@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class PlayerModel implements EntityModel {
 	private final Vector2 position = new Vector2();
     public final Vector2 velocity = new Vector2();
-    private final Vector2 size = new Vector2(32, 32);
+    private final Vector2 size = new Vector2(150, 200);
     private final Rectangle bounds = new Rectangle();
     
     private final EntityType type = EntityType.PLAYER;
