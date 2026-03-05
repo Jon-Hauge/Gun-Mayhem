@@ -9,8 +9,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -34,6 +33,9 @@ public class ActiveGameView {
     private AppController controller;
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TileMapHelper tileMapHelper = new TileMapHelper();
+    private Texture texture;
+    private Animation<TextureRegion> animation;
+    private float elapsedTime = 0f;
 
     public void create(double worldWidth, double worldHeight, AppController controller) {
 
@@ -46,6 +48,13 @@ public class ActiveGameView {
         this.batch = new SpriteBatch();
         this.shape = new ShapeRenderer();
         this.controller = controller;
+        this.texture = new Texture(Gdx.files.internal("idle_animation.png"));
+        int frameWidth = texture.getWidth() / 4;
+        int frameHeight = texture.getHeight();
+        TextureRegion[][] tmp = TextureRegion.split(texture, frameWidth, frameHeight);
+        TextureRegion[] frames = tmp[0];
+        this.animation = new Animation<TextureRegion>(0.15f, frames);
+        animation.setPlayMode(Animation.PlayMode.LOOP);
 
         this.tileMapHelper = new TileMapHelper();
         this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
@@ -62,7 +71,8 @@ public class ActiveGameView {
      * Loading everything at startup prevents glitches later on.
      */
     private void preloadTextures() {
-        for (String fileName : List.of("obligator.png", "orig_big.png")) {
+        for (String fileName : List.of("obligator.png", "orig_big.png",
+                "idle_animation.png")) {
             getTexture(fileName);
         }
     }
@@ -144,8 +154,12 @@ public class ActiveGameView {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
 
-        // Background
+        // Accumulate elapsed time since last frame
+        elapsedTime += Gdx.graphics.getDeltaTime();
+
+        // Draw calls should be wrapped in batch.begin() ... batch.end()
         batch.begin();
+        // Background
         try {
             Texture background = getTexture("orig_big.png");
             if (background != null) {
@@ -165,9 +179,10 @@ public class ActiveGameView {
         try {
             // font.draw(batch, "Hello, World!", 200, 200);
             for (EntityModel obj : world) {
-                Texture tex = getTexture("obligator.png");
-                if (tex != null) {
-                    batch.draw(tex, obj.x(), obj.y(), obj.width(), obj.height());
+                // Get current frame from animation
+                TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
+                if (currentFrame != null) {
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
             }
         } finally {
