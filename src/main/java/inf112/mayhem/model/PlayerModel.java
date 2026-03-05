@@ -99,6 +99,13 @@ public class PlayerModel implements EntityModel {
 
         updateBounds();
     }
+
+	@Override
+	public boolean isInBounds(AppWorld world) {
+		float x = position.x;
+		float y = position.y;
+        return !(x <= 0) && !(y <= 0) && !(x >= world.width()) && !(y >= world.height());
+    }
 }
 
 	

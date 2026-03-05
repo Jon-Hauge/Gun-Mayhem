@@ -11,5 +11,6 @@ public interface EntityModel {
 	
 	void updateState();
 	void update(AppWorld world, float delta);
+	boolean isInBounds(AppWorld world);
 
 }
