@@ -15,7 +15,7 @@ import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 
-// HUD shown during gameplay. This hud includes elements displaying useful information about each player in the game
+// HUD shown during gameplay. This hud includes elements displaying useful information about each player in the game.
 public class HudView {
     private Stage stage;
     private AppController controller;
