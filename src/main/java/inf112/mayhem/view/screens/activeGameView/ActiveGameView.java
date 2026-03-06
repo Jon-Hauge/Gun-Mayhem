@@ -1,4 +1,4 @@
-package inf112.mayhem.view.screens;
+package inf112.mayhem.view.screens.activeGameView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -21,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityModel;
+import inf112.mayhem.model.EntityState;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
@@ -32,9 +32,9 @@ public class ActiveGameView {
     private ShapeRenderer shape; // used for drawing shapes
     private Map<String, Texture> textures = new HashMap<>();
     private AppController controller;
-    private Texture texture;
-    private Animation<TextureRegion> animation;
-    private float elapsedTime = 0f;
+    private WalkingRightAnimation walkingRightAnimation;
+    private WalkingLeftAnimation walkingLeftAnimation;
+    private float elapsedTime;
     
     //TILEMAP
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -50,14 +50,12 @@ public class ActiveGameView {
         this.camera = (OrthographicCamera) viewport.getCamera();
         this.batch = new SpriteBatch();
         this.shape = new ShapeRenderer();
-        this.controller = controller;
-        this.texture = new Texture(Gdx.files.internal("idle_animation.png"));
-        int frameWidth = texture.getWidth() / 4;
-        int frameHeight = texture.getHeight();
-        TextureRegion[][] tmp = TextureRegion.split(texture, frameWidth, frameHeight);
-        TextureRegion[] frames = tmp[0];
-        this.animation = new Animation<TextureRegion>(0.15f, frames);
-        animation.setPlayMode(Animation.PlayMode.LOOP);
+
+        // LOAD ANIMATIONS
+        this.walkingRightAnimation = new WalkingRightAnimation();
+        walkingRightAnimation.createAnimation(walkingRightAnimation.getAnimationTexture());
+        this.walkingLeftAnimation = new WalkingLeftAnimation();
+        walkingLeftAnimation.createAnimation(walkingLeftAnimation.getAnimationTexture());
         
         //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
@@ -77,7 +75,7 @@ public class ActiveGameView {
      */
     private void preloadTextures() {
         for (String fileName : List.of("obligator.png", "orig_big.png",
-                "idle_animation.png")) {
+                "idle_left.png", "idle_right.png", "walking_right.png", "walking_left.png")) {
             getTexture(fileName);
         }
     }
@@ -159,6 +157,9 @@ public class ActiveGameView {
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
 
+        // Get time
+        elapsedTime += delta;
+
         // Draw calls should be wrapped in batch.begin() ... batch.end()
         batch.begin();
         // Background
@@ -181,11 +182,36 @@ public class ActiveGameView {
         try {
             // font.draw(batch, "Hello, World!", 200, 200);
             for (EntityModel obj : world) {
-                // Get current frame from animation
-                TextureRegion currentFrame = animation.getKeyFrame(delta, true);
-                if (currentFrame != null) {
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+
+                EntityState state = obj.state();
+                int direction = obj.getDirection();
+
+                if (state.equals(EntityState.IDLE) && direction == 1 ) {
+                    batch.draw(getTexture("idle_right.png"),  obj.x(), obj.y(), obj.width(), obj.height());
                 }
+                else if (state.equals(EntityState.IDLE) && direction == -1 ) {
+                    batch.draw(getTexture("idle_left.png"),  obj.x(), obj.y(), obj.width(), obj.height());
+                }
+                else if (state.equals(EntityState.JUMPING) && direction == 1) {
+                    batch.draw(getTexture("idle_right.png"),  obj.x(), obj.y(), obj.width(), obj.height());
+                }
+                else if (state.equals(EntityState.JUMPING) && direction == -1) {
+                    batch.draw(getTexture("idle_left.png"),  obj.x(), obj.y(), obj.width(), obj.height());
+                }
+                else if (state.equals(EntityState.WALKING_LEFT)) {
+                    batch.draw(currAnimation(obj).
+                            getAnimation().getKeyFrame(elapsedTime), obj.x(), obj.y(), obj.width(), obj.height());
+                }
+                else if (state.equals(EntityState.WALKING_RIGHT)) {
+                    batch.draw(currAnimation(obj).
+                            getAnimation().getKeyFrame(elapsedTime), obj.x(), obj.y(), obj.width(), obj.height());
+                }
+
+                //TextureRegion currentFrame = currAnimation(obj).
+                //        getAnimation().getKeyFrame(elapsedTime);
+                //if (currentFrame != null) {
+                //    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                //}
             }
         } finally {
             batch.end(); // if you forget this, resources will leak!
@@ -213,6 +239,17 @@ public class ActiveGameView {
         // shape.setColor(Color.BLUE);
         // shape.box(100, 100, 0, 100, 100, 0);
         // shape.end();
+
+    }
+
+    public AbstractAnimation currAnimation(EntityModel entity) {
+        AbstractAnimation currAnimation = walkingRightAnimation;
+
+        switch (entity.state()) {
+            case WALKING_LEFT -> currAnimation = walkingLeftAnimation;
+            case WALKING_RIGHT -> currAnimation = walkingRightAnimation;
+        }
+        return currAnimation;
 
     }
 

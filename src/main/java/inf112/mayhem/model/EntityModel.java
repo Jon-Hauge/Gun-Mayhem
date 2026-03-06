@@ -17,6 +17,7 @@ public interface EntityModel {
 	Rectangle bounds();
 	boolean isActive();
 	void setActive(boolean active);
+	public int getDirection();
 	void hit(EntityModel obj);
 
 

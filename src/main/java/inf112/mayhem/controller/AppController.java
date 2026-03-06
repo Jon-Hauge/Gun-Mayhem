@@ -10,7 +10,7 @@ import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.MapCollisionHandler;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.view.maps.TileMapHelper;
-import inf112.mayhem.view.screens.ActiveGameView;
+import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
