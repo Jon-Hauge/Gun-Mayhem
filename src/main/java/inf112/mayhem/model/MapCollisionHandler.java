@@ -14,27 +14,30 @@ public class MapCollisionHandler {
 		this.platformLayer = (TiledMapTileLayer) map.getLayers().get("platform1");
 	}
 	
-	public boolean isGrounded(Rectangle bounds, boolean isFalling) {
+	public boolean isGrounded(Rectangle bounds, float previousY, boolean ignorePlatforms) {
 	    int tileY = (int) ((bounds.y - 1) / 32);
 	    int tileXLeft = (int) (bounds.x / 32);
 	    int tileXRight = (int) ((bounds.x + bounds.width - 1) / 32);
 
+	    float tileTop = (tileY + 1) * 32;
+
+	    boolean wasAboveTile = previousY >= tileTop;
+
 	    boolean onGround =
-	            groundLayer.getCell(tileXLeft, tileY) != null ||
-	            groundLayer.getCell(tileXRight, tileY) != null;
+	            (groundLayer.getCell(tileXLeft, tileY) != null ||
+	             groundLayer.getCell(tileXRight, tileY) != null);
 
 	    boolean onPlatform = false;
-
-	    if (!isFalling && platformLayer != null) {
+	    if (!ignorePlatforms && platformLayer != null) {
 	        onPlatform =
-	                platformLayer.getCell(tileXLeft, tileY) != null ||
-	                platformLayer.getCell(tileXRight, tileY) != null;
+	                (platformLayer.getCell(tileXLeft, tileY) != null ||
+	                 platformLayer.getCell(tileXRight, tileY) != null);
 	    }
 
-	    return onGround || onPlatform;
+	    return wasAboveTile && (onGround || onPlatform);
 	}
 	
-	public float getGroundY(Rectangle bounds) {
+	public float getGroundY(Rectangle bounds, boolean ignorePlatforms) {
 	    int tileY = (int) ((bounds.y - 1) / 32);
 	    return (tileY + 1) * 32;
 	}
