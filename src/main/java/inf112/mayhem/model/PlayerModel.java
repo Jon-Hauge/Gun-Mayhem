@@ -110,11 +110,9 @@ public class PlayerModel implements EntityModel {
 	    
 		position.x += velocity.x * delta;
 		updateBounds();
-		// sjekk vegg
 
 		position.y += velocity.y * delta;
 		updateBounds();
-		// sjekk bakken/tak
 	    
 	    //CHECK FOR COLLITIONS WITH GROUND OR PLATFORM
 		if (velocity.y <= 0 && collision.isGrounded(bounds, previousY, ignorePlatforms)) {
