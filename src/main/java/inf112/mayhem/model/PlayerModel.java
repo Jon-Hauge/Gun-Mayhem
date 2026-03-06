@@ -25,6 +25,7 @@ public class PlayerModel implements EntityModel {
     private boolean isGrounded = false;
     private boolean isFalling = false;
     private boolean active = true;
+    private boolean ignorePlatforms = false;
     
 	public PlayerModel(float startX, float startY, TiledMap map) {
 		this.collision = new MapCollisionHandler(map);
@@ -50,6 +51,7 @@ public class PlayerModel implements EntityModel {
 			velocity.y -= GRAVITY;
 			isGrounded = false;
 			isFalling = true;
+			ignorePlatforms = true;
 			dropDuration = DROP_DURATION;
 		}
 	}
@@ -102,22 +104,32 @@ public class PlayerModel implements EntityModel {
 	@Override
 	public void update(AppWorld world, float delta) {
 		
+		float previousY = position.y;
+		
 		velocity.y -= GRAVITY * delta;
-	    position.mulAdd(velocity, delta);
+	    
+		position.x += velocity.x * delta;
+		updateBounds();
+		// sjekk vegg
+
+		position.y += velocity.y * delta;
+		updateBounds();
+		// sjekk bakken/tak
 	    
 	    //CHECK FOR COLLITIONS WITH GROUND OR PLATFORM
-	    if (velocity.y <= 0 && collision.isGrounded(bounds, isFalling)) {
-	        isGrounded = true;
-	        velocity.y = 0;
-	        position.y = collision.getGroundY(bounds);
-	    } else {
-	        isGrounded = false;
-	    }
+		if (velocity.y <= 0 && collision.isGrounded(bounds, previousY, ignorePlatforms)) {
+		    isGrounded = true;
+		    velocity.y = 0;
+		    position.y = collision.getGroundY(bounds, ignorePlatforms);
+		    updateBounds();
+		} else {
+		    isGrounded = false;
+		}
 
 	    //DROP TIMER
-	    if (isFalling) {
+	    if (ignorePlatforms) {
 	        dropDuration -= delta;
-	        if (dropDuration <= 0) isFalling = false;
+	        if (dropDuration <= 0) ignorePlatforms = false;
 	    }
 
 	    //WORLD BASED ON PLAYER BOUNDS
