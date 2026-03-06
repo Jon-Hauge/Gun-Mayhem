@@ -3,10 +3,13 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
+import inf112.mayhem.model.MapCollisionHandler;
 import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.view.maps.TileMapHelper;
 import inf112.mayhem.view.screens.ActiveGameView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
@@ -22,13 +25,23 @@ public class AppController implements ApplicationListener, IController {
     private boolean gameOver = false;
     private PlayerModel playerModel;
     private PlayerController playerController;
+    private TiledMap map;
     
     @Override
     public void create() {
 
         // MODEL: our virtual world
         world = new AppWorld(1280, 768);
-        playerModel = new PlayerModel(123, 456);
+        
+        // Last inn kartet via view
+        TileMapHelper tileMapHelper = new TileMapHelper();
+        TiledMap map = tileMapHelper.setupMap();
+        
+        // Send kartet til collision handler i model
+        MapCollisionHandler collision = new MapCollisionHandler(map);
+        
+        //PLAYER
+        playerModel = new PlayerModel(500f, 400f, map);
         playerController = new PlayerController(playerModel, world);
         world.add(playerModel);
 
@@ -58,6 +71,7 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void render() {
+    	float delta = Gdx.graphics.getDeltaTime();
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (paused) resume();
             else pause();
@@ -69,22 +83,24 @@ public class AppController implements ApplicationListener, IController {
     	
     	switch (world.state()) {
             case MAIN_MENU -> mainMenuView.render();
-            case ACTIVE    -> {
-                float delta = Gdx.graphics.getDeltaTime();
+            case ACTIVE -> {
+                // 1. Oppdater fysikk og isGrounded
+                for (var obj : world) {
+                    if (!obj.isActive()) {
+                        world.addToRemove(obj);
+                    }
+                    obj.update(world, delta);
+                }
 
-        playerController.update(delta);
+                // 2. Les input etter isGrounded er oppdatert
+                playerController.update(delta);
 
-     for (var obj : world) {
-            if (!obj.isActive()) {
-                world.addToRemove(obj);
-            }
-            obj.update(world, delta);
-    }
+                // 3. Kollisjon og rydding
+                world.collisions();
+                world.removeAllInactive();
 
-    world.collisions();
-    world.removeAllInactive();
-
-    activeGameView.render(world);
+                // 4. Tegn til slutt
+                activeGameView.render(world, delta);
             }
             case PAUSED    -> pauseView.render();
             case GAME_OVER -> gameOverView.render();

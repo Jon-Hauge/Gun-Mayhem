@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -31,12 +32,14 @@ public class ActiveGameView {
     private ShapeRenderer shape; // used for drawing shapes
     private Map<String, Texture> textures = new HashMap<>();
     private AppController controller;
-    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
-    private TileMapHelper tileMapHelper = new TileMapHelper();
     private Texture texture;
     private Animation<TextureRegion> animation;
     private float elapsedTime = 0f;
-
+    
+    //TILEMAP
+    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
+    private TileMapHelper tileMapHelper = new TileMapHelper();
+    
     public void create(double worldWidth, double worldHeight, AppController controller) {
 
         // To preserve aspect ratio, use FitViewport, ExtendViewport or FillViewport.
@@ -55,9 +58,11 @@ public class ActiveGameView {
         TextureRegion[] frames = tmp[0];
         this.animation = new Animation<TextureRegion>(0.15f, frames);
         animation.setPlayMode(Animation.PlayMode.LOOP);
-
+        
+        //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
-        this.orthogonalTiledMapRenderer = tileMapHelper.setupMap();
+        tileMapHelper.setupMap();
+        this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
 
         this.font = new BitmapFont();
         font.setColor(Color.RED);
@@ -141,7 +146,7 @@ public class ActiveGameView {
     /// Doing it this way has the advantage of making sure that SpriteBatch's begin()
     /// and end() methods are called properly.
     ///
-    public void render(AppWorld world) {
+    public void render(AppWorld world, float delta) {
         // Called when the application should draw a new frame (many times per second).
 
         // Start with a blank screen
@@ -153,9 +158,6 @@ public class ActiveGameView {
         // The projection matrix translates from world to view coordinates.
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
-
-        // Accumulate elapsed time since last frame
-        elapsedTime += Gdx.graphics.getDeltaTime();
 
         // Draw calls should be wrapped in batch.begin() ... batch.end()
         batch.begin();
@@ -180,7 +182,7 @@ public class ActiveGameView {
             // font.draw(batch, "Hello, World!", 200, 200);
             for (EntityModel obj : world) {
                 // Get current frame from animation
-                TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
+                TextureRegion currentFrame = animation.getKeyFrame(delta, true);
                 if (currentFrame != null) {
                     batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }

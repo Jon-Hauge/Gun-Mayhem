@@ -1,9 +1,11 @@
 package inf112.mayhem.model;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerModel implements EntityModel {
+	private MapCollisionHandler collision;
 	private final Vector2 position = new Vector2();
     public final Vector2 velocity = new Vector2();
     private final Vector2 size = new Vector2(32, 32);
@@ -14,14 +16,15 @@ public class PlayerModel implements EntityModel {
     private final EntityType type = EntityType.PLAYER;
     
     private final float GRAVITY = 400f;
-    private final float JUMP_FORCE = 100f;
+    private final float JUMP_FORCE = 250f;
 	private boolean active = true;
 
     
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
 
-	public PlayerModel(float startX, float startY) {
+	public PlayerModel(float startX, float startY, TiledMap map) {
+		this.collision = new MapCollisionHandler(map);
 		position.set(startX, startY);
         updateBounds();
 	}
@@ -31,12 +34,11 @@ public class PlayerModel implements EntityModel {
 	}
 	 
 	public void jump() {
-		 
-		 //NEEDS TO BE CHANGED ONCE WE HAVE DIFFERENT LAYERS OF "GROUND"
-		 if (position.y <= 0) {
-			 velocity.y = JUMP_FORCE;
-			 isGrounded = false;
-		 }
+		
+		//NEEDS TO BE CHANGED ONCE WE HAVE DIFFERENT LAYERS OF "GROUND"
+		if (isGrounded) {
+			velocity.y = JUMP_FORCE;
+		}
 	 }
 
 	@Override
@@ -87,20 +89,26 @@ public class PlayerModel implements EntityModel {
 
 	@Override
 	public void update(AppWorld world, float delta) {
+		
 		//Players ability to move
 		velocity.y -= GRAVITY * delta;
-        position.mulAdd(velocity, delta);
+		position.mulAdd(velocity, delta);
+		
+		//Resets downward velocity when grounded   
+		if (collision.isGrounded(bounds, velocity.y)) {
+		    velocity.y = 0;
+		    isGrounded = true;
+		    position.y = collision.getGroundY(bounds);
+		    updateBounds();
+		} else {
+		    isGrounded = false;
+		}
 
         // clamp i world
         position.x = Math.max(0, Math.min(position.x, (float) world.width()  - size.x));
         position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
         
-        //Resets downward velocity when grounded
-        if (position.y <= 0) {
-        	velocity.y = 0;
-        	isGrounded = true;
-        }
-
+       
         updateBounds();
     }
 
