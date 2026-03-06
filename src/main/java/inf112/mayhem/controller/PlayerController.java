@@ -54,10 +54,9 @@ public class PlayerController {
 	        dropBufferTimer = DROP_BUFFER;
 	    }
 
-	    // Hopp hvis buffer er aktiv og spilleren er grounded
 	    if (jumpBufferTimer > 0 ) {
 	        jumpBufferTimer -= delta;
-	        player.jump(); // jump() sjekker isGrounded internt
+	        player.jump();
 	    } else if (dropBufferTimer > 0) {
 	    	dropBufferTimer -= delta;
 	    	player.drop();

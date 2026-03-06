@@ -25,6 +25,7 @@ public class PlayerModel implements EntityModel {
     private boolean isGrounded = false;
     private boolean isFalling = false;
     private boolean active = true;
+    private boolean ignorePlatforms = false;
     
 	public PlayerModel(float startX, float startY, TiledMap map) {
 		this.collision = new MapCollisionHandler(map);
@@ -38,7 +39,6 @@ public class PlayerModel implements EntityModel {
 	 
 	public void jump() {
 		
-		//NEEDS TO BE CHANGED ONCE WE HAVE DIFFERENT LAYERS OF "GROUND"
 		if (isGrounded) {
 			velocity.y = JUMP_FORCE;
 			isGrounded = false;
@@ -51,6 +51,7 @@ public class PlayerModel implements EntityModel {
 			velocity.y -= GRAVITY;
 			isGrounded = false;
 			isFalling = true;
+			ignorePlatforms = true;
 			dropDuration = DROP_DURATION;
 		}
 	}
@@ -89,48 +90,47 @@ public class PlayerModel implements EntityModel {
 	public void updateState() {
 	    if (!isGrounded && velocity.y > 0) {
 	        state = EntityState.JUMPING;
-	        System.out.println("JUMPING");
 	    } else if (!isGrounded && velocity.y < 0) {
 	        state = EntityState.FALLING;
-	        System.out.println("FALLING");
 	    } else if (velocity.x < 0) {
 	        state = EntityState.WALKING_LEFT;
-	        System.out.println("WALKING LEFT");
 	    } else if (velocity.x > 0) {
 	        state = EntityState.WALKING_RIGHT;
-	        System.out.println("WALKING RIGHT");
 	    } else {
 	        state = EntityState.IDLE;
-	        System.out.println("IDLE");
 	    }
 	}
 
 	@Override
 	public void update(AppWorld world, float delta) {
 		
-		velocity.y -= GRAVITY * delta;
+		float previousY = position.y;
 		
-		// 3. Flytt spilleren
-	    position.mulAdd(velocity, delta);
+		velocity.y -= GRAVITY * delta;
+	    
+		position.x += velocity.x * delta;
+		updateBounds();
 
-	    // 1. Sjekk grounded FØR gravitasjon
-	    if (collision.isGrounded(bounds, isFalling) && velocity.y < 0) {
-	        isGrounded = true;
-	        velocity.y = 0;
-	        position.y = collision.getGroundY(bounds);
-	    } else {
-	        isGrounded = false;
-	    }
+		position.y += velocity.y * delta;
+		updateBounds();
+	    
+	    //CHECK FOR COLLITIONS WITH GROUND OR PLATFORM
+		if (velocity.y <= 0 && collision.isGrounded(bounds, previousY, ignorePlatforms)) {
+		    isGrounded = true;
+		    velocity.y = 0;
+		    position.y = collision.getGroundY(bounds, ignorePlatforms);
+		    updateBounds();
+		} else {
+		    isGrounded = false;
+		}
 
-	   
-
-	    // 4. drop timer
-	    if (isFalling) {
+	    //DROP TIMER
+	    if (ignorePlatforms) {
 	        dropDuration -= delta;
-	        if (dropDuration <= 0) isFalling = false;
+	        if (dropDuration <= 0) ignorePlatforms = false;
 	    }
 
-	    // 5. clamp og oppdater bounds
+	    //WORLD BASED ON PLAYER BOUNDS
 	    position.x = Math.max(0, Math.min(position.x, (float) world.width() - size.x));
 	    position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
 	    updateBounds();
@@ -139,7 +139,7 @@ public class PlayerModel implements EntityModel {
 	
 
 
-		public void setDirection(int direction) {
+	public void setDirection(int direction) {
 		if (direction == -1 || direction == 1) {
 			this.direction = direction;
 		} else {
