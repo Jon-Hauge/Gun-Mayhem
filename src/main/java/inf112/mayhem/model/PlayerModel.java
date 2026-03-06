@@ -17,12 +17,15 @@ public class PlayerModel implements EntityModel {
     
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 250f;
-	private boolean active = true;
-
+    private final float DROP_DURATION = 2f;
+	
+    private float dropDuration = 0;
     
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
-
+    private boolean isFalling = false;
+    private boolean active = true;
+    
 	public PlayerModel(float startX, float startY, TiledMap map) {
 		this.collision = new MapCollisionHandler(map);
 		position.set(startX, startY);
@@ -38,12 +41,16 @@ public class PlayerModel implements EntityModel {
 		//NEEDS TO BE CHANGED ONCE WE HAVE DIFFERENT LAYERS OF "GROUND"
 		if (isGrounded) {
 			velocity.y = JUMP_FORCE;
+			isFalling = false;
 		}
 	 }
 	
 	public void drop() {
 		if (isGrounded) {
-			velocity.y -= GRAVITY * 4.8;
+			velocity.y -= GRAVITY;
+			isFalling = true;
+			dropDuration = DROP_DURATION;
+			isGrounded = false;
 		}
 	}
 
@@ -79,45 +86,58 @@ public class PlayerModel implements EntityModel {
 	
 	@Override
 	public void updateState() {
-		if (!isGrounded) {
+	    if (!isGrounded && velocity.y > 0) {
 	        state = EntityState.JUMPING;
-	    } 
-	    else if (velocity.x < 0) {
+	        System.out.println("JUMPING");
+	    } else if (!isGrounded && velocity.y < 0) {
+	        state = EntityState.FALLING;
+	        //System.out.println("FALLING");
+	    } else if (velocity.x < 0) {
 	        state = EntityState.WALKING_LEFT;
-	    } 
-	    else if (velocity.x > 0) {
+	        System.out.println("WALKING LEFT");
+	    } else if (velocity.x > 0) {
 	        state = EntityState.WALKING_RIGHT;
-	    } 
-	    else {
+	        System.out.println("WALKING RIGHT");
+	    } else {
 	        state = EntityState.IDLE;
+	        //System.out.println("IDLE");
 	    }
 	}
 
 	@Override
 	public void update(AppWorld world, float delta) {
-		
-		//Players ability to move
-		velocity.y -= GRAVITY * delta;
-		position.mulAdd(velocity, delta);
-		
-		//Resets downward velocity when grounded   
-		if (collision.isGrounded(bounds, velocity.y)) {
-		    velocity.y = 0;
-		    isGrounded = true;
-		    position.y = collision.getGroundY(bounds);
-		    updateBounds();
-		} else {
-			
-		    isGrounded = false;
-		}
 
-        // clamp i world
-        position.x = Math.max(0, Math.min(position.x, (float) world.width()  - size.x));
-        position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
-        
-       
-        updateBounds();
-    }
+	    // 1. Sjekk grounded FØR gravitasjon
+	    if (collision.isGrounded(bounds, isFalling)) {
+	        isGrounded = true;
+	        velocity.y = 0;
+	        position.y = collision.getGroundY(bounds);
+	        updateBounds();
+	        System.out.println("GROUNDED");
+	    } else {
+	        isGrounded = false;
+	        System.out.println("NOT GROUNDED");
+	    }
+
+	    // 2. Legg til gravitasjon bare hvis ikke grounded
+	    if (!isGrounded) {
+	        velocity.y -= GRAVITY * delta;
+	    }
+
+	    // 3. Flytt spilleren
+	    position.mulAdd(velocity, delta);
+
+	    // 4. drop timer
+	    if (isFalling) {
+	        dropDuration -= delta;
+	        if (dropDuration <= 0) isFalling = false;
+	    }
+
+	    // 5. clamp og oppdater bounds
+	    position.x = Math.max(0, Math.min(position.x, (float) world.width() - size.x));
+	    position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
+	    updateBounds();
+	}
 
 	
 
