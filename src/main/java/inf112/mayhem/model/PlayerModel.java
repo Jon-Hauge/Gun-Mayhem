@@ -40,6 +40,12 @@ public class PlayerModel implements EntityModel {
 			velocity.y = JUMP_FORCE;
 		}
 	 }
+	
+	public void drop() {
+		if (isGrounded) {
+			velocity.y -= GRAVITY * 4.8;
+		}
+	}
 
 	@Override
 	public float x() {
@@ -101,6 +107,7 @@ public class PlayerModel implements EntityModel {
 		    position.y = collision.getGroundY(bounds);
 		    updateBounds();
 		} else {
+			
 		    isGrounded = false;
 		}
 
