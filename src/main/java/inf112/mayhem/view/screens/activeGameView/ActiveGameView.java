@@ -187,24 +187,36 @@ public class ActiveGameView {
                 int direction = obj.getDirection();
 
                 if (state.equals(EntityState.IDLE) && direction == 1 ) {
-                    batch.draw(getTexture("idle_right.png"),  obj.x(), obj.y(), obj.width(), obj.height());
+                    Texture currentFrame = getTexture("idle_right.png");
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
                 else if (state.equals(EntityState.IDLE) && direction == -1 ) {
-                    batch.draw(getTexture("idle_left.png"),  obj.x(), obj.y(), obj.width(), obj.height());
+                    Texture currentFrame = getTexture("idle_left.png");
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
                 else if (state.equals(EntityState.JUMPING) && direction == 1) {
-                    batch.draw(getTexture("idle_right.png"),  obj.x(), obj.y(), obj.width(), obj.height());
+                    Texture currentFrame = getTexture("idle_right.png");
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
                 else if (state.equals(EntityState.JUMPING) && direction == -1) {
-                    batch.draw(getTexture("idle_left.png"),  obj.x(), obj.y(), obj.width(), obj.height());
+                    Texture currentFrame = getTexture("idle_left.png");
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                }
+                else if (state.equals(EntityState.FALLING) && direction == 1) {
+                    Texture currentFrame = getTexture("idle_right.png");
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                }
+                else if (state.equals(EntityState.FALLING) && direction == -1) {
+                    Texture currentFrame = getTexture("idle_left.png");
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
                 else if (state.equals(EntityState.WALKING_LEFT)) {
-                    batch.draw(currAnimation(obj).
-                            getAnimation().getKeyFrame(elapsedTime), obj.x(), obj.y(), obj.width(), obj.height());
+                    TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
                 else if (state.equals(EntityState.WALKING_RIGHT)) {
-                    batch.draw(currAnimation(obj).
-                            getAnimation().getKeyFrame(elapsedTime), obj.x(), obj.y(), obj.width(), obj.height());
+                    TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
+                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
 
                 //TextureRegion currentFrame = currAnimation(obj).
