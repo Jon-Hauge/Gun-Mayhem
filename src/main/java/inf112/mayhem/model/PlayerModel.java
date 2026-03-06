@@ -147,7 +147,7 @@ public class PlayerModel implements EntityModel {
 		}
 	}
 
-
+	@Override
 	public int getDirection() {
 		return this.direction;
 	}
