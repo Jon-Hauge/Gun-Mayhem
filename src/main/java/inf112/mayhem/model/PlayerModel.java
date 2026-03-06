@@ -129,7 +129,7 @@ public class PlayerModel implements EntityModel {
 	
 
 
-		public void setDirection(int direction) {
+	public void setDirection(int direction) {
 		if (direction == -1 || direction == 1) {
 			this.direction = direction;
 		} else {
