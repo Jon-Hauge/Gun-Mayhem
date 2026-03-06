@@ -106,7 +106,7 @@ public class PlayerModel implements EntityModel {
 	    position.mulAdd(velocity, delta);
 	    
 	    //CHECK FOR COLLITIONS WITH GROUND OR PLATFORM
-	    if (collision.isGrounded(bounds, isFalling) && velocity.y < 0) {
+	    if (velocity.y <= 0 && collision.isGrounded(bounds, isFalling)) {
 	        isGrounded = true;
 	        velocity.y = 0;
 	        position.y = collision.getGroundY(bounds);
