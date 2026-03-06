@@ -7,33 +7,36 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class MapCollisionHandler {
 	private TiledMapTileLayer groundLayer;
-	private TiledMapTileLayer platformLayer1;
+	private TiledMapTileLayer platformLayer;
 	
 	public MapCollisionHandler(TiledMap map) {
 		this.groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
-		this.platformLayer1 = (TiledMapTileLayer) map.getLayers().get("platform1");
+		this.platformLayer = (TiledMapTileLayer) map.getLayers().get("platform1");
 	}
 	
-	public boolean isGrounded(Rectangle bounds, float velocityY) {
-	    if (velocityY > 0) return false; // hopper opp, ikke grounded
+	public boolean isGrounded(Rectangle bounds, boolean isFalling) {
+	    int tileY = (int) ((bounds.y - 1) / 32);
+	    int tileXLeft = (int) (bounds.x / 32);
+	    int tileXRight = (int) ((bounds.x + bounds.width - 1) / 32);
 
-	    int tileX = (int) (bounds.x / 32);
-	    int tileY = (int) (bounds.y / 32);
+	    boolean onGround =
+	            groundLayer.getCell(tileXLeft, tileY) != null ||
+	            groundLayer.getCell(tileXRight, tileY) != null;
 
-	    // Sjekk ground-laget (solid fra alle sider)
-	    Cell groundCell = groundLayer.getCell(tileX, tileY);
-	    if (groundCell != null) return true;
+	    boolean onPlatform = false;
 
-	    // Sjekk platform-laget (one-way, bare fra toppen)
-	    Cell platformCell = platformLayer1.getCell(tileX, tileY);
-	    if (platformCell != null) return true;
+	    if (!isFalling && platformLayer != null) {
+	        onPlatform =
+	                platformLayer.getCell(tileXLeft, tileY) != null ||
+	                platformLayer.getCell(tileXRight, tileY) != null;
+	    }
 
-	    return false;
+	    return onGround || onPlatform;
 	}
 	
 	public float getGroundY(Rectangle bounds) {
-	    int tileY = (int) (bounds.y / 32);
-	    return (tileY + 1) * 32; // toppen av tilen under spilleren
+	    int tileY = (int) ((bounds.y - 1) / 32);
+	    return (tileY + 1) * 32;
 	}
 	
 

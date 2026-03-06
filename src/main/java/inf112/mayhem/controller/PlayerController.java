@@ -14,8 +14,10 @@ public class PlayerController {
 	
 	//FIXED INPUT LAG WITH JUSTKEYPRESSED 
 	private float jumpBufferTimer = 0f;
+	private float dropBufferTimer = 0f;
 	private static final float JUMP_BUFFER = 0.15f;
-
+	private static final float DROP_BUFFER = 0.15f;
+	
     private final PlayerModel player;
     private final AppWorld world;
 	
@@ -42,16 +44,23 @@ public class PlayerController {
 	        
 	    //VELOCITY
 	    player.velocity.x = x * SPEED;
-	        
-	 // Lagre hopp-input i buffer
+	    
+	    // JUMP AND DROP
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
 	        jumpBufferTimer = JUMP_BUFFER;
 	    }
+	    
+	    if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+	        dropBufferTimer = DROP_BUFFER;
+	    }
 
 	    // Hopp hvis buffer er aktiv og spilleren er grounded
-	    if (jumpBufferTimer > 0) {
+	    if (jumpBufferTimer > 0 ) {
 	        jumpBufferTimer -= delta;
 	        player.jump(); // jump() sjekker isGrounded internt
+	    } else if (dropBufferTimer > 0) {
+	    	dropBufferTimer -= delta;
+	    	player.drop();
 	    }
 
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && COOLDOWN_TIMER <= 0) {
