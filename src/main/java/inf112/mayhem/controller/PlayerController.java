@@ -12,12 +12,6 @@ public class PlayerController {
 	private static final float COOLDOWN_DURATION = 0.3f;
 	private float COOLDOWN_TIMER = 0;
 	
-	//FIXED INPUT LAG WITH JUSTKEYPRESSED 
-	private float jumpBufferTimer = 0f;
-	private float dropBufferTimer = 0f;
-	private static final float JUMP_BUFFER = 0.15f;
-	private static final float DROP_BUFFER = 0.15f;
-	
     private final PlayerModel player;
     private final AppWorld world;
 	
@@ -47,18 +41,10 @@ public class PlayerController {
 	    
 	    // JUMP AND DROP
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-	        jumpBufferTimer = JUMP_BUFFER;
+	        player.jump();
 	    }
 	    
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-	        dropBufferTimer = DROP_BUFFER;
-	    }
-
-	    if (jumpBufferTimer > 0 ) {
-	        jumpBufferTimer -= delta;
-	        player.jump();
-	    } else if (dropBufferTimer > 0) {
-	    	dropBufferTimer -= delta;
 	    	player.drop();
 	    }
 

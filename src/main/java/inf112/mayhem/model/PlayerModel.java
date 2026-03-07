@@ -10,20 +10,21 @@ public class PlayerModel implements EntityModel {
     public final Vector2 velocity = new Vector2();
     private final Vector2 size = new Vector2(32, 32);
     private final Rectangle bounds = new Rectangle();
-	private int direction = 1; // 1 right -1 left
+	private int direction = 1;
 
     
     private final EntityType type = EntityType.PLAYER;
     
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 250f;
+    private final float DOUBLE_JUMP_FORCE = 200f;
     private final float DROP_DURATION = 2f;
 	
     private float dropDuration = 0;
+    private int jump_counter = 0;
     
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
-    private boolean isFalling = false;
     private boolean active = true;
     private boolean ignorePlatforms = false;
     
@@ -42,7 +43,11 @@ public class PlayerModel implements EntityModel {
 		if (isGrounded) {
 			velocity.y = JUMP_FORCE;
 			isGrounded = false;
-			isFalling = false;
+			jump_counter++;
+		} else if (!isGrounded && jump_counter < 2) {
+			velocity.y = DOUBLE_JUMP_FORCE;
+			jump_counter++;
+			System.out.println(jump_counter);
 		}
 	 }
 	
@@ -50,7 +55,6 @@ public class PlayerModel implements EntityModel {
 		if (isGrounded) {
 			velocity.y -= GRAVITY;
 			isGrounded = false;
-			isFalling = true;
 			ignorePlatforms = true;
 			dropDuration = DROP_DURATION;
 		}
@@ -119,6 +123,7 @@ public class PlayerModel implements EntityModel {
 		    isGrounded = true;
 		    velocity.y = 0;
 		    position.y = collision.getGroundY(bounds, ignorePlatforms);
+		    jump_counter = 0;
 		    updateBounds();
 		} else {
 		    isGrounded = false;
