@@ -20,6 +20,7 @@ public class PlayerModel implements EntityModel {
     private final float DROP_DURATION = 2f;
 	
     private float dropDuration = 0;
+    private int jump_counter = 0;
     
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
@@ -43,6 +44,11 @@ public class PlayerModel implements EntityModel {
 			velocity.y = JUMP_FORCE;
 			isGrounded = false;
 			isFalling = false;
+			jump_counter++;
+		} else if (!isGrounded && jump_counter < 2) {
+			velocity.y = JUMP_FORCE;
+			jump_counter++;
+			System.out.println(jump_counter);
 		}
 	 }
 	
@@ -119,6 +125,7 @@ public class PlayerModel implements EntityModel {
 		    isGrounded = true;
 		    velocity.y = 0;
 		    position.y = collision.getGroundY(bounds, ignorePlatforms);
+		    jump_counter = 0;
 		    updateBounds();
 		} else {
 		    isGrounded = false;
