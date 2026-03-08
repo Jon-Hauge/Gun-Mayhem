@@ -4,6 +4,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import inf112.mayhem.model.collision.MapCollisionHandler;
+
 public class PlayerModel implements EntityModel {
 	private MapCollisionHandler collision;
 	private final Vector2 position = new Vector2();
@@ -13,7 +15,7 @@ public class PlayerModel implements EntityModel {
 	private int direction = 1;
 
     
-    private final EntityType type = EntityType.PLAYER;
+    
     
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 250f;
@@ -23,6 +25,7 @@ public class PlayerModel implements EntityModel {
     private float dropDuration = 0;
     private int jump_counter = 0;
     
+    private final EntityType type = EntityType.PLAYER;
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
     private boolean active = true;

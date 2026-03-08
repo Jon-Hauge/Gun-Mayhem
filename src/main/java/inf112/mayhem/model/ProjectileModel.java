@@ -16,7 +16,7 @@ public class ProjectileModel implements EntityModel{
     
     private boolean active = true;
     private final int direction; // 1 = høyre, -1 = venstre
-    private final int speed = 10; // Må gjøres til parameter om skal ha ulike projectiles senere
+    private final int BULLET_SPEED = 10;
     private ArrayList<EntityModel> objToRemove;
     private float knockBackMultiplier = 10;
 
@@ -65,21 +65,29 @@ public class ProjectileModel implements EntityModel{
 
     @Override
     public void updateState() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateState'");
+        if (active) {
+        	this.state = EntityState.ACTIVE;
+        } else {
+        	this.state = EntityState.HIT;
+        }
+        
     }
 
     @Override
     public void update(AppWorld world, float delta) {
-        position.x += speed * direction;
+        position.x += BULLET_SPEED * direction;
         this.updateBounds();
 
-        //TODO: World bounds, if outside then set Active flag false
-        if (position.x + size.x < 0 || position.x > world.width()
-            || position.y + size.y < 0 || position.y > world.height()) {
+        //CHECK IF OUT OF BOUNDS
+        if (position.x + size.x < 0     || 
+        	position.x > world.width()  ||
+        	position.y + size.y < 0     || 
+        	position.y > world.height())
+        	{
                 active = false;
             }
-
+        
+        updateState();
     }
 
     @Override
