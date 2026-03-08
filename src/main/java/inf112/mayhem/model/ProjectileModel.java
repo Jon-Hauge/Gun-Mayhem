@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class ProjectileModel implements EntityModel{
 
-    private final Vector2 size = new Vector2(8, 4);
+    private final Vector2 size = new Vector2(10, 7);
     private Vector2 position = new Vector2();
     private final Rectangle bounds = new Rectangle();
     private final EntityType type = EntityType.PROJECTILE;
