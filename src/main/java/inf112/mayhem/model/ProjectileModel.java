@@ -12,20 +12,18 @@ public class ProjectileModel implements EntityModel{
     private final Rectangle bounds = new Rectangle();
     
     private final EntityType type = EntityType.PROJECTILE;
-    private EntityState state;
+    private EntityState state = EntityState.ACTIVE;
     
     private boolean active = true;
     private final int direction; // 1 = høyre, -1 = venstre
-    private final int BULLET_SPEED = 10;
-    private ArrayList<EntityModel> objToRemove;
-    private float knockBackMultiplier = 10;
+    private final float BULLET_SPEED = 150f;
+    private float knockBackMultiplier = 100;
 
 
     public ProjectileModel(PlayerModel player) {
 		this.direction = player.getDirection();
         this.position.x = player.x()  + 20 - player.width() ;
         this.position.y = player.y() + (player.width()/2);
-        this.objToRemove = new ArrayList<>();
     }
 
     private void updateBounds() {
@@ -75,7 +73,7 @@ public class ProjectileModel implements EntityModel{
 
     @Override
     public void update(AppWorld world, float delta) {
-        position.x += BULLET_SPEED * direction;
+        position.x += BULLET_SPEED * direction * delta;
         this.updateBounds();
 
         //CHECK IF OUT OF BOUNDS

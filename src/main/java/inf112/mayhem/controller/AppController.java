@@ -9,7 +9,7 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityFactory;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
-import inf112.mayhem.model.collision.MapCollisionHandler;
+import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.view.maps.TileMapHelper;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
@@ -25,6 +25,7 @@ public class AppController implements ApplicationListener, IController {
     private boolean paused = false;
     private boolean gameOver = false;
     private PlayerModel playerModel;
+    ProjectileCollisionHandler pCollision;
     private PlayerController playerController;
     
     @Override
@@ -39,7 +40,7 @@ public class AppController implements ApplicationListener, IController {
         EntityFactory fac = new EntityFactory(world, map);
         
         // Send kartet til collision handler i model
-        MapCollisionHandler collision = new MapCollisionHandler(map);
+        pCollision = new ProjectileCollisionHandler(world);
         
         //PLAYER
         
@@ -88,17 +89,13 @@ public class AppController implements ApplicationListener, IController {
                 // 1. Oppdater fysikk og isGrounded
                 for (var obj : world) {
                     if (!obj.isActive()) {
-                        world.addToRemove(obj);
                     }
                     obj.update(world, delta);
                 }
 
                 // 2. Les input etter isGrounded er oppdatert
                 playerController.update(delta);
-
-                // 3. Kollisjon og rydding
-                world.collisions();
-                world.removeAllInactive();
+                pCollision.checkCollisions();
 
                 // 4. Tegn til slutt
                 activeGameView.render(world, delta);

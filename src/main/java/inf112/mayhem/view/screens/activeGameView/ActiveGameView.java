@@ -9,7 +9,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,6 +23,8 @@ import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.EntityState;
+import inf112.mayhem.model.EntityType;
+import inf112.mayhem.model.ProjectileModel;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
@@ -152,17 +156,11 @@ public class ActiveGameView {
 
         // camera
         camera.update();
-
-        // The projection matrix translates from world to view coordinates.
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
 
-        // Get time
-        elapsedTime += delta;
-
-        // Draw calls should be wrapped in batch.begin() ... batch.end()
+        // Draw background
         batch.begin();
-        // Background
         try {
             Texture background = getTexture("orig_big.png");
             if (background != null) {
@@ -177,12 +175,12 @@ public class ActiveGameView {
         orthogonalTiledMapRenderer.render();
 
         // Entities
-        // Draw calls should be wrapped in batch.begin() ... batch.end()
+        
+        // PLAYER
         batch.begin();
         try {
-            // font.draw(batch, "Hello, World!", 200, 200);
+            
             for (EntityModel obj : world) {
-
                 EntityState state = obj.state();
                 int direction = obj.getDirection();
 
@@ -218,16 +216,33 @@ public class ActiveGameView {
                     TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
                     batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 }
+            }
 
                 //TextureRegion currentFrame = currAnimation(obj).
                 //        getAnimation().getKeyFrame(elapsedTime);
                 //if (currentFrame != null) {
                 //    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                 //}
+        } finally {
+        	batch.end();
+        }
+        
+        // PROJECTILES
+        
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        try {
+            for (EntityModel obj : world) {
+                if (obj instanceof ProjectileModel) {
+                    shape.setColor(Color.YELLOW);
+                    shape.rect(obj.x(), obj.y(), obj.width(), obj.height());
+                }
             }
         } finally {
-            batch.end(); // if you forget this, resources will leak!
+            shape.end();
         }
+        
+        
+        
 
         // Draw a simple platform shape after batch is closed.
 //        shape.begin(ShapeRenderer.ShapeType.Filled);
