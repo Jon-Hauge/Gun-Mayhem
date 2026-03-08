@@ -16,7 +16,7 @@ public class EntityFactory {
 	public PlayerController spawnPlayer(float x, float y) {
 		PlayerModel player = new PlayerModel(x, y, map);
 		world.add(player);
-		return new PlayerController(player, world);
+		return new PlayerController(player, world, this);
 	}
 	
 	public void spawnProjectile(PlayerModel player) {

@@ -47,7 +47,6 @@ public class PlayerModel implements EntityModel {
 		} else if (!isGrounded && jump_counter < 2) {
 			velocity.y = DOUBLE_JUMP_FORCE;
 			jump_counter++;
-			System.out.println(jump_counter);
 		}
 	 }
 	

@@ -20,11 +20,6 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.objToRemove = new ArrayList<>(); 
 	}
 
-	public void spawnProjectileAt(PlayerModel player) {
-		ProjectileModel projectile = new ProjectileModel(player);
-		objects.add(projectile);
-	}
-
 	@Override
 	public Iterator<EntityModel> iterator() {
 		return objects.iterator();
@@ -46,7 +41,6 @@ public class AppWorld implements Iterable<EntityModel> {
 		if (obj != null) {
 			objects.add(obj);
 		}
-		
 	}
 
 	public GameState state() {

@@ -10,7 +10,10 @@ public class ProjectileModel implements EntityModel{
     private final Vector2 size = new Vector2(10, 7);
     private Vector2 position = new Vector2();
     private final Rectangle bounds = new Rectangle();
+    
     private final EntityType type = EntityType.PROJECTILE;
+    private EntityState state;
+    
     private boolean active = true;
     private final int direction; // 1 = høyre, -1 = venstre
     private final int speed = 10; // Må gjøres til parameter om skal ha ulike projectiles senere
@@ -19,7 +22,7 @@ public class ProjectileModel implements EntityModel{
 
 
     public ProjectileModel(PlayerModel player) {
-        this.direction = player.getDirection();
+		this.direction = player.getDirection();
         this.position.x = player.x()  + 20 - player.width() ;
         this.position.y = player.y() + (player.width()/2);
         this.objToRemove = new ArrayList<>();
@@ -57,8 +60,7 @@ public class ProjectileModel implements EntityModel{
 
     @Override
     public EntityState state() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'state'");
+        return state;
     }
 
     @Override

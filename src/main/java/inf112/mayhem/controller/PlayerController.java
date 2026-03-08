@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.EntityFactory;
 import inf112.mayhem.model.PlayerModel;
 
 public class PlayerController {
@@ -14,10 +15,12 @@ public class PlayerController {
 	
     private final PlayerModel player;
     private final AppWorld world;
+    private final EntityFactory fac;
 	
-	public PlayerController(PlayerModel player, AppWorld world) {
+	public PlayerController(PlayerModel player, AppWorld world, EntityFactory fac) {
 		this.player = player;
 		this.world = world;
+		this.fac = fac;
 	}
 	
 	public void update(float delta) {
@@ -49,7 +52,7 @@ public class PlayerController {
 	    }
 
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && COOLDOWN_TIMER <= 0) {
-	        this.world.spawnProjectileAt(player);
+	        fac.spawnProjectile(player);
 	        COOLDOWN_TIMER = COOLDOWN_DURATION;
 	    }
 	      
