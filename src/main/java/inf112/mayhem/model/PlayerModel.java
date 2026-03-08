@@ -4,8 +4,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import inf112.mayhem.model.collision.MapCollisionHandler;
+import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+
 public class PlayerModel implements EntityModel {
 	private MapCollisionHandler collision;
+	private ProjectileCollisionHandler pCollision;
 	private final Vector2 position = new Vector2();
     public final Vector2 velocity = new Vector2();
     private final Vector2 size = new Vector2(32, 32);
@@ -13,7 +17,7 @@ public class PlayerModel implements EntityModel {
 	private int direction = 1;
 
     
-    private final EntityType type = EntityType.PLAYER;
+    
     
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 250f;
@@ -23,6 +27,7 @@ public class PlayerModel implements EntityModel {
     private float dropDuration = 0;
     private int jump_counter = 0;
     
+    private final EntityType type = EntityType.PLAYER;
     private EntityState state = EntityState.IDLE;
     private boolean isGrounded = false;
     private boolean active = true;
@@ -47,7 +52,6 @@ public class PlayerModel implements EntityModel {
 		} else if (!isGrounded && jump_counter < 2) {
 			velocity.y = DOUBLE_JUMP_FORCE;
 			jump_counter++;
-			System.out.println(jump_counter);
 		}
 	 }
 	
@@ -145,11 +149,7 @@ public class PlayerModel implements EntityModel {
 
 
 	public void setDirection(int direction) {
-		if (direction == -1 || direction == 1) {
-			this.direction = direction;
-		} else {
-			throw new IllegalArgumentException("Direction must be -1 or 1");
-		}
+		this.direction = direction;
 	}
 
 	@Override

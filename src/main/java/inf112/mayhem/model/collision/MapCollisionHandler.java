@@ -1,4 +1,4 @@
-package inf112.mayhem.model;
+package inf112.mayhem.model.collision;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
