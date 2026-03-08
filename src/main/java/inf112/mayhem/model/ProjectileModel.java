@@ -10,29 +10,39 @@ public class ProjectileModel implements EntityModel{
     private final Vector2 size = new Vector2(10, 7);
     private Vector2 position = new Vector2();
     private final Rectangle bounds = new Rectangle();
+    private final PlayerModel player;
     
     private final EntityType type = EntityType.PROJECTILE;
     private EntityState state = EntityState.ACTIVE;
     
     private boolean active = true;
     private final int direction; // 1 = høyre, -1 = venstre
-    private final float BULLET_SPEED = 150f;
-    private float knockBackMultiplier = 100;
+    private final float BULLET_SPEED = 350f;
+    private float knockBackMultiplier = 1500f;
 
 
     public ProjectileModel(PlayerModel player) {
 		this.direction = player.getDirection();
-        this.position.x = player.x()  + 20 - player.width() ;
-        this.position.y = player.y() + (player.width()/2);
+		this.player = player;
+		
+		if (direction == -1) {
+	        this.position.x = player.x() - size.x;
+	    } else {
+	        this.position.x = player.x() + player.width();
+	    }
+	    this.position.y = player.y() + (player.height() / 2);
+	    
+	    updateBounds();
     }
 
     private void updateBounds() {
-	        bounds.set(position.x, position.y, size.x, size.y);
+	    bounds.set(position.x, position.y, size.x, size.y);
 	}
 
     @Override
     public float x() {
-        return this.position.x;
+    	return this.position.x;
+        
     }
 
     @Override
@@ -74,7 +84,7 @@ public class ProjectileModel implements EntityModel{
     @Override
     public void update(AppWorld world, float delta) {
         position.x += BULLET_SPEED * direction * delta;
-        this.updateBounds();
+        updateBounds();
 
         //CHECK IF OUT OF BOUNDS
         if (position.x + size.x < 0     || 

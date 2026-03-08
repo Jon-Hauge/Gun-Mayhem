@@ -49,9 +49,14 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.state = state;
 	}
 
-	
-	public void removeEnity(EntityModel obj) {
-		objects.remove(obj);
+	public void removeInactive() {
+		int before = objects.size();
+		objects.removeIf(obj -> !obj.isActive());
+		int after = objects.size();
+		
+		if (before != after) {
+	        System.out.println("Removed " + (before - after) + " objects. Remaining: " + after);
+	    }
 	}
 
 }

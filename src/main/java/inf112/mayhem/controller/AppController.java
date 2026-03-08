@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityFactory;
+import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
@@ -87,7 +88,7 @@ public class AppController implements ApplicationListener, IController {
             case MAIN_MENU -> mainMenuView.render();
             case ACTIVE -> {
                 // 1. Oppdater fysikk og isGrounded
-                for (var obj : world) {
+                for (EntityModel obj : world) {
                     if (!obj.isActive()) {
                     }
                     obj.update(world, delta);
@@ -98,6 +99,7 @@ public class AppController implements ApplicationListener, IController {
                 pCollision.checkCollisions();
 
                 // 4. Tegn til slutt
+                world.removeInactive();
                 activeGameView.render(world, delta);
             }
             case PAUSED    -> pauseView.render();
