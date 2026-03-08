@@ -2,6 +2,8 @@ package inf112.mayhem.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
+import inf112.mayhem.controller.PlayerController;
+
 public class EntityFactory {
 	private final AppWorld world;
 	private final TiledMap map;
@@ -11,10 +13,10 @@ public class EntityFactory {
 		this.map = map;
 	}
 	
-	public PlayerModel spawnPlayer(float x, float y) {
+	public PlayerController spawnPlayer(float x, float y) {
 		PlayerModel player = new PlayerModel(x, y, map);
 		world.add(player);
-		return player;
+		return new PlayerController(player, world);
 	}
 	
 	public void spawnProjectile(PlayerModel player) {

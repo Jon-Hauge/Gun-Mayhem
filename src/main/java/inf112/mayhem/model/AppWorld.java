@@ -43,7 +43,10 @@ public class AppWorld implements Iterable<EntityModel> {
 	}
 
 	public void add(EntityModel obj) {
-		objects.add(obj);
+		if (obj != null) {
+			objects.add(obj);
+		}
+		
 	}
 
 	public GameState state() {

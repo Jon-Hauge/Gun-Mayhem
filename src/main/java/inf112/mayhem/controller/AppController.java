@@ -6,14 +6,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.EntityFactory;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.MapCollisionHandler;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.view.maps.TileMapHelper;
-import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
+import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
 
 public class AppController implements ApplicationListener, IController {
     private ActiveGameView activeGameView;
@@ -25,7 +26,6 @@ public class AppController implements ApplicationListener, IController {
     private boolean gameOver = false;
     private PlayerModel playerModel;
     private PlayerController playerController;
-    private TiledMap map;
     
     @Override
     public void create() {
@@ -36,13 +36,14 @@ public class AppController implements ApplicationListener, IController {
         // Last inn kartet via view
         TileMapHelper tileMapHelper = new TileMapHelper();
         TiledMap map = tileMapHelper.setupMap();
+        EntityFactory fac = new EntityFactory(world, map);
         
         // Send kartet til collision handler i model
         MapCollisionHandler collision = new MapCollisionHandler(map);
         
         //PLAYER
-        playerModel = new PlayerModel(500f, 400f, map);
-        playerController = new PlayerController(playerModel, world);
+        
+        playerController = fac.spawnPlayer(500f, 400f);
         world.add(playerModel);
 
         // VIEW: graphics

@@ -104,15 +104,8 @@ public class ProjectileModel implements EntityModel{
         return this.knockBackMultiplier;
     }
 
-
-
     public int getDirection() {
 		return this.direction;
 	}
-
-    
-
-
-
 
 }
