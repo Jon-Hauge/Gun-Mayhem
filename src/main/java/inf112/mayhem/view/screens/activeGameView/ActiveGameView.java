@@ -20,11 +20,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import inf112.mayhem.controller.AppController;
-import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.EntityModel;
-import inf112.mayhem.model.EntityState;
-import inf112.mayhem.model.EntityType;
-import inf112.mayhem.model.ProjectileModel;
+import inf112.mayhem.model.*;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
@@ -154,7 +150,7 @@ public class ActiveGameView {
         // Start with a blank screen
         ScreenUtils.clear(Color.BLACK);
 
-        // camera
+        // Camera
         camera.update();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
@@ -170,6 +166,9 @@ public class ActiveGameView {
             batch.end();
         }
 
+        // Get elapsed time for animations
+        elapsedTime += delta;
+
         // Tiled Map
         orthogonalTiledMapRenderer.setView(camera);
         orthogonalTiledMapRenderer.render();
@@ -181,40 +180,37 @@ public class ActiveGameView {
         try {
             
             for (EntityModel obj : world) {
-                EntityState state = obj.state();
-                int direction = obj.getDirection();
 
-                if (state.equals(EntityState.IDLE) && direction == 1 ) {
-                    Texture currentFrame = getTexture("idle_right.png");
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                }
-                else if (state.equals(EntityState.IDLE) && direction == -1 ) {
-                    Texture currentFrame = getTexture("idle_left.png");
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                }
-                else if (state.equals(EntityState.JUMPING) && direction == 1) {
-                    Texture currentFrame = getTexture("idle_right.png");
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                }
-                else if (state.equals(EntityState.JUMPING) && direction == -1) {
-                    Texture currentFrame = getTexture("idle_left.png");
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                }
-                else if (state.equals(EntityState.FALLING) && direction == 1) {
-                    Texture currentFrame = getTexture("idle_right.png");
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                }
-                else if (state.equals(EntityState.FALLING) && direction == -1) {
-                    Texture currentFrame = getTexture("idle_left.png");
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                }
-                else if (state.equals(EntityState.WALKING_LEFT)) {
-                    TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                }
-                else if (state.equals(EntityState.WALKING_RIGHT)) {
-                    TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
-                    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                if (obj.type().equals(EntityType.PLAYER)) {
+
+                    EntityState state = obj.state();
+                    int direction = obj.getDirection();
+
+                    if (state.equals(EntityState.IDLE) && direction == 1) {
+                        Texture currentFrame = getTexture("idle_right.png");
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    } else if (state.equals(EntityState.IDLE) && direction == -1) {
+                        Texture currentFrame = getTexture("idle_left.png");
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    } else if (state.equals(EntityState.JUMPING) && direction == 1) {
+                        Texture currentFrame = getTexture("idle_right.png");
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    } else if (state.equals(EntityState.JUMPING) && direction == -1) {
+                        Texture currentFrame = getTexture("idle_left.png");
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    } else if (state.equals(EntityState.FALLING) && direction == 1) {
+                        Texture currentFrame = getTexture("idle_right.png");
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    } else if (state.equals(EntityState.FALLING) && direction == -1) {
+                        Texture currentFrame = getTexture("idle_left.png");
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    } else if (state.equals(EntityState.WALKING_LEFT)) {
+                        TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    } else if (state.equals(EntityState.WALKING_RIGHT)) {
+                        TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
+                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
+                    }
                 }
             }
 
@@ -228,11 +224,10 @@ public class ActiveGameView {
         }
         
         // PROJECTILES
-        
         shape.begin(ShapeRenderer.ShapeType.Filled);
         try {
             for (EntityModel obj : world) {
-                if (obj instanceof ProjectileModel) {
+                if (obj.type() == EntityType.PROJECTILE) {
                     shape.setColor(Color.YELLOW);
                     shape.rect(obj.x(), obj.y(), obj.width(), obj.height());
                 }
