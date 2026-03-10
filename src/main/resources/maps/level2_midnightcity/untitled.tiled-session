@@ -3,9 +3,8 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
-        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -76,8 +75,8 @@
             "scale": 0.5,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 698,
-                "y": 553
+                "x": 1436,
+                "y": 731
             }
         },
         "map.tmx#25": {
@@ -101,7 +100,6 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 40,
     "openFiles": [
-        "map.tmx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
