@@ -8,9 +8,13 @@
     ],
     "fileStates": {
     },
+    "last.imagePath": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity",
+    "map.height": 24,
+    "map.width": 40,
     "openFiles": [
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
-    ]
+    ],
+    "tileset.lastUsedFormat": "tsx"
 }

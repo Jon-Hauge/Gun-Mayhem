@@ -21,7 +21,10 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import inf112.mayhem.controller.AppController;
-import inf112.mayhem.model.*;
+import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.EntityModel;
+import inf112.mayhem.model.EntityState;
+import inf112.mayhem.model.EntityType;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
@@ -92,7 +95,7 @@ public class ActiveGameView {
      * Loading everything at startup prevents glitches later on.
      */
     private void preloadTextures() {
-        for (String fileName : List.of("obligator.png", "orig_big.png",
+        for (String fileName : List.of("maps/level1_heaven/background.png",
                 "idle_left.png", "idle_right.png", "walking_right_animation.png",
                 "walking_left_animation.png", "jumping_left_animation.png", "jumping_right_animation.png")) {
             getTexture(fileName);
@@ -177,7 +180,7 @@ public class ActiveGameView {
         // Draw background
         batch.begin();
         try {
-            Texture background = getTexture("orig_big.png");
+            Texture background = getTexture("maps/level1_heaven/background.png");
             if (background != null) {
                 batch.draw(background, 0, 0, (float) worldWidth(), (float) worldHeight());
             }
