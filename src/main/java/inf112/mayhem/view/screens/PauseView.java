@@ -41,11 +41,10 @@ public class PauseView extends AbstractScreenView {
         Table table = new Table();
         table.setFillParent(true);
 
-        BitmapFont font = new BitmapFont();
+        BitmapFont font = generateFont("fonts/Inter_28pt-Black.ttf", 24, 0, 0, Color.BLACK, 1, Color.BLACK);
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
-        buttonStyle.font.getData().setScale(1.5f);
-        buttonStyle.fontColor = Color.BLACK;
+        buttonStyle.fontColor = Color.WHITE;
 
         TextButton startButton = new TextButton("Resume Game", buttonStyle);
         startButton.addListener(new ClickListener() {

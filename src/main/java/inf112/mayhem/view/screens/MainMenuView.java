@@ -43,13 +43,14 @@ public class MainMenuView extends AbstractScreenView {
         Table table = new Table();
         table.setFillParent(true);
 
-        BitmapFont font = new BitmapFont();
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font;
-        buttonStyle.font.getData().setScale(2f);
-        buttonStyle.fontColor = Color.BLACK;
+        BitmapFont titleFont = generateFont("fonts/Inter_28pt-Black.ttf", 48, 2, 2, Color.BLACK, 3, Color.BLACK);
+        BitmapFont buttonFont = generateFont("fonts/Inter_28pt-Black.ttf", 24, 1, 1, Color.BLACK, 3, Color.BLACK);
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = buttonFont;
+        buttonStyle.fontColor = Color.WHITE;
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(titleFont, Color.WHITE);
         Label title = new Label("TEAM MAYHEM", labelStyle);
         table.add(title).padBottom(20).row();
 
