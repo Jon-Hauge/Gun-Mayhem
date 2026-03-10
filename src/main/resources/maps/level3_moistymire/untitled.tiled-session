@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "Map/SizeTest": {
         "height": 4300,
         "width": 2
@@ -6,6 +7,8 @@
     "activeFile": "untitled.tmx",
     "expandedProjectPaths": [
     ],
+=======
+>>>>>>> 9439940 (lagt inn møteref)
     "fileStates": {
         "2.tsx": {
             "scaleInDock": 1,
@@ -20,6 +23,7 @@
             "scaleInEditor": 1
         },
         "untitled.tmx": {
+<<<<<<< HEAD
             "scale": 0.75,
             "selectedLayer": 1,
             "viewCenter": {
@@ -44,4 +48,20 @@
         "untitled.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
+=======
+            "scale": 0.5,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 757,
+                "y": 557
+            }
+        }
+    },
+    "recentFiles": [
+        "Tileset.tsx",
+        "untitled.tmx",
+        "3.tsx",
+        "2.tsx"
+    ]
+>>>>>>> 9439940 (lagt inn møteref)
 }
