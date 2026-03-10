@@ -25,13 +25,12 @@ public class GameOverView extends AbstractScreenView {
         Table table = new Table();
         table.setFillParent(true);
 
-        BitmapFont font = new BitmapFont();
+        BitmapFont font = generateFont("fonts/Inter_28pt-Black.ttf", 32, 0, 0, Color.BLACK, 1, Color.BLACK);
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
-        buttonStyle.font.getData().setScale(2f);
-        buttonStyle.fontColor = Color.BLACK;
+        buttonStyle.fontColor = Color.WHITE;
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
         Label title = new Label("GAME OVER", labelStyle);
         table.add(title).padBottom(20).row();
 

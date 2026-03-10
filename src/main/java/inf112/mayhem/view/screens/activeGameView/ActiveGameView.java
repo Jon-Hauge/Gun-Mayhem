@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -68,8 +69,19 @@ public class ActiveGameView {
         tileMapHelper.setupMap();
         this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
 
-        this.font = new BitmapFont();
-        font.setColor(Color.RED);
+        try {
+            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Inter_28pt-Black.ttf"));
+            FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+            parameter.size = 12;
+            parameter.borderWidth = 1;
+            parameter.borderColor = Color.BLACK;
+            this.font = generator.generateFont(parameter);
+            generator.dispose();
+        } catch (Exception e) {
+            Gdx.app.error("ActiveGameView", "Could not load font. Using default BitmapFont.", e);
+            this.font = new BitmapFont();
+        }
+        font.setColor(Color.WHITE);
 
         preloadTextures();
 
