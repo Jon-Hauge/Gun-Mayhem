@@ -9,7 +9,7 @@ public class TileMapHelper {
     private OrthogonalTiledMapRenderer renderer;
 
     public TiledMap setupMap() {
-        map = new TmxMapLoader().load("maps/level1_heaven/level1.tmx");
+        map = new TmxMapLoader().load("maps/level1_heaven/map.tmx");
         return map;
     }
 

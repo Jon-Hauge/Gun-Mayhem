@@ -95,13 +95,34 @@ public class ActiveGameView {
      * Loading everything at startup prevents glitches later on.
      */
     private void preloadTextures() {
-        for (String fileName : List.of("maps/level1_heaven/background.png",
-                "idle_left.png", "idle_right.png", "walking_right_animation.png",
-                "walking_left_animation.png", "jumping_left_animation.png", "jumping_right_animation.png")) {
+        for (String fileName : List.of(
+                "maps/level1_heaven/background.png",
+        
+                "maps/level2_midnightcity/background.png",
+                "maps/level2_midnightcity/4.png",
+                "maps/level2_midnightcity/18.png",
+                "maps/level2_midnightcity/24.png",
+                "maps/level2_midnightcity/25.png",
+                "maps/level2_midnightcity/26.png",
+                "maps/level2_midnightcity/Box1.png",
+                "maps/level2_midnightcity/Box3.png",
+                "maps/level2_midnightcity/Box5.png",
+                "maps/level2_midnightcity/Ladder2.png",
+                "maps/level2_midnightcity/Ladder3.png",
+                "maps/level2_midnightcity/Tileset.png",
+                "maps/level2_midnightcity/Trap.png",
+        
+                "idle_left.png",
+                "idle_right.png",
+                "walking_right_animation.png",
+                "walking_left_animation.png",
+                "jumping_left_animation.png",
+                "jumping_right_animation.png"
+        )) {
             getTexture(fileName);
         }
     }
-
+    
     /// Example: load textures only once, and save them in a hash map.
     ///
     /// You should do the same with sounds and other resources. LibGDX has a built-in

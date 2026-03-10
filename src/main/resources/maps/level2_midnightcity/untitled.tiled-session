@@ -3,18 +3,59 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "cityTile.tsx",
     "expandedProjectPaths": [
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "Box1.tsx": {
+            "scaleInEditor": 1
+        },
+        "Box2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/Tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx": {
+            "scale": 0.48390625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 640.619954794963,
+                "y": 383.338714885373
+            }
+        },
+        "Ladder2.tsx": {
+            "scaleInEditor": 1
+        },
+        "cityTile.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "midnightcity.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 872,
+                "y": 646
+            }
+        }
     },
-    "last.imagePath": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity",
+    "last.imagePath": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven",
     "map.height": 24,
+    "map.lastUsedFormat": "tmx",
     "map.width": 40,
     "openFiles": [
+        "cityTile.tsx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
+        "Ladder2.tsx",
+        "Box1.tsx",
+        "Box2.tsx",
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
+        "cityTile.tsx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }
