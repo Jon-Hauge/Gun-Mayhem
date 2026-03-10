@@ -34,6 +34,8 @@ public class ActiveGameView {
     private AppController controller;
     private WalkingRightAnimation walkingRightAnimation;
     private WalkingLeftAnimation walkingLeftAnimation;
+    private JumpingRightAnimation jumpingRightAnimation;
+    private JumpingLeftAnimation jumpingLeftAnimation;
     private float elapsedTime;
     
     //TILEMAP
@@ -56,6 +58,10 @@ public class ActiveGameView {
         walkingRightAnimation.createAnimation(walkingRightAnimation.getAnimationTexture());
         this.walkingLeftAnimation = new WalkingLeftAnimation();
         walkingLeftAnimation.createAnimation(walkingLeftAnimation.getAnimationTexture());
+        this.jumpingRightAnimation = new JumpingRightAnimation();
+        jumpingRightAnimation.createAnimation(jumpingRightAnimation.getAnimationTexture());
+        this.jumpingLeftAnimation = new JumpingLeftAnimation();
+        jumpingLeftAnimation.createAnimation(jumpingLeftAnimation.getAnimationTexture());
         
         //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
@@ -75,7 +81,8 @@ public class ActiveGameView {
      */
     private void preloadTextures() {
         for (String fileName : List.of("obligator.png", "orig_big.png",
-                "idle_left.png", "idle_right.png", "walking_right.png", "walking_left.png")) {
+                "idle_left.png", "idle_right.png", "walking_right_animation.png",
+                "walking_left_animation.png", "jumping_left_animation.png", "jumping_right_animation.png")) {
             getTexture(fileName);
         }
     }
@@ -193,10 +200,10 @@ public class ActiveGameView {
                         Texture currentFrame = getTexture("idle_left.png");
                         batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                     } else if (state.equals(EntityState.JUMPING) && direction == 1) {
-                        Texture currentFrame = getTexture("idle_right.png");
+                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
                         batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                     } else if (state.equals(EntityState.JUMPING) && direction == -1) {
-                        Texture currentFrame = getTexture("idle_left.png");
+                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
                         batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                     } else if (state.equals(EntityState.FALLING) && direction == 1) {
                         Texture currentFrame = getTexture("idle_right.png");
@@ -205,10 +212,10 @@ public class ActiveGameView {
                         Texture currentFrame = getTexture("idle_left.png");
                         batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                     } else if (state.equals(EntityState.WALKING_LEFT)) {
-                        TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
+                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
                         batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                     } else if (state.equals(EntityState.WALKING_RIGHT)) {
-                        TextureRegion currentFrame = currAnimation(obj).getAnimation().getKeyFrame(elapsedTime);
+                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
                         batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
                     }
                 }
@@ -264,12 +271,19 @@ public class ActiveGameView {
 
     }
 
-    public AbstractAnimation currAnimation(EntityModel entity) {
+    public AbstractAnimation currAnimation(EntityModel entity, int direction) {
         AbstractAnimation currAnimation = walkingRightAnimation;
 
         switch (entity.state()) {
             case WALKING_LEFT -> currAnimation = walkingLeftAnimation;
             case WALKING_RIGHT -> currAnimation = walkingRightAnimation;
+            case JUMPING -> {
+                if (direction == 1) {
+                    currAnimation = jumpingRightAnimation;
+                } else {
+                    currAnimation = jumpingLeftAnimation;
+                }
+            }
         }
         return currAnimation;
 

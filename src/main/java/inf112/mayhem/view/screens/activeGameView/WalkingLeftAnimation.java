@@ -7,7 +7,7 @@ public class WalkingLeftAnimation  extends AbstractAnimation {
     private Texture texture;
 
     public WalkingLeftAnimation() {
-        this.texture = new Texture(Gdx.files.internal("walking_left.png"));
+        this.texture = new Texture(Gdx.files.internal("walking_left_animation.png"));
     }
 
     @Override
