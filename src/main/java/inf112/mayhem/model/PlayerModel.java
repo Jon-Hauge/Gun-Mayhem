@@ -57,7 +57,7 @@ public class PlayerModel implements EntityModel {
 	
 	public void drop() {
 		if (isGrounded) {
-			velocity.y -= GRAVITY;
+			velocity.y -= GRAVITY - 230f;
 			isGrounded = false;
 			ignorePlatforms = true;
 			dropDuration = DROP_DURATION;
@@ -125,7 +125,7 @@ public class PlayerModel implements EntityModel {
 	    //CHECK FOR COLLITIONS WITH GROUND OR PLATFORM
 		if (velocity.y <= 0 && collision.isGrounded(bounds, previousY, ignorePlatforms)) {
 		    isGrounded = true;
-		    velocity.y = 0;
+		    ignorePlatforms = false;		    velocity.y = 0;
 		    position.y = collision.getGroundY(bounds, ignorePlatforms);
 		    jump_counter = 0;
 		    updateBounds();
