@@ -7,7 +7,7 @@ public class WalkingRightAnimation extends AbstractAnimation {
     private Texture texture;
 
     public WalkingRightAnimation() {
-        this.texture = new Texture(Gdx.files.internal("walking_right.png"));
+        this.texture = new Texture(Gdx.files.internal("walking_right_animation.png"));
     }
 
     @Override
