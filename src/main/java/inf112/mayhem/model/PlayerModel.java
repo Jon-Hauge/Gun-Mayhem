@@ -103,10 +103,8 @@ public class PlayerModel implements EntityModel {
 	        state = EntityState.JUMPING;
 	    } else if (!isGrounded && velocity.y < 0) {
 	        state = EntityState.FALLING;
-	    } else if (velocity.x < 0) {
-	        state = EntityState.WALKING_LEFT;
-	    } else if (velocity.x > 0) {
-	        state = EntityState.WALKING_RIGHT;
+	    } else if (velocity.x != 0) {
+	        state = EntityState.WALKING;
 	    } else {
 	        state = EntityState.IDLE;
 	    }

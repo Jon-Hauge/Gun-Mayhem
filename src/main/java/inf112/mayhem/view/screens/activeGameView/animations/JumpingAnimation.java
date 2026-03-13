@@ -6,8 +6,18 @@ public class JumpingAnimation extends AbstractAnimation {
 
     @Override
     public void animate(CharacterRig character, float elapsedTime) {
-        character.leftFoot.addOffset(0, -15f * character.leftFoot.getScaleY());
-        character.rightFoot.addOffset(0, -15f * character.rightFoot.getScaleY());
-        character.head.addOffset(0, 0.5f);
+
+        character.body.addOffset(0, 20f * character.body.getScaleY());
+        character.head.addOffset(0, 20f * character.head.getScaleY());
+        character.face.addOffset(0, 20f * character.face.getScaleY());
+
+        float rightFootScale = character.rightFoot.getScaleY();
+        float leftFootScale = character.leftFoot.getScaleY();
+
+        float rightFootLift = (float) Math.sin(elapsedTime * 3f) * 12f * rightFootScale;
+        float leftFootLift = (float) Math.sin(elapsedTime * 3f) * 8f * leftFootScale;
+
+        character.rightFoot.addOffset(0, rightFootLift);
+        character.leftFoot.addOffset(0, leftFootLift);
     }
 }
