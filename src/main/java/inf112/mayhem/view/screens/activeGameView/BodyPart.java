@@ -59,8 +59,8 @@ public class BodyPart {
     /// @param y Offset added vertically
     ///
     public void addOffset(float x, float y) {
-        offsetX += x;
-        offsetY += y;
+        this.offsetX += x;
+        this.offsetY += y;
     }
 
     /// Draws bodypart on canvas.
@@ -76,8 +76,10 @@ public class BodyPart {
         float width = texture.getWidth();
         float height = texture.getHeight();
 
-        float drawX = mirrored ? x + offsetX - width / 2  : x - offsetX - width / 2;
-        float drawY = y + offsetY - width / 2;
+        float direction = mirrored ? -1f : 1f;
+
+        float drawX = x + offsetX * direction - width / 2f;
+        float drawY = y + offsetY - height / 2f;
 
         batch.draw(texture,
                 drawX,
@@ -94,5 +96,24 @@ public class BodyPart {
                 (int) height,
                 mirrored,
                 false);
+    }
+
+
+    /// @return Height of texture
+    ///
+    public float getHeight() {
+        return texture.getHeight() * scaleY;
+    }
+
+    /// @return Horizontal scale of texture
+    ///
+    public float getScaleX() {
+        return scaleX;
+    }
+
+    /// @return Vertical scale of texture
+    ///
+    public float getScaleY() {
+        return scaleY;
     }
 }

@@ -38,6 +38,7 @@ public class ActiveGameView {
     private AppController controller;
     private CharacterRig characterRig;
     private CharacterView characterView;
+    private final float scale = 0.15f;
     
     //TILEMAP
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -93,7 +94,7 @@ public class ActiveGameView {
                 new Texture(Gdx.files.internal("character_sprites/hands.png")),
                 new Texture(Gdx.files.internal("character_sprites/hands.png")),
                 new Texture(Gdx.files.internal("character_sprites/head.png")),
-                0.2f);
+                scale);
     }
 
     /*
@@ -239,8 +240,16 @@ public class ActiveGameView {
             for (EntityModel obj : world) {
                 if (obj.type() == EntityType.PROJECTILE) {
                     shape.setColor(Color.YELLOW);
-                    shape.rect(obj.x() - 2.5f, obj.y() + 25, obj.width(), obj.height());
+                    shape.rect(obj.x() - 12.5f * scale, obj.y() + 125 * scale, obj.width(), obj.height());
                 }
+                // Debugging code used to see center of player
+                // Remove once game is finished
+                //if (obj.type() == EntityType.PLAYER) {
+                //    shape.setColor(Color.RED);
+                //    shape.circle(obj.x(), obj.y(), 3);
+                //}
+                //shape.setColor(Color.GREEN);
+                //shape.rectLine(obj.x(), obj.y(), obj.x(), obj.y() + 100, 1);
             }
         } finally {
             shape.end();

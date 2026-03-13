@@ -15,22 +15,22 @@ public class CharacterRig {
 
     private float scale;
 
-    private float bodyOffsetX = 0;
-    private float bodyOffsetY = -70;
-    private float faceOffsetX = -50;
-    private float faceOffsetY = 330;
-    private float leftFootOffsetX = -60;
-    private float leftFootOffsetY = 150;
-    private float rightFootOffsetX = 60;
-    private float rightFootOffsetY = 150;
-    private float gunOffsetX = -25;
-    private float gunoffsetY = 375;
-    private float leftHandOffsetX = -100;
-    private float leftHandOffsetY = 200;
-    private float rightHandOffsetX = 55;
-    private float rightHandOffsetY = 200;
-    private float headOffsetX = -50;
-    private float headOffsetY = 380;
+    private float bodyOffsetX = 0f;
+    private float bodyOffsetY = 170f;
+    private float faceOffsetX = 65f;
+    private float faceOffsetY = 300f;
+    private float leftFootOffsetX = -60f;
+    private float leftFootOffsetY = 0f;
+    private float rightFootOffsetX = 60f;
+    private float rightFootOffsetY = 0f;
+    private float gunOffsetX = 40f;
+    private float gunoffsetY = 160f;
+    private float leftHandOffsetX = -10f;
+    private float leftHandOffsetY = 135f;
+    private float rightHandOffsetX = 85f;
+    private float rightHandOffsetY = 125f;
+    private float headOffsetX = 50f;
+    private float headOffsetY = 300f;
 
 
     /// Initiates a character composed of several bodypart textures.
@@ -49,8 +49,8 @@ public class CharacterRig {
                         Texture rightFootTex, Texture gunTex, Texture leftHandTex,
                         Texture rightHandTex, Texture headTex, float scale) {
         this.scale = scale;
-        body = new BodyPart(bodyTex, bodyOffsetX, bodyOffsetY);
-        face = new BodyPart(faceTex, faceOffsetX, faceOffsetY * scale);
+        body = new BodyPart(bodyTex, bodyOffsetX * scale, bodyOffsetY * scale);
+        face = new BodyPart(faceTex, faceOffsetX * scale, faceOffsetY * scale);
         leftFoot = new BodyPart(leftFootTex, leftFootOffsetX * scale, leftFootOffsetY * scale);
         rightFoot = new BodyPart(rightFootTex, rightFootOffsetX * scale, rightFootOffsetY * scale);
         gun = new BodyPart(gunTex, gunOffsetX * scale, gunoffsetY * scale);
@@ -91,7 +91,8 @@ public class CharacterRig {
 
     /// Draws the character on a canvas.
     /// Is called multiple times per second.
-    /// Order determines what is pushed to the front.
+    /// Order determines what is pushed to the front,
+    /// e.g. feet drawn before body makes feet appear behind body.
     ///
     /// @param batch Canvas to draw on
     /// @param x Where to draw character horizontally
@@ -99,13 +100,18 @@ public class CharacterRig {
     /// @param mirrored Whether character is mirrored on the x-axis
     ///
     public void draw(SpriteBatch batch, float x, float y, boolean mirrored) {
-        leftFoot.draw(batch, x, y, mirrored);
-        rightFoot.draw(batch, x, y, mirrored);
-        body.draw(batch, x, y, mirrored);
-        head.draw(batch, x, y, mirrored);
-        face.draw(batch, x, y, mirrored);
-        leftHand.draw(batch, x, y, mirrored);
-        rightHand.draw(batch, x, y, mirrored);
-        gun.draw(batch, x, y, mirrored);
+
+        float feetHeight = leftFoot.getHeight();
+
+        float baseY = y + feetHeight / 2f;
+
+        rightFoot.draw(batch, x, baseY, mirrored);
+        body.draw(batch, x, baseY, mirrored);
+        leftFoot.draw(batch, x, baseY, mirrored);
+        head.draw(batch, x, baseY, mirrored);
+        face.draw(batch, x, baseY, mirrored);
+        gun.draw(batch, x, baseY, mirrored);
+        leftHand.draw(batch, x, baseY, mirrored);
+        rightHand.draw(batch, x, baseY, mirrored);
     }
 }
