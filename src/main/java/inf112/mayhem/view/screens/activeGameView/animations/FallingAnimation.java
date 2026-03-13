@@ -6,7 +6,7 @@ public class FallingAnimation extends AbstractAnimation {
 
     @Override
     protected void animate(CharacterRig character, float elapsedTime) {
-        character.leftFoot.addOffset(0, -5);
-        character.rightFoot.addOffset(0, -5);
+        character.leftFoot.addOffset(0, -10f * character.leftFoot.getScaleY());
+        character.rightFoot.addOffset(0, -10f * character.rightFoot.getScaleY());
     }
 }
