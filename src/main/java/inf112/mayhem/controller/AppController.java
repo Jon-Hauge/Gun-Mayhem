@@ -12,6 +12,7 @@ import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.view.maps.TileMapHelper;
+import inf112.mayhem.view.hud.HudView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
@@ -22,6 +23,7 @@ public class AppController implements ApplicationListener, IController {
     private MainMenuView mainMenuView;
     private PauseView pauseView;
     private GameOverView gameOverView;
+    private HudView hudView;
     private AppWorld world;
     private boolean paused = false;
     private boolean gameOver = false;
@@ -57,6 +59,7 @@ public class AppController implements ApplicationListener, IController {
         pauseView.create(world.width(), world.height());
         gameOverView = new GameOverView(this);
         gameOverView.create(world.width(), world.height());
+        hudView = new HudView(world, this);
 
         Gdx.graphics.setForegroundFPS(60);
 
@@ -70,6 +73,7 @@ public class AppController implements ApplicationListener, IController {
         mainMenuView.dispose();
         pauseView.dispose();
         gameOverView.dispose();
+        hudView.dispose();
     }
 
     @Override
@@ -101,6 +105,8 @@ public class AppController implements ApplicationListener, IController {
                 // 4. Tegn til slutt
                 world.removeInactive();
                 activeGameView.render(world, delta);
+                hudView.update(playerController.getPlayer());
+                hudView.render();
             }
             case PAUSED    -> pauseView.render();
             case GAME_OVER -> gameOverView.render();
@@ -114,6 +120,7 @@ public class AppController implements ApplicationListener, IController {
         mainMenuView.resize(width, height);
         pauseView.resize(width, height);
         gameOverView.resize(width, height);
+        hudView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
     }
 
