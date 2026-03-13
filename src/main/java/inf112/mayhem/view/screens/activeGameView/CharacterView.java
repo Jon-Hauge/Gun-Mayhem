@@ -37,7 +37,7 @@ public class CharacterView {
         characterRig.resetOffsets();
 
         AbstractAnimation currAnimation = switch(entity.state()) {
-            case WALKING_RIGHT, WALKING_LEFT ->  walkingAnimation;
+            case WALKING ->  walkingAnimation;
             case JUMPING ->   jumpingAnimation;
             case FALLING ->   fallingAnimation;
             default ->  idleAnimation;
