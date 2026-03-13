@@ -36,11 +36,8 @@ public class ActiveGameView {
     private ShapeRenderer shape; // used for drawing shapes
     private Map<String, Texture> textures = new HashMap<>();
     private AppController controller;
-    private WalkingRightAnimation walkingRightAnimation;
-    private WalkingLeftAnimation walkingLeftAnimation;
-    private JumpingRightAnimation jumpingRightAnimation;
-    private JumpingLeftAnimation jumpingLeftAnimation;
-    private float elapsedTime;
+    private CharacterRig characterRig;
+    private CharacterView characterView;
     
     //TILEMAP
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -58,14 +55,9 @@ public class ActiveGameView {
         this.shape = new ShapeRenderer();
 
         // LOAD ANIMATIONS
-        this.walkingRightAnimation = new WalkingRightAnimation();
-        walkingRightAnimation.createAnimation(walkingRightAnimation.getAnimationTexture());
-        this.walkingLeftAnimation = new WalkingLeftAnimation();
-        walkingLeftAnimation.createAnimation(walkingLeftAnimation.getAnimationTexture());
-        this.jumpingRightAnimation = new JumpingRightAnimation();
-        jumpingRightAnimation.createAnimation(jumpingRightAnimation.getAnimationTexture());
-        this.jumpingLeftAnimation = new JumpingLeftAnimation();
-        jumpingLeftAnimation.createAnimation(jumpingLeftAnimation.getAnimationTexture());
+        this.characterRig = initiateCharacterRig();
+        this.characterView = new CharacterView(characterRig);
+
         
         //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
@@ -91,6 +83,19 @@ public class ActiveGameView {
         Gdx.graphics.setForegroundFPS(60);
     }
 
+    private CharacterRig initiateCharacterRig() {
+        return new CharacterRig(
+                new Texture(Gdx.files.internal("character_sprites/body.png")),
+                new Texture(Gdx.files.internal("character_sprites/face.png")),
+                new Texture(Gdx.files.internal("character_sprites/feet.png")),
+                new Texture(Gdx.files.internal("character_sprites/feet.png")),
+                new Texture(Gdx.files.internal("character_sprites/gun_glock.png")),
+                new Texture(Gdx.files.internal("character_sprites/hands.png")),
+                new Texture(Gdx.files.internal("character_sprites/hands.png")),
+                new Texture(Gdx.files.internal("character_sprites/head.png")),
+                0.2f);
+    }
+
     /*
      * Loading everything at startup prevents glitches later on.
      */
@@ -112,12 +117,12 @@ public class ActiveGameView {
                 "maps/level2_midnightcity/Tileset.png",
                 "maps/level2_midnightcity/Trap.png",
         
-                "idle_left.png",
-                "idle_right.png",
-                "walking_right_animation.png",
-                "walking_left_animation.png",
-                "jumping_left_animation.png",
-                "jumping_right_animation.png"
+                "character_sprites/body.png",
+                "character_sprites/face.png",
+                "character_sprites/feet.png",
+                "character_sprites/gun_glock.png",
+                "character_sprites/hands.png",
+                "character_sprites/head.png"
         )) {
             getTexture(fileName);
         }
@@ -209,9 +214,6 @@ public class ActiveGameView {
             batch.end();
         }
 
-        // Get elapsed time for animations
-        elapsedTime += delta;
-
         // Tiled Map
         orthogonalTiledMapRenderer.setView(camera);
         orthogonalTiledMapRenderer.render();
@@ -221,47 +223,12 @@ public class ActiveGameView {
         // PLAYER
         batch.begin();
         try {
-            
             for (EntityModel obj : world) {
-
                 if (obj.type().equals(EntityType.PLAYER)) {
-
-                    EntityState state = obj.state();
-                    int direction = obj.getDirection();
-
-                    if (state.equals(EntityState.IDLE) && direction == 1) {
-                        Texture currentFrame = getTexture("idle_right.png");
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    } else if (state.equals(EntityState.IDLE) && direction == -1) {
-                        Texture currentFrame = getTexture("idle_left.png");
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    } else if (state.equals(EntityState.JUMPING) && direction == 1) {
-                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    } else if (state.equals(EntityState.JUMPING) && direction == -1) {
-                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    } else if (state.equals(EntityState.FALLING) && direction == 1) {
-                        Texture currentFrame = getTexture("idle_right.png");
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    } else if (state.equals(EntityState.FALLING) && direction == -1) {
-                        Texture currentFrame = getTexture("idle_left.png");
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    } else if (state.equals(EntityState.WALKING_LEFT)) {
-                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    } else if (state.equals(EntityState.WALKING_RIGHT)) {
-                        TextureRegion currentFrame = currAnimation(obj, direction).getAnimation().getKeyFrame(elapsedTime);
-                        batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                    }
+                    characterView.draw(batch, obj, delta);
                 }
             }
 
-                //TextureRegion currentFrame = currAnimation(obj).
-                //        getAnimation().getKeyFrame(elapsedTime);
-                //if (currentFrame != null) {
-                //    batch.draw(currentFrame, obj.x(), obj.y(), obj.width(), obj.height());
-                //}
         } finally {
         	batch.end();
         }
@@ -272,15 +239,13 @@ public class ActiveGameView {
             for (EntityModel obj : world) {
                 if (obj.type() == EntityType.PROJECTILE) {
                     shape.setColor(Color.YELLOW);
-                    shape.rect(obj.x(), obj.y(), obj.width(), obj.height());
+                    shape.rect(obj.x() - 2.5f, obj.y() + 25, obj.width(), obj.height());
                 }
             }
         } finally {
             shape.end();
         }
-        
-        
-        
+
 
         // Draw a simple platform shape after batch is closed.
 //        shape.begin(ShapeRenderer.ShapeType.Filled);
@@ -304,24 +269,6 @@ public class ActiveGameView {
         // shape.setColor(Color.BLUE);
         // shape.box(100, 100, 0, 100, 100, 0);
         // shape.end();
-
-    }
-
-    public AbstractAnimation currAnimation(EntityModel entity, int direction) {
-        AbstractAnimation currAnimation = walkingRightAnimation;
-
-        switch (entity.state()) {
-            case WALKING_LEFT -> currAnimation = walkingLeftAnimation;
-            case WALKING_RIGHT -> currAnimation = walkingRightAnimation;
-            case JUMPING -> {
-                if (direction == 1) {
-                    currAnimation = jumpingRightAnimation;
-                } else {
-                    currAnimation = jumpingLeftAnimation;
-                }
-            }
-        }
-        return currAnimation;
 
     }
 
