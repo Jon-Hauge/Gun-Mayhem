@@ -23,6 +23,10 @@ public class PlayerController {
 		this.fac = fac;
 	}
 	
+	public PlayerModel getPlayer() {
+		return player;
+	}
+
 	public void update(float delta) {
 	    float x = 0f;
 	    
@@ -51,8 +55,9 @@ public class PlayerController {
 	    	player.drop();
 	    }
 
-	    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && COOLDOWN_TIMER <= 0) {
+	    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && COOLDOWN_TIMER <= 0 && player.getAmmo() > 0) {
 	        fac.spawnProjectile(player);
+	        player.ammo--;
 	        COOLDOWN_TIMER = COOLDOWN_DURATION;
 	    }
 	      

@@ -256,29 +256,6 @@ public class ActiveGameView {
         }
 
 
-        // Draw a simple platform shape after batch is closed.
-//        shape.begin(ShapeRenderer.ShapeType.Filled);
-//        try {
-//            shape.setColor(Color.BLUE);
-//            // BOTTOM LAYER
-//            shape.rect(128f, 100f, 1024f, 20f);
-//            // MIDDLE LAYER LEFT
-//            shape.rect(192f, 220f, 256f, 20f);
-//            // MIDDLE LAYER RIGHT
-//            shape.rect(1280-192-256f, 220f, 256f, 20f);
-//            // TOP LAYER
-//            shape.rect(640-512/2f, 340f, 512f, 20f);
-//        } finally {
-//            shape.end();
-//        }
-
-        // It's also possible to draw simple shapes
-        // shape.begin(ShapeType.Filled);
-        // shape.setProjectionMatrix(viewport.getCamera().combined);
-        // shape.setColor(Color.BLUE);
-        // shape.box(100, 100, 0, 100, 100, 0);
-        // shape.end();
-
     }
 
     public void resize(int width, int height) {
