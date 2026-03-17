@@ -27,6 +27,7 @@ import inf112.mayhem.model.EntityState;
 import inf112.mayhem.model.EntityType;
 import inf112.mayhem.view.maps.TileMapHelper;
 
+
 public class ActiveGameView {
 
     private Viewport viewport; // defines screen / world size, aspect ratio and camera
@@ -199,7 +200,58 @@ public class ActiveGameView {
         // Start with a blank screen
         ScreenUtils.clear(Color.BLACK);
 
-        // Camera
+        // Set camera at average of players
+        // Find players
+        float minX = Float.MAX_VALUE;
+        float maxX = -Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
+        float maxY = -Float.MAX_VALUE;
+
+        float sumX = 0;
+        float sumY = 0;
+
+        int playerCount = 0;
+
+        // Fix zoom
+        for (EntityModel obj : world) {
+            if (obj.type() == EntityType.PLAYER) {
+                float x = obj.x();
+                float y = obj.y();
+
+                minX = Math.min(minX, x);
+                maxX = Math.max(maxX, x);
+                minY = Math.min(minY, y);
+                maxY = Math.max(maxY, y);
+
+                sumX += x;
+                sumY += y;
+
+                playerCount++;
+            }
+        }
+
+        if (playerCount > 0) {
+            float avgX = sumX / playerCount;
+            float avgY = sumY / playerCount;
+
+            camera.position.set(avgX, avgY, 0);
+
+            float width = maxX - minX;
+            float height = maxY - minY;
+
+            float padding = 2500f * scale;
+            width += padding;
+            height += padding;
+
+            float zoomX = width / camera.viewportWidth;
+            float zoomY = height / camera.viewportHeight;
+
+            float targetZoom = Math.max(zoomX, zoomY);
+            targetZoom = Math.max(0.5f, Math.min(targetZoom, 2.5f));
+            camera.zoom += (targetZoom - camera.zoom) * 0.1f;
+        }
+
+        // Continue camera
         camera.update();
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shape.setProjectionMatrix(viewport.getCamera().combined);
@@ -209,7 +261,12 @@ public class ActiveGameView {
         try {
             Texture background = getTexture("maps/level1_heaven/background.png");
             if (background != null) {
-                batch.draw(background, 0, 0, (float) worldWidth(), (float) worldHeight());
+                float camWidth = camera.viewportWidth * camera.zoom;
+                float camHeight = camera.viewportHeight * camera.zoom;
+                float camX = camera.position.x - camWidth / 2f;
+                float camY = camera.position.y - camHeight / 2f;
+
+                batch.draw(background, camX, camY, camWidth, camHeight);
             }
         } finally {
             batch.end();
@@ -225,7 +282,7 @@ public class ActiveGameView {
         batch.begin();
         try {
             for (EntityModel obj : world) {
-                if (obj.type().equals(EntityType.PLAYER)) {
+                if (obj.type() == EntityType.PLAYER) {
                     characterView.draw(batch, obj, delta);
                 }
             }
@@ -261,7 +318,6 @@ public class ActiveGameView {
     public void resize(int width, int height) {
         // Called whenever the window is resized (including with its original size at
         // startup)
-
         viewport.update(width, height, true);
         // System.out.printf("%dx%d, %fx%f%n", viewport.getScreenWidth(),
         // viewport.getScreenHeight(),
