@@ -60,6 +60,7 @@ public class AppController implements ApplicationListener, IController {
         gameOverView = new GameOverView(this);
         gameOverView.create(world.width(), world.height());
         hudView = new HudView(world, this);
+        hudView.create(world.width(), world.height());
 
         Gdx.graphics.setForegroundFPS(60);
 
@@ -80,12 +81,16 @@ public class AppController implements ApplicationListener, IController {
     public void render() {
     	float delta = Gdx.graphics.getDeltaTime();
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            if (paused) resume();
-            else pause();
+            if (world.state() == GameState.ACTIVE || world.state() == GameState.PAUSED) {
+                if (paused) resume();
+                else pause();
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            restartGame();
+            if (world.state() == GameState.ACTIVE) {
+                restartGame();
+            }
         }
     	
     	switch (world.state()) {
