@@ -19,7 +19,12 @@ import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.view.screens.AbstractScreenView;
 
-// HUD shown during gameplay. This hud includes elements displaying useful information about the player in the game.
+
+/**
+ * The HudView class is responsible for displaying information during active gameplay
+ * such as remaining lives and ammo levels.
+ * The HUD elements are rendered as an overlay on top of the game world.
+ */
 public class HudView extends AbstractScreenView {
     private AppController controller;
     private Table table;
@@ -38,17 +43,33 @@ public class HudView extends AbstractScreenView {
     private float barWidth = 175;
     private float barHeight = 20;
 
+    /**
+     * Constructs a new HudView with the given world and controller.
+     *
+     * @param world The game world.
+     * @param controller The application controller for handling state transitions.
+     */
     public HudView(AppWorld world, AppController controller) {
         this.controller = controller;
-        this.shape = new ShapeRenderer();
     }
 
+    /**
+     * Initializes the HUD's stage and UI elements.
+     *
+     * @param worldWidth The width of the virtual viewport.
+     * @param worldHeight The height of the virtual viewport.
+     */
     @Override
     public void create(double worldWidth, double worldHeight) {
         this.stage = new Stage(new FitViewport((float) worldWidth, (float) worldHeight));
+        this.shape = new ShapeRenderer();
         createUI();
     }
 
+    /**
+     * Sets up the layout and style of the HUD components.
+     * This includes creating fonts, labels, and the main UI table.
+     */
     @Override
     protected void createUI() {
         table = new Table();
@@ -78,11 +99,21 @@ public class HudView extends AbstractScreenView {
         stage.addActor(table);
     }
 
+    /**
+     * Returns the table containing buttons for this view.
+     * HudView does not use buttons, so this returns null.
+     *
+     * @return null
+     */
     @Override
     protected Table createButtons() {
         return null;
     }
 
+    /**
+     * Renders the HUD elements to the screen.
+     * This includes drawing the stage (labels) and custom-rendering the ammo bar using ShapeRenderer.
+     */
     public void render() {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -117,6 +148,11 @@ public class HudView extends AbstractScreenView {
         shape.end();
     }
 
+    /**
+     * Updates the HUD's internal state and labels based on the current player model.
+     *
+     * @param player The current player instance.
+     */
     public void update(PlayerModel player) {
         if (player != null) {
             this.currentLives = player.getLives();
@@ -125,6 +161,9 @@ public class HudView extends AbstractScreenView {
         }
     }
 
+    /**
+     * Releases all resources used by the HudView, including the stage, fonts, and ShapeRenderer.
+     */
     public void dispose() {
         stage.dispose();
         if (font != null) {
