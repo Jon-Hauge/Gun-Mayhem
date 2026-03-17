@@ -12,13 +12,10 @@ public interface EntityModel {
 	EntityState state();
 	
 	void updateState();
+	void updateBounds();
 	void update(AppWorld world, float delta);
 
 	Rectangle bounds();
 	boolean isActive();
 	void setActive(boolean active);
-	public int getDirection();
-	void hit(EntityModel obj);
-
-
 }

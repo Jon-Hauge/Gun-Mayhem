@@ -20,7 +20,7 @@ public class EntityFactory {
 	}
 	
 	public void spawnProjectile(PlayerModel player) {
-		ProjectileModel projectile = new ProjectileModel(player);
+		ProjectileClass projectile = new ProjectileClass(player);
 		world.add(projectile);
 	}
 

@@ -155,8 +155,8 @@ public class HudView extends AbstractScreenView {
      */
     public void update(PlayerModel player) {
         if (player != null) {
-            this.currentLives = player.getLives();
-            this.currentAmmo = player.getAmmo();
+            this.currentLives = player.lives();
+            this.currentAmmo = player.ammo();
             livesLabel.setText("LIVES: " + currentLives);
         }
     }
