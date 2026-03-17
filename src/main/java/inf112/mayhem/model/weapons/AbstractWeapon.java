@@ -83,18 +83,6 @@ public abstract class AbstractWeapon implements EntityModel{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setActive'");
     }
-
-    @Override
-    public int getDirection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
-    }
-
-    @Override
-    public void hit(EntityModel obj) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hit'");
-    }
     
     public void dropWeapon(){
         state = EntityState.DROPPED;
