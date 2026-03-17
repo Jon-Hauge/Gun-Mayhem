@@ -24,16 +24,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PauseView extends AbstractScreenView {
+    private AppWorld world;
     private AppController controller;
 
-    public PauseView(AppController controller) {
+    /**
+     * Constructs a new PauseView with the given world and controller.
+     *
+     * @param world The game world.
+     * @param controller The application controller for handling state transitions.
+     */
+    public PauseView(AppWorld world, AppController controller) {
+        this.world = world;
         this.controller = controller;
-    }
-
-    @Override
-    protected void createUI() {
-        Table pauseButtons = createButtons();
-        stage.addActor(pauseButtons);
+        create(world.width(), world.height());
     }
 
     @Override

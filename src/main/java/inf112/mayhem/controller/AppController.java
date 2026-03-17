@@ -12,7 +12,7 @@ import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.view.maps.TileMapHelper;
-import inf112.mayhem.view.hud.HudView;
+import inf112.mayhem.view.screens.hud.HudView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
@@ -41,28 +41,22 @@ public class AppController implements ApplicationListener, IController {
         TileMapHelper tileMapHelper = new TileMapHelper();
         TiledMap map = tileMapHelper.setupMap();
         EntityFactory fac = new EntityFactory(world, map);
-        EntityFactory dummy = new EntityFactory(world, map);
         
         // Send kartet til collision handler i model
         pCollision = new ProjectileCollisionHandler(world);
         
         //PLAYER
-        
         playerController = fac.spawnPlayer(500f, 400f);
-        dummy.spawnPlayer(900f, 400f);
+        // Spawn dummies
+        fac.spawnPlayer(900f, 400f);
         world.add(playerModel);
 
         // VIEW: graphics
-        activeGameView = new ActiveGameView();
-        activeGameView.create(world.width(), world.height(), this);
-        mainMenuView = new MainMenuView(this);
-        mainMenuView.create(world.width(), world.height());
-        pauseView = new PauseView(this);
-        pauseView.create(world.width(), world.height());
-        gameOverView = new GameOverView(this);
-        gameOverView.create(world.width(), world.height());
+        activeGameView = new ActiveGameView(world, this);
+        mainMenuView = new MainMenuView(world, this);
+        pauseView = new PauseView(world, this);
+        gameOverView = new GameOverView(world, this);
         hudView = new HudView(world, this);
-        hudView.create(world.width(), world.height());
 
         Gdx.graphics.setForegroundFPS(60);
 
