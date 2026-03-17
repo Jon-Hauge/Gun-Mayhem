@@ -17,5 +17,4 @@ public interface EntityModel {
 
 	Rectangle bounds();
 	boolean isActive();
-	void setActive(boolean active);
 }

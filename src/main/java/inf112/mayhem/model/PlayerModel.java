@@ -10,6 +10,7 @@ import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 public class PlayerModel implements CharacterModel {
 	private MapCollisionHandler collision;
 	private ProjectileCollisionHandler pCollision;
+	private final int WORLD_PADDING = 200;
 	private final Vector2 position = new Vector2();
     public final Vector2 velocity = new Vector2();
     private final Vector2 size = new Vector2(32, 32);
@@ -33,9 +34,15 @@ public class PlayerModel implements CharacterModel {
     private boolean active = true;
     private boolean ignorePlatforms = false;
     
+    private float startX;
+    private float startY;
+    
 	public PlayerModel(float startX, float startY, TiledMap map) {
 		this.collision = new MapCollisionHandler(map);
-		position.set(startX, startY);
+		this.startX = startX;
+		this.startY = startY;
+		
+		respawn();
         updateBounds();
 	}
 	
@@ -130,8 +137,13 @@ public class PlayerModel implements CharacterModel {
 		    position.y = collision.getGroundY(bounds, ignorePlatforms);
 		    jump_counter = 0;
 		    updateBounds();
+		} else if (outOfBounds(world)) {
+			this.lives -= 1;
+			respawn();
+		} else if (this.lives == 0) {
+			die();
 		} else {
-		    isGrounded = false;
+			isGrounded = false;
 		}
 
 	    //DROP TIMER
@@ -141,9 +153,13 @@ public class PlayerModel implements CharacterModel {
 	    }
 
 	    //WORLD BASED ON PLAYER BOUNDS
-	    position.x = Math.max(0, Math.min(position.x, (float) world.width() - size.x));
-	    position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
+	    position.x = Math.max(0 - WORLD_PADDING, Math.min(position.x, (float) world.width() + WORLD_PADDING));
+	    position.y = Math.max(0 - WORLD_PADDING, Math.min(position.y, (float) world.height() + WORLD_PADDING));
 	    updateBounds();
+	    
+	    if (!isActive()) {
+	    	respawn();
+	    }
 	}
 	
 	@Override
@@ -184,11 +200,24 @@ public class PlayerModel implements CharacterModel {
 	public boolean isActive() {
 		return this.active;
 	}
+	
+	@Override
+	public boolean outOfBounds(AppWorld world) {
+		return bounds().x < 0 ||
+		    bounds().x + bounds().width > world.width() ||
+		    bounds().y < 0 ||
+		    bounds().y + bounds().height > world.height();
+	    
+	}
+	
+	@Override
+	public void die() {
+		this.active = false;
+	}
 
 	@Override
-	public void setActive(boolean active) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'setActive'");
+	public void respawn() {
+		position.set(this.startX, this.startY);
 	}
 
 }
