@@ -40,7 +40,9 @@ public class ActiveGameView {
     private CharacterRig characterRig;
     private CharacterView characterView;
     private final float scale = 0.15f;
-    
+    private float smoothCamX = 0;
+    private float smoothCamY = 0;
+
     //TILEMAP
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TileMapHelper tileMapHelper = new TileMapHelper();
@@ -103,20 +105,10 @@ public class ActiveGameView {
     private void preloadTextures() {
         for (String fileName : List.of(
                 "maps/level1_heaven/background.png",
-        
-                "maps/level2_midnightcity/background.png",
-                "maps/level2_midnightcity/4.png",
-                "maps/level2_midnightcity/18.png",
-                "maps/level2_midnightcity/24.png",
-                "maps/level2_midnightcity/25.png",
-                "maps/level2_midnightcity/26.png",
-                "maps/level2_midnightcity/Box1.png",
-                "maps/level2_midnightcity/Box3.png",
-                "maps/level2_midnightcity/Box5.png",
-                "maps/level2_midnightcity/Ladder2.png",
-                "maps/level2_midnightcity/Ladder3.png",
-                "maps/level2_midnightcity/Tileset.png",
-                "maps/level2_midnightcity/Trap.png",
+                "maps/level1_heaven/1.png",
+                "maps/level1_heaven/2.png",
+                "maps/level1_heaven/3.png",
+                "maps/level1_heaven/4.png",
         
                 "character_sprites/body.png",
                 "character_sprites/face.png",
@@ -179,7 +171,7 @@ public class ActiveGameView {
         // Tiled Map
         orthogonalTiledMapRenderer.setView(camera);
         orthogonalTiledMapRenderer.render();
-        
+
         // Draw entities
         drawEntities(world, delta);
     }
@@ -229,6 +221,9 @@ public class ActiveGameView {
             float targetZoom = Math.max(zoomX, zoomY);
             targetZoom = Math.max(0.5f, Math.min(targetZoom, 2.5f));
             camera.zoom += (targetZoom - camera.zoom) * 0.1f;
+
+            smoothCamX += (camera.position.x - smoothCamX) * 0.1f;
+            smoothCamY += (camera.position.y - smoothCamY) * 0.1f;
         }
 
         camera.update();
@@ -239,16 +234,19 @@ public class ActiveGameView {
     private void drawBackground() {
         batch.begin();
         try {
-            Texture background = getTexture("maps/level1_heaven/background.png");
-            if (background != null) {
-                float camWidth = camera.viewportWidth * camera.zoom;
-                float camHeight = camera.viewportHeight * camera.zoom;
-                float camX = camera.position.x - camWidth / 2f;
-                float camY = camera.position.y - camHeight / 2f;
+            float viewWidth = camera.viewportWidth * camera.zoom;
+            float viewHeight = camera.viewportHeight * camera.zoom;
 
-                batch.draw(background, camX, camY, camWidth, camHeight);
-            }
-        } finally {
+            float camLeft = camera.position.x - (viewWidth / 2f);
+            float camBottom = camera.position.y - (viewHeight / 2f);
+
+            drawLayer(getTexture("maps/level1_heaven/1.png"), camLeft, camBottom, viewWidth, viewHeight, 0.1f, 5.0f);
+            drawLayer(getTexture("maps/level1_heaven/2.png"), camLeft, camBottom, viewWidth, viewHeight, 0.2f, 5.0f);
+            drawLayer(getTexture("maps/level1_heaven/3.png"), camLeft, camBottom, viewWidth, viewHeight, 0.3f, 5.0f);
+            drawLayer(getTexture("maps/level1_heaven/4.png"), camLeft, camBottom, viewWidth, viewHeight, 0.4f, 5.0f);
+
+        }
+        finally {
             batch.end();
         }
     }
@@ -257,7 +255,7 @@ public class ActiveGameView {
         batch.begin();
         try {
             for (EntityModel obj : world) {
-            	
+
                 if (obj instanceof CharacterModel character) {
                     characterView.draw(batch, character, delta);
 
@@ -288,6 +286,47 @@ public class ActiveGameView {
         } finally {
             shape.end();
         }
+
+    }
+
+    /**
+     * Renders a parallax background layer.
+     *
+     * @param tex The texture to draw.
+     * @param camLeft The camera's left position.
+     * @param camBottom The camera's bottom position.
+     * @param vW The viewport width.
+     * @param vH The viewport height.
+     * @param pFactor The parallax factor (0.0 means fixed to camera, higher values move slower).
+     * @param texScale The scale of the texture.
+     */
+    private void drawLayer(Texture tex, float camLeft, float camBottom, float vW, float vH, float pFactor, float texScale) {
+        if (tex == null) return;
+
+        if (tex.getUWrap() != Texture.TextureWrap.Repeat || tex.getVWrap() != Texture.TextureWrap.Repeat) {
+            tex.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        }
+
+        float texWorldWidth = tex.getWidth() * texScale;
+        float texWorldHeight = tex.getHeight() * texScale;
+
+        float viewSpanU = vW / texWorldWidth;
+        float viewSpanV = vH / texWorldHeight;
+
+        float offsetU = (smoothCamX * pFactor) / texWorldWidth;
+        float offsetV = (smoothCamY * pFactor) / texWorldHeight;
+
+        float u = 0.5f + offsetU - (viewSpanU / 2f);
+        float v = 0.5f + offsetV - (viewSpanV / 2f);
+
+        float u2 = u + viewSpanU;
+        float v2 = v + viewSpanV;
+
+        batch.draw(tex,
+                camLeft, camBottom,
+                vW, vH,
+                u, v2, u2, v
+        );
     }
 
     /// Resizes screen to account for changes in resolution
