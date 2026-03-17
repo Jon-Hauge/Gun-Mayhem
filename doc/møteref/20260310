@@ -1,0 +1,35 @@
+**Møtereferat**
+
+**Dato:** 10/03/2026
+
+**Emne:** Gruppetime med gruppeleder
+
+**Tilstede:**
+Fullt oppmøte
+
+**Saker som ble gjennomgått**
+
+1. **Bugfix**
+   - Fikset feil der spilleren kunne falle gjennom plattformer.
+
+2. **UI / HUD**
+   - Startet implementasjon av Game HUD.
+   - Oppdatert startskjerm og pause-skjerm.
+
+3. **Prosjektstruktur og samarbeid**
+   - Diskutert med gruppeleder hvordan vi skal:
+     - bruke tags i Git
+     - skrive møtereferater
+     - rydde og strukturere issue-board
+
+   - Gikk gjennom generell plan videre for prosjektet.
+
+4. **Kodearkitektur**
+   - Diskutert design av ny Items-klasse.
+
+5. **Spillinnhold**
+   - Bestemt at prosjektet skal ha flere nye maps.
+   - Enig om ny struktur for map-ressurser i prosjektet.
+
+**Oppsummering**
+Gruppen har jobbet med både bugfixing, UI-utvikling og forbedring av prosjektstruktur. Videre arbeid vil fokusere på implementasjon av items-systemet og utvikling av flere maps.
