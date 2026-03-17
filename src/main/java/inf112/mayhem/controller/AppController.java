@@ -41,6 +41,7 @@ public class AppController implements ApplicationListener, IController {
         TileMapHelper tileMapHelper = new TileMapHelper();
         TiledMap map = tileMapHelper.setupMap();
         EntityFactory fac = new EntityFactory(world, map);
+        EntityFactory dummy = new EntityFactory(world, map);
         
         // Send kartet til collision handler i model
         pCollision = new ProjectileCollisionHandler(world);
@@ -48,6 +49,7 @@ public class AppController implements ApplicationListener, IController {
         //PLAYER
         
         playerController = fac.spawnPlayer(500f, 400f);
+        dummy.spawnPlayer(900f, 400f);
         world.add(playerModel);
 
         // VIEW: graphics
