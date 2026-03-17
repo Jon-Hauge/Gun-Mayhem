@@ -1,7 +1,5 @@
 package inf112.mayhem.model;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -22,8 +20,8 @@ public class ProjectileClass implements ProjectileModel {
 
 
     public ProjectileClass(PlayerModel player) {
-		this.direction = player.getDirection();
 		this.player = player;
+		this.direction = player.getDirection();
 		
 		if (direction == -1) {
 	        this.position.x = player.x() - size.x;

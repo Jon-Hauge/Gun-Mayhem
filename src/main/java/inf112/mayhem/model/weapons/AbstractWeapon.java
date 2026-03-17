@@ -6,6 +6,7 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.EntityState;
 import inf112.mayhem.model.EntityType;
+import inf112.mayhem.model.PlayerModel;
 
 public abstract class AbstractWeapon implements EntityModel{
 
@@ -15,13 +16,21 @@ public abstract class AbstractWeapon implements EntityModel{
     private float height;
     private EntityState state;
     private WeaponType weaponType;
+    private int maxAmmo; //set ammo to -1 for inf
+    private int currentAmmo;
+    private float firingDelay;
+    private PlayerModel player;
 
-    public AbstractWeapon(float startX, float startY, float width, float height, WeaponType weaponType, EntityState startingState) {
+    public AbstractWeapon(float startX, float startY, PlayerModel player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
         this.x = startX;
         this.y = startY;
+        this.player = player;
         this.height = height;
         this.width = width;
         this.weaponType = weaponType;
+        this.maxAmmo = startingAmmo;
+        this.currentAmmo = startingAmmo;
+        this.firingDelay = firingDelay;
     }
 
     @Override
@@ -56,14 +65,12 @@ public abstract class AbstractWeapon implements EntityModel{
 
     @Override
     public void updateState() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateState'");
+        int i = 1; //MIDDLERTIDIG
     }
 
     @Override
     public void update(AppWorld world, float delta) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        int i = 1; //MIDDLERTIDIG
     }
 
     @Override
@@ -74,8 +81,7 @@ public abstract class AbstractWeapon implements EntityModel{
 
     @Override
     public boolean isActive() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isActive'");
+        return true; //MIDDLERTIDLIG
     }
 
     @Override
@@ -84,7 +90,12 @@ public abstract class AbstractWeapon implements EntityModel{
         throw new UnsupportedOperationException("Unimplemented method 'setActive'");
     }
 
-    
+    @Override
+    public void updateBounds() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setActive'");
+    }
+
     
     public void dropWeapon(){
         state = EntityState.DROPPED;
@@ -100,5 +111,38 @@ public abstract class AbstractWeapon implements EntityModel{
 
     public WeaponType getWeaponType(){
         return weaponType;
+    }
+
+    public boolean shoot(){
+        if(currentAmmo == 0){
+            return false;
+        }
+        if(currentAmmo < 0){
+            return true;
+        }
+        else {
+            currentAmmo -= 1;
+            return true;
+        }
+    }
+
+    public void pickUpAmmo(){
+        currentAmmo = maxAmmo;
+    }
+
+    public float getFiringDelay(){
+        return firingDelay;
+    }
+
+    public int getCurrentAmmo(){
+        return currentAmmo;
+    }
+
+    public int getMaxAmmo(){
+        return maxAmmo;
+    }
+
+    public PlayerModel getPlayer(){
+        return player;
     }
 }

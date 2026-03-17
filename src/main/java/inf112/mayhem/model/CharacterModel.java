@@ -10,5 +10,4 @@ public interface CharacterModel extends EntityModel {
 	void respawn();
 	int getDirection();
 	int lives();
-	int ammo();
 }

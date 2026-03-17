@@ -16,10 +16,9 @@ public class PlayerModel implements CharacterModel {
     private final Vector2 size = new Vector2(32, 32);
     private final Rectangle bounds = new Rectangle();
 	private int direction = 1;
-	public int lives = 3;
-	// Maybe add a gun class, so each gun has different ammo sizes (unlimited for default)
-	public int ammo = 10;
+	private int lives = 3;
 
+	
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 250f;
     private final float DOUBLE_JUMP_FORCE = 200f;
@@ -170,11 +169,6 @@ public class PlayerModel implements CharacterModel {
 	@Override
 	public int lives() {
 		return this.lives;
-	}
-
-	@Override
-	public int ammo() {
-		return this.ammo;
 	}
 
 	@Override

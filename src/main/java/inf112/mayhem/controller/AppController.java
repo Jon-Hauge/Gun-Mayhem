@@ -11,12 +11,13 @@ import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.TileMapHelper;
-import inf112.mayhem.view.screens.hud.HudView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
+import inf112.mayhem.view.screens.hud.HudView;
 
 public class AppController implements ApplicationListener, IController {
     private ActiveGameView activeGameView;
@@ -28,8 +29,10 @@ public class AppController implements ApplicationListener, IController {
     private boolean paused = false;
     private boolean gameOver = false;
     private PlayerModel playerModel;
-    ProjectileCollisionHandler pCollision;
+    private ProjectileCollisionHandler pCollision;
     private PlayerController playerController;
+    private WeaponController weaponController;
+    private AbstractWeapon weapon;
     
     @Override
     public void create() {
@@ -47,6 +50,7 @@ public class AppController implements ApplicationListener, IController {
         
         //PLAYER
         playerController = fac.spawnPlayer(500f, 400f);
+        weaponController = fac.spawnBaseWeapon(500f, 400f, playerController);        
         // Spawn dummies
         fac.spawnPlayer(900f, 400f);
         world.add(playerModel);
@@ -56,7 +60,7 @@ public class AppController implements ApplicationListener, IController {
         mainMenuView = new MainMenuView(world, this);
         pauseView = new PauseView(world, this);
         gameOverView = new GameOverView(world, this);
-        hudView = new HudView(world, this);
+        hudView = new HudView(world, this, weaponController.getWeapon());
 
         Gdx.graphics.setForegroundFPS(60);
 
@@ -101,6 +105,7 @@ public class AppController implements ApplicationListener, IController {
 
                 // 2. Les input etter isGrounded er oppdatert
                 playerController.update(delta);
+                weaponController.update(delta);
                 pCollision.checkCollisions();
 
                 // 4. Tegn til slutt
