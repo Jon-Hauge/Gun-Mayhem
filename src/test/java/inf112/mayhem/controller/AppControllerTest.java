@@ -113,6 +113,17 @@ public class AppControllerTest {
     }
 
     @Test
+    void testEscapeDoesNotPauseInMainMenu() {
+        world.setState(GameState.MAIN_MENU);
+        when(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)).thenReturn(true);
+        when(Gdx.graphics.getDeltaTime()).thenReturn(0.016f);
+
+        appController.render();
+
+        assertEquals(GameState.MAIN_MENU, world.state());
+    }
+
+    @Test
     void testResize() throws Exception {
         int width = 800;
         int height = 600;

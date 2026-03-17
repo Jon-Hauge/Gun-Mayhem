@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
@@ -39,9 +39,13 @@ public class HudView extends AbstractScreenView {
     private float barHeight = 20;
 
     public HudView(AppWorld world, AppController controller) {
-        this.stage = new Stage(new ScreenViewport());
         this.controller = controller;
         this.shape = new ShapeRenderer();
+    }
+
+    @Override
+    public void create(double worldWidth, double worldHeight) {
+        this.stage = new Stage(new FitViewport((float) worldWidth, (float) worldHeight));
         createUI();
     }
 
