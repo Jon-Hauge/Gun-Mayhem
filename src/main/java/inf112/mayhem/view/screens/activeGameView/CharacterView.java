@@ -1,6 +1,8 @@
 package inf112.mayhem.view.screens.activeGameView;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import inf112.mayhem.model.CharacterModel;
 import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.view.screens.activeGameView.animations.AbstractAnimation;
 import inf112.mayhem.view.screens.activeGameView.animations.IdleAnimation;
@@ -33,10 +35,10 @@ public class CharacterView {
     /// @param entity Entity model to draw player-state from
     /// @param delta Time passed in rendering
     ///
-    public void draw(SpriteBatch batch, EntityModel entity, float delta) {
+    public void draw(SpriteBatch batch, CharacterModel obj, float delta) {
         characterRig.resetOffsets();
 
-        AbstractAnimation currAnimation = switch(entity.state()) {
+        AbstractAnimation currAnimation = switch(obj.state()) {
             case WALKING ->  walkingAnimation;
             case JUMPING ->   jumpingAnimation;
             case FALLING ->   fallingAnimation;
@@ -44,7 +46,7 @@ public class CharacterView {
         };
 
         currAnimation.update(characterRig, delta);
-        boolean mirrored = entity.getDirection() == -1;
-        characterRig.draw(batch, entity.x(), entity.y(), mirrored);
+        boolean mirrored = obj.getDirection() == -1;
+        characterRig.draw(batch, obj.x(), obj.y(), mirrored);
     }
 }

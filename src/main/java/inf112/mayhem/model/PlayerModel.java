@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 
-public class PlayerModel implements EntityModel {
+public class PlayerModel implements CharacterModel {
 	private MapCollisionHandler collision;
 	private ProjectileCollisionHandler pCollision;
 	private final Vector2 position = new Vector2();
@@ -15,13 +15,10 @@ public class PlayerModel implements EntityModel {
     private final Vector2 size = new Vector2(32, 32);
     private final Rectangle bounds = new Rectangle();
 	private int direction = 1;
- public int lives = 3;
- // Maybe add a gun class, so each gun has different ammo sizes (unlimited for default)
- public int ammo = 10;
+	public int lives = 3;
+	// Maybe add a gun class, so each gun has different ammo sizes (unlimited for default)
+	public int ammo = 10;
 
-    
-    
-    
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 250f;
     private final float DOUBLE_JUMP_FORCE = 200f;
@@ -42,10 +39,12 @@ public class PlayerModel implements EntityModel {
         updateBounds();
 	}
 	
-	private void updateBounds() {
+	@Override
+	public void updateBounds() {
 	        bounds.set(position.x, position.y, size.x, size.y);
 	}
-	 
+	
+	@Override
 	public void jump() {
 		
 		if (isGrounded) {
@@ -58,6 +57,7 @@ public class PlayerModel implements EntityModel {
 		}
 	 }
 	
+	@Override
 	public void drop() {
 		if (isGrounded) {
 			velocity.y -= GRAVITY - 230f;
@@ -145,17 +145,21 @@ public class PlayerModel implements EntityModel {
 	    position.y = Math.max(0, Math.min(position.y, (float) world.height() - size.y));
 	    updateBounds();
 	}
-
 	
-
-
-	public void setDirection(int direction) {
-		this.direction = direction;
+	@Override
+	public void setDirection(int n) {
+		this.direction = n;
 	}
 
-	public int getLives() {return this.lives;}
+	@Override
+	public int lives() {
+		return this.lives;
+	}
 
-	public int getAmmo() {return this.ammo;}
+	@Override
+	public int ammo() {
+		return this.ammo;
+	}
 
 	@Override
 	public int getDirection() {
@@ -164,13 +168,11 @@ public class PlayerModel implements EntityModel {
 
 	@Override
 	public void hit(EntityModel obj) {
-		ProjectileModel projectile = (ProjectileModel) obj;
+		ProjectileClass projectile = (ProjectileClass) obj;
 
 		float knockBack = projectile.getKnockBackMultiplier();
 
 		velocity.x += knockBack * projectile.getDirection();
-
-		//Todo Update Posistion
 	}
 
 	@Override
@@ -188,6 +190,7 @@ public class PlayerModel implements EntityModel {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'setActive'");
 	}
+
 }
 
 	

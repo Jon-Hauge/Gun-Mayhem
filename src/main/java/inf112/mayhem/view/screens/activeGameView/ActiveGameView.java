@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.CharacterModel;
 import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.EntityState;
 import inf112.mayhem.model.EntityType;
@@ -225,8 +226,8 @@ public class ActiveGameView {
         batch.begin();
         try {
             for (EntityModel obj : world) {
-                if (obj.type().equals(EntityType.PLAYER)) {
-                    characterView.draw(batch, obj, delta);
+                if (obj instanceof CharacterModel character) {
+                    characterView.draw(batch, character, delta);
                 }
             }
 
