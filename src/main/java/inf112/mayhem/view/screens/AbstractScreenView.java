@@ -11,10 +11,57 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 public abstract class AbstractScreenView {
     protected Stage stage;
 
+    /// Creates a stationary stage and initiates UI
+    /// Should be called once before render()
+    ///
+    /// @param worldWidth width of the gameworld
+    /// @param worldHeight height of the gameworld
+    ///
+    public void create(double worldWidth, double worldHeight) {
+        this.stage = new Stage(new FillViewport((float) worldWidth, (float) worldHeight));
+        Table buttons = createButtons();
+        stage.addActor(buttons);
+    }
+
+    /// Creates a table containing the game-buttons separately from the stage
+    ///
+    protected abstract Table createButtons();
+
+    /// Renders the game world.
+    /// Happens multiple times per second
+    ///
+    public void render() {
+        com.badlogic.gdx.utils.ScreenUtils.clear(Color.WHITE);
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+    }
+
+    /// Resizes screen to account for changes in resolution
+    ///
+    /// @param width width of the resized screen
+    /// @param height height of the resized screen
+    ///
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
+
+    ///
+    /// @return current stage
+    ///
+    public Stage getStage() {
+        return stage;
+    }
+
+    /// Disposes all elements in stage
+    ///
+    public void dispose() {
+        stage.dispose();
+    }
+
     /// Generates a BitmapFont using FreeTypeFontGenerator
     ///
-    /// @param fontPath - path to the .ttf font file
-    /// @param size - font size in pixels
+    /// @param fontPath path to the .ttf font file
+    /// @param size font size in pixels
     /// @return generated BitmapFont
     ///
     protected BitmapFont generateFont(String fontPath, int size) {
@@ -23,11 +70,11 @@ public abstract class AbstractScreenView {
 
     /// Generates a BitmapFont using FreeTypeFontGenerator with drop shadows
     ///
-    /// @param fontPath - path to the .ttf font file
-    /// @param size - font size in pixels
-    /// @param shadowOffsetX - shadow offset on X axis
-    /// @param shadowOffsetY - shadow offset on Y axis
-    /// @param shadowColor - color of the shadow
+    /// @param fontPath path to the .ttf font file
+    /// @param size font size in pixels
+    /// @param shadowOffsetX shadow offset on X axis
+    /// @param shadowOffsetY shadow offset on Y axis
+    /// @param shadowColor color of the shadow
     /// @return generated BitmapFont
     ///
     protected BitmapFont generateFont(String fontPath, int size, int shadowOffsetX, int shadowOffsetY, Color shadowColor) {
@@ -36,13 +83,13 @@ public abstract class AbstractScreenView {
 
     /// Generates a BitmapFont using FreeTypeFontGenerator with drop shadows and stroke/border
     ///
-    /// @param fontPath - path to the .ttf font file
-    /// @param size - font size in pixels
-    /// @param shadowOffsetX - shadow offset on X axis
-    /// @param shadowOffsetY - shadow offset on Y axis
-    /// @param shadowColor - color of the shadow
-    /// @param borderWidth - thickness of the border (stroke)
-    /// @param borderColor - color of the border
+    /// @param fontPath path to the .ttf font file
+    /// @param size font size in pixels
+    /// @param shadowOffsetX shadow offset on X axis
+    /// @param shadowOffsetY shadow offset on Y axis
+    /// @param shadowColor color of the shadow
+    /// @param borderWidth thickness of the border (stroke)
+    /// @param borderColor color of the border
     /// @return generated BitmapFont
     ///
     protected BitmapFont generateFont(String fontPath, int size, int shadowOffsetX, int shadowOffsetY, Color shadowColor, float borderWidth, Color borderColor) {
@@ -62,56 +109,6 @@ public abstract class AbstractScreenView {
             Gdx.app.error("AbstractScreenView", "Could not load font: " + fontPath + ". Using default BitmapFont.", e);
             return new BitmapFont();
         }
-    }
-
-    /// Creates a stationary stage and initiates UI
-    /// Should be called once before render()
-    ///
-    /// @param worldWidth - width of the gameworld
-    /// @param worldHeight - height of the gameworld
-    ///
-    public void create(double worldWidth, double worldHeight) {
-        this.stage = new Stage(new FillViewport((float) worldWidth, (float) worldHeight));
-        createUI();
-    }
-
-    /// Creates UI for the game
-    ///
-    protected abstract void createUI();
-
-    /// Creates a table containing the game-buttons separately from the stage
-    ///
-    protected abstract Table createButtons();
-
-    /// Renders the game world
-    /// Happens multiple times per second
-    ///
-    public void render() {
-        com.badlogic.gdx.utils.ScreenUtils.clear(Color.WHITE);
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
-    }
-
-    /// Resizes screen to account for changes in resolution
-    ///
-    /// @param width - width of the resized screen
-    /// @param height - height of the resized screen
-    ///
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    ///
-    /// @return current stage
-    ///
-    public Stage getStage() {
-        return stage;
-    }
-
-    /// Disposes all elements in stage
-    ///
-    public void dispose() {
-        stage.dispose();
     }
 
 }

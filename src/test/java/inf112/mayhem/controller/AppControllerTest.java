@@ -6,7 +6,7 @@ import static org.mockito.Mockito.*;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
-import inf112.mayhem.view.hud.HudView;
+import inf112.mayhem.view.screens.hud.HudView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;

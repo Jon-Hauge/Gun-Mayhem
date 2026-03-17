@@ -26,16 +26,19 @@ import java.util.List;
 import java.util.Map;
 
 public class MainMenuView extends AbstractScreenView {
+    private AppWorld world;
     private AppController controller;
 
-    public MainMenuView(AppController controller) {
+    /**
+     * Constructs a new MainMenuView with the given world and controller.
+     *
+     * @param world The game world.
+     * @param controller The application controller for handling state transitions.
+     */
+    public MainMenuView(AppWorld world, AppController controller) {
+        this.world = world;
         this.controller = controller;
-    }
-
-    @Override
-    protected void createUI() {
-        Table mainMenuButtons = createButtons();
-        stage.addActor(mainMenuButtons);
+        create(world.width(), world.height());
     }
 
     @Override

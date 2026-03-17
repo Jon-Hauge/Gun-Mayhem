@@ -1,4 +1,4 @@
-package inf112.mayhem.view.hud;
+package inf112.mayhem.view.screens.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -26,6 +26,7 @@ import inf112.mayhem.view.screens.AbstractScreenView;
  * The HUD elements are rendered as an overlay on top of the game world.
  */
 public class HudView extends AbstractScreenView {
+    private AppWorld world;
     private AppController controller;
     private Table table;
     private Label livesLabel;
@@ -50,28 +51,23 @@ public class HudView extends AbstractScreenView {
      * @param controller The application controller for handling state transitions.
      */
     public HudView(AppWorld world, AppController controller) {
+        this.world = world;
         this.controller = controller;
+
+        this.stage = new Stage(new FitViewport((float) world.width(), (float) world.height()));
+        this.shape = new ShapeRenderer();
+        create(world.width(), world.height());
     }
 
     /**
      * Initializes the HUD's stage and UI elements.
+     * This includes creating fonts, labels, and the main UI table.
      *
      * @param worldWidth The width of the virtual viewport.
      * @param worldHeight The height of the virtual viewport.
      */
     @Override
     public void create(double worldWidth, double worldHeight) {
-        this.stage = new Stage(new FitViewport((float) worldWidth, (float) worldHeight));
-        this.shape = new ShapeRenderer();
-        createUI();
-    }
-
-    /**
-     * Sets up the layout and style of the HUD components.
-     * This includes creating fonts, labels, and the main UI table.
-     */
-    @Override
-    protected void createUI() {
         table = new Table();
         table.bottom().left();
         table.padLeft(50);
@@ -99,21 +95,12 @@ public class HudView extends AbstractScreenView {
         stage.addActor(table);
     }
 
-    /**
-     * Returns the table containing buttons for this view.
-     * HudView does not use buttons, so this returns null.
-     *
-     * @return null
-     */
     @Override
     protected Table createButtons() {
         return null;
     }
 
-    /**
-     * Renders the HUD elements to the screen.
-     * This includes drawing the stage (labels) and custom-rendering the ammo bar using ShapeRenderer.
-     */
+    @Override
     public void render() {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -161,9 +148,7 @@ public class HudView extends AbstractScreenView {
         }
     }
 
-    /**
-     * Releases all resources used by the HudView, including the stage, fonts, and ShapeRenderer.
-     */
+    @Override
     public void dispose() {
         stage.dispose();
         if (font != null) {

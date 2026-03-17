@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Matrix4;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.view.screens.hud.HudView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
