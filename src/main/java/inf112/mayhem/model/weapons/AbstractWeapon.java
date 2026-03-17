@@ -83,6 +83,8 @@ public abstract class AbstractWeapon implements EntityModel{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setActive'");
     }
+
+    
     
     public void dropWeapon(){
         state = EntityState.DROPPED;
@@ -94,5 +96,9 @@ public abstract class AbstractWeapon implements EntityModel{
 
     public void pickUpWeapon(){
         state = EntityState.OPENED_WEAPON_CRATE;
+    }
+
+    public WeaponType getWeaponType(){
+        return weaponType;
     }
 }
