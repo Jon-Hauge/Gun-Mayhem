@@ -7,13 +7,23 @@ import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.EntityState;
 import inf112.mayhem.model.EntityType;
 
-public class AbstractWeapon implements EntityModel{
-    float x;
-    float y;
-    float width; 
-    float height;
-    EntityState state;
-    
+public abstract class AbstractWeapon implements EntityModel{
+
+    private float x;
+    private float y;
+    private float width; 
+    private float height;
+    private EntityState state;
+    private WeaponType weaponType;
+
+    public AbstractWeapon(float startX, float startY, float width, float height, WeaponType weaponType, EntityState startingState) {
+        this.x = startX;
+        this.y = startY;
+        this.height = height;
+        this.width = width;
+        this.weaponType = weaponType;
+    }
+
     @Override
     public float x() {
         return x;
@@ -31,7 +41,7 @@ public class AbstractWeapon implements EntityModel{
 
     @Override
     public float height() {
-        return height();
+        return height;
     }
 
     @Override
@@ -46,37 +56,55 @@ public class AbstractWeapon implements EntityModel{
 
     @Override
     public void updateState() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateState'");
     }
 
     @Override
     public void update(AppWorld world, float delta) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
     public Rectangle bounds() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'bounds'");
     }
 
     @Override
     public boolean isActive() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isActive'");
     }
 
     @Override
     public void setActive(boolean active) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setActive'");
     }
 
     @Override
     public int getDirection() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDirection'");
     }
 
     @Override
     public void hit(EntityModel obj) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'hit'");
     }
     
+    public void dropWeapon(){
+        state = EntityState.DROPPED;
+    }
+
+    public void openCrate(){
+        state = EntityState.OPENED_WEAPON_CRATE;
+    }
+
+    public void pickUpWeapon(){
+        state = EntityState.OPENED_WEAPON_CRATE;
+    }
 }
