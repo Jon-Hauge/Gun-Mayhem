@@ -106,8 +106,8 @@ public class HudViewTest {
 
     @Test
     void testUpdateUpdatesLivesAndAmmo() throws Exception {
-        when(player.getLives()).thenReturn(5);
-        when(player.getAmmo()).thenReturn(15);
+        when(player.lives()).thenReturn(5);
+        when(player.ammo()).thenReturn(15);
 
         hudView.update(player);
 
