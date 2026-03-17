@@ -108,11 +108,6 @@ public class ProjectileClass implements ProjectileModel {
     public boolean isActive() {
         return this.active;
     }
-
-    @Override
-    public void setActive(boolean active) {
-        this.active = active;
-    }
     
     @Override
     public void hit(EntityModel obj) {
