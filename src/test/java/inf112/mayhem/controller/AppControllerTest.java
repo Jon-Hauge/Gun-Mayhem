@@ -1,22 +1,28 @@
 package inf112.mayhem.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import java.lang.reflect.Field;
 
-import com.badlogic.gdx.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
-import inf112.mayhem.view.screens.hud.HudView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
-import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.GameState;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Field;
+import inf112.mayhem.view.screens.hud.HudView;
 
 public class AppControllerTest {
 
@@ -54,7 +60,9 @@ public class AppControllerTest {
         setField(appController, "hudView", hudView);
 
         PlayerController playerController = mock(PlayerController.class);
+        WeaponController weaponController = mock(WeaponController.class);
         setField(appController, "playerController", playerController);
+        setField(appController, "weaponController", weaponController);
 
         ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
         setField(appController, "pCollision", pCollision);

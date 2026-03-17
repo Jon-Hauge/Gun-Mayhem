@@ -1,11 +1,8 @@
 package inf112.mayhem.view.screens.activeGameView.animations;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import inf112.mayhem.view.screens.activeGameView.CharacterRig;
 
 public abstract class AbstractAnimation {
-    private Animation<TextureRegion> animation;
     private float elapsedTime = 0;
 
     public void update(CharacterRig character, float delta) {
