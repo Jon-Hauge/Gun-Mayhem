@@ -85,12 +85,6 @@ public abstract class AbstractWeapon implements EntityModel{
     }
 
     @Override
-    public void setActive(boolean active) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setActive'");
-    }
-
-    @Override
     public void updateBounds() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setActive'");
