@@ -7,5 +7,4 @@ public interface CharacterModel extends EntityModel {
 	void setDirection(int n);
 	int getDirection();
 	int lives();
-	int ammo();
 }
