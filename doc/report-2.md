@@ -1,4 +1,14 @@
 # Rapport – innlevering 2
-**Team:** *Teamnavn* – *medlemmer*...
+**Team:** *Team Mayhem* – *Adrian, Jon, Malik, Sverre, Andreas, Aleksander*
+Prosjektrapport 2 – Team Mayhem
+Den 5. mars satt alle gruppemedlemmene seg sammen for å ferdigstille og få godkjent Del B-prototypen. Samarbeidet fungerte godt, og rollene delegert i Del A dekket både styrker og svakheter i gruppen, noe som bidro til et solid resultat med relativt god kodekvalitet.
+Rollene fra Del A ligger fortsatt fast, og vi ser ingen grunn til å endre teamlead eller kundekontakt på nåværende tidspunkt. Vi har derimot valgt å legge til en dedikert testrolle. Dette begrunnes med at testing er særlig sentralt for spilltypen vi utvikler, ettersom verdier som damage, knockback og gravitasjon må verifiseres hyppig for å oppnå god spillfølelse. Som en konsekvens av dette, kan assets-, lyd- og meny/HUD-teamet ha noe å gjøre dersom gameplay teamet skulle ligge bak i utviklingen. I tillegg til dette, har vi blitt bedre på å jobbe på tvers av roller som leder til at vi få en god demo.
+Den mest sentrale teammessige erfaringen siden forrige leveranse er de første merge-konfliktene vi støtte på. Årsaken var at vi glemte å fetche fra origin før vi begynte å jobbe, noe som resulterte i at én branch lå 17 commits bak main og 5 foran samtidig. Etter dette har alle blitt flinkere til å fetche med én gang man starter en arbeidsøkt og rett før man committer. Utover dette har det ikke vært store git-problemer, men et forbedringspunkt er å bli mer konsekvente på git-konvensjoner som commit-meldinger og branch-navngiving.
+Kommunikasjonen fungerer godt. Vi har en Snapchat-gruppe for å avtale arbeidsøkter og en Discord-server for mer teknisk kommunikasjon. Det er ingen uenigheter i gruppen per nå.
+Når det gjelder utviklingsmetodikk bruker vi Kanban som primær arbeidsmetodikk via GitLab issue board, og låner XP-prinsipper som enkelt design, kollektivt kodeeierskap og kontinuerlig integrasjon. Test Driven Development (TDD) praktiseres ikke i sin rene form da testing skjer manuelt underveis fremfor test-først. Vi erkjenner at dette er et avvik fra det vi skisserte i Del A, og at vi til en viss grad har bommet på å følge metodikken konsekvent. Når det gjelder TDD har vi bestemt oss for å skrive tester gjerne etter vi har refaktorert som vil lede til at vi slipper å skrive de samme testene om og om igjen. 
+Et annet punkt er Commit-fordelingen kunne ha blitt bedre blant medlemmene på gameplay-siden. Dette skyldes at to medlemmer jobbet på en Pc samtidig som ledet til at vi fetchet origin, lagde en kopi av vårt arbeid og limte alt inn manuelt for å løse konflikten. Av denne grunn, kan Commit-fordelingen forbedres samtidig som at jobber med prosjektet i små intervaller.
+Som avslutning på retrospektivet har vi blitt enige om tre konkrete forbedringspunkter. Det første er å bli mer konsekvente på git-konvensjoner. Det andre er å skrive tester i god tid. Det tredje er å sikre at issue board holdes oppdatert løpende slik at det faktisk gjenspeiler arbeidsflyten og ikke bare brukes ved leveranser.
+
+
 
 
