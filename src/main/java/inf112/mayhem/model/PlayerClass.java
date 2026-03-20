@@ -1,50 +1,34 @@
 package inf112.mayhem.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
+import inf112.mayhem.model.abstracts.AbstractCharacter;
 import inf112.mayhem.model.collision.MapCollisionHandler;
-import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.model.enums.EntityState;
 import inf112.mayhem.model.enums.EntityType;
-import inf112.mayhem.model.interfaces.CharacterModel;
 import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
-public class PlayerModel implements CharacterModel {
-	private MapCollisionHandler collision;
-	private final int WORLD_PADDING = 200;
-	private final Vector2 position = new Vector2();
-    public final Vector2 velocity = new Vector2();
-    private final Vector2 size = new Vector2(32, 32);
-    private final Rectangle bounds = new Rectangle();
-	private int direction = 1;
-	private int lives = 3;
+public class PlayerClass extends AbstractCharacter {
 	
-    private final float GRAVITY = 400f;
-    private final float JUMP_FORCE = 250f;
-    private final float DOUBLE_JUMP_FORCE = 200f;
-    private final float DROP_DURATION = 2f;
-	
-    private float dropDuration = 0;
-    private int jump_counter = 0;
+	private final static int WIDTH = 32;
+    private final static int HEIGHT = 32;
     
-    private final EntityType type = EntityType.PLAYER;
-    private EntityState state = EntityState.IDLE;
-    private boolean isGrounded = false;
-    private boolean active = true;
-    private boolean ignorePlatforms = false;
-
+    private float dropDuration = 0;
+    
+	private MapCollisionHandler collision;
+    
 	private AbstractWeapon equippedWeapon;
     
-    private float startX;
-    private float startY;
-    
-	public PlayerModel(float startX, float startY, TiledMap map) {
+	public PlayerClass(float startX, float startY, TiledMap map) {
+		super(startX, startY, WIDTH, HEIGHT, 3, map);
+		this.type = EntityType.PLAYER;
+		this.state = EntityState.IDLE;
+		this.isGrounded = false;
+		this.ignorePlatforms = false;
+		this.jump_counter = 0;
+		
 		this.collision = new MapCollisionHandler(map);
-		this.startX = startX;
-		this.startY = startY;
 		
 		respawn();
         updateBounds();

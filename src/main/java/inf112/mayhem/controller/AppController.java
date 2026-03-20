@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityFactory;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.model.enums.GameState;
 import inf112.mayhem.model.interfaces.EntityModel;
@@ -32,8 +32,8 @@ public class AppController implements ApplicationListener, IController {
     private AppWorld world;
     private boolean paused = false;
     private boolean gameOver = false;
-    private PlayerModel playerModel;
-    private PlayerModel enemyModel;
+    private PlayerClass playerModel;
+    private PlayerClass enemyModel;
     private ProjectileCollisionHandler pCollision;
     private PlayerController playerController;
     private WeaponController weaponController;

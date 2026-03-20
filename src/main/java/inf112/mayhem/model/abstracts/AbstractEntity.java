@@ -10,22 +10,22 @@ import inf112.mayhem.model.enums.EntityType;
 import inf112.mayhem.model.interfaces.EntityModel;
 
 public abstract class AbstractEntity implements EntityModel {
-	Vector2 position;
-	Vector2 velocity;
-	Vector2 size;
-	Rectangle bounds;
+	protected Vector2 position;
+	public Vector2 velocity;
+	protected Vector2 size;
+	protected Rectangle bounds;
 	
-	EntityType type;
-	EntityState state;
+	protected EntityType type;
+	protected EntityState state;
 	
-	boolean isActive;
+	protected boolean active;
 	
 	public AbstractEntity(float x, float y, int width, int height, TiledMap map) {
 		position = new Vector2(x, y);
 		velocity = new Vector2(0,0);
 		size = new Vector2(width, height);
 		bounds = new Rectangle(x, y, width, height);
-		isActive = true;
+		active = true;
 		
 	}
 	
@@ -56,7 +56,7 @@ public abstract class AbstractEntity implements EntityModel {
 	
 	@Override
 	public boolean isActive() {
-		return isActive;
+		return active;
 	}
 	
 	@Override

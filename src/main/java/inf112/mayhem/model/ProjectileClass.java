@@ -13,7 +13,7 @@ public class ProjectileClass implements ProjectileModel {
     private final Vector2 size = new Vector2(10, 7);
     private Vector2 position = new Vector2();
     private final Rectangle bounds = new Rectangle();
-    private final PlayerModel player;
+    private final PlayerClass player;
     
     private final EntityType type = EntityType.PROJECTILE;
     private EntityState state = EntityState.ACTIVE;
@@ -24,7 +24,7 @@ public class ProjectileClass implements ProjectileModel {
     private float knockBackMultiplier = 1500f;
 
 
-    public ProjectileClass(PlayerModel player) {
+    public ProjectileClass(PlayerClass player) {
 		this.player = player;
 		this.direction = player.getDirection();
 		
