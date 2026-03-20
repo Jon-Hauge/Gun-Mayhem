@@ -7,8 +7,5 @@ public enum GameState {
 	GAME_OVER,
     MAIN_MENU,
     VICTORY,
-<<<<<<< HEAD
     CAMPAIGN,
-=======
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
 }

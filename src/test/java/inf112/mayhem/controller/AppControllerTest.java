@@ -3,6 +3,11 @@ package inf112.mayhem.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+<<<<<<< HEAD
+=======
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+>>>>>>> 751dfff (Adding campaign feature and level selecting. Need to add more maps!)
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,8 +26,17 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.PlayerModel;
+<<<<<<< HEAD
 import inf112.mayhem.model.enums.GameState;
 import inf112.mayhem.view.screens.CampaignView;
+=======
+import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+<<<<<<< HEAD
+import inf112.mayhem.model.enums.GameState;
+=======
+import inf112.mayhem.view.screens.CampaignView;
+>>>>>>> 1744e4b (Adding campaign feature and level selecting. Need to add more maps!)
+>>>>>>> 751dfff (Adding campaign feature and level selecting. Need to add more maps!)
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
@@ -68,11 +82,18 @@ public class AppControllerTest {
         setField(appController, "victoryView", victoryView);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         CampaignView campaignView = mock(CampaignView.class);
         when(campaignView.getStage()).thenReturn(mock(Stage.class));
         setField(appController, "campaignView", campaignView);
 =======
 >>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
+=======
+        CampaignView campaignView = mock(CampaignView.class);
+        when(campaignView.getStage()).thenReturn(mock(Stage.class));
+        setField(appController, "campaignView", campaignView);
+
+>>>>>>> 751dfff (Adding campaign feature and level selecting. Need to add more maps!)
         HudView hudView = mock(HudView.class);
         setField(appController, "hudView", hudView);
 

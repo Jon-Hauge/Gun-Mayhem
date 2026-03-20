@@ -147,7 +147,7 @@ public class AppController implements ApplicationListener, IController {
                     if (currentLevel == unlockedLevels && unlockedLevels < 3) {
                         unlockedLevels++;
                     }
-
+                    
                     updateInputProcessor();
                 }
             }
@@ -166,7 +166,8 @@ public class AppController implements ApplicationListener, IController {
                 hudView.render();
                 victoryView.render();
             }
-
+    
+            
             case CAMPAIGN -> {
                 campaignView.render();
             }
@@ -272,7 +273,6 @@ public class AppController implements ApplicationListener, IController {
     public boolean isLevelUnlocked(int levelNumber) {
         return levelNumber <= unlockedLevels;
         restartGame();
-
     }
     
     private void updateInputProcessor() {
