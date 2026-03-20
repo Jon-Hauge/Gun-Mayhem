@@ -6,6 +6,8 @@ import com.badlogic.gdx.Input;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityFactory;
 import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.weapons.PistolWeapon;
 
 public class PlayerController {
 	
@@ -56,5 +58,9 @@ public class PlayerController {
 	    }
 	     
 	    player.updateState();
+	}
+
+	public void pickUpWeapon(AbstractWeapon weapon) {
+		player.equipWeapon(weapon);
 	}
 }

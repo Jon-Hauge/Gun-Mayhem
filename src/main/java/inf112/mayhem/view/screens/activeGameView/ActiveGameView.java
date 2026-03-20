@@ -258,7 +258,6 @@ public class ActiveGameView {
 
                 if (obj instanceof CharacterModel character && character.isActive()) {
                     characterView.draw(batch, character, delta);
-
                 }
             }
 

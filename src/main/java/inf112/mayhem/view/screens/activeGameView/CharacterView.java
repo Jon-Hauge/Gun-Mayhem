@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import inf112.mayhem.model.CharacterModel;
 import inf112.mayhem.model.EntityModel;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.screens.activeGameView.animations.AbstractAnimation;
 import inf112.mayhem.view.screens.activeGameView.animations.IdleAnimation;
 import inf112.mayhem.view.screens.activeGameView.animations.JumpingAnimation;
@@ -32,7 +33,7 @@ public class CharacterView {
     /// Draws the view on a canvas
     ///
     /// @param batch Canvas to draw on
-    /// @param entity Entity model to draw player-state from
+    /// @param obj Entity model to draw player-state from
     /// @param delta Time passed in rendering
     ///
     public void draw(SpriteBatch batch, CharacterModel obj, float delta) {
@@ -45,8 +46,14 @@ public class CharacterView {
             default ->  idleAnimation;
         };
 
+        AbstractWeapon weapon = obj.getEquippedWeapon();
+        if (weapon != null) {
+            characterRig.setWeapon(weapon.getWeaponView());
+        }
+
         currAnimation.update(characterRig, delta);
         boolean mirrored = obj.getDirection() == -1;
+
         characterRig.draw(batch, obj.x(), obj.y(), mirrored);
     }
 }

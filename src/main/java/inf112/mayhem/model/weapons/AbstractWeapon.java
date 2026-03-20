@@ -7,6 +7,7 @@ import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.EntityState;
 import inf112.mayhem.model.EntityType;
 import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.view.screens.activeGameView.WeaponView;
 
 public abstract class AbstractWeapon implements EntityModel{
 
@@ -20,6 +21,7 @@ public abstract class AbstractWeapon implements EntityModel{
     private int currentAmmo;
     private float firingDelay;
     private PlayerModel player;
+    private WeaponView weaponView;
 
     public AbstractWeapon(float startX, float startY, PlayerModel player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
         this.x = startX;
@@ -138,5 +140,12 @@ public abstract class AbstractWeapon implements EntityModel{
 
     public PlayerModel getPlayer(){
         return player;
+    }
+
+    public WeaponView getWeaponView() {
+        return weaponView;
+    }
+    public void setWeaponView(WeaponView weaponView) {
+        this.weaponView = weaponView;
     }
 }

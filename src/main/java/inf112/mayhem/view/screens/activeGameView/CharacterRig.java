@@ -61,6 +61,13 @@ public class CharacterRig {
         setScale(scale);
     }
 
+    public void setWeapon(WeaponView weaponView) {
+        this.gun = weaponView.getCurrentWeapon();
+        this.gun.setScale(scale);
+        this.gun.setOffset(gunOffsetX * scale, gunoffsetY * scale);
+
+    }
+
     private void setScale(float scale) {
         this.scale = scale;
 
