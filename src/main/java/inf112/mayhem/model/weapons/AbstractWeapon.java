@@ -145,6 +145,7 @@ public abstract class AbstractWeapon implements EntityModel {
     public WeaponView getWeaponView() {
         return weaponView;
     }
+
     public void setWeaponView(WeaponView weaponView) {
         this.weaponView = weaponView;
     }

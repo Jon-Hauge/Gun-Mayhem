@@ -7,7 +7,7 @@ public class BodyPart {
     private Texture texture;
     private float offsetX, offsetY;
     private float rotation;
-    private float scaleX = 1f, scaleY = 1f;
+    private float scale = 1f;
 
     /// Initiates a bodypart for a given texture.
     /// Acts as one part of a character.
@@ -28,19 +28,7 @@ public class BodyPart {
     /// @param scale Multiplicative bodypart is scaled with
     ///
     public void setScale(float scale) {
-        this.scaleX = scale;
-        this.scaleY = scale;
-    }
-
-    /// Sets scale of bodypart.
-    /// Allows separate scaling for x and y coordinates.
-    ///
-    /// @param scaleX Multiplicative bodypart is scaled with horizontally
-    /// @param scaleY Multiplicative bodypart is scaled with vertically
-    ///
-    public void setScale(float scaleX, float scaleY) {
-        this.scaleX = scaleX;
-        this.scaleY = scaleY;
+        this.scale = scale;
     }
 
     /// Sets amount of offset for bodypart.
@@ -88,8 +76,8 @@ public class BodyPart {
                 height / 2f,
                 width,
                 height,
-                scaleX,
-                scaleY,
+                scale,
+                scale,
                 mirrored ? -rotation : rotation,
                 0, 0,
                 (int) width,
@@ -98,22 +86,15 @@ public class BodyPart {
                 false);
     }
 
-
     /// @return Height of texture
     ///
     public float getHeight() {
-        return texture.getHeight() * scaleY;
+        return texture.getHeight() * scale;
     }
 
-    /// @return Horizontal scale of texture
+    /// @return Scale of texture
     ///
-    public float getScaleX() {
-        return scaleX;
-    }
-
-    /// @return Vertical scale of texture
-    ///
-    public float getScaleY() {
-        return scaleY;
+    public float getScale() {
+        return scale;
     }
 }
