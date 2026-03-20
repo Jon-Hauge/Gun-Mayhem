@@ -16,6 +16,7 @@ import inf112.mayhem.view.maps.TileMapHelper;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
+import inf112.mayhem.view.screens.VictoryView;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
 import inf112.mayhem.view.screens.hud.HudView;
 
@@ -24,11 +25,13 @@ public class AppController implements ApplicationListener, IController {
     private MainMenuView mainMenuView;
     private PauseView pauseView;
     private GameOverView gameOverView;
+    private VictoryView victoryView;
     private HudView hudView;
     private AppWorld world;
     private boolean paused = false;
     private boolean gameOver = false;
     private PlayerModel playerModel;
+    private PlayerModel enemyModel;
     private ProjectileCollisionHandler pCollision;
     private PlayerController playerController;
     private WeaponController weaponController;
@@ -53,13 +56,15 @@ public class AppController implements ApplicationListener, IController {
         playerModel = playerController.getPlayer();
         weaponController = fac.spawnBaseWeapon(500f, 400f, playerController);        
         // Spawn dummies
-        fac.spawnPlayer(900f, 400f);
+        PlayerController enemyController = fac.spawnPlayer(900f, 400f);
+        enemyModel = enemyController.getPlayer();
 
         // VIEW: graphics
         activeGameView = new ActiveGameView(world, this);
         mainMenuView = new MainMenuView(world, this);
         pauseView = new PauseView(world, this);
         gameOverView = new GameOverView(world, this);
+        victoryView = new VictoryView(world, this);
         hudView = new HudView(world, this, weaponController.getWeapon());
 
         Gdx.graphics.setForegroundFPS(60);
@@ -74,6 +79,7 @@ public class AppController implements ApplicationListener, IController {
         mainMenuView.dispose();
         pauseView.dispose();
         gameOverView.dispose();
+        victoryView.dispose();
         hudView.dispose();
     }
 
@@ -98,8 +104,6 @@ public class AppController implements ApplicationListener, IController {
             case ACTIVE -> {
                 // 1. Oppdater fysikk og isGrounded
                 for (EntityModel obj : world) {
-                    if (!obj.isActive()) {
-                    }
                     obj.update(world, delta);
                 }
 
@@ -117,10 +121,26 @@ public class AppController implements ApplicationListener, IController {
                 if (playerModel.lives() <= 0) {
                     world.setState(GameState.GAME_OVER);
                     updateInputProcessor();
+                } else if (enemyModel.lives() <= 0) {
+                    world.setState(GameState.VICTORY);
+                    updateInputProcessor();
                 }
             }
-            case PAUSED    -> pauseView.render();
-            case GAME_OVER -> gameOverView.render();
+            case PAUSED    -> {
+                activeGameView.render(world, delta);
+                hudView.render();
+                pauseView.render();
+            }
+            case GAME_OVER -> {
+                activeGameView.render(world, delta);
+                hudView.render();
+                gameOverView.render();
+            }
+            case VICTORY -> {
+                activeGameView.render(world, delta);
+                hudView.render();
+                victoryView.render();
+            }
     	}
     	
     }
@@ -131,6 +151,7 @@ public class AppController implements ApplicationListener, IController {
         mainMenuView.resize(width, height);
         pauseView.resize(width, height);
         gameOverView.resize(width, height);
+        victoryView.resize(width, height);
         hudView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
     }
@@ -151,8 +172,12 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void startGame() {
+        if (!skipCreate) {
+            create();
+        }
         world.setState(GameState.ACTIVE);
         playerModel.setLives(3);
+        enemyModel.setLives(3);
         updateInputProcessor();
     }
 
@@ -169,6 +194,7 @@ public class AppController implements ApplicationListener, IController {
         world.setState(GameState.ACTIVE);
         gameOver = false;
         playerModel.setLives(3);
+        enemyModel.setLives(3);
         updateInputProcessor();
     }
     
@@ -181,6 +207,12 @@ public class AppController implements ApplicationListener, IController {
         paused = false;
         updateInputProcessor();
     }
+
+    // TODO: create next level function
+    @Override
+    public void nextLevel() {
+        restartGame();
+    }
     
     private void updateInputProcessor() {
         switch (world.state()) {
@@ -188,6 +220,7 @@ public class AppController implements ApplicationListener, IController {
             case ACTIVE    -> Gdx.input.setInputProcessor(activeGameView.getStage());
             case PAUSED    -> Gdx.input.setInputProcessor(pauseView.getStage());
             case GAME_OVER ->  Gdx.input.setInputProcessor(gameOverView.getStage());
+            case VICTORY   -> Gdx.input.setInputProcessor(victoryView.getStage());
         }
 
     }

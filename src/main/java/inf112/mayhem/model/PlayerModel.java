@@ -137,7 +137,11 @@ public class PlayerModel implements CharacterModel {
 		    updateBounds();
 		} else if (outOfBounds(world)) {
 			this.lives -= 1;
-			respawn();
+			if (this.lives <= 0) {
+				die();
+			} else {
+				respawn();
+			}
 		} else if (this.lives == 0) {
 			die();
 		} else {
@@ -155,7 +159,7 @@ public class PlayerModel implements CharacterModel {
 	    position.y = Math.max(0 - WORLD_PADDING, Math.min(position.y, (float) world.height() + WORLD_PADDING));
 	    updateBounds();
 	    
-	    if (!isActive()) {
+	    if (!isActive() && this.lives > 0) {
 	    	respawn();
 	    }
 	}

@@ -46,4 +46,7 @@ public interface IController {
     /// Returns game to main menu
     void goToMainMenu();
 
+    /// Progresses to the next level
+    void nextLevel();
+
 }

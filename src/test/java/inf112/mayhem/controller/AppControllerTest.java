@@ -23,6 +23,7 @@ import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
+import inf112.mayhem.view.screens.VictoryView;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
 import inf112.mayhem.view.screens.hud.HudView;
 
@@ -59,6 +60,10 @@ public class AppControllerTest {
         when(gameOverView.getStage()).thenReturn(mock(Stage.class));
         setField(appController, "gameOverView", gameOverView);
 
+        VictoryView victoryView = mock(VictoryView.class);
+        when(victoryView.getStage()).thenReturn(mock(Stage.class));
+        setField(appController, "victoryView", victoryView);
+
         HudView hudView = mock(HudView.class);
         setField(appController, "hudView", hudView);
 
@@ -68,6 +73,10 @@ public class AppControllerTest {
         when(playerController.getPlayer()).thenReturn(playerModel);
         setField(appController, "playerController", playerController);
         setField(appController, "playerModel", playerModel);
+
+        PlayerModel enemyModel = mock(PlayerModel.class);
+        when(enemyModel.lives()).thenReturn(3);
+        setField(appController, "enemyModel", enemyModel);
 
         WeaponController weaponController = mock(WeaponController.class);
         setField(appController, "weaponController", weaponController);
@@ -95,7 +104,8 @@ public class AppControllerTest {
     }
 
     @Test
-    void testStartGame() {
+    void testStartGame() throws Exception {
+        setField(appController, "skipCreate", true);
         appController.startGame();
         assertEquals(GameState.ACTIVE, world.state());
     }
@@ -180,14 +190,34 @@ public class AppControllerTest {
 
     @Test
     void testRestartGameResetsLives() throws Exception {
-        PlayerModel playerModel = mock(PlayerModel.class);
-        setField(appController, "playerModel", playerModel);
+        PlayerModel playerModel = (PlayerModel) getField(appController, "playerModel");
+        PlayerModel enemyModel = (PlayerModel) getField(appController, "enemyModel");
         
         setField(appController, "skipCreate", true);
         
         appController.restartGame();
         
         verify(playerModel).setLives(3);
+        verify(enemyModel).setLives(3);
+        assertEquals(GameState.ACTIVE, world.state());
+    }
+
+    @Test
+    void testVictoryWhenEnemyLivesAreZero() throws Exception {
+        world.setState(GameState.ACTIVE);
+        PlayerModel enemyModel = (PlayerModel) getField(appController, "enemyModel");
+        when(enemyModel.lives()).thenReturn(0);
+        when(Gdx.graphics.getDeltaTime()).thenReturn(0.016f);
+
+        appController.render();
+
+        assertEquals(GameState.VICTORY, world.state());
+    }
+
+    @Test
+    void testNextLevelRestartsGame() throws Exception {
+        setField(appController, "skipCreate", true);
+        appController.nextLevel();
         assertEquals(GameState.ACTIVE, world.state());
     }
 

@@ -186,7 +186,7 @@ public class ActiveGameView {
         int playerCount = 0;
 
         for (EntityModel obj : world) {
-            if (obj.type() == EntityType.PLAYER) {
+            if (obj.type() == EntityType.PLAYER && obj.isActive()) {
                 float x = obj.x();
                 float y = obj.y();
 
@@ -256,7 +256,7 @@ public class ActiveGameView {
         try {
             for (EntityModel obj : world) {
 
-                if (obj instanceof CharacterModel character) {
+                if (obj instanceof CharacterModel character && character.isActive()) {
                     characterView.draw(batch, character, delta);
 
                 }
@@ -270,7 +270,7 @@ public class ActiveGameView {
         shape.begin(ShapeRenderer.ShapeType.Filled);
         try {
             for (EntityModel obj : world) {
-                if (obj.type() == EntityType.PROJECTILE) {
+                if (obj.type() == EntityType.PROJECTILE && obj.isActive()) {
                     shape.setColor(Color.YELLOW);
                     shape.rect(obj.x() - 12.5f * scale, obj.y() + 125 * scale, obj.width(), obj.height());
                 }
