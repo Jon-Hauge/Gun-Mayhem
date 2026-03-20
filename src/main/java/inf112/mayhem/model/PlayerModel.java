@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerModel implements CharacterModel {
 	private MapCollisionHandler collision;
@@ -16,7 +17,6 @@ public class PlayerModel implements CharacterModel {
     private final Rectangle bounds = new Rectangle();
 	private int direction = 1;
 	private int lives = 3;
-
 	
     private final float GRAVITY = 400f;
     private final float JUMP_FORCE = 250f;
@@ -31,6 +31,8 @@ public class PlayerModel implements CharacterModel {
     private boolean isGrounded = false;
     private boolean active = true;
     private boolean ignorePlatforms = false;
+
+	private AbstractWeapon equippedWeapon;
     
     private float startX;
     private float startY;
@@ -221,6 +223,16 @@ public class PlayerModel implements CharacterModel {
 	public void respawn() {
 		position.set(this.startX, this.startY);
 		velocity.x = 0;
+	}
+
+	@Override
+	public void equipWeapon(AbstractWeapon weapon) {
+		this.equippedWeapon = weapon;
+	}
+
+	@Override
+	public AbstractWeapon getEquippedWeapon() {
+		return equippedWeapon;
 	}
 
 }
