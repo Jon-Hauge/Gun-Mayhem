@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
+import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
@@ -37,6 +39,7 @@ public class AppControllerTest {
         Gdx.app = mock(Application.class);
         Gdx.graphics = mock(Graphics.class);
         Gdx.input = mock(Input.class);
+        Gdx.files = mock(Files.class);
 
         setField(appController, "world", world);
         
@@ -60,8 +63,13 @@ public class AppControllerTest {
         setField(appController, "hudView", hudView);
 
         PlayerController playerController = mock(PlayerController.class);
-        WeaponController weaponController = mock(WeaponController.class);
+        PlayerModel playerModel = mock(PlayerModel.class);
+        when(playerModel.lives()).thenReturn(3);
+        when(playerController.getPlayer()).thenReturn(playerModel);
         setField(appController, "playerController", playerController);
+        setField(appController, "playerModel", playerModel);
+
+        WeaponController weaponController = mock(WeaponController.class);
         setField(appController, "weaponController", weaponController);
 
         ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
@@ -154,6 +162,33 @@ public class AppControllerTest {
         verify((PauseView) getField(appController, "pauseView")).dispose();
         verify((GameOverView) getField(appController, "gameOverView")).dispose();
         verify((HudView) getField(appController, "hudView")).dispose();
+    }
+
+    @Test
+    void testGameOverWhenLivesAreZero() throws Exception {
+        world.setState(GameState.ACTIVE);
+        when(Gdx.graphics.getDeltaTime()).thenReturn(0.016f);
+        
+        PlayerModel playerModel = mock(PlayerModel.class);
+        when(playerModel.lives()).thenReturn(0);
+        setField(appController, "playerModel", playerModel);
+
+        appController.render();
+
+        assertEquals(GameState.GAME_OVER, world.state());
+    }
+
+    @Test
+    void testRestartGameResetsLives() throws Exception {
+        PlayerModel playerModel = mock(PlayerModel.class);
+        setField(appController, "playerModel", playerModel);
+        
+        setField(appController, "skipCreate", true);
+        
+        appController.restartGame();
+        
+        verify(playerModel).setLives(3);
+        assertEquals(GameState.ACTIVE, world.state());
     }
 
     private Object getField(Object target, String fieldName) throws Exception {
