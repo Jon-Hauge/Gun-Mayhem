@@ -2,6 +2,7 @@ package inf112.mayhem.view.screens.activeGameView;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class CharacterRig {
     public BodyPart body;
@@ -23,8 +24,8 @@ public class CharacterRig {
     private float leftFootOffsetY = 0f;
     private float rightFootOffsetX = 60f;
     private float rightFootOffsetY = 0f;
-    private float gunOffsetX = 40f;
-    private float gunoffsetY = 160f;
+    private float gunOffsetX = 60f;
+    private float gunoffsetY = 140f;
     private float leftHandOffsetX = -10f;
     private float leftHandOffsetY = 135f;
     private float rightHandOffsetX = 85f;
@@ -61,10 +62,14 @@ public class CharacterRig {
         setScale(scale);
     }
 
+    /// Sets weapon based on view
+    ///
+    /// @param weaponView weaponView to set weapon to
+    ///
     public void setWeapon(WeaponView weaponView) {
-        this.gun = weaponView.getCurrentWeapon();
-        this.gun.setScale(scale);
+        this.gun = weaponView.toBodyPart();
         this.gun.setOffset(gunOffsetX * scale, gunoffsetY * scale);
+        this.gun.setScale(scale);
 
     }
 
@@ -106,11 +111,14 @@ public class CharacterRig {
     /// @param y Where to draw character vertically
     /// @param mirrored Whether character is mirrored on the x-axis
     ///
-    public void draw(SpriteBatch batch, float x, float y, boolean mirrored) {
+    public void draw(SpriteBatch batch, float x, float y, boolean mirrored, AbstractWeapon equippedWeapon) {
 
         float feetHeight = leftFoot.getHeight();
-
         float baseY = y + feetHeight / 2f;
+
+        if (equippedWeapon != null && equippedWeapon.getWeaponView() != null) {
+            setWeapon(equippedWeapon.getWeaponView());
+        }
 
         rightFoot.draw(batch, x, baseY, mirrored);
         body.draw(batch, x, baseY, mirrored);
