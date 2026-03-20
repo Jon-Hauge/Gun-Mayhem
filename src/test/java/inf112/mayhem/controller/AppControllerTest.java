@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.model.enums.GameState;
 import inf112.mayhem.view.screens.CampaignView;
 import inf112.mayhem.view.screens.GameOverView;
@@ -107,7 +108,7 @@ public class AppControllerTest {
     @Test
     void testStartLevel() throws Exception {
         setField(appController, "skipCreate", true);
-        PlayerModel playerModel = (PlayerModel) getField(appController, "playerModel");
+        PlayerClass playerModel = (PlayerClass) getField(appController, "playerModel");
         appController.startLevel(2);
         assertEquals(GameState.ACTIVE, world.state());
         verify(playerModel).setLives(3);

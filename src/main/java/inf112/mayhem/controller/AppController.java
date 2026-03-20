@@ -272,7 +272,6 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public boolean isLevelUnlocked(int levelNumber) {
         return levelNumber <= unlockedLevels;
-        restartGame();
     }
     
     private void updateInputProcessor() {

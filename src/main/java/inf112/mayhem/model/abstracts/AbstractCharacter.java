@@ -10,7 +10,7 @@ import inf112.mayhem.model.interfaces.EntityModel;
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
-	MapCollisionHandler collision;
+	protected MapCollisionHandler collision;
 	
     protected final float GRAVITY = 400f;
     protected final float JUMP_FORCE = 250f;
@@ -22,6 +22,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	protected int jump_counter;
 	protected int lives;
 	
+	protected float dropDuration = 0;
 	protected float startX, startY;
 	
 	protected boolean isGrounded;
@@ -30,6 +31,8 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 
 	public AbstractCharacter(float x, float y, int width, int height, int lives, TiledMap map) {
 		super(x, y, width, height, map);
+		this.startX = x;
+		this.startY = y;
 		this.lives = lives;
 		this.direction = 1;
 		
