@@ -67,7 +67,7 @@ public class ActiveGameView {
         
         //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
-        tileMapHelper.setupMap();
+        tileMapHelper.setupMap("maps/level1_heaven/map.tmx");
         this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
 
         try {

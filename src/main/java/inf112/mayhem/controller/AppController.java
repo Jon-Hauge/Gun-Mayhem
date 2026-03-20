@@ -13,6 +13,7 @@ import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.TileMapHelper;
+import inf112.mayhem.view.screens.CampaignView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
@@ -27,6 +28,7 @@ public class AppController implements ApplicationListener, IController {
     private GameOverView gameOverView;
     private VictoryView victoryView;
     private HudView hudView;
+    private CampaignView campaignView;
     private AppWorld world;
     private boolean paused = false;
     private boolean gameOver = false;
@@ -37,15 +39,23 @@ public class AppController implements ApplicationListener, IController {
     private WeaponController weaponController;
     private AbstractWeapon weapon;
     
+    private int currentLevel = 1;
+    private int unlockedLevels = 1;
+
     @Override
     public void create() {
+        createLevel(currentLevel);
+    }
 
+    public void createLevel(int levelNumber) {
+        currentLevel = levelNumber;
         // MODEL: our virtual world
         world = new AppWorld(1280, 768);
         
         // Last inn kartet via view
         TileMapHelper tileMapHelper = new TileMapHelper();
-        TiledMap map = tileMapHelper.setupMap();
+        String mapPath = getMapPath(levelNumber);
+        TiledMap map = tileMapHelper.setupMap(mapPath);
         EntityFactory fac = new EntityFactory(world, map);
         
         // Send kartet til collision handler i model
@@ -65,12 +75,22 @@ public class AppController implements ApplicationListener, IController {
         pauseView = new PauseView(world, this);
         gameOverView = new GameOverView(world, this);
         victoryView = new VictoryView(world, this);
+        campaignView = new CampaignView(world, this);
         hudView = new HudView(world, this, weaponController.getWeapon());
 
         Gdx.graphics.setForegroundFPS(60);
 
         updateInputProcessor();
         
+    }
+
+    private String getMapPath(int levelNumber) {
+        return switch (levelNumber) {
+            case 1 -> "maps/level1_heaven/map.tmx";
+            case 2 -> "maps/level2_midnightcity/map.tmx";
+            case 3 -> "maps/level3_moistymire/map.tmx";
+            default -> "maps/level1_heaven/map.tmx";
+        };
     }
 
     @Override
@@ -80,6 +100,7 @@ public class AppController implements ApplicationListener, IController {
         pauseView.dispose();
         gameOverView.dispose();
         victoryView.dispose();
+        campaignView.dispose();
         hudView.dispose();
     }
 
@@ -123,6 +144,9 @@ public class AppController implements ApplicationListener, IController {
                     updateInputProcessor();
                 } else if (enemyModel.lives() <= 0) {
                     world.setState(GameState.VICTORY);
+                    if (currentLevel == unlockedLevels && unlockedLevels < 3) {
+                        unlockedLevels++;
+                    }
                     updateInputProcessor();
                 }
             }
@@ -141,6 +165,9 @@ public class AppController implements ApplicationListener, IController {
                 hudView.render();
                 victoryView.render();
             }
+            case CAMPAIGN -> {
+                campaignView.render();
+            }
     	}
     	
     }
@@ -152,6 +179,7 @@ public class AppController implements ApplicationListener, IController {
         pauseView.resize(width, height);
         gameOverView.resize(width, height);
         victoryView.resize(width, height);
+        campaignView.resize(width, height);
         hudView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
     }
@@ -173,7 +201,7 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public void startGame() {
         if (!skipCreate) {
-            create();
+            createLevel(1);
         }
         world.setState(GameState.ACTIVE);
         playerModel.setLives(3);
@@ -189,7 +217,7 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public void restartGame() {
         if (!skipCreate) {
-            create();
+            createLevel(currentLevel);
         }
         world.setState(GameState.ACTIVE);
         gameOver = false;
@@ -211,7 +239,34 @@ public class AppController implements ApplicationListener, IController {
     // TODO: create next level function
     @Override
     public void nextLevel() {
-        restartGame();
+        if (currentLevel < 3) {
+            startLevel(currentLevel + 1);
+        } else {
+            goToMainMenu();
+        }
+    }
+
+    @Override
+    public void campaign() {
+        world.setState(GameState.CAMPAIGN);
+        campaignView.rebuildUI();
+        updateInputProcessor();
+    }
+
+    @Override
+    public void startLevel(int levelNumber) {
+        if (!skipCreate) {
+            createLevel(levelNumber);
+        }
+        world.setState(GameState.ACTIVE);
+        playerModel.setLives(3);
+        enemyModel.setLives(3);
+        updateInputProcessor();
+    }
+
+    @Override
+    public boolean isLevelUnlocked(int levelNumber) {
+        return levelNumber <= unlockedLevels;
     }
     
     private void updateInputProcessor() {
@@ -221,6 +276,8 @@ public class AppController implements ApplicationListener, IController {
             case PAUSED    -> Gdx.input.setInputProcessor(pauseView.getStage());
             case GAME_OVER ->  Gdx.input.setInputProcessor(gameOverView.getStage());
             case VICTORY   -> Gdx.input.setInputProcessor(victoryView.getStage());
+            case CAMPAIGN  -> Gdx.input.setInputProcessor(campaignView.getStage());
+            default -> Gdx.input.setInputProcessor(null);
         }
 
     }

@@ -8,8 +8,8 @@ public class TileMapHelper {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
 
-    public TiledMap setupMap() {
-        map = new TmxMapLoader().load("maps/level1_heaven/map.tmx");
+    public TiledMap setupMap(String mapPath) {
+        map = new TmxMapLoader().load(mapPath);
         return map;
     }
 

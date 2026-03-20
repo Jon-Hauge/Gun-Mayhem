@@ -57,16 +57,16 @@ public class MainMenuView extends AbstractScreenView {
         Label title = new Label("TEAM MAYHEM", labelStyle);
         table.add(title).padBottom(20).row();
 
-        TextButton startButton = new TextButton("Start button", buttonStyle);
-        startButton.addListener(new ClickListener() {
+        TextButton campaignButton = new TextButton("Campaign", buttonStyle);
+        campaignButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                controller.startGame();
+                controller.campaign();
             }
         });
-        table.add(startButton).padBottom(10).row();
+        table.add(campaignButton).padBottom(10).row();
 
-        TextButton exitButton = new TextButton("Exit button", buttonStyle);
+        TextButton exitButton = new TextButton("Exit game", buttonStyle);
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
