@@ -100,10 +100,7 @@ public class AppController implements ApplicationListener, IController {
         pauseView.dispose();
         gameOverView.dispose();
         victoryView.dispose();
-<<<<<<< HEAD
         campaignView.dispose();
-=======
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
         hudView.dispose();
     }
 
@@ -147,12 +144,10 @@ public class AppController implements ApplicationListener, IController {
                     updateInputProcessor();
                 } else if (enemyModel.lives() <= 0) {
                     world.setState(GameState.VICTORY);
-<<<<<<< HEAD
                     if (currentLevel == unlockedLevels && unlockedLevels < 3) {
                         unlockedLevels++;
                     }
-=======
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
+
                     updateInputProcessor();
                 }
             }
@@ -171,12 +166,10 @@ public class AppController implements ApplicationListener, IController {
                 hudView.render();
                 victoryView.render();
             }
-<<<<<<< HEAD
+
             case CAMPAIGN -> {
                 campaignView.render();
             }
-=======
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
     	}
     	
     }
@@ -188,10 +181,8 @@ public class AppController implements ApplicationListener, IController {
         pauseView.resize(width, height);
         gameOverView.resize(width, height);
         victoryView.resize(width, height);
-<<<<<<< HEAD
         campaignView.resize(width, height);
-=======
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
+
         hudView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
     }
@@ -213,11 +204,8 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public void startGame() {
         if (!skipCreate) {
-<<<<<<< HEAD
             createLevel(1);
-=======
             create();
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
         }
         world.setState(GameState.ACTIVE);
         playerModel.setLives(3);
@@ -255,7 +243,6 @@ public class AppController implements ApplicationListener, IController {
     // TODO: create next level function
     @Override
     public void nextLevel() {
-<<<<<<< HEAD
         if (currentLevel < 3) {
             startLevel(currentLevel + 1);
         } else {
@@ -284,9 +271,8 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public boolean isLevelUnlocked(int levelNumber) {
         return levelNumber <= unlockedLevels;
-=======
         restartGame();
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
+
     }
     
     private void updateInputProcessor() {
@@ -296,11 +282,8 @@ public class AppController implements ApplicationListener, IController {
             case PAUSED    -> Gdx.input.setInputProcessor(pauseView.getStage());
             case GAME_OVER ->  Gdx.input.setInputProcessor(gameOverView.getStage());
             case VICTORY   -> Gdx.input.setInputProcessor(victoryView.getStage());
-<<<<<<< HEAD
             case CAMPAIGN  -> Gdx.input.setInputProcessor(campaignView.getStage());
             default -> Gdx.input.setInputProcessor(null);
-=======
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
         }
 
     }

@@ -4,6 +4,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.enums.EntityType;
+import inf112.mayhem.model.interfaces.EntityModel;
+
 public abstract class AbstractEntity implements EntityModel {
 	Vector2 position;
 	Vector2 velocity;

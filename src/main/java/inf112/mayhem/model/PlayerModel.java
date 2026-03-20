@@ -131,14 +131,8 @@ public class PlayerModel implements CharacterModel {
 				die();
 			} else {
 				respawn();
-<<<<<<< HEAD
 				updateBounds();
 			}
-=======
-			}
-		} else if (this.lives == 0) {
-			die();
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
 		} else {
 			isGrounded = false;
 		}
@@ -151,13 +145,6 @@ public class PlayerModel implements CharacterModel {
 	    position.x = Math.max(0 - WORLD_PADDING, Math.min(position.x, (float) world.width() + WORLD_PADDING));
 	    position.y = Math.max(0 - WORLD_PADDING, Math.min(position.y, (float) world.height() + WORLD_PADDING));
 	    updateBounds();
-<<<<<<< HEAD
-=======
-	    
-	    if (!isActive() && this.lives > 0) {
-	    	respawn();
-	    }
->>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
 	}
 	
 	@Override
