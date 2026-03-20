@@ -9,7 +9,6 @@ import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 
 public class PlayerModel implements CharacterModel {
 	private MapCollisionHandler collision;
-	private ProjectileCollisionHandler pCollision;
 	private final int WORLD_PADDING = 200;
 	private final Vector2 position = new Vector2();
     public final Vector2 velocity = new Vector2();
@@ -212,6 +211,7 @@ public class PlayerModel implements CharacterModel {
 	@Override
 	public void respawn() {
 		position.set(this.startX, this.startY);
+		velocity.x = 0;
 	}
 
 }
