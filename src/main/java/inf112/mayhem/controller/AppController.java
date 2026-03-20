@@ -126,7 +126,7 @@ public class AppController implements ApplicationListener, IController {
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (world.state() == GameState.PAUSED) {
                 resume();
-            } else {
+            } else if (world.state() == GameState.ACTIVE) {
                 pause();
             }
         }
