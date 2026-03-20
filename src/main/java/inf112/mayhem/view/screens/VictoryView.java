@@ -1,29 +1,17 @@
 package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.GameState;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class VictoryView extends AbstractScreenView {
     private AppWorld world;

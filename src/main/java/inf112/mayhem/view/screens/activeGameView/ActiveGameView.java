@@ -22,10 +22,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.CharacterModel;
-import inf112.mayhem.model.EntityModel;
-import inf112.mayhem.model.EntityState;
-import inf112.mayhem.model.EntityType;
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.enums.EntityType;
+import inf112.mayhem.model.interfaces.CharacterModel;
+import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {

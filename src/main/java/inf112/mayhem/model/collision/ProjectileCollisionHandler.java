@@ -1,10 +1,10 @@
 package inf112.mayhem.model.collision;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.CharacterModel;
-import inf112.mayhem.model.EntityModel;
 import inf112.mayhem.model.ProjectileClass;
-import inf112.mayhem.model.ProjectileModel;
+import inf112.mayhem.model.interfaces.CharacterModel;
+import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.interfaces.ProjectileModel;
 
 public class ProjectileCollisionHandler {
 	private final AppWorld world;

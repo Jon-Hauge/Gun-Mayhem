@@ -7,10 +7,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityFactory;
-import inf112.mayhem.model.EntityModel;
-import inf112.mayhem.model.GameState;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.enums.GameState;
+import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.TileMapHelper;
 import inf112.mayhem.view.screens.CampaignView;
@@ -32,8 +32,8 @@ public class AppController implements ApplicationListener, IController {
     private AppWorld world;
     private boolean paused = false;
     private boolean gameOver = false;
-    private PlayerModel playerModel;
-    private PlayerModel enemyModel;
+    private PlayerClass playerModel;
+    private PlayerClass enemyModel;
     private ProjectileCollisionHandler pCollision;
     private PlayerController playerController;
     private WeaponController weaponController;
@@ -147,6 +147,7 @@ public class AppController implements ApplicationListener, IController {
                     if (currentLevel == unlockedLevels && unlockedLevels < 3) {
                         unlockedLevels++;
                     }
+                    
                     updateInputProcessor();
                 }
             }
@@ -165,6 +166,8 @@ public class AppController implements ApplicationListener, IController {
                 hudView.render();
                 victoryView.render();
             }
+    
+            
             case CAMPAIGN -> {
                 campaignView.render();
             }
@@ -180,6 +183,7 @@ public class AppController implements ApplicationListener, IController {
         gameOverView.resize(width, height);
         victoryView.resize(width, height);
         campaignView.resize(width, height);
+
         hudView.resize(width, height);
         // if appView can change the world size, we'd have to update *world* here
     }
@@ -202,6 +206,7 @@ public class AppController implements ApplicationListener, IController {
     public void startGame() {
         if (!skipCreate) {
             createLevel(1);
+            create();
         }
         world.setState(GameState.ACTIVE);
         playerModel.setLives(3);

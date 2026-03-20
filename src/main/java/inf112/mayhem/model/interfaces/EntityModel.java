@@ -1,6 +1,10 @@
-package inf112.mayhem.model;
+package inf112.mayhem.model.interfaces;
 
 import com.badlogic.gdx.math.Rectangle;
+
+import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.enums.EntityType;
 
 public interface EntityModel {
 	
