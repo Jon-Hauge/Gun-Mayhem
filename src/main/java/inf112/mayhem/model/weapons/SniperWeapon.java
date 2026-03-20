@@ -1,7 +1,7 @@
 package inf112.mayhem.model.weapons;
 
-import inf112.mayhem.model.EntityState;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.PlayerClass;
 
 public class SniperWeapon extends AbstractWeapon {
     private static final WeaponType WEAPON_TYPE = WeaponType.SNIPER;
@@ -11,7 +11,7 @@ public class SniperWeapon extends AbstractWeapon {
     private static final int AMMO = 10;
     private static final float firingDelay = 3f;
 
-    public SniperWeapon(float startX, float startY, PlayerModel player) {
-        super(startX, startY, player, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, firingDelay);
+    public SniperWeapon(float startX, float startY, PlayerClass playerClass) {
+        super(startX, startY, playerClass, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, firingDelay);
     }
 }

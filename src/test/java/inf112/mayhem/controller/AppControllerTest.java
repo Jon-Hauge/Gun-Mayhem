@@ -75,11 +75,11 @@ public class AppControllerTest {
         setField(appController, "hudView", hudView);
 
         PlayerController playerController = mock(PlayerController.class);
-        PlayerClass playerModel = mock(PlayerClass.class);
-        when(playerModel.lives()).thenReturn(3);
-        when(playerController.getPlayer()).thenReturn(playerModel);
+        PlayerClass playerClass = mock(PlayerClass.class);
+        when(playerClass.lives()).thenReturn(3);
+        when(playerController.getPlayer()).thenReturn(playerClass);
         setField(appController, "playerController", playerController);
-        setField(appController, "playerModel", playerModel);
+        setField(appController, "playerClass", playerClass);
 
         PlayerClass enemyModel = mock(PlayerClass.class);
         when(enemyModel.lives()).thenReturn(3);
@@ -108,10 +108,10 @@ public class AppControllerTest {
     @Test
     void testStartLevel() throws Exception {
         setField(appController, "skipCreate", true);
-        PlayerClass playerModel = (PlayerClass) getField(appController, "playerModel");
+        PlayerClass playerClass = (PlayerClass) getField(appController, "playerClass");
         appController.startLevel(2);
         assertEquals(GameState.ACTIVE, world.state());
-        verify(playerModel).setLives(3);
+        verify(playerClass).setLives(3);
     }
 
     private void setField(Object target, String fieldName, Object value) throws Exception {
@@ -208,9 +208,9 @@ public class AppControllerTest {
         world.setState(GameState.ACTIVE);
         when(Gdx.graphics.getDeltaTime()).thenReturn(0.016f);
         
-        PlayerClass playerModel = mock(PlayerClass.class);
-        when(playerModel.lives()).thenReturn(0);
-        setField(appController, "playerModel", playerModel);
+        PlayerClass playerClass = mock(PlayerClass.class);
+        when(playerClass.lives()).thenReturn(0);
+        setField(appController, "playerClass", playerClass);
 
         appController.render();
 
@@ -219,14 +219,14 @@ public class AppControllerTest {
 
     @Test
     void testRestartGameResetsLives() throws Exception {
-        PlayerClass playerModel = (PlayerClass) getField(appController, "playerModel");
+        PlayerClass playerClass = (PlayerClass) getField(appController, "playerClass");
         PlayerClass enemyModel = (PlayerClass) getField(appController, "enemyModel");
         
         setField(appController, "skipCreate", true);
         
         appController.restartGame();
         
-        verify(playerModel).setLives(3);
+        verify(playerClass).setLives(3);
         verify(enemyModel).setLives(3);
         assertEquals(GameState.ACTIVE, world.state());
     }

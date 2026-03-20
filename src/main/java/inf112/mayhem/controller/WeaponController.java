@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityFactory;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class WeaponController {
@@ -14,13 +14,13 @@ public class WeaponController {
 	private static final float COOLDOWN_DURATION = 0.3f;
 	private float COOLDOWN_TIMER;
 	
-    private PlayerModel playerModel;
+    private PlayerClass playerClass;
     private final AppWorld world;
     private final EntityFactory fac;
 	private int ammo;
 	
-	public WeaponController(PlayerModel playerModel, AppWorld world, EntityFactory fac) {
-		this.playerModel = playerModel;
+	public WeaponController(PlayerClass playerClass, AppWorld world, EntityFactory fac) {
+		this.playerClass = playerClass;
 		this.world = world;
 		this.fac = fac;
 	}
@@ -41,7 +41,7 @@ public class WeaponController {
 	}
 
 	public AbstractWeapon getWeapon() {
-		return playerModel.getEquippedWeapon();
+		return playerClass.getEquippedWeapon();
 	}
 
 }

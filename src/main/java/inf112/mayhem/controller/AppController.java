@@ -34,7 +34,7 @@ public class AppController implements ApplicationListener, IController {
     private HudView hudView;
     private CampaignView campaignView;
     private AppWorld world;
-    private PlayerClass playerModel;
+    private PlayerClass playerClass;
     private PlayerClass enemyModel;
     private ProjectileCollisionHandler pCollision;
     private PlayerController playerController;
@@ -67,22 +67,22 @@ public class AppController implements ApplicationListener, IController {
 
         //PLAYER
         playerController = entityFactory.spawnPlayer(500f, 400f);
-        playerModel = playerController.getPlayer();
+        playerClass = playerController.getPlayer();
 
         // Spawn dummies
         PlayerController enemyController = entityFactory.spawnPlayer(900f, 400f);
         enemyModel = enemyController.getPlayer();
 
         // Weapons
-        weaponController = new WeaponController(playerModel, world, entityFactory);
+        weaponController = new WeaponController(playerClass, world, entityFactory);
 
-        this.pistol = new PistolWeapon(500f, 400f, playerModel);
-        this.sniper = new SniperWeapon(500f, 400f, playerModel);
+        this.pistol = new PistolWeapon(500f, 400f, playerClass);
+        this.sniper = new SniperWeapon(500f, 400f, playerClass);
 
         pistol.setWeaponView(weaponViewFactory.createWeaponView(pistol.getWeaponType()));
         sniper.setWeaponView(weaponViewFactory.createWeaponView(sniper.getWeaponType()));
 
-        playerModel.equipWeapon(pistol);
+        playerClass.equipWeapon(pistol);
 
         // VIEW: graphics
         activeGameView = new ActiveGameView(world, this);
@@ -91,7 +91,7 @@ public class AppController implements ApplicationListener, IController {
         gameOverView = new GameOverView(world, this);
         victoryView = new VictoryView(world, this);
         campaignView = new CampaignView(world, this);
-        hudView = new HudView(world, this, playerModel);
+        hudView = new HudView(world, this, playerClass);
 
         Gdx.graphics.setForegroundFPS(60);
 
@@ -122,8 +122,9 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public void render() {
     	float delta = Gdx.graphics.getDeltaTime();
+
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            if (world.state() == GameState.ACTIVE && world.state() == GameState.PAUSED) {
+            if (world.state() == GameState.PAUSED) {
                 resume();
             } else {
                 pause();
@@ -137,7 +138,7 @@ public class AppController implements ApplicationListener, IController {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-            playerModel.cycleWeapon(pistol, sniper);
+            playerClass.cycleWeapon(pistol, sniper);
         }
 
     	switch (world.state()) {
@@ -156,10 +157,10 @@ public class AppController implements ApplicationListener, IController {
                 // 4. Tegn til slutt
                 world.removeInactive();
                 activeGameView.render(world, delta);
-                hudView.update(playerModel);
+                hudView.update(playerClass);
                 hudView.render();
 
-                if (playerModel.lives() <= 0) {
+                if (playerClass.lives() <= 0) {
                     world.setState(GameState.GAME_OVER);
                     updateInputProcessor();
                 } else if (enemyModel.lives() <= 0) {
@@ -167,7 +168,6 @@ public class AppController implements ApplicationListener, IController {
                     if (currentLevel == unlockedLevels && unlockedLevels < 3) {
                         unlockedLevels++;
                     }
-
                     updateInputProcessor();
                 }
             }
@@ -186,8 +186,6 @@ public class AppController implements ApplicationListener, IController {
                 hudView.render();
                 victoryView.render();
             }
-
-
             case CAMPAIGN -> {
                 campaignView.render();
             }
@@ -226,7 +224,7 @@ public class AppController implements ApplicationListener, IController {
             create();
         }
         world.setState(GameState.ACTIVE);
-        playerModel.setLives(3);
+        playerClass.setLives(3);
         enemyModel.setLives(3);
         updateInputProcessor();
     }
@@ -242,7 +240,7 @@ public class AppController implements ApplicationListener, IController {
             createLevel(currentLevel);
         }
         world.setState(GameState.ACTIVE);
-        playerModel.setLives(3);
+        playerClass.setLives(3);
         enemyModel.setLives(3);
         updateInputProcessor();
     }
@@ -279,7 +277,7 @@ public class AppController implements ApplicationListener, IController {
             createLevel(levelNumber);
         }
         world.setState(GameState.ACTIVE);
-        playerModel.setLives(3);
+        playerClass.setLives(3);
         enemyModel.setLives(3);
         updateInputProcessor();
     }
