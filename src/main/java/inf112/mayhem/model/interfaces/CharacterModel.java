@@ -10,11 +10,11 @@ public interface CharacterModel extends EntityModel {
 	void hit(EntityModel obj);
 	void setDirection(int n);
 	void die();
-	boolean outOfBounds(AppWorld world);
 	void respawn();
+	void setLives(int lives);
+	boolean outOfBounds(AppWorld world);
 	int getDirection();
 	int lives();
-	void setLives(int lives);
 	void equipWeapon(AbstractWeapon weapon);
 	AbstractWeapon getEquippedWeapon();
 }

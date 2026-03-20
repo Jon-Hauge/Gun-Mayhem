@@ -60,7 +60,9 @@ public abstract class AbstractEntity implements EntityModel {
 	}
 	
 	@Override
-	public abstract EntityType type();
+	public EntityType type() {
+		return this.type;
+	}
 	
 	@Override
 	public abstract EntityState state();
