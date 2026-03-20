@@ -1,7 +1,7 @@
 package inf112.mayhem.model.weapons;
 
-import inf112.mayhem.model.EntityState;
 import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.enums.EntityState;
 
 public class PistolWeapon extends AbstractWeapon {
     private static final WeaponType WEAPON_TYPE = WeaponType.PISTOL;

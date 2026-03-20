@@ -17,7 +17,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.GameState;
+import inf112.mayhem.model.enums.GameState;
+
 import org.w3c.dom.views.AbstractView;
 
 import java.util.HashMap;

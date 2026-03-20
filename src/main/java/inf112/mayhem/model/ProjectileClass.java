@@ -3,6 +3,11 @@ package inf112.mayhem.model;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.enums.EntityType;
+import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.interfaces.ProjectileModel;
+
 public class ProjectileClass implements ProjectileModel {
 
     private final Vector2 size = new Vector2(10, 7);

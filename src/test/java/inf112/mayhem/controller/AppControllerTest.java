@@ -1,15 +1,16 @@
 package inf112.mayhem.controller;
 
-import java.lang.reflect.Field;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Field;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Files;
@@ -19,9 +20,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
-import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.enums.GameState;
 import inf112.mayhem.view.screens.CampaignView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
@@ -70,7 +70,6 @@ public class AppControllerTest {
         CampaignView campaignView = mock(CampaignView.class);
         when(campaignView.getStage()).thenReturn(mock(Stage.class));
         setField(appController, "campaignView", campaignView);
-
         HudView hudView = mock(HudView.class);
         setField(appController, "hudView", hudView);
 

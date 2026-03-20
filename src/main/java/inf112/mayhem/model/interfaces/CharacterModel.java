@@ -1,4 +1,6 @@
-package inf112.mayhem.model;
+package inf112.mayhem.model.interfaces;
+
+import inf112.mayhem.model.AppWorld;
 
 import inf112.mayhem.model.weapons.AbstractWeapon;
 

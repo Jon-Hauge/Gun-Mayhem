@@ -6,6 +6,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.enums.EntityType;
+import inf112.mayhem.model.interfaces.CharacterModel;
+import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerModel implements CharacterModel {
@@ -48,12 +52,11 @@ public class PlayerModel implements CharacterModel {
 	
 	@Override
 	public void updateBounds() {
-	        bounds.set(position.x, position.y, size.x, size.y);
+        bounds.set(position.x, position.y, size.x, size.y);
 	}
 	
 	@Override
 	public void jump() {
-		
 		if (isGrounded) {
 			velocity.y = JUMP_FORCE;
 			isGrounded = false;
@@ -62,7 +65,7 @@ public class PlayerModel implements CharacterModel {
 			velocity.y = DOUBLE_JUMP_FORCE;
 			jump_counter++;
 		}
-	 }
+	}
 	
 	@Override
 	public void drop() {
@@ -75,34 +78,22 @@ public class PlayerModel implements CharacterModel {
 	}
 
 	@Override
-	public float x() {
-		return position.x;
-	}
+	public float x() { return position.x; }
 
 	@Override
-	public float y() {
-		return position.y;
-	}
+	public float y() { return position.y; }
 
 	@Override
-	public float width() {
-		return size.x;
-	}
+	public float width() { return size.x; }
 
 	@Override
-	public float height() {
-		return size.y;
-	}
+	public float height() { return size.y; }
 	
 	@Override
-	public EntityType type() {
-		return type;
-	}
+	public EntityType type() { return type; }
 	
 	@Override
-	public EntityState state() {
-		return state;
-	}
+	public EntityState state() { return state; }
 	
 	@Override
 	public void updateState() {
@@ -119,21 +110,18 @@ public class PlayerModel implements CharacterModel {
 
 	@Override
 	public void update(AppWorld world, float delta) {
-		
 		float previousY = position.y;
 		
 		velocity.y -= GRAVITY * delta;
-	    
 		position.x += velocity.x * delta;
 		updateBounds();
-
 		position.y += velocity.y * delta;
 		updateBounds();
 	    
-	    //CHECK FOR COLLITIONS WITH GROUND OR PLATFORM
 		if (velocity.y <= 0 && collision.isGrounded(bounds, previousY, ignorePlatforms)) {
 		    isGrounded = true;
-		    ignorePlatforms = false;		    velocity.y = 0;
+		    ignorePlatforms = false;
+		    velocity.y = 0;
 		    position.y = collision.getGroundY(bounds, ignorePlatforms);
 		    jump_counter = 0;
 		    updateBounds();
@@ -143,67 +131,45 @@ public class PlayerModel implements CharacterModel {
 				die();
 			} else {
 				respawn();
+				updateBounds();
 			}
-		} else if (this.lives == 0) {
-			die();
 		} else {
 			isGrounded = false;
 		}
 
-	    //DROP TIMER
 	    if (ignorePlatforms) {
 	        dropDuration -= delta;
 	        if (dropDuration <= 0) ignorePlatforms = false;
 	    }
 
-	    //WORLD BASED ON PLAYER BOUNDS
 	    position.x = Math.max(0 - WORLD_PADDING, Math.min(position.x, (float) world.width() + WORLD_PADDING));
 	    position.y = Math.max(0 - WORLD_PADDING, Math.min(position.y, (float) world.height() + WORLD_PADDING));
 	    updateBounds();
-	    
-	    if (!isActive() && this.lives > 0) {
-	    	respawn();
-	    }
 	}
 	
 	@Override
-	public void setDirection(int n) {
-		this.direction = n;
-	}
+	public void setDirection(int n) { this.direction = n; }
 
 	@Override
-	public int lives() {
-		return this.lives;
-	}
+	public int lives() { return this.lives; }
 
 	@Override
-	public void setLives(int lives) {
-		this.lives = lives;
-	}
+	public void setLives(int lives) { this.lives = lives; }
 
 	@Override
-	public int getDirection() {
-		return this.direction;
-	}
+	public int getDirection() { return this.direction; }
 
 	@Override
 	public void hit(EntityModel obj) {
 		ProjectileClass projectile = (ProjectileClass) obj;
-
-		float knockBack = projectile.getKnockBackMultiplier();
-
-		velocity.x += knockBack * projectile.getDirection();
+		velocity.x += projectile.getKnockBackMultiplier() * projectile.getDirection();
 	}
 
 	@Override
-	public Rectangle bounds() {
-		return this.bounds;
-	}
+	public Rectangle bounds() { return this.bounds; }
 
 	@Override
-	public boolean isActive() {
-		return this.active;
-	}
+	public boolean isActive() { return this.active; }
 	
 	@Override
 	public boolean outOfBounds(AppWorld world) {
@@ -211,13 +177,10 @@ public class PlayerModel implements CharacterModel {
 		    bounds().x + bounds().width > world.width() ||
 		    bounds().y < 0 ||
 		    bounds().y + bounds().height > world.height();
-	    
 	}
 	
 	@Override
-	public void die() {
-		this.active = false;
-	}
+	public void die() { this.active = false; }
 
 	@Override
 	public void respawn() {
@@ -226,15 +189,8 @@ public class PlayerModel implements CharacterModel {
 	}
 
 	@Override
-	public void equipWeapon(AbstractWeapon weapon) {
-		this.equippedWeapon = weapon;
-	}
+	public void equipWeapon(AbstractWeapon weapon) { this.equippedWeapon = weapon; }
 
 	@Override
-	public AbstractWeapon getEquippedWeapon() {
-		return equippedWeapon;
-	}
-
+	public AbstractWeapon getEquippedWeapon() { return equippedWeapon; }
 }
-
-	

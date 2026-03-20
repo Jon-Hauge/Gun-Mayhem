@@ -7,10 +7,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.EntityFactory;
-import inf112.mayhem.model.EntityModel;
-import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.enums.GameState;
+import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.TileMapHelper;
 import inf112.mayhem.view.screens.CampaignView;
