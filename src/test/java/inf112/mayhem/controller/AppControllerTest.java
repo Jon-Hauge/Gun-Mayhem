@@ -67,9 +67,12 @@ public class AppControllerTest {
         when(victoryView.getStage()).thenReturn(mock(Stage.class));
         setField(appController, "victoryView", victoryView);
 
+<<<<<<< HEAD
         CampaignView campaignView = mock(CampaignView.class);
         when(campaignView.getStage()).thenReturn(mock(Stage.class));
         setField(appController, "campaignView", campaignView);
+=======
+>>>>>>> 8f58501 (Adding VictoryView and tests for it, including small changes to the player for functionality)
         HudView hudView = mock(HudView.class);
         setField(appController, "hudView", hudView);
 
