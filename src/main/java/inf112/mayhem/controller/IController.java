@@ -46,6 +46,15 @@ public interface IController {
     /// Returns game to main menu
     void goToMainMenu();
 
+    /// Opens the campaign screen
+    void campaign();
+
+    /// Starts a specific level
+    void startLevel(int levelNumber);
+
+    /// Checks if a level is unlocked
+    boolean isLevelUnlocked(int levelNumber);
+
     /// Progresses to the next level
     void nextLevel();
 

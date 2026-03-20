@@ -3,6 +3,8 @@ package inf112.mayhem.controller;
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
@@ -20,6 +22,7 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.PlayerModel;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.view.screens.CampaignView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
@@ -64,6 +67,10 @@ public class AppControllerTest {
         when(victoryView.getStage()).thenReturn(mock(Stage.class));
         setField(appController, "victoryView", victoryView);
 
+        CampaignView campaignView = mock(CampaignView.class);
+        when(campaignView.getStage()).thenReturn(mock(Stage.class));
+        setField(appController, "campaignView", campaignView);
+
         HudView hudView = mock(HudView.class);
         setField(appController, "hudView", hudView);
 
@@ -83,6 +90,28 @@ public class AppControllerTest {
 
         ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
         setField(appController, "pCollision", pCollision);
+    }
+
+    @Test
+    void testCampaign() {
+        appController.campaign();
+        assertEquals(GameState.CAMPAIGN, world.state());
+    }
+
+    @Test
+    void testIsLevelUnlocked() throws Exception {
+        setField(appController, "unlockedLevels", 1);
+        assertTrue(appController.isLevelUnlocked(1));
+        assertFalse(appController.isLevelUnlocked(2));
+    }
+
+    @Test
+    void testStartLevel() throws Exception {
+        setField(appController, "skipCreate", true);
+        PlayerModel playerModel = (PlayerModel) getField(appController, "playerModel");
+        appController.startLevel(2);
+        assertEquals(GameState.ACTIVE, world.state());
+        verify(playerModel).setLives(3);
     }
 
     private void setField(Object target, String fieldName, Object value) throws Exception {

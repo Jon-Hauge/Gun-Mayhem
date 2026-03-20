@@ -1,22 +1,37 @@
 package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.GameState;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class GameOverView extends AbstractScreenView {
     private AppWorld world;
     private AppController controller;
+    private ShapeRenderer shapeRenderer;
 
     /**
-     * Constructs a new PauseView with the given world and controller.
+     * Constructs a new VictoryView with the given world and controller.
      *
      * @param world The game world.
      * @param controller The application controller for handling state transitions.
@@ -24,6 +39,7 @@ public class GameOverView extends AbstractScreenView {
     public GameOverView(AppWorld world, AppController controller) {
         this.world = world;
         this.controller = controller;
+        this.shapeRenderer = new ShapeRenderer();
         create(world.width(), world.height());
     }
 
@@ -32,35 +48,67 @@ public class GameOverView extends AbstractScreenView {
         Table table = new Table();
         table.setFillParent(true);
 
-        BitmapFont font = generateFont("fonts/Inter_28pt-Black.ttf", 24, 0, 0, Color.BLACK, 1, Color.BLACK);
+        BitmapFont titleFont = generateFont("fonts/Inter_28pt-Black.ttf", 48, 2, 2, Color.BLACK, 3, Color.BLACK);
+        BitmapFont buttonFont = generateFont("fonts/Inter_28pt-Black.ttf", 24, 1, 1, Color.BLACK, 3, Color.BLACK);
+
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font;
+        buttonStyle.font = buttonFont;
         buttonStyle.fontColor = Color.WHITE;
 
-        TextButton startButton = new TextButton("Restart Game", buttonStyle);
-        startButton.addListener(new ClickListener() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle(titleFont, Color.WHITE);
+        Label title = new Label("Game Over", labelStyle);
+        table.add(title).padBottom(20).row();
+
+        TextButton restartButton = new TextButton("Retry", buttonStyle);
+        restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 controller.restartGame();
             }
         });
-        table.add(startButton).padBottom(10).row();
+        table.add(restartButton).padBottom(10).row();
 
-        TextButton exitToMainMenuButton = new TextButton("Exit to Main Menu", buttonStyle);
-        exitToMainMenuButton.addListener(new ClickListener() {
+        TextButton exitButton = new TextButton("Exit to main menu", buttonStyle);
+        exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 controller.goToMainMenu();
             }
         });
-        table.add(exitToMainMenuButton);
+        table.add(exitButton);
 
         return table;
     }
 
     @Override
     public void render() {
+        /*
+         * Code snippet from Stack Overflow answer to "OpenGL (libgdx) - blending alpha map"
+         * by Daniel Funicello https://stackoverflow.com/users/5738818/daniel-funicello
+         * Link to original post: https://stackoverflow.com/questions/30233364/opengl-libgdx-blending-alpha-map#:~:text=1%20Answer&text=I%20use%20this:,which%20libGDX%20does%20not%20include.
+         * Licensed under CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+         */
+
+        Gdx.gl.glEnable(Gdx.gl.GL_BLEND);
+        Gdx.gl.glBlendFunc(Gdx.gl.GL_SRC_ALPHA, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+
+        shapeRenderer.setProjectionMatrix(stage.getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(0, 0, 0, 0.3f));
+        shapeRenderer.rect(0, 0, (float) world.width(), (float) world.height());
+        shapeRenderer.end();
+
+        Gdx.gl.glDisable(Gdx.gl.GL_BLEND);
+
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        if (shapeRenderer != null) {
+            shapeRenderer.dispose();
+        }
     }
 }

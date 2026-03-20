@@ -18,9 +18,11 @@ public abstract class AbstractScreenView {
     /// @param worldHeight height of the gameworld
     ///
     public void create(double worldWidth, double worldHeight) {
-        this.stage = new Stage(new FillViewport((float) worldWidth, (float) worldHeight));
-        Table buttons = createButtons();
-        stage.addActor(buttons);
+        if (this.stage == null) {
+            this.stage = new Stage(new FillViewport((float) worldWidth, (float) worldHeight));
+            Table buttons = createButtons();
+            stage.addActor(buttons);
+        }
     }
 
     /// Creates a table containing the game-buttons separately from the stage
@@ -52,10 +54,20 @@ public abstract class AbstractScreenView {
         return stage;
     }
 
+    public void rebuildUI() {
+        if (stage != null) {
+            stage.clear();
+            Table buttons = createButtons();
+            stage.addActor(buttons);
+        }
+    }
+
     /// Disposes all elements in stage
     ///
     public void dispose() {
-        stage.dispose();
+        if (stage != null) {
+            stage.dispose();
+        }
     }
 
     /// Generates a BitmapFont using FreeTypeFontGenerator

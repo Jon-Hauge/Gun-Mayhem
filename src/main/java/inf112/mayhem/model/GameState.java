@@ -7,4 +7,5 @@ public enum GameState {
 	GAME_OVER,
     MAIN_MENU,
     VICTORY,
+    CAMPAIGN,
 }
