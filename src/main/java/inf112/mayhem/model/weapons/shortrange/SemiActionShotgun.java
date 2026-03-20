@@ -8,10 +8,16 @@ import inf112.mayhem.model.weapons.WeaponType;
 
 public class SemiActionShotgun extends ShortRangeWeapon {
 
+    private static final WeaponType WEAPON_TYPE = WeaponType.SHOTGUN;
+    private static final float WIDTH = 20f;
+    private static final float HEIGHT = 12f;
+    private static final EntityState STARTING_STATE = EntityState.IN_USE;
+    private static final int AMMO = -1;
+    private static final float firingDelay = 4f;
+
     public SemiActionShotgun(float startX, float startY, PlayerModel player, float width, float height,
             WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
         super(startX, startY, player, width, height, weaponType, startingState, startingAmmo, firingDelay);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
