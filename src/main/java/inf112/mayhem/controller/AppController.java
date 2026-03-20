@@ -50,10 +50,10 @@ public class AppController implements ApplicationListener, IController {
         
         //PLAYER
         playerController = fac.spawnPlayer(500f, 400f);
+        playerModel = playerController.getPlayer();
         weaponController = fac.spawnBaseWeapon(500f, 400f, playerController);        
         // Spawn dummies
         fac.spawnPlayer(900f, 400f);
-        world.add(playerModel);
 
         // VIEW: graphics
         activeGameView = new ActiveGameView(world, this);
@@ -111,8 +111,13 @@ public class AppController implements ApplicationListener, IController {
                 // 4. Tegn til slutt
                 world.removeInactive();
                 activeGameView.render(world, delta);
-                hudView.update(playerController.getPlayer());
+                hudView.update(playerModel);
                 hudView.render();
+
+                if (playerModel.lives() <= 0) {
+                    world.setState(GameState.GAME_OVER);
+                    updateInputProcessor();
+                }
             }
             case PAUSED    -> pauseView.render();
             case GAME_OVER -> gameOverView.render();
@@ -147,6 +152,7 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public void startGame() {
         world.setState(GameState.ACTIVE);
+        playerModel.setLives(3);
         updateInputProcessor();
     }
 
@@ -157,11 +163,17 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void restartGame() {
-        create();
+        if (!skipCreate) {
+            create();
+        }
         world.setState(GameState.ACTIVE);
         gameOver = false;
+        playerModel.setLives(3);
         updateInputProcessor();
     }
+    
+    // For testing purposes
+    protected boolean skipCreate = false;
 
     @Override
     public void goToMainMenu() {

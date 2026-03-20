@@ -1,5 +1,6 @@
 package inf112.mayhem.view.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,7 +16,7 @@ public class GameOverView extends AbstractScreenView {
     private AppController controller;
 
     /**
-     * Constructs a new GameOverView with the given world and controller.
+     * Constructs a new PauseView with the given world and controller.
      *
      * @param world The game world.
      * @param controller The application controller for handling state transitions.
@@ -31,33 +32,35 @@ public class GameOverView extends AbstractScreenView {
         Table table = new Table();
         table.setFillParent(true);
 
-        BitmapFont font = generateFont("fonts/Inter_28pt-Black.ttf", 32, 0, 0, Color.BLACK, 1, Color.BLACK);
+        BitmapFont font = generateFont("fonts/Inter_28pt-Black.ttf", 24, 0, 0, Color.BLACK, 1, Color.BLACK);
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
         buttonStyle.fontColor = Color.WHITE;
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.WHITE);
-        Label title = new Label("GAME OVER", labelStyle);
-        table.add(title).padBottom(20).row();
-
-        TextButton restartButton = new TextButton("Restart button", buttonStyle);
-        restartButton.addListener(new ClickListener() {
+        TextButton startButton = new TextButton("Restart Game", buttonStyle);
+        startButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 controller.restartGame();
             }
         });
-        table.add(restartButton).padBottom(10).row();
+        table.add(startButton).padBottom(10).row();
 
-        TextButton exitButton = new TextButton("Exit button", buttonStyle);
-        exitButton.addListener(new ClickListener() {
+        TextButton exitToMainMenuButton = new TextButton("Exit to Main Menu", buttonStyle);
+        exitToMainMenuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                controller.exitGame();
+                controller.goToMainMenu();
             }
         });
-        table.add(exitButton);
+        table.add(exitToMainMenuButton);
 
         return table;
+    }
+
+    @Override
+    public void render() {
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
     }
 }

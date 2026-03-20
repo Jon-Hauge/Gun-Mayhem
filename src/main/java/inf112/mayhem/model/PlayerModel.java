@@ -171,6 +171,11 @@ public class PlayerModel implements CharacterModel {
 	}
 
 	@Override
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+
+	@Override
 	public int getDirection() {
 		return this.direction;
 	}
