@@ -4,17 +4,18 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.EntityModel;
-import inf112.mayhem.model.EntityState;
-import inf112.mayhem.model.EntityType;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.enums.EntityType;
+import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.interfaces.ProjectileModel;
 
 public abstract class AbstractProjectile implements ProjectileModel, EntityModel {
 
     private final Vector2 size = new Vector2(10, 7);
     protected Vector2 position = new Vector2();
     protected final Rectangle bounds = new Rectangle();
-    private final PlayerModel player;
+    private final PlayerClass player;
     
     private final EntityType type = EntityType.PROJECTILE;
     private EntityState state = EntityState.ACTIVE;
@@ -25,7 +26,7 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
     private float knockBackMultiplier = 1500f;
 
 
-    public AbstractProjectile(PlayerModel player) {
+    public AbstractProjectile(PlayerClass player) {
 		this.player = player;
 		this.direction = player.getDirection();
 		

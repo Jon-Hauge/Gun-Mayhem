@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.screens.AbstractScreenView;
 
@@ -139,7 +139,7 @@ public class HudView extends AbstractScreenView {
      *
      * @param player The current player instance.
      */
-    public void update(PlayerModel player) {
+    public void update(PlayerClass player) {
         if (player != null) {
             this.currentLives = player.lives();
             this.currentAmmo = weapon.getCurrentAmmo();

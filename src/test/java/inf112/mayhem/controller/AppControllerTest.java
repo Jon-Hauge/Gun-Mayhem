@@ -1,15 +1,16 @@
 package inf112.mayhem.controller;
 
-import java.lang.reflect.Field;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.lang.reflect.Field;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Files;
@@ -19,9 +20,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.GameState;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.enums.GameState;
 import inf112.mayhem.view.screens.CampaignView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;
@@ -70,18 +71,17 @@ public class AppControllerTest {
         CampaignView campaignView = mock(CampaignView.class);
         when(campaignView.getStage()).thenReturn(mock(Stage.class));
         setField(appController, "campaignView", campaignView);
-
         HudView hudView = mock(HudView.class);
         setField(appController, "hudView", hudView);
 
         PlayerController playerController = mock(PlayerController.class);
-        PlayerModel playerModel = mock(PlayerModel.class);
+        PlayerClass playerModel = mock(PlayerClass.class);
         when(playerModel.lives()).thenReturn(3);
         when(playerController.getPlayer()).thenReturn(playerModel);
         setField(appController, "playerController", playerController);
         setField(appController, "playerModel", playerModel);
 
-        PlayerModel enemyModel = mock(PlayerModel.class);
+        PlayerClass enemyModel = mock(PlayerClass.class);
         when(enemyModel.lives()).thenReturn(3);
         setField(appController, "enemyModel", enemyModel);
 
@@ -108,7 +108,7 @@ public class AppControllerTest {
     @Test
     void testStartLevel() throws Exception {
         setField(appController, "skipCreate", true);
-        PlayerModel playerModel = (PlayerModel) getField(appController, "playerModel");
+        PlayerClass playerModel = (PlayerClass) getField(appController, "playerModel");
         appController.startLevel(2);
         assertEquals(GameState.ACTIVE, world.state());
         verify(playerModel).setLives(3);
@@ -208,7 +208,7 @@ public class AppControllerTest {
         world.setState(GameState.ACTIVE);
         when(Gdx.graphics.getDeltaTime()).thenReturn(0.016f);
         
-        PlayerModel playerModel = mock(PlayerModel.class);
+        PlayerClass playerModel = mock(PlayerClass.class);
         when(playerModel.lives()).thenReturn(0);
         setField(appController, "playerModel", playerModel);
 
@@ -219,8 +219,8 @@ public class AppControllerTest {
 
     @Test
     void testRestartGameResetsLives() throws Exception {
-        PlayerModel playerModel = (PlayerModel) getField(appController, "playerModel");
-        PlayerModel enemyModel = (PlayerModel) getField(appController, "enemyModel");
+        PlayerClass playerModel = (PlayerClass) getField(appController, "playerModel");
+        PlayerClass enemyModel = (PlayerClass) getField(appController, "enemyModel");
         
         setField(appController, "skipCreate", true);
         
@@ -234,7 +234,7 @@ public class AppControllerTest {
     @Test
     void testVictoryWhenEnemyLivesAreZero() throws Exception {
         world.setState(GameState.ACTIVE);
-        PlayerModel enemyModel = (PlayerModel) getField(appController, "enemyModel");
+        PlayerClass enemyModel = (PlayerClass) getField(appController, "enemyModel");
         when(enemyModel.lives()).thenReturn(0);
         when(Gdx.graphics.getDeltaTime()).thenReturn(0.016f);
 

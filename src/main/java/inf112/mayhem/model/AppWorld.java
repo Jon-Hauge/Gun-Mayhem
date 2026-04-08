@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import inf112.mayhem.model.enums.GameState;
+import inf112.mayhem.model.interfaces.EntityModel;
+
 public class AppWorld implements Iterable<EntityModel> {
 	double width;
 	double height;

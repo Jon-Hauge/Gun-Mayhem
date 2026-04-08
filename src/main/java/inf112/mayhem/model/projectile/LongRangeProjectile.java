@@ -3,7 +3,7 @@ package inf112.mayhem.model.projectile;
 import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
 
 public class LongRangeProjectile extends AbstractProjectile {
 
@@ -13,7 +13,7 @@ public class LongRangeProjectile extends AbstractProjectile {
 
 
 
-    public LongRangeProjectile(PlayerModel player) {
+    public LongRangeProjectile(PlayerClass player) {
         super(player);
         updateBounds();
     }

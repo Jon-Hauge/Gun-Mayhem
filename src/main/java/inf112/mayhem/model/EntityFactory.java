@@ -22,7 +22,7 @@ public class EntityFactory {
 	}
 	
 	public PlayerController spawnPlayer(float x, float y) {
-		PlayerModel player = new PlayerModel(x, y, map);
+		PlayerClass player = new PlayerClass(x, y, map);
 		world.add(player);
 		return new PlayerController(player, world, this);
 	}
@@ -35,7 +35,7 @@ public class EntityFactory {
 
 	}
 
-	public void spawnProjectile(PlayerModel player) {
+	public void spawnProjectile(PlayerClass player) {
 		AbstractProjectile projectile = new LongRangeProjectile(player);
 		world.add(projectile);
 	}

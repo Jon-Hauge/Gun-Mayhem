@@ -1,14 +1,14 @@
 package inf112.mayhem.model.projectile;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
 
 public class ShortRangeProjectile extends AbstractProjectile {
 
     private float timeAlive = 0f;
     private final float MAX_TIME = 0.1f; 
 
-    public ShortRangeProjectile(PlayerModel player) {
+    public ShortRangeProjectile(PlayerClass player) {
         super(player);
         updateBounds();
     }

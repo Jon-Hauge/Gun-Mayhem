@@ -3,13 +3,13 @@ package inf112.mayhem.model.weapons;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.EntityModel;
-import inf112.mayhem.model.EntityState;
-import inf112.mayhem.model.EntityType;
-import inf112.mayhem.model.PlayerModel;
+import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.enums.EntityType;
+import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
 
-public abstract class AbstractWeapon implements EntityModel{
+public abstract class AbstractWeapon implements EntityModel {
 
     private float x;
     private float y;
@@ -20,10 +20,10 @@ public abstract class AbstractWeapon implements EntityModel{
     private int maxAmmo; //set ammo to -1 for inf
     private int currentAmmo;
     private float firingDelay;
-    protected PlayerModel player;
+    protected PlayerClass player;
     private WeaponView weaponView;
 
-    public AbstractWeapon(float startX, float startY, PlayerModel player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
+    public AbstractWeapon(float startX, float startY, PlayerClass player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
         this.x = startX;
         this.y = startY;
         this.player = player;
@@ -138,7 +138,7 @@ public abstract class AbstractWeapon implements EntityModel{
         return maxAmmo;
     }
 
-    public PlayerModel getPlayer(){
+    public PlayerClass getPlayer(){
         return player;
     }
 
