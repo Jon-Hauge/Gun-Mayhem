@@ -12,7 +12,7 @@ public class SemiActionShotgun extends ShortRangeWeapon {
     private static final float WIDTH = 20f;
     private static final float HEIGHT = 12f;
     private static final EntityState STARTING_STATE = EntityState.IN_USE;
-    private static final int AMMO = -1;
+    private static final int AMMO = 8;
     private static final float firingDelay = 4f;
 
     public SemiActionShotgun(float startX, float startY, PlayerModel player, float width, float height,
@@ -22,8 +22,7 @@ public class SemiActionShotgun extends ShortRangeWeapon {
 
     @Override
     public Rectangle getAttackBounds() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAttackBounds'");
+        return new Rectangle(player.x(), player.y(), WIDTH, HEIGHT);
     }
 
     @Override

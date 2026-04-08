@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.collision.MapCollisionHandler;
-import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerModel implements CharacterModel {
@@ -188,7 +188,7 @@ public class PlayerModel implements CharacterModel {
 
 	@Override
 	public void hit(EntityModel obj) {
-		ProjectileClass projectile = (ProjectileClass) obj;
+		AbstractProjectile projectile = (AbstractProjectile) obj;
 
 		float knockBack = projectile.getKnockBackMultiplier();
 

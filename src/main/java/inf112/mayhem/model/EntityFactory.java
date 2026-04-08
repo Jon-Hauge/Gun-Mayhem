@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.controller.PlayerController;
 import inf112.mayhem.controller.WeaponController;
+import inf112.mayhem.model.projectile.AbstractProjectile;
+import inf112.mayhem.model.projectile.LongRangeProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.PistolWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
@@ -34,7 +36,7 @@ public class EntityFactory {
 	}
 
 	public void spawnProjectile(PlayerModel player) {
-		ProjectileClass projectile = new ProjectileClass(player);
+		AbstractProjectile projectile = new LongRangeProjectile(player);
 		world.add(projectile);
 	}
 
