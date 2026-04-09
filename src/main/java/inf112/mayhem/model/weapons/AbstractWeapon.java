@@ -20,7 +20,7 @@ public abstract class AbstractWeapon implements EntityModel {
     private int maxAmmo; //set ammo to -1 for inf
     private int currentAmmo;
     private float firingDelay;
-    private PlayerClass player;
+    protected PlayerClass player;
     private WeaponView weaponView;
 
     public AbstractWeapon(float startX, float startY, PlayerClass player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {

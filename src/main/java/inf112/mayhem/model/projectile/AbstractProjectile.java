@@ -1,30 +1,32 @@
-package inf112.mayhem.model;
+package inf112.mayhem.model.projectile;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.PlayerClass;
 import inf112.mayhem.model.enums.EntityState;
 import inf112.mayhem.model.enums.EntityType;
 import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.model.interfaces.ProjectileModel;
 
-public class ProjectileClass implements ProjectileModel {
+public abstract class AbstractProjectile implements ProjectileModel, EntityModel {
 
     private final Vector2 size = new Vector2(10, 7);
-    private Vector2 position = new Vector2();
-    private final Rectangle bounds = new Rectangle();
+    protected Vector2 position = new Vector2();
+    protected final Rectangle bounds = new Rectangle();
     private final PlayerClass player;
     
     private final EntityType type = EntityType.PROJECTILE;
     private EntityState state = EntityState.ACTIVE;
     
-    private boolean active = true;
+    protected  boolean active = true;
     private final int direction; // 1 = høyre, -1 = venstre
     private final float BULLET_SPEED = 350f;
     private float knockBackMultiplier = 1500f;
 
 
-    public ProjectileClass(PlayerClass player) {
+    public AbstractProjectile(PlayerClass player) {
 		this.player = player;
 		this.direction = player.getDirection();
 		
@@ -35,13 +37,10 @@ public class ProjectileClass implements ProjectileModel {
 	    }
 	    this.position.y = player.y() + (player.height() / 2);
 	    
-	    updateBounds();
     }
     
     @Override
-    public void updateBounds() {
-	    bounds.set(position.x, position.y, size.x, size.y);
-	}
+    public abstract void updateBounds();
 
     @Override
     public float x() {
@@ -86,21 +85,8 @@ public class ProjectileClass implements ProjectileModel {
     }
 
     @Override
-    public void update(AppWorld world, float delta) {
-        position.x += BULLET_SPEED * direction * delta;
-        updateBounds();
-
-        //CHECK IF OUT OF BOUNDS
-        if (position.x + size.x < 0     || 
-        	position.x > world.width()  ||
-        	position.y + size.y < 0     || 
-        	position.y > world.height())
-        	{
-                active = false;
-            }
-        
-        updateState();
-    }
+    public abstract void update(AppWorld world, float delta);
+    //CHECK IF OUT OF BOUNDS
 
     @Override
     public Rectangle bounds() {
@@ -124,5 +110,9 @@ public class ProjectileClass implements ProjectileModel {
     public int getDirection() {
 		return this.direction;
 	}
+
+    public float getBulletSpeed() {
+        return this.BULLET_SPEED;
+    }
 
 }

@@ -1,10 +1,10 @@
 package inf112.mayhem.model.collision;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.ProjectileClass;
 import inf112.mayhem.model.interfaces.CharacterModel;
 import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.model.interfaces.ProjectileModel;
+import inf112.mayhem.model.projectile.AbstractProjectile;
 
 public class ProjectileCollisionHandler {
 	private final AppWorld world;
@@ -15,7 +15,7 @@ public class ProjectileCollisionHandler {
 	
 	public void checkCollisions() {
 	    for (EntityModel obj : world) {
-	        if (!(obj instanceof ProjectileClass projectile)) continue;
+	        if (!(obj instanceof AbstractProjectile projectile)) continue;
 
 	        for (EntityModel target : world) {
 	            if (target == projectile) continue;
@@ -37,7 +37,7 @@ public class ProjectileCollisionHandler {
 	    }
 	}
 
-	private boolean projectileHit(ProjectileClass projectile, EntityModel target) {
+	private boolean projectileHit(AbstractProjectile projectile, EntityModel target) {
 	    return projectile.bounds().overlaps(target.bounds());
 	}
 

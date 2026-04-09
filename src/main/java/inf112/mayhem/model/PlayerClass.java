@@ -1,10 +1,12 @@
 package inf112.mayhem.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+
 import inf112.mayhem.model.abstracts.AbstractCharacter;
 import inf112.mayhem.model.enums.EntityState;
 import inf112.mayhem.model.enums.EntityType;
 import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerClass extends AbstractCharacter {
@@ -97,7 +99,7 @@ public class PlayerClass extends AbstractCharacter {
 
     @Override
     public void hit(EntityModel obj) {
-        ProjectileClass projectile = (ProjectileClass) obj;
+        AbstractProjectile projectile = (AbstractProjectile) obj;
         velocity.x += projectile.getKnockBackMultiplier() * projectile.getDirection();
     }
 
