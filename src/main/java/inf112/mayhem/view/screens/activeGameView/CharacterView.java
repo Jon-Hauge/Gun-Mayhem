@@ -45,14 +45,11 @@ public class CharacterView {
             default ->  idleAnimation;
         };
 
-        AbstractWeapon weapon = obj.getEquippedWeapon();
-        if (weapon != null) {
-            characterRig.setWeapon(weapon.getWeaponView());
-        }
-
         currAnimation.update(characterRig, delta);
-        boolean mirrored = obj.getDirection() == -1;
 
-        characterRig.draw(batch, obj.x(), obj.y(), mirrored);
+        boolean mirrored = obj.getDirection() == -1;
+        AbstractWeapon weapon = obj.getEquippedWeapon();
+
+        characterRig.draw(batch, obj.x(), obj.y(), mirrored, weapon);
     }
 }

@@ -30,7 +30,7 @@ public class HudView extends AbstractScreenView {
     private Label gunLabel;
     private BitmapFont font;
     private BitmapFont ammoFont;
-    private AbstractWeapon weapon;
+    private PlayerClass playerClass;
     // CHANGE BELOW WHEN ADDED AMMO/LIVES/GUN PROPERLY
     private int currentLives = 3;
     private int maxLives = 3;
@@ -47,12 +47,12 @@ public class HudView extends AbstractScreenView {
      * @param world The game world.
      * @param controller The application controller for handling state transitions.
      */
-    public HudView(AppWorld world, AppController controller, AbstractWeapon weapon) {
+    public HudView(AppWorld world, AppController controller, PlayerClass playerClass) {
         this.world = world;
         this.controller = controller;
-        this.weapon = weapon;
-        this.currentAmmo = weapon.getCurrentAmmo();
-        this.maxAmmo = weapon.getMaxAmmo();
+        this.playerClass = playerClass;
+        this.currentAmmo = playerClass.getEquippedWeapon().getCurrentAmmo();
+        this.maxAmmo = playerClass.getEquippedWeapon().getMaxAmmo();
         this.stage = new Stage(new FitViewport((float) world.width(), (float) world.height()));
         this.shape = new ShapeRenderer();
         create(world.width(), world.height());
@@ -142,7 +142,7 @@ public class HudView extends AbstractScreenView {
     public void update(PlayerClass player) {
         if (player != null) {
             this.currentLives = player.lives();
-            this.currentAmmo = weapon.getCurrentAmmo();
+            this.currentAmmo = playerClass.getEquippedWeapon().getCurrentAmmo();
             livesLabel.setText("LIVES: " + currentLives);
         }
     }

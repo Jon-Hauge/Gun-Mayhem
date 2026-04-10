@@ -1,8 +1,10 @@
 package inf112.mayhem.model;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import inf112.mayhem.model.abstracts.AbstractCharacter;
+import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.enums.EntityState;
 import inf112.mayhem.model.enums.EntityType;
 import inf112.mayhem.model.interfaces.EntityModel;
