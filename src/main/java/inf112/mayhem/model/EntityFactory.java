@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.controller.PlayerController;
 import inf112.mayhem.controller.WeaponController;
-import inf112.mayhem.model.projectile.AbstractProjectile;
+import inf112.mayhem.model.abstracts.AbstractProjectile;
 import inf112.mayhem.model.projectile.LongRangeProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.PistolWeapon;

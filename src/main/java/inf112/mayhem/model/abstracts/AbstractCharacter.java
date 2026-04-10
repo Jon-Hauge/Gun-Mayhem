@@ -7,10 +7,12 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.interfaces.CharacterModel;
 import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
 	protected MapCollisionHandler collision;
+	private AbstractWeapon equippedWeapon;
 	
     protected final float GRAVITY = 400f;
     protected final float JUMP_FORCE = 250f;
@@ -77,6 +79,16 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	@Override
 	public int lives() {
 		return this.lives;
+	}
+	
+	@Override
+	public void equipWeapon(AbstractWeapon weapon) {
+		this.equippedWeapon = weapon;
+	}
+	
+	@Override
+	public AbstractWeapon getEquippedWeapon() {
+		return this.equippedWeapon;
 	}
 	
 	@Override

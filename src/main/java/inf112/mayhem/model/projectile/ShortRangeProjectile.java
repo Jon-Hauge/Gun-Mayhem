@@ -2,6 +2,7 @@ package inf112.mayhem.model.projectile;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.abstracts.AbstractProjectile;
 
 public class ShortRangeProjectile extends AbstractProjectile {
 

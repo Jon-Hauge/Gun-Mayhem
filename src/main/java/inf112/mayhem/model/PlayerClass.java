@@ -3,18 +3,16 @@ package inf112.mayhem.model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.abstracts.AbstractCharacter;
+import inf112.mayhem.model.abstracts.AbstractProjectile;
 import inf112.mayhem.model.enums.EntityState;
 import inf112.mayhem.model.enums.EntityType;
 import inf112.mayhem.model.interfaces.EntityModel;
-import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerClass extends AbstractCharacter {
 
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
-
-    private AbstractWeapon equippedWeapon;
 
     public PlayerClass(float startX, float startY, TiledMap map) {
         super(startX, startY, WIDTH, HEIGHT, 3, map);
@@ -103,9 +101,4 @@ public class PlayerClass extends AbstractCharacter {
         velocity.x += projectile.getKnockBackMultiplier() * projectile.getDirection();
     }
 
-    @Override
-    public void equipWeapon(AbstractWeapon weapon) { this.equippedWeapon = weapon; }
-
-    @Override
-    public AbstractWeapon getEquippedWeapon() { return equippedWeapon; }
 }

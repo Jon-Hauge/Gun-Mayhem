@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.abstracts.AbstractProjectile;
 
 public class LongRangeProjectile extends AbstractProjectile {
 
