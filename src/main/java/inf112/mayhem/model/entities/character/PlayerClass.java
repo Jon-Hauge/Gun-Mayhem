@@ -17,8 +17,6 @@ public class PlayerClass extends AbstractCharacter {
     private float knockBack = 0f;
     private static final float KNOCKBACK_DECAY = 8f;
 
-    private AbstractWeapon equippedWeapon;
-
     public PlayerClass(float startX, float startY, TiledMap map) {
         super(startX, startY, WIDTH, HEIGHT, LIVES, map);
         this.type = EntityType.PLAYER;
