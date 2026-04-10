@@ -1,6 +1,6 @@
 # Gun Mayhem 3
 
-- This project acts as a remake/sequel of the popular shooter Gun Mayhem 2. It is a platfoormer / shooter played against one or several bots, where the goal is to knock your opponents of the map using knockback from your guns. We decided on this game because of its complexity, fun-factor and a sprinkle of nostalgia.
+- This project acts as a remake/sequel of the popular shooter Gun Mayhem 2. It is a platformer / shooter played against one or several bots, where the goal is to knock your opponents of the map using knockback from your guns. We decided on this game because of its complexity, fun-factor and a sprinkle of nostalgia.
 
 ---
 
