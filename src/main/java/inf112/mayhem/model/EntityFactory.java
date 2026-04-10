@@ -15,34 +15,35 @@ import inf112.mayhem.view.screens.activeGameView.WeaponView;
 public class EntityFactory {
 	private final AppWorld world;
 	private final TiledMap map;
-	
+
 	public EntityFactory(AppWorld world, TiledMap map) {
 		this.world = world;
 		this.map = map;
 	}
-	
+
 	public PlayerController spawnPlayer(float x, float y) {
 		PlayerClass player = new PlayerClass(x, y, map);
 		world.add(player);
 		return new PlayerController(player, world, this);
 	}
-	
-	public WeaponController spawnBaseWeapon(float x, float y, PlayerController playerController){
+
+	public WeaponController spawnBaseWeapon(float x, float y, PlayerController playerController) {
 		AbstractWeapon playerBaseWeapon = new PistolWeapon(x, y, playerController.getPlayer());
 		playerBaseWeapon.setWeaponView(createWeaponView(playerBaseWeapon.getWeaponType()));
 		world.add(playerBaseWeapon);
+		playerController.getPlayer().equipWeapon(playerBaseWeapon);
 		return new WeaponController(playerBaseWeapon, world, this);
 
 	}
 
 	public void spawnProjectile(PlayerClass player) {
-		AbstractProjectile projectile = new LongRangeProjectile(player);
+		AbstractProjectile projectile = new LongRangeProjectile(player.getEquippedWeapon());
 		world.add(projectile);
 	}
 
 	public static WeaponView createWeaponView(WeaponType weapon) {
 		switch (weapon) {
-            case SHOTGUN:
+			case SHOTGUN:
 				return new WeaponView(new Texture("weapons/shotgun.png"),
 						60f, 170f, 1f);
 			case AK:

@@ -9,50 +9,52 @@ import inf112.mayhem.model.enums.EntityState;
 import inf112.mayhem.model.enums.EntityType;
 import inf112.mayhem.model.interfaces.EntityModel;
 import inf112.mayhem.model.interfaces.ProjectileModel;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public abstract class AbstractProjectile implements ProjectileModel, EntityModel {
-
     private final Vector2 size = new Vector2(10, 7);
     protected Vector2 position = new Vector2();
     protected final Rectangle bounds = new Rectangle();
-    private final PlayerClass player;
-    
+    private final AbstractWeapon weapon;
     private final EntityType type = EntityType.PROJECTILE;
     private EntityState state = EntityState.ACTIVE;
-    
-    protected  boolean active = true;
-    private final int direction; // 1 = høyre, -1 = venstre
-    private final float BULLET_SPEED = 350f;
-    private float knockBackMultiplier = 1500f;
+    protected boolean active = true;
+    private final int direction;
 
+    public AbstractProjectile(AbstractWeapon weapon) {
+        this.weapon = weapon;
+        PlayerClass player = weapon.getPlayer();
+        this.direction = player.getDirection();
 
-    public AbstractProjectile(PlayerClass player) {
-		this.player = player;
-		this.direction = player.getDirection();
-		
-		if (direction == -1) {
-	        this.position.x = player.x() - size.x;
-	    } else {
-	        this.position.x = player.x() + player.width();
-	    }
-	    this.position.y = player.y() + (player.height() / 2);
-	    
+        if (direction == -1) {
+            this.position.x = player.x() - size.x;
+        } else {
+            this.position.x = player.x() + player.width();
+        }
+        this.position.y = player.y() + (player.height() / 2);
     }
-    
+
+    public AbstractWeapon getWeapon() {
+        return weapon;
+    }
+
+    public int getDirection() {
+        return direction;
+    }
+
     @Override
     public abstract void updateBounds();
 
     @Override
     public float x() {
-    	return this.position.x;
-        
+        return this.position.x;
+
     }
 
     @Override
     public float y() {
         return this.position.y;
     }
-       
 
     @Override
     public float width() {
@@ -77,16 +79,16 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
     @Override
     public void updateState() {
         if (active) {
-        	this.state = EntityState.ACTIVE;
+            this.state = EntityState.ACTIVE;
         } else {
-        	this.state = EntityState.HIT;
+            this.state = EntityState.HIT;
         }
-        
+
     }
 
     @Override
     public abstract void update(AppWorld world, float delta);
-    //CHECK IF OUT OF BOUNDS
+    // CHECK IF OUT OF BOUNDS
 
     @Override
     public Rectangle bounds() {
@@ -97,22 +99,12 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
     public boolean isActive() {
         return this.active;
     }
-    
+
     @Override
     public void hit(EntityModel obj) {
         active = false;
     }
 
-    public float getKnockBackMultiplier() {
-        return this.knockBackMultiplier;
-    }
-
-    public int getDirection() {
-		return this.direction;
-	}
-
-    public float getBulletSpeed() {
-        return this.BULLET_SPEED;
-    }
+    
 
 }

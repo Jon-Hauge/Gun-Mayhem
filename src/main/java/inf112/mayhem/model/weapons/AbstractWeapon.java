@@ -22,8 +22,12 @@ public abstract class AbstractWeapon implements EntityModel {
     private float firingDelay;
     protected PlayerClass player;
     private WeaponView weaponView;
+    protected float knockBackMultiplier;
+    protected float bulletSpeed;
 
-    public AbstractWeapon(float startX, float startY, PlayerClass player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
+
+
+    public AbstractWeapon(float startX, float startY, PlayerClass player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay, float knockBackMultiplier, float bulletSpeed) {
         this.x = startX;
         this.y = startY;
         this.player = player;
@@ -33,6 +37,8 @@ public abstract class AbstractWeapon implements EntityModel {
         this.maxAmmo = startingAmmo;
         this.currentAmmo = startingAmmo;
         this.firingDelay = firingDelay;
+        this.bulletSpeed = bulletSpeed;
+        this.knockBackMultiplier = knockBackMultiplier;
     }
 
     @Override
@@ -145,7 +151,16 @@ public abstract class AbstractWeapon implements EntityModel {
     public WeaponView getWeaponView() {
         return weaponView;
     }
+
     public void setWeaponView(WeaponView weaponView) {
         this.weaponView = weaponView;
+    }
+
+    public float getKnockBackMultiplier() {
+        return this.knockBackMultiplier;
+    }
+
+    public float getBulletSpeed() {
+        return this.bulletSpeed;
     }
 }

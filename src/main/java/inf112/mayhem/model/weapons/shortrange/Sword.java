@@ -11,19 +11,10 @@ public class Sword extends ShortRangeWeapon {
     public Sword(float startX, float startY, PlayerClass player, float width, float height, WeaponType weaponType,
             EntityState startingState, int startingAmmo, float firingDelay) {
         super(startX, startY, player, width, height, weaponType, startingState, startingAmmo, firingDelay);
-        //TODO Auto-generated constructor stub
+        setKnockback(200f);
+        setAttackBounds(new Rectangle(player.x(), player.y(), 8, 12));
     }
 
-    @Override
-    public Rectangle getAttackBounds() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAttackBounds'");
-    }
-
-    @Override
-    public float getKnockBack() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getKnockBack'");
-    }
+    
 
 }

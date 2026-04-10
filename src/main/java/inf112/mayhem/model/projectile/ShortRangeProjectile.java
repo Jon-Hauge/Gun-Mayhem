@@ -1,15 +1,18 @@
 package inf112.mayhem.model.projectile;
 
+import com.badlogic.gdx.math.Rectangle;
+
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class ShortRangeProjectile extends AbstractProjectile {
 
     private float timeAlive = 0f;
     private final float MAX_TIME = 0.1f; 
+    protected Rectangle weaponsBounds = new Rectangle();
 
-    public ShortRangeProjectile(PlayerClass player) {
-        super(player);
+    public ShortRangeProjectile(AbstractWeapon weapon) {
+        super(weapon);
         updateBounds();
     }
 
