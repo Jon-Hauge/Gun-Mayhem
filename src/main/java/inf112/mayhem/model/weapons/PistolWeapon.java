@@ -11,7 +11,7 @@ public class PistolWeapon extends AbstractWeapon {
     private static final int AMMO = -1;
     private static final float firingDelay = 1f;
 
-    public PistolWeapon(float startX, float startY, PlayerClass player){
-        super(startX, startY, player, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, firingDelay);
+    public PistolWeapon(float startX, float startY, PlayerClass playerClass){
+        super(startX, startY, playerClass, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, firingDelay);
     }
 }
