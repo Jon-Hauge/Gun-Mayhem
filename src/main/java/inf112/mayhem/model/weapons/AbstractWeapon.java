@@ -13,17 +13,21 @@ public abstract class AbstractWeapon implements EntityModel {
 
     private float x;
     private float y;
-    private float width; 
+    private float width;
     private float height;
     private EntityState state;
     private WeaponType weaponType;
-    private int maxAmmo; //set ammo to -1 for inf
+    private int maxAmmo; // set ammo to -1 for inf
     private int currentAmmo;
     private float firingDelay;
     protected PlayerClass player;
     private WeaponView weaponView;
+    protected float knockBackMultiplier;
+    protected float bulletSpeed;
 
-    public AbstractWeapon(float startX, float startY, PlayerClass player, float width, float height, WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
+    public AbstractWeapon(float startX, float startY, PlayerClass player, float width, float height,
+            WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay,
+            float knockBackMultiplier, float bulletSpeed) {
         this.x = startX;
         this.y = startY;
         this.player = player;
@@ -33,6 +37,8 @@ public abstract class AbstractWeapon implements EntityModel {
         this.maxAmmo = startingAmmo;
         this.currentAmmo = startingAmmo;
         this.firingDelay = firingDelay;
+        this.bulletSpeed = bulletSpeed;
+        this.knockBackMultiplier = knockBackMultiplier;
     }
 
     @Override
@@ -67,12 +73,13 @@ public abstract class AbstractWeapon implements EntityModel {
 
     @Override
     public void updateState() {
-        int i = 1; //MIDDLERTIDIG
+        int i = 1; // MIDDLERTIDIG
     }
 
     @Override
     public void update(AppWorld world, float delta) {
-        int i = 1; //MIDDLERTIDIG
+        this.x = player.x();
+        this.y = player.y();
     }
 
     @Override
@@ -83,7 +90,7 @@ public abstract class AbstractWeapon implements EntityModel {
 
     @Override
     public boolean isActive() {
-        return true; //MIDDLERTIDLIG
+        return true; // MIDDLERTIDLIG
     }
 
     @Override
@@ -92,53 +99,51 @@ public abstract class AbstractWeapon implements EntityModel {
         throw new UnsupportedOperationException("Unimplemented method 'setActive'");
     }
 
-    
-    public void dropWeapon(){
+    public void dropWeapon() {
         state = EntityState.DROPPED;
     }
 
-    public void openCrate(){
+    public void openCrate() {
         state = EntityState.OPENED_WEAPON_CRATE;
     }
 
-    public void pickUpWeapon(){
+    public void pickUpWeapon() {
         state = EntityState.OPENED_WEAPON_CRATE;
     }
 
-    public WeaponType getWeaponType(){
+    public WeaponType getWeaponType() {
         return weaponType;
     }
 
-    public boolean shoot(){
-        if(currentAmmo == 0){
+    public boolean shoot() {
+        if (currentAmmo == 0) {
             return false;
         }
-        if(currentAmmo < 0){
+        if (currentAmmo < 0) {
             return true;
-        }
-        else {
+        } else {
             currentAmmo -= 1;
             return true;
         }
     }
 
-    public void pickUpAmmo(){
+    public void pickUpAmmo() {
         currentAmmo = maxAmmo;
     }
 
-    public float getFiringDelay(){
+    public float getFiringDelay() {
         return firingDelay;
     }
 
-    public int getCurrentAmmo(){
+    public int getCurrentAmmo() {
         return currentAmmo;
     }
 
-    public int getMaxAmmo(){
+    public int getMaxAmmo() {
         return maxAmmo;
     }
 
-    public PlayerClass getPlayer(){
+    public PlayerClass getPlayer() {
         return player;
     }
 
@@ -148,5 +153,13 @@ public abstract class AbstractWeapon implements EntityModel {
 
     public void setWeaponView(WeaponView weaponView) {
         this.weaponView = weaponView;
+    }
+
+    public float getKnockBackMultiplier() {
+        return this.knockBackMultiplier;
+    }
+
+    public float getBulletSpeed() {
+        return this.bulletSpeed;
     }
 }

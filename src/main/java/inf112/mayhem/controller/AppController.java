@@ -21,7 +21,6 @@ import inf112.mayhem.view.screens.MainMenuView;
 import inf112.mayhem.view.screens.PauseView;
 import inf112.mayhem.view.screens.VictoryView;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
-import inf112.mayhem.view.screens.activeGameView.WeaponView;
 import inf112.mayhem.view.screens.activeGameView.WeaponViewFactory;
 import inf112.mayhem.view.screens.hud.HudView;
 
@@ -65,7 +64,7 @@ public class AppController implements ApplicationListener, IController {
         // Send kartet til collision handler i model
         pCollision = new ProjectileCollisionHandler(world);
 
-        //PLAYER
+        // PLAYER
         playerController = entityFactory.spawnPlayer(500f, 400f);
         playerClass = playerController.getPlayer();
 
@@ -74,8 +73,6 @@ public class AppController implements ApplicationListener, IController {
         enemyModel = enemyController.getPlayer();
 
         // Weapons
-        weaponController = new WeaponController(playerClass, world, entityFactory);
-
         this.pistol = new PistolWeapon(500f, 400f, playerClass);
         this.sniper = new SniperWeapon(500f, 400f, playerClass);
 
@@ -83,6 +80,7 @@ public class AppController implements ApplicationListener, IController {
         sniper.setWeaponView(weaponViewFactory.createWeaponView(sniper.getWeaponType()));
 
         playerClass.equipWeapon(pistol);
+        weaponController = new WeaponController(pistol, world, entityFactory);
 
         // VIEW: graphics
         activeGameView = new ActiveGameView(world, this);
@@ -96,7 +94,7 @@ public class AppController implements ApplicationListener, IController {
         Gdx.graphics.setForegroundFPS(60);
 
         updateInputProcessor();
-        
+
     }
 
     private String getMapPath(int levelNumber) {
@@ -121,9 +119,9 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void render() {
-    	float delta = Gdx.graphics.getDeltaTime();
+        float delta = Gdx.graphics.getDeltaTime();
 
-    	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             if (world.state() == GameState.PAUSED) {
                 resume();
             } else if (world.state() == GameState.ACTIVE) {
@@ -137,11 +135,7 @@ public class AppController implements ApplicationListener, IController {
             }
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-            playerClass.cycleWeapon(pistol, sniper);
-        }
-
-    	switch (world.state()) {
+        switch (world.state()) {
             case MAIN_MENU -> mainMenuView.render();
             case ACTIVE -> {
                 // 1. Oppdater fysikk og isGrounded
@@ -171,7 +165,7 @@ public class AppController implements ApplicationListener, IController {
                     updateInputProcessor();
                 }
             }
-            case PAUSED    -> {
+            case PAUSED -> {
                 activeGameView.render(world, delta);
                 hudView.render();
                 pauseView.render();
@@ -189,8 +183,8 @@ public class AppController implements ApplicationListener, IController {
             case CAMPAIGN -> {
                 campaignView.render();
             }
-    	}
-    	
+        }
+
     }
 
     @Override
@@ -207,13 +201,13 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void pause() {
-    	world.setState(GameState.PAUSED);
+        world.setState(GameState.PAUSED);
         updateInputProcessor();
     }
 
     @Override
     public void resume() {
-    	world.setState(GameState.ACTIVE);
+        world.setState(GameState.ACTIVE);
         updateInputProcessor();
     }
 
@@ -244,7 +238,7 @@ public class AppController implements ApplicationListener, IController {
         enemyModel.setLives(3);
         updateInputProcessor();
     }
-    
+
     // For testing purposes
     protected boolean skipCreate = false;
 
@@ -286,15 +280,15 @@ public class AppController implements ApplicationListener, IController {
     public boolean isLevelUnlocked(int levelNumber) {
         return levelNumber <= unlockedLevels;
     }
-    
+
     private void updateInputProcessor() {
         switch (world.state()) {
             case MAIN_MENU -> Gdx.input.setInputProcessor(mainMenuView.getStage());
-            case ACTIVE    -> Gdx.input.setInputProcessor(activeGameView.getStage());
-            case PAUSED    -> Gdx.input.setInputProcessor(pauseView.getStage());
+            case ACTIVE -> Gdx.input.setInputProcessor(activeGameView.getStage());
+            case PAUSED -> Gdx.input.setInputProcessor(pauseView.getStage());
             case GAME_OVER -> Gdx.input.setInputProcessor(gameOverView.getStage());
-            case VICTORY   -> Gdx.input.setInputProcessor(victoryView.getStage());
-            case CAMPAIGN  -> Gdx.input.setInputProcessor(campaignView.getStage());
+            case VICTORY -> Gdx.input.setInputProcessor(victoryView.getStage());
+            case CAMPAIGN -> Gdx.input.setInputProcessor(campaignView.getStage());
             default -> Gdx.input.setInputProcessor(null);
         }
 

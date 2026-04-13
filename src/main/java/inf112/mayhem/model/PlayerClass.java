@@ -15,6 +15,8 @@ public class PlayerClass extends AbstractCharacter {
 
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
+    private float knockBack = 0f;
+    private static final float KNOCKBACK_DECAY = 8f;
 
     private AbstractWeapon equippedWeapon;
 
@@ -65,6 +67,9 @@ public class PlayerClass extends AbstractCharacter {
 
         velocity.y -= GRAVITY * delta;
         position.x += velocity.x * delta;
+        position.x += knockBack * delta;
+        knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
+        knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
         updateBounds();
         position.y += velocity.y * delta;
         updateBounds();
@@ -90,7 +95,8 @@ public class PlayerClass extends AbstractCharacter {
 
         if (ignorePlatforms) {
             dropDuration -= delta;
-            if (dropDuration <= 0) ignorePlatforms = false;
+            if (dropDuration <= 0)
+                ignorePlatforms = false;
         }
 
         position.x = Math.max(-WORLD_PADDING, Math.min(position.x, (float) world.width() + WORLD_PADDING));
@@ -102,22 +108,16 @@ public class PlayerClass extends AbstractCharacter {
     @Override
     public void hit(EntityModel obj) {
         AbstractProjectile projectile = (AbstractProjectile) obj;
-        velocity.x += projectile.getKnockBackMultiplier() * projectile.getDirection();
+        knockBack = projectile.getWeapon().getKnockBackMultiplier() * projectile.getDirection();
     }
 
     @Override
-    public void equipWeapon(AbstractWeapon weapon) { this.equippedWeapon = weapon; }
-
-    @Override
-    public AbstractWeapon getEquippedWeapon() { return equippedWeapon; }
-
-    // for testing purposes
-    public void cycleWeapon(AbstractWeapon weapon1, AbstractWeapon weapon2) {
-        if (equippedWeapon == weapon1) {
-            equippedWeapon = weapon2;
-        } else {
-            equippedWeapon = weapon1;
-        }
+    public void equipWeapon(AbstractWeapon weapon) {
+        this.equippedWeapon = weapon;
     }
 
+    @Override
+    public AbstractWeapon getEquippedWeapon() {
+        return equippedWeapon;
+    }
 }
