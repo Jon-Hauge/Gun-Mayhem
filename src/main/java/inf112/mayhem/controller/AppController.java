@@ -3,22 +3,11 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.EntityFactory;
-import inf112.mayhem.model.entities.character.PlayerClass;
-import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.longrange.PistolWeapon;
-import inf112.mayhem.model.weapons.longrange.SniperWeapon;
-import inf112.mayhem.view.maps.TileMapHelper;
 import inf112.mayhem.view.screens.*;
-import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
-import inf112.mayhem.view.screens.activeGameView.WeaponViewFactory;
-import inf112.mayhem.view.screens.hud.HudView;
 
 public class AppController implements ApplicationListener, IController {
     private AppWorld world;

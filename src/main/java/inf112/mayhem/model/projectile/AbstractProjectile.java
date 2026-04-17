@@ -19,6 +19,9 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
     private EntityState state = EntityState.ACTIVE;
     protected boolean active = true;
     private final int direction;
+    private final float BULLET_SPEED = 350f;
+    private float knockBackMultiplier = 1500f;
+
 
     public AbstractProjectile(AbstractWeapon weapon) {
         this.weapon = weapon;
@@ -33,6 +36,9 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
         this.position.y = player.y() + (player.height() / 2);
     }
 
+    @Override
+    public abstract void updateBounds();
+
     public AbstractWeapon getWeapon() {
         return weapon;
     }
@@ -42,13 +48,7 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
     }
 
     @Override
-    public abstract void updateBounds();
-
-    @Override
-    public float x() {
-        return this.position.x;
-
-    }
+    public float x() { return this.position.x; }
 
     @Override
     public float y() {
@@ -104,6 +104,11 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
         active = false;
     }
 
-    
+    public float getKnockBackMultiplier() {
+        return this.knockBackMultiplier;
+    }
 
+    public float getBulletSpeed() {
+        return this.BULLET_SPEED;
+    }
 }
