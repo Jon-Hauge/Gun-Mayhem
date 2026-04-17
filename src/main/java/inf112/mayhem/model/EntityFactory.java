@@ -27,6 +27,12 @@ public class EntityFactory {
 		return new PlayerController(player, world, this);
 	}
 	
+	public EnemyClass spawnEnemy(float x, float y) {
+		EnemyClass enemy = new EnemyClass(x, y, map, 3);
+		world.add(enemy);
+		return enemy;
+	}
+	
 	public WeaponController spawnBaseWeapon(float x, float y, PlayerController playerController){
 		AbstractWeapon playerBaseWeapon = new PistolWeapon(x, y, playerController.getPlayer());
 		playerBaseWeapon.setWeaponView(createWeaponView(playerBaseWeapon.getWeaponType()));

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.EnemyClass;
 import inf112.mayhem.model.EntityFactory;
 import inf112.mayhem.model.PlayerClass;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
@@ -33,7 +34,7 @@ public class AppController implements ApplicationListener, IController {
     private boolean paused = false;
     private boolean gameOver = false;
     private PlayerClass playerModel;
-    private PlayerClass enemyModel;
+    private EnemyClass enemy;
     private ProjectileCollisionHandler pCollision;
     private PlayerController playerController;
     private WeaponController weaponController;
@@ -66,8 +67,10 @@ public class AppController implements ApplicationListener, IController {
         playerModel = playerController.getPlayer();
         weaponController = fac.spawnBaseWeapon(500f, 400f, playerController);        
         // Spawn dummies
-        PlayerController enemyController = fac.spawnPlayer(900f, 400f);
-        enemyModel = enemyController.getPlayer();
+        //PlayerController enemyController = fac.spawnPlayer(900f, 400f);
+        //enemyModel = enemyController.getPlayer();
+        
+        enemy = fac.spawnEnemy(900f, 400f);
 
         // VIEW: graphics
         activeGameView = new ActiveGameView(world, this);
@@ -142,7 +145,7 @@ public class AppController implements ApplicationListener, IController {
                 if (playerModel.lives() <= 0) {
                     world.setState(GameState.GAME_OVER);
                     updateInputProcessor();
-                } else if (enemyModel.lives() <= 0) {
+                } else if (enemy.lives() <= 0) {
                     world.setState(GameState.VICTORY);
                     if (currentLevel == unlockedLevels && unlockedLevels < 3) {
                         unlockedLevels++;
@@ -210,7 +213,7 @@ public class AppController implements ApplicationListener, IController {
         }
         world.setState(GameState.ACTIVE);
         playerModel.setLives(3);
-        enemyModel.setLives(3);
+        enemy.setLives(3);
         updateInputProcessor();
     }
 
@@ -227,7 +230,7 @@ public class AppController implements ApplicationListener, IController {
         world.setState(GameState.ACTIVE);
         gameOver = false;
         playerModel.setLives(3);
-        enemyModel.setLives(3);
+        enemy.setLives(3);
         updateInputProcessor();
     }
     
@@ -265,7 +268,7 @@ public class AppController implements ApplicationListener, IController {
         }
         world.setState(GameState.ACTIVE);
         playerModel.setLives(3);
-        enemyModel.setLives(3);
+        enemy.setLives(3);
         updateInputProcessor();
     }
 
