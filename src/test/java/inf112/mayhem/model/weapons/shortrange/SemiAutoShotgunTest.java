@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.entities.character.PlayerClass;
 import inf112.mayhem.model.weapons.WeaponType;
 
 class SemiAutoShotgunTest {

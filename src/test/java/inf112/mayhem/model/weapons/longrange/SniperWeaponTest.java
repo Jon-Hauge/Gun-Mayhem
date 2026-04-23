@@ -1,12 +1,14 @@
-package inf112.mayhem.model.weapons;
+package inf112.mayhem.model.weapons.longrange;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+
+import inf112.mayhem.model.weapons.WeaponType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.entities.character.PlayerClass;
 
 class SniperWeaponTest {
 

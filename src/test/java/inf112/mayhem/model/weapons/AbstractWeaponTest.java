@@ -11,9 +11,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerClass;
-import inf112.mayhem.model.enums.EntityState;
-import inf112.mayhem.model.enums.EntityType;
+import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.EntityState;
+import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
 
 class AbstractWeaponTest {
