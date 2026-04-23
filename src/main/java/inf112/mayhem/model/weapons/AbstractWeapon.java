@@ -3,10 +3,10 @@ package inf112.mayhem.model.weapons;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerClass;
-import inf112.mayhem.model.enums.EntityState;
-import inf112.mayhem.model.enums.EntityType;
-import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.EntityState;
+import inf112.mayhem.model.entities.EntityType;
+import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
 
 public abstract class AbstractWeapon implements EntityModel {

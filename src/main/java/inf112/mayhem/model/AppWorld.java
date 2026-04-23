@@ -4,22 +4,44 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import inf112.mayhem.model.enums.GameState;
-import inf112.mayhem.model.interfaces.EntityModel;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import inf112.mayhem.controller.PlayerController;
+import inf112.mayhem.controller.WeaponController;
+import inf112.mayhem.model.GameState;
+import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.entities.EntityFactory;
+import inf112.mayhem.model.entities.EntityModel;
+import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.weapons.longrange.PistolWeapon;
+import inf112.mayhem.model.weapons.longrange.SniperWeapon;
+import inf112.mayhem.view.maps.LevelLoader;
+import inf112.mayhem.view.maps.TileMapHelper;
+import inf112.mayhem.view.screens.*;
+import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
+import inf112.mayhem.view.screens.activeGameView.WeaponViewFactory;
+import inf112.mayhem.view.screens.hud.HudView;
 
 public class AppWorld implements Iterable<EntityModel> {
-	double width;
-	double height;
-	double currentTime = 0;
-	List<EntityModel> objects = new ArrayList<>();
+	private double width;
+	private double height;
+	private double currentTime = 0;
+	private List<EntityModel> objects = new ArrayList<>();
+	private TiledMap map;
+	private LevelLoader loader = new LevelLoader();
+	private EntityFactory fac;
 	private GameState state = GameState.MAIN_MENU;
-
+	private ProjectileCollisionHandler pCollision;
+	private PlayerClass playerClass;
+	private PlayerClass enemyModel;
+	private AbstractWeapon pistol;
 
 	public AppWorld(double width, double height) {
 		super();
 		this.width = width;
 		this.height = height;
 	}
+
 
 	@Override
 	public Iterator<EntityModel> iterator() {
@@ -48,6 +70,14 @@ public class AppWorld implements Iterable<EntityModel> {
 		return state;
 	}
 
+	public PlayerClass getPlayerClass() {
+		return playerClass;
+	}
+
+	public TiledMap getMap() {
+		return map;
+	}
+
 	public void setState(GameState state) {
 		this.state = state;
 	}
@@ -60,6 +90,59 @@ public class AppWorld implements Iterable<EntityModel> {
 		if (before != after) {
 	        System.out.println("Removed " + (before - after) + " objects. Remaining: " + after);
 	    }
+	}
+
+	public void update(float delta) {
+		for (EntityModel obj : this) {
+			obj.update(this, delta);
+		}
+
+		pCollision.checkCollisions();
+		this.removeInactive();
+	}
+
+	public void evaluateState() {
+		if (playerClass.lives() <= 0) {
+			this.setState(GameState.GAME_OVER);
+		} else if (enemyModel.lives() <= 0) {
+			this.setState(GameState.VICTORY);
+		}
+	}
+
+	public int updateLevelCount(int currentLevel, int unlockedLevels) {
+		int newUnlockedLevels = unlockedLevels;
+
+		if (currentLevel == unlockedLevels && unlockedLevels < 3) {
+			newUnlockedLevels++;
+		}
+		return newUnlockedLevels;
+	}
+
+	public void loadLevel(int levelNumber) {
+		// Load in map and factories
+		this.map = loader.loadLevel(levelNumber);
+		this.fac = new EntityFactory(this, map);
+
+		// Send map to collision handler
+		this.pCollision = new ProjectileCollisionHandler(this);
+
+		// Player
+		this.playerClass = fac.spawnPlayer(500f, 400f);
+		this.enemyModel = fac.spawnPlayer(900f, 400f);
+
+		// Weapons
+		setupWeapons(fac);
+	}
+
+	private void setupWeapons(EntityFactory entityFactory) {
+		this.pistol = new PistolWeapon(500f, 400f, playerClass);
+		playerClass.equipWeapon(pistol);
+	}
+
+	public void reset() {
+		this.setState(GameState.ACTIVE);
+		playerClass.setLives(3);
+		enemyModel.setLives(3);
 	}
 
 }

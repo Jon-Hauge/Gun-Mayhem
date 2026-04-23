@@ -20,9 +20,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.entities.character.PlayerClass;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
-import inf112.mayhem.model.enums.GameState;
+import inf112.mayhem.model.GameState;
 import inf112.mayhem.view.screens.CampaignView;
 import inf112.mayhem.view.screens.GameOverView;
 import inf112.mayhem.view.screens.MainMenuView;

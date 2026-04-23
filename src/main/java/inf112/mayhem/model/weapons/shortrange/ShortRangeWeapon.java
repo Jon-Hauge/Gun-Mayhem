@@ -3,8 +3,8 @@ package inf112.mayhem.model.weapons.shortrange;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.PlayerClass;
-import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
 

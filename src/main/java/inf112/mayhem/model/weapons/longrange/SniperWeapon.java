@@ -1,7 +1,9 @@
-package inf112.mayhem.model.weapons;
+package inf112.mayhem.model.weapons.longrange;
 
-import inf112.mayhem.model.PlayerClass;
-import inf112.mayhem.model.enums.EntityState;
+import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.EntityState;
+import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.weapons.WeaponType;
 
 public class SniperWeapon extends AbstractWeapon {
     private static final WeaponType WEAPON_TYPE = WeaponType.SNIPER;

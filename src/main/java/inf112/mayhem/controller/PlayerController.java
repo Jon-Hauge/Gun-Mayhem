@@ -4,10 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.EntityFactory;
-import inf112.mayhem.model.PlayerClass;
+import inf112.mayhem.model.entities.EntityFactory;
+import inf112.mayhem.model.entities.character.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.PistolWeapon;
 
 public class PlayerController {
 	
@@ -17,12 +16,10 @@ public class PlayerController {
 	
     private final PlayerClass player;
     private final AppWorld world;
-    private final EntityFactory fac;
 	
-	public PlayerController(PlayerClass player, AppWorld world, EntityFactory fac) {
+	public PlayerController(PlayerClass player, AppWorld world) {
 		this.player = player;
 		this.world = world;
-		this.fac = fac;
 	}
 	
 	public PlayerClass getPlayer() {

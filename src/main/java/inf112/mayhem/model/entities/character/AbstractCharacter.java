@@ -1,12 +1,12 @@
-package inf112.mayhem.model.abstracts;
+package inf112.mayhem.model.entities.character;
 
 	
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
-import inf112.mayhem.model.interfaces.CharacterModel;
-import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.entities.AbstractEntity;
+import inf112.mayhem.model.entities.EntityModel;
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
