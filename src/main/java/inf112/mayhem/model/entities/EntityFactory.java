@@ -23,7 +23,7 @@ public class EntityFactory {
 	}
 
 	public PlayerClass spawnPlayer(float x, float y) {
-		PlayerClass player = new PlayerClass(x, y, world.getMap());
+		PlayerClass player = new PlayerClass(x, y, map);
 		world.add(player);
 		return player;
 	}
