@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -22,10 +21,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.enums.EntityState;
-import inf112.mayhem.model.enums.EntityType;
-import inf112.mayhem.model.interfaces.CharacterModel;
-import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.entities.EntityType;
+import inf112.mayhem.model.entities.character.CharacterModel;
+import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {

@@ -10,11 +10,11 @@ import com.badlogic.gdx.utils.SharedLibraryLoader;
 
 import inf112.mayhem.controller.AppController;
 
-public class MvcMain {
+public class MayhemMain {
 	
 	public static void main(String[] args) {
 		// enable assertion checking by default
-		MvcMain.class.getClassLoader().setDefaultAssertionStatus(true);
+		MayhemMain.class.getClassLoader().setDefaultAssertionStatus(true);
 
 		// Workaround for Mac OS problem – alternatively, we could start the JVM with
 		// the -XstartOnFirstThread option.
@@ -25,7 +25,7 @@ public class MvcMain {
 		}
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
-		cfg.setTitle("MVC Example");
+		cfg.setTitle("Gun Mayhem 3");
 		cfg.setWindowedMode(1280, 768); // change default window size if this is too large or small
 		// (there are lots of other interesting configuration options
 

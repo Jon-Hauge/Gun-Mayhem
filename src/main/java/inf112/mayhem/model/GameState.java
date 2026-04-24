@@ -1,4 +1,4 @@
-package inf112.mayhem.model.enums;
+package inf112.mayhem.model;
 
 public enum GameState {
 	

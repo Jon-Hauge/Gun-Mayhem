@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.EntityFactory;
+import inf112.mayhem.model.entities.EntityFactory;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class WeaponController {
@@ -14,12 +14,12 @@ public class WeaponController {
 	
     private final AbstractWeapon weapon;
     private final AppWorld world;
-    private final EntityFactory fac;
+	private final EntityFactory fac;
 	
-	public WeaponController(AbstractWeapon weapon, AppWorld world, EntityFactory fac) {
+	public WeaponController(AbstractWeapon weapon, AppWorld world) {
 		this.weapon = weapon;
 		this.world = world;
-		this.fac = fac;
+		this.fac = new EntityFactory(world, world.getMap());
 	}
 
 	public void update(float delta) {

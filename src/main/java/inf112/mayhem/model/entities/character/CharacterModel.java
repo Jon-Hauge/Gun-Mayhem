@@ -1,6 +1,7 @@
-package inf112.mayhem.model.interfaces;
+package inf112.mayhem.model.entities.character;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public interface CharacterModel extends EntityModel {

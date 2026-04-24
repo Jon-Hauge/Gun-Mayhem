@@ -1,13 +1,11 @@
-package inf112.mayhem.model.abstracts;
+package inf112.mayhem.model.entities;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.enums.EntityState;
-import inf112.mayhem.model.enums.EntityType;
-import inf112.mayhem.model.interfaces.EntityModel;
+import inf112.mayhem.model.entities.EntityModel;
 
 public abstract class AbstractEntity implements EntityModel {
 	protected Vector2 position;
