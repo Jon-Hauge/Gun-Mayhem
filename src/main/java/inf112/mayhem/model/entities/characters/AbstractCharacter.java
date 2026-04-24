@@ -1,4 +1,4 @@
-package inf112.mayhem.model.entities.character;
+package inf112.mayhem.model.entities.characters;
 
 	
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -13,7 +13,7 @@ import inf112.mayhem.model.weapons.AbstractWeapon;
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
 	protected MapCollisionHandler collision;
-	private AbstractWeapon equippedWeapon;
+	protected AbstractWeapon equippedWeapon;
 
     protected final float GRAVITY = 400f;
     protected final float JUMP_FORCE = 250f;

@@ -2,6 +2,8 @@ package inf112.mayhem.model.weapons.shortrange;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
@@ -10,28 +12,28 @@ import static org.mockito.Mockito.when;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.weapons.WeaponType;
 
 class SwordTest {
 
-    private PlayerClass player;
+    private AbstractCharacter character;
     private AppWorld world;
     private Sword sword;
 
     @BeforeEach
     void setUp() {
-        player = mock(PlayerClass.class);
+        character = mock(AbstractCharacter.class);
         world = mock(AppWorld.class);
 
-        when(player.x()).thenReturn(9f);
-        when(player.y()).thenReturn(12f);
+        when(character.x()).thenReturn(9f);
+        when(character.y()).thenReturn(12f);
 
         sword = new Sword(
                 1f,
                 2f,
-                player,
+                character,
                 8f,
                 12f,
                 WeaponType.SWORD,
@@ -65,8 +67,8 @@ class SwordTest {
 
     @Test
     void updateMovesAttackBoundsToPlayerPosition() {
-        when(player.x()).thenReturn(100f);
-        when(player.y()).thenReturn(150f);
+        when(character.x()).thenReturn(100f);
+        when(character.y()).thenReturn(150f);
 
         sword.update(world, 0.016f);
 

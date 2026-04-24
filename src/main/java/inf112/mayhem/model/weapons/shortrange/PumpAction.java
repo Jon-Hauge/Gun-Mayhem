@@ -2,7 +2,7 @@ package inf112.mayhem.model.weapons.shortrange;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.weapons.WeaponType;
 
@@ -16,9 +16,9 @@ public class PumpAction extends ShortRangeWeapon {
     private static final float FIRING_DELAY = 8f;
     private static final float knockBackMultiplier = 100f;
 
-    public PumpAction(float startX, float startY, PlayerClass player) {
-        super(startX, startY, player, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, FIRING_DELAY);
+    public PumpAction(float startX, float startY, AbstractCharacter character) {
+        super(startX, startY, character, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, FIRING_DELAY);
         setKnockback(knockBackMultiplier);
-        setAttackBounds(new Rectangle(player.x(), player.y(), WIDTH, HEIGHT));
+        setAttackBounds(new Rectangle(character.x(), character.y(), WIDTH, HEIGHT));
     }
 }

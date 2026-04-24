@@ -1,4 +1,4 @@
-package inf112.mayhem.model.entities.character;
+package inf112.mayhem.model.entities.characters;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;

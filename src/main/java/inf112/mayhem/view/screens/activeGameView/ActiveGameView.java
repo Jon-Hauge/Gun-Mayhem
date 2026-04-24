@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.entities.character.CharacterModel;
+import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.view.maps.TileMapHelper;
 
@@ -181,10 +181,10 @@ public class ActiveGameView {
         float maxY = -Float.MAX_VALUE;
         float sumX = 0;
         float sumY = 0;
-        int playerCount = 0;
+        int characterCount = 0;
 
         for (EntityModel obj : world) {
-            if (obj.type() == EntityType.PLAYER && obj.isActive()) {
+            if ((obj.type() == EntityType.PLAYER || obj.type() == EntityType.ENEMY) && obj.isActive()) {
                 float x = obj.x();
                 float y = obj.y();
 
@@ -196,13 +196,13 @@ public class ActiveGameView {
                 sumX += x;
                 sumY += y;
 
-                playerCount++;
+                characterCount++;
             }
         }
 
-        if (playerCount > 0) {
-            float avgX = sumX / playerCount;
-            float avgY = sumY / playerCount;
+        if (characterCount > 0) {
+            float avgX = sumX / characterCount;
+            float avgY = sumY / characterCount;
 
             camera.position.set(avgX, avgY, 0);
 

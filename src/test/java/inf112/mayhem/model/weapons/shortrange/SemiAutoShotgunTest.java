@@ -3,30 +3,31 @@ package inf112.mayhem.model.weapons.shortrange;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.WeaponType;
 
 class SemiAutoShotgunTest {
 
-    private PlayerClass player;
+    private AbstractCharacter character;
     private AppWorld world;
     private SemiActionShotgun weapon;
 
     @BeforeEach
     void setUp() {
-        player = mock(PlayerClass.class);
+        character = mock(AbstractCharacter.class);
         world = mock(AppWorld.class);
 
-        when(player.x()).thenReturn(15f);
-        when(player.y()).thenReturn(25f);
+        when(character.x()).thenReturn(15f);
+        when(character.y()).thenReturn(25f);
 
-        weapon = new SemiActionShotgun(3f, 4f, player);
+        weapon = new SemiActionShotgun(3f, 4f, character);
     }
 
     @Test
@@ -53,8 +54,8 @@ class SemiAutoShotgunTest {
 
     @Test
     void updateMovesAttackBoundsToPlayerPosition() {
-        when(player.x()).thenReturn(300f);
-        when(player.y()).thenReturn(400f);
+        when(character.x()).thenReturn(300f);
+        when(character.y()).thenReturn(400f);
 
         weapon.update(world, 0.016f);
 

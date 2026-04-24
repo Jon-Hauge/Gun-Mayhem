@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.EntityModel;
@@ -25,7 +25,7 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
 
     public AbstractProjectile(AbstractWeapon weapon) {
         this.weapon = weapon;
-        PlayerClass player = weapon.getPlayer();
+        AbstractCharacter player = weapon.getCharacter();
         this.direction = player.getDirection();
 
         if (direction == -1) {

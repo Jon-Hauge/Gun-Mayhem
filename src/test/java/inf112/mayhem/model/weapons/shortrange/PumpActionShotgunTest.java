@@ -2,6 +2,8 @@ package inf112.mayhem.model.weapons.shortrange;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
@@ -10,24 +12,24 @@ import static org.mockito.Mockito.when;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.WeaponType;
 
 class PumpActionTest {
 
-    private PlayerClass player;
+    private AbstractCharacter character;
     private AppWorld world;
     private PumpAction weapon;
 
     @BeforeEach
     void setUp() {
-        player = mock(PlayerClass.class);
+        character = mock(AbstractCharacter.class);
         world = mock(AppWorld.class);
 
-        when(player.x()).thenReturn(11f);
-        when(player.y()).thenReturn(22f);
+        when(character.x()).thenReturn(11f);
+        when(character.y()).thenReturn(22f);
 
-        weapon = new PumpAction(1f, 2f, player);
+        weapon = new PumpAction(1f, 2f, character);
     }
 
     @Test
@@ -54,8 +56,8 @@ class PumpActionTest {
 
     @Test
     void updateMovesAttackBoundsToPlayerPosition() {
-        when(player.x()).thenReturn(100f);
-        when(player.y()).thenReturn(200f);
+        when(character.x()).thenReturn(100f);
+        when(character.y()).thenReturn(200f);
 
         weapon.update(world, 0.016f);
 

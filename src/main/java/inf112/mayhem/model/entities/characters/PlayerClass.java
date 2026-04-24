@@ -1,8 +1,7 @@
-package inf112.mayhem.model.entities.character;
+package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.EntityModel;

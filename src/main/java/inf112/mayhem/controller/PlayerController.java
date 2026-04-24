@@ -4,8 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.EntityFactory;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerController {
