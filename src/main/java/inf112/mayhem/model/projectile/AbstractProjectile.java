@@ -1,4 +1,4 @@
-package inf112.mayhem.model.projectile;
+package inf112.mayhem.model.abstracts;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
