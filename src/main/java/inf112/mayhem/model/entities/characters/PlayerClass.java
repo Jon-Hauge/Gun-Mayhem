@@ -1,8 +1,7 @@
-package inf112.mayhem.model.entities.character;
+package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.EntityModel;
@@ -16,8 +15,6 @@ public class PlayerClass extends AbstractCharacter {
     private static final int LIVES = 3;
     private float knockBack = 0f;
     private static final float KNOCKBACK_DECAY = 8f;
-
-    private AbstractWeapon equippedWeapon;
 
     public PlayerClass(float startX, float startY, TiledMap map) {
         super(startX, startY, WIDTH, HEIGHT, LIVES, map);

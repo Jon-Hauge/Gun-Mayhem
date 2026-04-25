@@ -3,22 +3,23 @@ package inf112.mayhem.model.weapons.longrange;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.weapons.WeaponType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 
 class PistolWeaponTest {
 
-    private PlayerClass player;
+    private AbstractCharacter character;
     private PistolWeapon pistol;
 
     @BeforeEach
     void setUp() {
-        player = mock(PlayerClass.class);
-        pistol = new PistolWeapon(5f, 7f, player);
+        character = mock(AbstractCharacter.class);
+        pistol = new PistolWeapon(5f, 7f, character);
     }
 
     @Test
@@ -37,7 +38,7 @@ class PistolWeaponTest {
         assertEquals(1f, pistol.getFiringDelay());
         assertEquals(300f, pistol.getKnockBackMultiplier());
         assertEquals(500f, pistol.getBulletSpeed());
-        assertSame(player, pistol.getPlayer());
+        assertSame(character, pistol.getCharacter());
     }
 
 }

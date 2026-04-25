@@ -5,22 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import inf112.mayhem.controller.PlayerController;
-import inf112.mayhem.controller.WeaponController;
-import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.model.entities.EntityFactory;
 import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.EnemyClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.longrange.PistolWeapon;
-import inf112.mayhem.model.weapons.longrange.SniperWeapon;
 import inf112.mayhem.view.maps.LevelLoader;
-import inf112.mayhem.view.maps.TileMapHelper;
-import inf112.mayhem.view.screens.*;
-import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
-import inf112.mayhem.view.screens.activeGameView.WeaponViewFactory;
-import inf112.mayhem.view.screens.hud.HudView;
 
 public class AppWorld implements Iterable<EntityModel> {
 	private double width;
@@ -33,8 +25,9 @@ public class AppWorld implements Iterable<EntityModel> {
 	private GameState state = GameState.MAIN_MENU;
 	private ProjectileCollisionHandler pCollision;
 	private PlayerClass playerClass;
-	private PlayerClass enemyModel;
-	private AbstractWeapon pistol;
+	private EnemyClass enemyClass;
+	private AbstractWeapon playerPistol;
+	private AbstractWeapon enemyPistol;
 
 	public AppWorld(double width, double height) {
 		super();
@@ -42,6 +35,28 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.height = height;
 	}
 
+	public void loadLevel(int levelNumber) {
+		// Load in map and factories
+		this.map = loader.loadLevel(levelNumber);
+		this.fac = new EntityFactory(this, map);
+
+		// Send map to collision handler
+		this.pCollision = new ProjectileCollisionHandler(this);
+
+		// Player
+		this.playerClass = fac.spawnPlayer(500f, 400f);
+		this.enemyClass = fac.spawnEnemy(900f, 400f);
+
+		// Weapons
+		setupWeapons(fac);
+	}
+
+	private void setupWeapons(EntityFactory entityFactory) {
+		this.playerPistol = new PistolWeapon(500f, 400f, playerClass);
+		this.enemyPistol = new PistolWeapon(900f, 400f, enemyClass);
+		playerClass.equipWeapon(playerPistol);
+		enemyClass.equipWeapon(enemyPistol);
+	}
 
 	@Override
 	public Iterator<EntityModel> iterator() {
@@ -104,7 +119,7 @@ public class AppWorld implements Iterable<EntityModel> {
 	public void evaluateState() {
 		if (playerClass.lives() <= 0) {
 			this.setState(GameState.GAME_OVER);
-		} else if (enemyModel.lives() <= 0) {
+		} else if (enemyClass.lives() <= 0) {
 			this.setState(GameState.VICTORY);
 		}
 	}
@@ -118,31 +133,10 @@ public class AppWorld implements Iterable<EntityModel> {
 		return newUnlockedLevels;
 	}
 
-	public void loadLevel(int levelNumber) {
-		// Load in map and factories
-		this.map = loader.loadLevel(levelNumber);
-		this.fac = new EntityFactory(this, map);
-
-		// Send map to collision handler
-		this.pCollision = new ProjectileCollisionHandler(this);
-
-		// Player
-		this.playerClass = fac.spawnPlayer(500f, 400f);
-		this.enemyModel = fac.spawnPlayer(900f, 400f);
-
-		// Weapons
-		setupWeapons(fac);
-	}
-
-	private void setupWeapons(EntityFactory entityFactory) {
-		this.pistol = new PistolWeapon(500f, 400f, playerClass);
-		playerClass.equipWeapon(pistol);
-	}
-
 	public void reset() {
 		this.setState(GameState.ACTIVE);
 		playerClass.setLives(3);
-		enemyModel.setLives(3);
+		enemyClass.setLives(3);
 	}
 
 }

@@ -5,20 +5,22 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
 
 class AbstractWeaponTest {
 
-    private PlayerClass player;
+    private AbstractCharacter character;
     private AppWorld world;
     private WeaponView weaponView;
     private TestWeapon weapon;
@@ -27,7 +29,7 @@ class AbstractWeaponTest {
         public TestWeapon(
                 float startX,
                 float startY,
-                PlayerClass player,
+                AbstractCharacter character,
                 float width,
                 float height,
                 WeaponType weaponType,
@@ -36,21 +38,21 @@ class AbstractWeaponTest {
                 float firingDelay,
                 float knockBackMultiplier,
                 float bulletSpeed) {
-            super(startX, startY, player, width, height, weaponType, startingState, startingAmmo,
+            super(startX, startY, character, width, height, weaponType, startingState, startingAmmo,
                     firingDelay, knockBackMultiplier, bulletSpeed);
         }
     }
 
     @BeforeEach
     void setUp() {
-        player = mock(PlayerClass.class);
+        character = mock(AbstractCharacter.class);
         world = mock(AppWorld.class);
         weaponView = mock(WeaponView.class);
 
         weapon = new TestWeapon(
                 10f,
                 20f,
-                player,
+                character,
                 30f,
                 40f,
                 WeaponType.PISTOL,
@@ -89,8 +91,8 @@ class AbstractWeaponTest {
 
     @Test
     void updateFollowsPlayerPosition() {
-        when(player.x()).thenReturn(100f);
-        when(player.y()).thenReturn(200f);
+        when(character.x()).thenReturn(100f);
+        when(character.y()).thenReturn(200f);
 
         weapon.update(world, 0.016f);
 
@@ -130,7 +132,7 @@ class AbstractWeaponTest {
     @Test
     void shootReturnsFalseWhenAmmoIsZero() {
         TestWeapon emptyWeapon = new TestWeapon(
-                0f, 0f, player, 10f, 10f,
+                0f, 0f, character, 10f, 10f,
                 WeaponType.PISTOL, EntityState.IN_USE,
                 0, 0.2f, 1f, 5f
         );
@@ -148,7 +150,7 @@ class AbstractWeaponTest {
     @Test
     void shootReturnsTrueAndDoesNotReduceAmmoWhenAmmoIsNegative() {
         TestWeapon infiniteWeapon = new TestWeapon(
-                0f, 0f, player, 10f, 10f,
+                0f, 0f, character, 10f, 10f,
                 WeaponType.PISTOL, EntityState.IN_USE,
                 -1, 0.2f, 1f, 5f
         );
@@ -186,7 +188,7 @@ class AbstractWeaponTest {
 
     @Test
     void getPlayerReturnsPlayer() {
-        assertSame(player, weapon.getPlayer());
+        assertSame(character, weapon.getCharacter());
     }
 
     @Test

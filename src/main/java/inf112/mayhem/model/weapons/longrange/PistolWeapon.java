@@ -1,6 +1,6 @@
 package inf112.mayhem.model.weapons.longrange;
 
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
@@ -15,7 +15,7 @@ public class PistolWeapon extends AbstractWeapon {
     private static final float knockBackMultiplier = 300f;
     private static final float bulletSpeed = 500f;
 
-    public PistolWeapon(float startX, float startY, PlayerClass player){
-        super(startX, startY, player, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, firingDelay, knockBackMultiplier, bulletSpeed);
+    public PistolWeapon(float startX, float startY, AbstractCharacter character){
+        super(startX, startY, character, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, firingDelay, knockBackMultiplier, bulletSpeed);
     }
 }

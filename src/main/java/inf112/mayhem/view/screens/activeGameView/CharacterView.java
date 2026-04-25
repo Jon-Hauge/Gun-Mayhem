@@ -2,7 +2,7 @@ package inf112.mayhem.view.screens.activeGameView;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import inf112.mayhem.model.entities.character.CharacterModel;
+import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.screens.activeGameView.animations.AbstractAnimation;
 import inf112.mayhem.view.screens.activeGameView.animations.IdleAnimation;

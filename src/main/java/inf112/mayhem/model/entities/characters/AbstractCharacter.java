@@ -1,4 +1,4 @@
-package inf112.mayhem.model.entities.character;
+package inf112.mayhem.model.entities.characters;
 
 	
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -7,11 +7,14 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.AbstractEntity;
 import inf112.mayhem.model.entities.EntityModel;
+import inf112.mayhem.model.weapons.AbstractWeapon;
+
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
 	protected MapCollisionHandler collision;
-	
+	protected AbstractWeapon equippedWeapon;
+
     protected final float GRAVITY = 400f;
     protected final float JUMP_FORCE = 250f;
     protected final float DOUBLE_JUMP_FORCE = 200f;
@@ -79,6 +82,16 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 		return this.lives;
 	}
 	
+	@Override
+	public void equipWeapon(AbstractWeapon weapon) {
+		this.equippedWeapon = weapon;
+	}
+
+	@Override
+	public AbstractWeapon getEquippedWeapon() {
+		return this.equippedWeapon;
+	}
+
 	@Override
 	public boolean outOfBounds(AppWorld world) {
 		return bounds().x < 0 							      ||

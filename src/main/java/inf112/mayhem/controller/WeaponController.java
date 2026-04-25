@@ -29,7 +29,7 @@ public class WeaponController {
 
 		if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && cooldownTimer <= 0) {
 	        if (weapon.shoot()) {
-				fac.spawnProjectile(weapon.getPlayer());
+				fac.spawnProjectile(weapon.getCharacter());
 				cooldownTimer = weapon.getFiringDelay();
 			}
 	    }

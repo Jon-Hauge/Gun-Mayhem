@@ -3,7 +3,7 @@ package inf112.mayhem.model.weapons;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.character.PlayerClass;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.EntityModel;
@@ -20,17 +20,17 @@ public abstract class AbstractWeapon implements EntityModel {
     private int maxAmmo; // set ammo to -1 for inf
     private int currentAmmo;
     private float firingDelay;
-    protected PlayerClass player;
+    protected AbstractCharacter character;
     private WeaponView weaponView;
     protected float knockBackMultiplier;
     protected float bulletSpeed;
 
-    public AbstractWeapon(float startX, float startY, PlayerClass player, float width, float height,
-            WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay,
-            float knockBackMultiplier, float bulletSpeed) {
+    public AbstractWeapon(float startX, float startY, AbstractCharacter character, float width, float height,
+                          WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay,
+                          float knockBackMultiplier, float bulletSpeed) {
         this.x = startX;
         this.y = startY;
-        this.player = player;
+        this.character = character;
         this.height = height;
         this.width = width;
         this.weaponType = weaponType;
@@ -78,8 +78,8 @@ public abstract class AbstractWeapon implements EntityModel {
 
     @Override
     public void update(AppWorld world, float delta) {
-        this.x = player.x();
-        this.y = player.y();
+        this.x = character.x();
+        this.y = character.y();
     }
 
     @Override
@@ -143,8 +143,8 @@ public abstract class AbstractWeapon implements EntityModel {
         return maxAmmo;
     }
 
-    public PlayerClass getPlayer() {
-        return player;
+    public AbstractCharacter getCharacter() {
+        return character;
     }
 
     public WeaponView getWeaponView() {

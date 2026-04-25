@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
+
 public class LongRangeProjectile extends AbstractProjectile {
+
     private final Vector2 size = new Vector2(10, 7);
 
     public LongRangeProjectile(AbstractWeapon weapon) {
