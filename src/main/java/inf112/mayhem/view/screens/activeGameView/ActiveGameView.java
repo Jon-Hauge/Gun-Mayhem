@@ -41,6 +41,7 @@ public class ActiveGameView {
     private final float scale = 0.15f;
     private float smoothCamX = 0;
     private float smoothCamY = 0;
+    private LevelLoader lvlLoader;
 
     //TILEMAP
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -66,7 +67,7 @@ public class ActiveGameView {
         
         //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
-        LevelLoader lvlLoader = new LevelLoader();
+        this.lvlLoader = new LevelLoader();
         tileMapHelper.setupMap(lvlLoader.getMapPath(controller.getCurrentLevelNumber()));
         this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
 
@@ -105,11 +106,19 @@ public class ActiveGameView {
     private void preloadTextures() {
         for (String fileName : List.of(
                 "maps/level1_heaven/background.png",
-                "maps/level1_heaven/1.png",
-                "maps/level1_heaven/2.png",
-                "maps/level1_heaven/3.png",
-                "maps/level1_heaven/4.png",
-        
+                "maps/level1_heaven/bg1.png",
+                "maps/level1_heaven/bg2.png",
+                "maps/level1_heaven/bg3.png",
+                "maps/level1_heaven/bg4.png",
+
+                "maps/level2_midnightcity/bg1.png",
+                "maps/level2_midnightcity/bg2.png",
+                "maps/level2_midnightcity/bg3.png",
+                "maps/level2_midnightcity/bg4.png",
+                "maps/level2_midnightcity/bg5.png",
+                "maps/level2_midnightcity/bg6.png",
+
+
                 "character_sprites/body.png",
                 "character_sprites/face.png",
                 "character_sprites/feet.png",
@@ -240,11 +249,12 @@ public class ActiveGameView {
             float camLeft = camera.position.x - (viewWidth / 2f);
             float camBottom = camera.position.y - (viewHeight / 2f);
 
-            drawLayer(getTexture("maps/level1_heaven/1.png"), camLeft, camBottom, viewWidth, viewHeight, 0.1f, 5.0f);
-            drawLayer(getTexture("maps/level1_heaven/2.png"), camLeft, camBottom, viewWidth, viewHeight, 0.2f, 5.0f);
-            drawLayer(getTexture("maps/level1_heaven/3.png"), camLeft, camBottom, viewWidth, viewHeight, 0.3f, 5.0f);
-            drawLayer(getTexture("maps/level1_heaven/4.png"), camLeft, camBottom, viewWidth, viewHeight, 0.4f, 5.0f);
-
+            List<String> backgroundComponents = lvlLoader.getMapBackgroundPaths(controller.getCurrentLevelNumber());
+            float pFactor = 0.1f;
+            for(String path : backgroundComponents){
+                drawLayer(getTexture(path), camLeft, camBottom, viewWidth, viewHeight, pFactor, 5.0f);
+                pFactor += 0.1f;
+            }
         }
         finally {
             batch.end();
