@@ -139,6 +139,7 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void startLevel(int levelNumber) {
+        currentLevel = levelNumber;
         if (!skipCreate) {
             createLevel(levelNumber);
         }
