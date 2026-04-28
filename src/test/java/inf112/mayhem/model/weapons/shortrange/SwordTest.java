@@ -65,8 +65,8 @@ class SwordTest {
         Rectangle bounds = sword.getAttackBounds();
         assertEquals(100f, bounds.x);
         assertEquals(150f, bounds.y);
-        assertEquals(8f, bounds.width);
-        assertEquals(12f, bounds.height);
+        assertEquals(25f, bounds.width);
+        assertEquals(15f, bounds.height);
     }
 
     @Test
