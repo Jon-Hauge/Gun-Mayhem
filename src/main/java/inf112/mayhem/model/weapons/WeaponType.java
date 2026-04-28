@@ -1,5 +1,5 @@
 package inf112.mayhem.model.weapons;
 
 public enum WeaponType {
-    PISTOL, SHOTGUN, AK, SWORD, SNIPER
+    PISTOL, SNIPER, PUMPACTION, SEMIACTIONSHOTGUN, SWORD
 }

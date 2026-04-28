@@ -1,8 +1,10 @@
 package inf112.mayhem.model.weapons;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
@@ -25,6 +27,12 @@ public abstract class AbstractWeapon implements EntityModel {
     protected float knockBackMultiplier;
     protected float bulletSpeed;
 
+    private Rectangle bounds = new Rectangle();
+
+    protected float velocityY = 0;
+    protected float gravity = -500f;
+    protected boolean grounded = false;
+
     public AbstractWeapon(float startX, float startY, AbstractCharacter character, float width, float height,
                           WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay,
                           float knockBackMultiplier, float bulletSpeed) {
@@ -34,6 +42,7 @@ public abstract class AbstractWeapon implements EntityModel {
         this.height = height;
         this.width = width;
         this.weaponType = weaponType;
+        this.state = startingState;
         this.maxAmmo = startingAmmo;
         this.currentAmmo = startingAmmo;
         this.firingDelay = firingDelay;
@@ -78,14 +87,32 @@ public abstract class AbstractWeapon implements EntityModel {
 
     @Override
     public void update(AppWorld world, float delta) {
-        this.x = character.x();
-        this.y = character.y();
+        if (character != null) {
+            this.x = character.x();
+            this.y = character.y();
+        }
+        updateBounds();
+        updateState();
+        /// Update once mapcollisionhandler is given to world, and world is given to abstractweapon
+        ///if (state == EntityState.DROPPED && !grounded) {
+        ///    velocityY += gravity * delta;
+        ///    float previousY = y;
+        ///    y += velocityY * delta;
+
+        ///    Rectangle bounds = bounds();
+        ///    bounds.setPosition(x, y);
+
+        ///    if (world.getMapCollisionHandler.isGrounded(bounds, previousY, false)) {
+        ///        grounded = true;
+        ///        velocityY = 0;
+        ///        y = world.getMapCollisionHandler.getGroundY(bounds, false);
+        ///    }
+        ///}
     }
 
     @Override
     public Rectangle bounds() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bounds'");
+        return bounds;
     }
 
     @Override
@@ -95,8 +122,7 @@ public abstract class AbstractWeapon implements EntityModel {
 
     @Override
     public void updateBounds() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setActive'");
+        bounds.set(x, y, width, height);
     }
 
     public void dropWeapon() {

@@ -1,6 +1,8 @@
 package inf112.mayhem.model.collision;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.entities.WeaponCrate;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.projectile.ProjectileModel;
@@ -15,6 +17,15 @@ public class ProjectileCollisionHandler {
 	
 	public void checkCollisions() {
 	    for (EntityModel obj : world) {
+			if (obj instanceof WeaponCrate crate) {
+				for (EntityModel other : world) {
+					if (other instanceof AbstractCharacter character) {
+						if (crate.bounds().overlaps(character.bounds())) {
+							crate.open(world);
+						}
+					}
+				}
+			}
 	        if (!(obj instanceof AbstractProjectile projectile)) continue;
 
 	        for (EntityModel target : world) {
