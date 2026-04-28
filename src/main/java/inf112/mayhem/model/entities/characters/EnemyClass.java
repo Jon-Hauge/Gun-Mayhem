@@ -301,7 +301,7 @@ public class EnemyClass extends AbstractCharacter {
             jump();
         }
 
-        if (distY < -HEIGHT * 2) {
+        if (distY < -HEIGHT) {
             drop();
         }
     }
