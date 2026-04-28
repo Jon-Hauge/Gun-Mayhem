@@ -31,10 +31,6 @@ public interface IController {
     ///
     void resume();
 
-    /// Starts the game
-    ///
-    void startGame();
-
     /// Exits the game
     ///
     void exitGame();

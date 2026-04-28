@@ -21,9 +21,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.characters.CharacterModel;
-import inf112.mayhem.model.entities.EntityModel;
+import inf112.mayhem.view.maps.LevelLoader;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
@@ -65,7 +66,8 @@ public class ActiveGameView {
         
         //LOAD TILEDMAP
         this.tileMapHelper = new TileMapHelper();
-        tileMapHelper.setupMap("maps/level1_heaven/map.tmx");
+        LevelLoader lvlLoader = new LevelLoader();
+        tileMapHelper.setupMap(lvlLoader.getMapPath(controller.getCurrentLevelNumber()));
         this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
 
         try {

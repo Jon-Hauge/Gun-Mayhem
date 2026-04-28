@@ -12,6 +12,17 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/Tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx": {
+            "scale": 1.1627604166666665,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 537.0839865621501,
+                "y": 383.56998880179174
+            }
+        },
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/13.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1,
@@ -43,10 +54,10 @@
         },
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map.tmx": {
             "scale": 0.75,
-            "selectedLayer": -1,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 528.6666666666666,
-                "y": 540.6666666666666
+                "x": 368.66666666666663,
+                "y": 540
             }
         },
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map.tmx#25": {
@@ -80,12 +91,20 @@
         "Tileset.tsx": {
             "scaleInDock": 1
         },
+        "map.tmx": {
+            "scale": 0.9878515625,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 640.2783819051762,
+                "y": 383.66088022460355
+            }
+        },
         "untitled.tmx": {
             "scale": 0.8097265625,
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 640.3396208210719,
-                "y": 383.46278161030443
+                "y": 382.84528920835544
             }
         }
     },
@@ -99,11 +118,13 @@
     ],
     "project": "",
     "recentFiles": [
-        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map1.tmx",
+        "map.tmx",
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map.tmx",
+        "untitled.tmx",
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map1.tmx",
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/subway.tsx",
         "3.tsx",
-        "untitled.tmx",
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/13.tsx",
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/train.tsx"
     ],
