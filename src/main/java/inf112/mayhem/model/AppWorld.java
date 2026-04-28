@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.collision.ProjectileCollisionHandler;
 import inf112.mayhem.model.entities.EntityFactory;
 import inf112.mayhem.model.entities.EntityModel;
@@ -27,8 +29,12 @@ public class AppWorld implements Iterable<EntityModel> {
 	private ProjectileCollisionHandler pCollision;
 	private PlayerClass playerClass;
 	private EnemyClass enemyClass;
-	private AbstractWeapon playerPistol;
-	private AbstractWeapon enemyPistol;
+	private AbstractWeapon playerStartingWeapon;
+	private AbstractWeapon enemyStartingWeapon;
+	private float weaponSpawnTimer = 0f;
+	private float weaponSpawnInterval = 10f;
+	private float crateSpawnTimer = 0f;
+	private float crateSpawnInterval = 15f;
 
 	public AppWorld(double width, double height) {
 		super();
@@ -49,14 +55,10 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.enemyClass = fac.spawnEnemy(900f, 400f);
 
 		// Weapons
-		setupWeapons(fac);
-	}
-
-	private void setupWeapons(EntityFactory entityFactory) {
-		this.playerPistol = new PistolWeapon(500f, 400f, playerClass);
-		this.enemyPistol = new PistolWeapon(900f, 400f, enemyClass);
-		playerClass.equipWeapon(playerPistol);
-		enemyClass.equipWeapon(enemyPistol);
+		this.playerStartingWeapon = new PistolWeapon(500f, 400f, playerClass);
+		this.enemyStartingWeapon = new PistolWeapon(900f, 400f, enemyClass);
+		playerClass.equipWeapon(playerStartingWeapon);
+		enemyClass.equipWeapon(enemyStartingWeapon);
 	}
 
 	@Override
@@ -119,6 +121,17 @@ public class AppWorld implements Iterable<EntityModel> {
 		for (EntityModel obj : this) {
 			obj.update(this, delta);
 		}
+		weaponSpawnTimer += delta;
+		if (weaponSpawnTimer >= weaponSpawnInterval) {
+			fac.spawnWeapons();
+			weaponSpawnTimer = 0f;
+		}
+
+		crateSpawnTimer += delta;
+		if (crateSpawnTimer >= crateSpawnInterval) {
+			fac.spawnCrates();
+			crateSpawnTimer = 0f;
+		}
 
 		pCollision.checkCollisions();
 		this.removeInactive();
@@ -146,5 +159,4 @@ public class AppWorld implements Iterable<EntityModel> {
 		playerClass.setLives(3);
 		enemyClass.setLives(3);
 	}
-
 }

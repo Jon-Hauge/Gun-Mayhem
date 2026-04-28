@@ -8,7 +8,7 @@ import inf112.mayhem.model.weapons.WeaponType;
 
 public class PumpAction extends ShortRangeWeapon {
 
-    private static final WeaponType WEAPON_TYPE = WeaponType.SHOTGUN;
+    private static final WeaponType WEAPON_TYPE = WeaponType.PUMPACTION;
     private static final float WIDTH = 25f;
     private static final float HEIGHT = 10f;
     private static final EntityState STARTING_STATE = EntityState.IN_USE;
@@ -19,6 +19,8 @@ public class PumpAction extends ShortRangeWeapon {
     public PumpAction(float startX, float startY, AbstractCharacter character) {
         super(startX, startY, character, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, FIRING_DELAY);
         setKnockback(knockBackMultiplier);
-        setAttackBounds(new Rectangle(character.x(), character.y(), WIDTH, HEIGHT));
+        if (character != null) {
+            setAttackBounds(new Rectangle(character.x(), character.y(), WIDTH, HEIGHT));
+        }
     }
 }

@@ -37,7 +37,9 @@ public abstract class ShortRangeWeapon extends AbstractWeapon {
     }
 
     protected void updateWeaponBounds() {
-        attackBounds.set(character.x(), character.y(), this.width(), this.height());
+        if (character != null) {
+            attackBounds.set(character.x(), character.y(), this.width(), this.height());
+        }
     }
 
     @Override

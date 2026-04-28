@@ -34,7 +34,7 @@ class SemiAutoShotgunTest {
     void constructorSetsExpectedValues() {
         assertEquals(25f, weapon.width());
         assertEquals(15f, weapon.height());
-        assertEquals(WeaponType.SHOTGUN, weapon.getWeaponType());
+        assertEquals(WeaponType.SEMIACTIONSHOTGUN, weapon.getWeaponType());
         assertEquals(8, weapon.getMaxAmmo());
         assertEquals(8, weapon.getCurrentAmmo());
         assertEquals(4f, weapon.getFiringDelay());

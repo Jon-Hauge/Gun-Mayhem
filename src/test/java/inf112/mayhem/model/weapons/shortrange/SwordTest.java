@@ -30,29 +30,19 @@ class SwordTest {
         when(character.x()).thenReturn(9f);
         when(character.y()).thenReturn(12f);
 
-        sword = new Sword(
-                1f,
-                2f,
-                character,
-                8f,
-                12f,
-                WeaponType.SWORD,
-                EntityState.IN_USE,
-                -1,
-                0.3f
-        );
+        sword = new Sword(1f, 2f, character);
     }
 
     @Test
     void constructorUsesGivenValuesFromSuper() {
         assertEquals(1f, sword.x());
         assertEquals(2f, sword.y());
-        assertEquals(8f, sword.width());
-        assertEquals(12f, sword.height());
+        assertEquals(25f, sword.width());
+        assertEquals(15f, sword.height());
         assertEquals(WeaponType.SWORD, sword.getWeaponType());
         assertEquals(-1, sword.getMaxAmmo());
         assertEquals(-1, sword.getCurrentAmmo());
-        assertEquals(0.3f, sword.getFiringDelay());
+        assertEquals(0.5f, sword.getFiringDelay());
     }
 
     @Test
@@ -75,8 +65,8 @@ class SwordTest {
         Rectangle bounds = sword.getAttackBounds();
         assertEquals(100f, bounds.x);
         assertEquals(150f, bounds.y);
-        assertEquals(8f, bounds.width);
-        assertEquals(12f, bounds.height);
+        assertEquals(25f, bounds.width);
+        assertEquals(15f, bounds.height);
     }
 
     @Test

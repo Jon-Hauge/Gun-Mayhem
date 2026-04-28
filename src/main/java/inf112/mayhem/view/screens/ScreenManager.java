@@ -1,13 +1,15 @@
 package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.weapons.WeaponType;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
-import inf112.mayhem.view.screens.activeGameView.WeaponViewFactory;
+import inf112.mayhem.view.screens.activeGameView.WeaponView;
 import inf112.mayhem.view.screens.hud.HudView;
 
 public class ScreenManager {
@@ -19,7 +21,7 @@ public class ScreenManager {
     private final HudView hudView;
     private final CampaignView campaignView;
     private final PlayerClass playerClass;
-    private final WeaponViewFactory weaponViewFactory = new WeaponViewFactory();
+    private final float scale = 0.15f;
 
     public ScreenManager(AppWorld world, AppController controller, PlayerClass playerClass) {
         this.activeGameView = new ActiveGameView(world, controller);
@@ -97,6 +99,17 @@ public class ScreenManager {
 
     public void setupWeaponViews(PlayerClass playerClass) {
         AbstractWeapon weapon = playerClass.getEquippedWeapon();
-        weapon.setWeaponView(weaponViewFactory.createWeaponView(weapon.getWeaponType()));
+        weapon.setWeaponView(new WeaponView(getWeaponTexture(weapon.getWeaponType()), weapon.x(), weapon.y(), scale, weapon));
+    }
+
+    public Texture getWeaponTexture(WeaponType type) {
+        return switch (type) {
+            case PISTOL -> new Texture("weapons/pistol.png");
+            case SNIPER -> new Texture("weapons/sniper.png");
+            case PUMPACTION -> new Texture("weapons/shotgun");
+            case SEMIACTIONSHOTGUN -> new Texture("weapons/shotgun.png");
+            case SWORD -> new Texture("weapons/sword.png");
+            default -> new Texture("weapons/pistol.png");
+        };
     }
 }
