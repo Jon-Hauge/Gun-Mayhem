@@ -11,7 +11,7 @@ public class PistolWeapon extends AbstractWeapon {
     private static final float HEIGHT = 10f;
     private static final EntityState STARTING_STATE = EntityState.IN_USE;
     private static final int AMMO = -1;
-    private static final float firingDelay = 0.25f;
+    private static final float firingDelay = 1f;
     private static final float knockBackMultiplier = 300f;
     private static final float bulletSpeed = 500f;
 
