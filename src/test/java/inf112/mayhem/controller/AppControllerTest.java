@@ -206,6 +206,30 @@ public class AppControllerTest {
     }
 
     @Test
+    void renderUpdatesLevelCountOnVictory() {
+        when(world.state()).thenReturn(GameState.VICTORY);
+        Gdx.graphics = mock(Graphics.class);
+        when(Gdx.graphics.getDeltaTime()).thenReturn(0.16f);
+        Gdx.input = mock(Input.class);
+
+        appController.render();
+
+        verify(world).updateLevelCount(anyInt(), anyInt());
+    }
+
+    @Test
+    void renderUpdatesLevelCountOnGameOver() {
+        when(world.state()).thenReturn(GameState.GAME_OVER);
+        Gdx.graphics = mock(Graphics.class);
+        when(Gdx.graphics.getDeltaTime()).thenReturn(0.16f);
+        Gdx.input = mock(Input.class);
+
+        appController.render();
+
+        verify(world).updateLevelCount(anyInt(), anyInt());
+    }
+
+    @Test
     void renderDoesNotUpdateWorldWhenNotActive() {
         when(world.state()).thenReturn(GameState.PAUSED);
         Gdx.graphics = mock(Graphics.class);
