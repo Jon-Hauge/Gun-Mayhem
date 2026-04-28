@@ -1,16 +1,25 @@
 package inf112.mayhem.model.collision;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapCollisionHandler {
 	private TiledMapTileLayer groundLayer;
-	private TiledMapTileLayer platformLayer;
+	private List<TiledMapTileLayer> platformLayers;
 	
 	public MapCollisionHandler(TiledMap map) {
 		this.groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
-		this.platformLayer = (TiledMapTileLayer) map.getLayers().get("platform1");
+		this.platformLayers = new ArrayList<>();
+		for (MapLayer layer : map.getLayers()) {
+			if (layer.getName().startsWith("platform") && layer instanceof TiledMapTileLayer) {
+				platformLayers.add((TiledMapTileLayer) layer);
+			}
+		}
 	}
 	
 	public boolean isGrounded(Rectangle bounds, float previousY, boolean ignorePlatforms) {
@@ -22,15 +31,19 @@ public class MapCollisionHandler {
 
 	    boolean wasAboveTile = previousY >= tileTop;
 
-	    boolean onGround =
+	    boolean onGround = groundLayer != null &&
 	            (groundLayer.getCell(tileXLeft, tileY) != null ||
 	             groundLayer.getCell(tileXRight, tileY) != null);
 
 	    boolean onPlatform = false;
-	    if (!ignorePlatforms && platformLayer != null) {
-	        onPlatform =
-	                (platformLayer.getCell(tileXLeft, tileY) != null ||
-	                 platformLayer.getCell(tileXRight, tileY) != null);
+	    if (!ignorePlatforms) {
+			for (TiledMapTileLayer platformLayer : platformLayers) {
+				if (platformLayer.getCell(tileXLeft, tileY) != null ||
+					platformLayer.getCell(tileXRight, tileY) != null) {
+					onPlatform = true;
+					break;
+				}
+			}
 	    }
 
 	    return wasAboveTile && (onGround || onPlatform);

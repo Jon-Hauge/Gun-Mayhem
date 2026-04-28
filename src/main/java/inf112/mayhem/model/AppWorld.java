@@ -18,7 +18,8 @@ public class AppWorld implements Iterable<EntityModel> {
 	private double width;
 	private double height;
 	private double currentTime = 0;
-	private List<EntityModel> objects = new ArrayList<>();
+    private List<EntityModel> objects = new ArrayList<>();
+    private List<EntityModel> toAdd = new ArrayList<>();
 	private TiledMap map;
 	private LevelLoader loader = new LevelLoader();
 	private EntityFactory fac;
@@ -77,7 +78,7 @@ public class AppWorld implements Iterable<EntityModel> {
 
 	public void add(EntityModel obj) {
 		if (obj != null) {
-			objects.add(obj);
+			toAdd.add(obj);
 		}
 	}
 
@@ -107,7 +108,14 @@ public class AppWorld implements Iterable<EntityModel> {
 	    }
 	}
 
+	public EntityFactory getEntityFactory() {
+		return fac;
+	}
+
 	public void update(float delta) {
+		objects.addAll(toAdd);
+		toAdd.clear();
+
 		for (EntityModel obj : this) {
 			obj.update(this, delta);
 		}

@@ -1,6 +1,7 @@
 package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.projectile.AbstractProjectile;
@@ -8,25 +9,36 @@ import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.EntityModel;
 
+/**
+ * Represents an AI-controlled enemy character in the game.
+ * The enemy has different aggression levels that affect its movement speed, detection range,
+ * attack range, and reaction time.
+ */
 public class EnemyClass extends AbstractCharacter {
 
     private static final int WIDTH = 32;
     private static final int HEIGHT = 32;
 
-    // AI-parametere
     private int aggression; // 1-5
     private float moveSpeed;
     private float detectionRange;
     private float attackRange;
     private float reactionTime;
     private float reactionTimer;
+    private float shootingTimer;
     private float patrolSpeed;
     private float patrolDistance;
     private float patrolOrigin;
     private int patrolDirection;
     private boolean playerDetected;
+    private AppWorld world;
 
-    // Aggresjon-baserte konstanter
+    private float knockBack = 0f;
+    private static final float KNOCKBACK_DECAY = 8f;
+    private float edgeWaitTimer = 0f;
+    private static final float EDGE_WAIT_DURATION = 0.5f;
+    private float spawnDelayTimer = 1.0f;
+
     private static final float BASE_SPEED = 60f;
     private static final float BASE_DETECTION_RANGE = 100f;
     private static final float BASE_ATTACK_RANGE = 40f;
@@ -34,6 +46,14 @@ public class EnemyClass extends AbstractCharacter {
     private static final float BASE_PATROL_SPEED = 30f;
     private static final float BASE_PATROL_DISTANCE = 80f;
 
+    /**
+     * Initializes a new enemy at the specified position with a given aggression level.
+     *
+     * @param startX     The starting X position.
+     * @param startY     The starting Y position.
+     * @param map        The tiled map for collision detection.
+     * @param aggression The aggression level (1-5).
+     */
     public EnemyClass(float startX, float startY, TiledMap map, int aggression) {
         super(startX, startY, WIDTH, HEIGHT, 3, map);
         this.type = EntityType.ENEMY;
@@ -42,17 +62,20 @@ public class EnemyClass extends AbstractCharacter {
         this.patrolDirection = 1;
         this.playerDetected = false;
         this.reactionTimer = 0;
+        this.shootingTimer = 0;
         setAggression(aggression);
     }
 
     /**
-     * Setter aggresjonsnivå (1-5) og justerer alle AI-parametere.
+     * Sets the aggression level (1-5) and adjusts all AI parameters accordingly.
+     * <p>
+     * Level 1: Passive - Slow, short range, slow reaction.
+     * Level 2: Cautious.
+     * Level 3: Normal.
+     * Level 4: Aggressive.
+     * Level 5: Furious - Fast, long range, immediate reaction.
      *
-     * Nivå 1: Passiv — sakte, kort rekkevidde, treg reaksjon
-     * Nivå 2: Forsiktig
-     * Nivå 3: Normal
-     * Nivå 4: Aggressiv
-     * Nivå 5: Rasende — rask, lang rekkevidde, umiddelbar reaksjon
+     * @param aggression The desired aggression level.
      */
     public void setAggression(int aggression) {
         this.aggression = Math.max(1, Math.min(5, aggression));
@@ -66,10 +89,19 @@ public class EnemyClass extends AbstractCharacter {
         this.patrolDistance = BASE_PATROL_DISTANCE + (scale - 1) * 30f;
     }
 
+    /**
+     * Returns the current aggression level of the enemy.
+     *
+     * @return The aggression level (1-5).
+     */
     public int getAggression() {
         return aggression;
     }
 
+    /**
+     * Makes the enemy jump.
+     * High aggression enemies (level 3 and above) are capable of double jumping.
+     */
     @Override
     public void jump() {
         if (isGrounded) {
@@ -77,12 +109,14 @@ public class EnemyClass extends AbstractCharacter {
             isGrounded = false;
             jump_counter++;
         } else if (jump_counter < 2 && aggression >= 3) {
-            // Bare fiender med aggresjon >= 3 kan dobbelthoppe
             velocity.y = DOUBLE_JUMP_FORCE;
             jump_counter++;
         }
     }
 
+    /**
+     * Makes the enemy drop down from a platform.
+     */
     @Override
     public void drop() {
         if (isGrounded) {
@@ -93,16 +127,25 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
+    /**
+     * Handles the enemy being hit by another entity.
+     * Applies knockback based on the projectile's weapon and the enemy's aggression level.
+     *
+     * @param obj The entity that hit the enemy.
+     */
     @Override
     public void hit(EntityModel obj) {
-        AbstractProjectile projectile = (AbstractProjectile) obj;
-        // Lavere aggresjon = mer knockback (lettere å slå tilbake)
-        float knockbackResistance = 1.0f - (aggression - 1) * 0.15f;
-        velocity.x += projectile.getKnockBackMultiplier()
-                    * projectile.getDirection()
-                    * knockbackResistance;
+        if (obj instanceof AbstractProjectile projectile) {
+            float knockbackResistance = 1.0f - (aggression - 1) * 0.15f;
+            knockBack += projectile.getWeapon().getKnockBackMultiplier()
+                        * projectile.getDirection()
+                        * knockbackResistance;
+        }
     }
 
+    /**
+     * Updates the animation state of the enemy based on its current movement.
+     */
     @Override
     public void updateState() {
         if (!isGrounded && velocity.y > 0) {
@@ -116,16 +159,28 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
+    /**
+     * Updates the enemy's AI logic, physics, and state.
+     *
+     * @param world The game world.
+     * @param delta The time elapsed since the last update.
+     */
     @Override
     public void update(AppWorld world, float delta) {
+        this.world = world;
+        if (shootingTimer > 0) shootingTimer -= delta;
+        if (edgeWaitTimer > 0) edgeWaitTimer -= delta;
+        if (spawnDelayTimer > 0) {
+            spawnDelayTimer -= delta;
+            velocity.x = 0; // Ensure no movement during spawn delay
+        }
 
-        // --- AI-logikk ---
+        // AI logic
         PlayerClass player = findClosestPlayer(world);
-        if (player != null && player.isActive()) {
+        if (player != null && player.isActive() && spawnDelayTimer <= 0) {
             float distX = player.bounds().x - bounds.x;
             float distY = player.bounds().y - bounds.y;
             float distance = (float) Math.sqrt(distX * distX + distY * distY);
-            getEquippedWeapon().shoot();
 
             if (distance <= detectionRange) {
                 reactionTimer += delta;
@@ -137,21 +192,24 @@ public class EnemyClass extends AbstractCharacter {
                 reactionTimer = 0;
             }
 
-            if (playerDetected) {
+            if (playerDetected && spawnDelayTimer <= 0) {
                 chasePlayer(distX, distY, distance, delta);
-            } else {
+            } else if (spawnDelayTimer <= 0) {
                 patrol(delta);
             }
-        } else {
+        } else if (spawnDelayTimer <= 0) {
             patrol(delta);
         }
 
-        // --- Fysikk (som PlayerClass) ---
+        // Physics
         float previousY = position.y;
 
         velocity.y -= GRAVITY * delta;
 
         position.x += velocity.x * delta;
+        position.x += knockBack * delta;
+        knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
+
         updateBounds();
 
         position.y += velocity.y * delta;
@@ -191,48 +249,113 @@ public class EnemyClass extends AbstractCharacter {
     }
 
     /**
-     * Jager spilleren — beveger seg mot dem, hopper hvis de er over,
-     * og dropper hvis de er under.
+     * Pursues the detected player.
+     * The enemy will move towards the player, jump if they are above, or drop if they are below.
+     * It will also fire its weapon if the player is within attack range.
+     *
+     * @param distX    The horizontal distance to the player.
+     * @param distY    The vertical distance to the player.
+     * @param distance The total distance to the player.
+     * @param delta    The time elapsed since the last update.
      */
     private void chasePlayer(float distX, float distY, float distance, float delta) {
-        // Beveg mot spiller horisontalt
-        if (Math.abs(distX) > attackRange) {
-            direction = distX > 0 ? 1 : -1;
-            velocity.x = direction * moveSpeed;
-        } else {
-            velocity.x = 0;
-            // Innenfor angrepsrekkevidde — angrip
-            if (getEquippedWeapon() != null) {
-                getEquippedWeapon().shoot();
+        int targetDirection = distX > 0 ? 1 : -1;
+        
+        if (edgeWaitTimer <= 0) {
+            direction = targetDirection;
+        }
+        
+        boolean atEdge = isAtEdge();
+
+        if (distance <= attackRange * 2 || aggression >= 4) {
+            if (shootingTimer <= 0 && getEquippedWeapon() != null) {
+                if (getEquippedWeapon().shoot()) {
+                    world.getEntityFactory().spawnProjectile(this);
+                    shootingTimer = getEquippedWeapon().getFiringDelay();
+                    shootingTimer *= (1.2f - (aggression * 0.1f));
+                }
             }
         }
 
-        // Hopp hvis spilleren er høyere opp
+        if (Math.abs(distX) > attackRange * 0.8f) {
+            if (!atEdge) {
+                velocity.x = direction * moveSpeed;
+            } else {
+                velocity.x = 0;
+                if (edgeWaitTimer <= 0) {
+                    edgeWaitTimer = EDGE_WAIT_DURATION;
+                }
+                if (isGrounded && (distY > 0 || Math.abs(distX) > detectionRange * 0.3f)) {
+                    jump();
+                }
+            }
+        } else {
+            velocity.x = 0;
+        }
+
         if (distY > HEIGHT && isGrounded) {
             jump();
         }
 
-        // Drop ned hvis spilleren er under
+        if (!isGrounded && velocity.y > 0 && velocity.y < JUMP_FORCE * 0.5f && distY > HEIGHT * 2) {
+            jump();
+        }
+
         if (distY < -HEIGHT * 2) {
             drop();
         }
     }
 
     /**
-     * Patruljerer frem og tilbake rundt startposisjonen.
+     * Checks if the enemy is about to walk off the edge of a platform.
+     *
+     * @return True if an edge is detected in front of the enemy, false otherwise.
+     */
+    private boolean isAtEdge() {
+        if (!isGrounded) return false;
+
+        float sensorX = direction == 1 ? bounds.x + bounds.width : bounds.x - 5;
+        Rectangle edgeSensor = new Rectangle(sensorX, bounds.y - 1, 5, bounds.height);
+        
+        boolean groundBelow = collision.isGrounded(edgeSensor, bounds.y, ignorePlatforms);
+        
+        if (!groundBelow) {
+            groundBelow = collision.isGrounded(edgeSensor, bounds.y - 32, ignorePlatforms);
+        }
+        
+        return !groundBelow;
+    }
+
+    /**
+     * Moves the enemy back and forth around its starting position.
+     * Reverses direction if it reaches the patrol distance or hits an edge.
+     *
+     * @param delta The time elapsed since the last update.
      */
     private void patrol(float delta) {
+        if (edgeWaitTimer <= 0) {
+            direction = patrolDirection;
+            if (isAtEdge()) {
+                patrolDirection *= -1;
+                edgeWaitTimer = EDGE_WAIT_DURATION;
+            }
+        }
+        
         velocity.x = patrolDirection * patrolSpeed;
-        direction = patrolDirection;
 
         if (Math.abs(position.x - patrolOrigin) >= patrolDistance) {
-            patrolDirection *= -1;
+            if (edgeWaitTimer <= 0) {
+                patrolDirection *= -1;
+                edgeWaitTimer = EDGE_WAIT_DURATION;
+            }
         }
     }
 
     /**
-     * Finner nærmeste aktive spiller i verden.
-     * Krever at AppWorld har en metode for å hente spillere.
+     * Finds the closest active player in the game world.
+     *
+     * @param world The game world.
+     * @return The closest PlayerClass instance, or null if no players are active.
      */
     private PlayerClass findClosestPlayer(AppWorld world) {
         PlayerClass closest = null;

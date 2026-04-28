@@ -20,7 +20,7 @@ public abstract class AbstractProjectile implements ProjectileModel, EntityModel
     protected boolean active = true;
     private final int direction;
     private final float BULLET_SPEED = 350f;
-    private float knockBackMultiplier = 1500f;
+    private float knockBackMultiplier = 2500f;
 
 
     public AbstractProjectile(AbstractWeapon weapon) {
