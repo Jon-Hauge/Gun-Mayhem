@@ -6,8 +6,7 @@ import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
-import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.view.screens.*;
+import inf112.mayhem.view.screens.ScreenManager;
 
 public class AppController implements ApplicationListener, IController {
     private AppWorld world;
@@ -77,6 +76,10 @@ public class AppController implements ApplicationListener, IController {
         }
     }
 
+    public int getCurrentLevelNumber(){
+        return currentLevel;
+    }
+
     @Override
     public void resize(int width, int height) {
         screenManager.resize(width, height);
@@ -91,15 +94,6 @@ public class AppController implements ApplicationListener, IController {
     @Override
     public void resume() {
         world.setState(GameState.ACTIVE);
-        updateInputProcessor();
-    }
-
-    @Override
-    public void startGame() {
-        if (!skipCreate) {
-            create();
-        }
-        world.reset();
         updateInputProcessor();
     }
 

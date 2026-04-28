@@ -1,7 +1,7 @@
 package inf112.mayhem.model.weapons.longrange;
 
-import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
 
