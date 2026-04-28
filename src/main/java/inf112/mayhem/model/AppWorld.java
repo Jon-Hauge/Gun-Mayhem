@@ -135,7 +135,7 @@ public class AppWorld implements Iterable<EntityModel> {
 	public int updateLevelCount(int currentLevel, int unlockedLevels) {
 		int newUnlockedLevels = unlockedLevels;
 
-		if (currentLevel == unlockedLevels && unlockedLevels < 3) {
+		if (state == GameState.VICTORY && currentLevel == unlockedLevels && unlockedLevels < 3) {
 			newUnlockedLevels++;
 		}
 		return newUnlockedLevels;

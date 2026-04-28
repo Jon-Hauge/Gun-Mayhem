@@ -47,12 +47,14 @@ public class AppController implements ApplicationListener, IController {
 
         handleInput();
 
-        if (world.state() == GameState.ACTIVE) {
-            world.update(delta);
-            playerController.update(delta);
-            weaponController.update(delta);
+        if (world.state() == GameState.ACTIVE || world.state() == GameState.VICTORY || world.state() == GameState.GAME_OVER) {
+            if (world.state() == GameState.ACTIVE) {
+                world.update(delta);
+                playerController.update(delta);
+                weaponController.update(delta);
 
-            world.evaluateState();
+                world.evaluateState();
+            }
             unlockedLevels = world.updateLevelCount(currentLevel, unlockedLevels);
         }
 
