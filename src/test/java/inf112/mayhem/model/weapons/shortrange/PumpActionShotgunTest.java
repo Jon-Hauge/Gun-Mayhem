@@ -36,7 +36,7 @@ class PumpActionTest {
     void constructorSetsExpectedValues() {
         assertEquals(25f, weapon.width());
         assertEquals(10f, weapon.height());
-        assertEquals(WeaponType.SHOTGUN, weapon.getWeaponType());
+        assertEquals(WeaponType.PUMPACTION, weapon.getWeaponType());
         assertEquals(5, weapon.getMaxAmmo());
         assertEquals(5, weapon.getCurrentAmmo());
         assertEquals(8f, weapon.getFiringDelay());

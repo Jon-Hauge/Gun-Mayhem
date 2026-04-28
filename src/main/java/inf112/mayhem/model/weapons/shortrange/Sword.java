@@ -11,8 +11,8 @@ public class Sword extends ShortRangeWeapon {
     private static final float WIDTH = 25f;
     private static final float HEIGHT = 15f;
     private static final EntityState STARTING_STATE = EntityState.IN_USE;
-    private static final int AMMO = 0;
-    private static final float HIT_DELAY = 4f;
+    private static final int AMMO = -1;
+    private static final float HIT_DELAY = 0.5f;
     private static final float knockBackMultiplier = 200f;
 
     public Sword(float startX, float startY, AbstractCharacter character) {
