@@ -33,7 +33,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	
 
 	public AbstractCharacter(float x, float y, int width, int height, int lives, TiledMap map) {
-		super(x, y, width, height, map);
+		super(x, y, width, height);
 		this.startX = x;
 		this.startY = y;
 		this.lives = lives;
