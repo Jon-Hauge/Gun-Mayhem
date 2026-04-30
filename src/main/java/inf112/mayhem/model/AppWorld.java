@@ -140,12 +140,12 @@ public class AppWorld implements Iterable<EntityModel> {
 			weaponSpawnTimer = 0f;
 		}
 
-		///crateSpawnTimer += delta;
-		///if (crateSpawnTimer >= crateSpawnInterval) {
-		///	System.out.println("Spawning crate");
-		///	fac.spawnCrate();
-		///	crateSpawnTimer = 0f;
-		///}
+		crateSpawnTimer += delta;
+		if (crateSpawnTimer >= crateSpawnInterval) {
+			System.out.println("Spawning crate");
+			fac.spawnCrate();
+			crateSpawnTimer = 0f;
+		}
 
 		pCollision.checkCollisions();
 		this.removeInactive();

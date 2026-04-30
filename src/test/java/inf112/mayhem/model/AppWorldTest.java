@@ -161,15 +161,15 @@ public class AppWorldTest {
         setPrivateField(world, "pCollision", pCollision);
 
         world.update(5f);
-        verify(factory, never()).spawnWeapons();
-        verify(factory, never()).spawnCrates();
+        verify(factory, never()).spawnWeapon();
+        verify(factory, never()).spawnCrate();
 
         world.update(5f);
-        verify(factory).spawnWeapons();
-        verify(factory, never()).spawnCrates();
+        verify(factory).spawnWeapon();
+        verify(factory, never()).spawnCrate();
 
         world.update(5f);
-        verify(factory).spawnCrates();
+        verify(factory).spawnCrate();
     }
 
     @Test

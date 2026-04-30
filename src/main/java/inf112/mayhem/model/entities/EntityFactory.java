@@ -43,8 +43,8 @@ public class EntityFactory {
 	}
 
 	public void spawnCrate() {
-		///float x = rand.nextFloat() * (float) world.width();
-			///float y = rand.nextFloat() * (float) world.height();
+		float x = rand.nextFloat() * (float) world.width();
+		float y = rand.nextFloat() * (float) world.height();
 
 			/// Add functionality for powerups here
 			///AbstractPowerUp powerUp = createRandomPowerUp(x, y);
