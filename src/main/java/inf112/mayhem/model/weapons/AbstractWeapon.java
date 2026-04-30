@@ -8,7 +8,7 @@ import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.AbstractEntity;
 
-public abstract class AbstractWeapon extends AbstractEntity {
+public abstract class AbstractWeapon extends AbstractEntity implements WeaponModel {
 
     private int maxAmmo; // set ammo to -1 for inf
     private int currentAmmo;

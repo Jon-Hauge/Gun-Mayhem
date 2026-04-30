@@ -20,4 +20,9 @@ public class SniperWeapon extends AbstractWeapon {
         this.state = EntityState.DROPPED;
         
     }
+
+	@Override
+	public float getFiringDealy() {
+		return FIRING_DELAY;
+	}
 }

@@ -27,4 +27,9 @@ public class Sword extends ShortRangeWeapon {
             setAttackBounds(new Rectangle(character.x(), character.y(), 8, 12));
         }
     }
+
+	@Override
+	public float getFiringDealy() {
+		return 0;
+	}
 }
