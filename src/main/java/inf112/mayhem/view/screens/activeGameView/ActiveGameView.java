@@ -280,9 +280,8 @@ public class ActiveGameView {
                         if (weapon.getWeaponView() == null) {
                             weapon.setWeaponView(new WeaponView(weapon));
                         }
+                        weaponViews.add(weapon.getWeaponView());
                     }
-
-                    weaponViews.add(weapon.getWeaponView());
                 }
             }
             for (WeaponView weaponView : weaponViews) {
