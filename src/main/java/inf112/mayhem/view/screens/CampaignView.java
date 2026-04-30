@@ -1,12 +1,19 @@
 package inf112.mayhem.view.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.video.VideoPlayer;
+import com.badlogic.gdx.video.VideoPlayerCreator;
+
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 
@@ -14,10 +21,30 @@ public class CampaignView extends AbstractScreenView {
     private AppWorld world;
     private AppController controller;
 
+    private VideoPlayer videoPlayer;
+    private SpriteBatch videoBatch;
+
     public CampaignView(AppWorld world, AppController controller) {
         this.world = world;
         this.controller = controller;
+
+        setupBackgroundVideo();
+
         create(world.width(), world.height());
+    }
+
+    private void setupBackgroundVideo() {
+        videoBatch = new SpriteBatch();
+
+        try {
+            videoPlayer = VideoPlayerCreator.createVideoPlayer();
+            videoPlayer.load(Gdx.files.internal("screens/level_select.webm"));
+            videoPlayer.setLooping(true);
+            videoPlayer.play();
+        } catch (Exception e) {
+            Gdx.app.error("CampaignView", "Could not load background video", e);
+            videoPlayer = null;
+        }
     }
 
     @Override
@@ -39,7 +66,7 @@ public class CampaignView extends AbstractScreenView {
         Label.LabelStyle labelStyle = new Label.LabelStyle(titleFont, Color.WHITE);
         Label title = new Label("CAMPAIGN", labelStyle);
         table.add(title).padBottom(40).colspan(3).row();
-        
+
         rebuildLevelButtons(table, buttonStyle, lockedButtonStyle);
 
         TextButton backButton = new TextButton("Back", buttonStyle);
@@ -55,7 +82,6 @@ public class CampaignView extends AbstractScreenView {
     }
 
     private void rebuildLevelButtons(Table table, TextButton.TextButtonStyle buttonStyle, TextButton.TextButtonStyle lockedButtonStyle) {
-        // Level 1
         TextButton level1Button = new TextButton("Level 1", buttonStyle);
         level1Button.addListener(new ClickListener() {
             @Override
@@ -65,7 +91,6 @@ public class CampaignView extends AbstractScreenView {
         });
         table.add(level1Button).pad(20);
 
-        // Level 2
         boolean level2Unlocked = controller.isLevelUnlocked(2);
         TextButton level2Button = new TextButton("Level 2", level2Unlocked ? buttonStyle : lockedButtonStyle);
         if (level2Unlocked) {
@@ -78,7 +103,6 @@ public class CampaignView extends AbstractScreenView {
         }
         table.add(level2Button).pad(20);
 
-        // Level 3
         boolean level3Unlocked = controller.isLevelUnlocked(3);
         TextButton level3Button = new TextButton("Level 3", level3Unlocked ? buttonStyle : lockedButtonStyle);
         if (level3Unlocked) {
@@ -92,7 +116,42 @@ public class CampaignView extends AbstractScreenView {
         table.add(level3Button).pad(20).row();
     }
 
+    @Override
     public void render() {
-        super.render();
+        ScreenUtils.clear(Color.BLACK);
+
+        if (videoPlayer != null) {
+            videoPlayer.update();
+
+            Texture videoTexture = videoPlayer.getTexture();
+
+            if (videoTexture != null) {
+                videoBatch.begin();
+                videoBatch.draw(
+                        videoTexture,
+                        0,
+                        0,
+                        Gdx.graphics.getWidth(),
+                        Gdx.graphics.getHeight()
+                );
+                videoBatch.end();
+            }
+        }
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+    }
+
+    @Override
+    public void dispose() {
+        if (videoPlayer != null) {
+            videoPlayer.dispose();
+        }
+
+        if (videoBatch != null) {
+            videoBatch.dispose();
+        }
+
+        super.dispose();
     }
 }
