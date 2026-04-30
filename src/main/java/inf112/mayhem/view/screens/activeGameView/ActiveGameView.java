@@ -18,12 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
+import java.util.ArrayList;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
+import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.characters.CharacterModel;
+import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.LevelLoader;
 import inf112.mayhem.view.maps.TileMapHelper;
 
@@ -38,6 +40,7 @@ public class ActiveGameView {
     private AppController controller;
     private CharacterRig characterRig;
     private CharacterView characterView;
+    private ArrayList<WeaponView> weaponViews = new ArrayList<>();
     private final float scale = 0.15f;
     private float smoothCamX = 0;
     private float smoothCamY = 0;
@@ -264,11 +267,26 @@ public class ActiveGameView {
     private void drawEntities(AppWorld world, float delta) {
         batch.begin();
         try {
+            weaponViews.clear();
+
             for (EntityModel obj : world) {
 
                 if (obj instanceof CharacterModel character && character.isActive()) {
                     characterView.draw(batch, character, delta);
                 }
+
+                if (obj instanceof AbstractWeapon weapon) {
+                    if (weapon.state() == EntityState.DROPPED) {
+                        if (weapon.getWeaponView() == null) {
+                            weapon.setWeaponView(new WeaponView(weapon));
+                        }
+                    }
+
+                    weaponViews.add(weapon.getWeaponView());
+                }
+            }
+            for (WeaponView weaponView : weaponViews) {
+                weaponView.draw(batch);
             }
 
         } finally {

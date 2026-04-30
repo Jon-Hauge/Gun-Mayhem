@@ -54,7 +54,7 @@ public class WeaponCrate implements EntityModel {
     @Override
     public EntityState state() {
         if (!opened) {
-            return EntityState.UNKNOWN_WEAPON_CRATE;
+            return EntityState.UNOPENED_WEAPON_CRATE;
         } else {
             return EntityState.OPENED_WEAPON_CRATE;
         }
@@ -80,5 +80,6 @@ public class WeaponCrate implements EntityModel {
 
     @Override
     public void updateState() {}
+
 
 }

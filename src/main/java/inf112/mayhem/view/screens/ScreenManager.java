@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
@@ -20,18 +21,19 @@ public class ScreenManager {
     private final VictoryView victoryView;
     private final HudView hudView;
     private final CampaignView campaignView;
-    private final PlayerClass playerClass;
-    private final float scale = 0.15f;
+    private final AbstractCharacter player;
+    private final AbstractCharacter enemy;
 
-    public ScreenManager(AppWorld world, AppController controller, PlayerClass playerClass) {
+    public ScreenManager(AppWorld world, AppController controller, AbstractCharacter player, AbstractCharacter enemy) {
+        this.player = player;
+        this.enemy = enemy;
         this.activeGameView = new ActiveGameView(world, controller);
         this.mainMenuView = new MainMenuView(world, controller);
         this.pauseView = new PauseView(world, controller);
         this.gameOverView = new GameOverView(world, controller);
         this.victoryView = new VictoryView(world, controller);
         this.campaignView = new CampaignView(world, controller);
-        this.hudView = new HudView(world, controller, playerClass);
-        this.playerClass = playerClass;
+        this.hudView = new HudView(world, controller, player);
     }
 
     public void dispose() {
@@ -59,7 +61,7 @@ public class ScreenManager {
             case MAIN_MENU -> mainMenuView.render();
             case ACTIVE -> {
                 activeGameView.render(world, delta);
-                hudView.update(playerClass);
+                hudView.update(player);
                 hudView.render();
             }
             case PAUSED -> {
@@ -97,19 +99,11 @@ public class ScreenManager {
         campaignView.rebuildUI();
     }
 
-    public void setupWeaponViews(PlayerClass playerClass) {
-        AbstractWeapon weapon = playerClass.getEquippedWeapon();
-        weapon.setWeaponView(new WeaponView(getWeaponTexture(weapon.getWeaponType()), weapon.x(), weapon.y(), scale, weapon));
-    }
+    public void setupWeaponViews(AbstractCharacter player, AbstractCharacter enemy) {
+        AbstractWeapon playerWeapon = player.getEquippedWeapon();
+        playerWeapon.setWeaponView(new WeaponView(playerWeapon));
 
-    public Texture getWeaponTexture(WeaponType type) {
-        return switch (type) {
-            case PISTOL -> new Texture("weapons/pistol.png");
-            case SNIPER -> new Texture("weapons/sniper.png");
-            case PUMPACTION -> new Texture("weapons/shotgun");
-            case SEMIACTIONSHOTGUN -> new Texture("weapons/shotgun.png");
-            case SWORD -> new Texture("weapons/sword.png");
-            default -> new Texture("weapons/pistol.png");
-        };
+        AbstractWeapon enemyWeapon = enemy.getEquippedWeapon();
+        enemyWeapon.setWeaponView(new WeaponView(enemyWeapon));
     }
 }
