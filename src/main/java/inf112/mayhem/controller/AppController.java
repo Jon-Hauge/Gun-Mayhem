@@ -29,8 +29,8 @@ public class AppController implements ApplicationListener, IController {
         playerController = new PlayerController(world.getPlayerClass(), world);
         weaponController = new WeaponController(world.getPlayerClass().getEquippedWeapon(), world);
 
-        screenManager = new ScreenManager(world, this, world.getPlayerClass());
-        screenManager.setupWeaponViews(world.getPlayerClass());
+        screenManager = new ScreenManager(world, this, world.getPlayerClass(), world.getEnemyClass());
+        screenManager.setupWeaponViews(world.getPlayerClass(), world.getEnemyClass());
 
         Gdx.graphics.setForegroundFPS(60);
         updateInputProcessor();

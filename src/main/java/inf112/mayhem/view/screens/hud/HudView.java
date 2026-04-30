@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.characters.PlayerClass;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.view.screens.AbstractScreenView;
 
 
@@ -29,7 +29,7 @@ public class HudView extends AbstractScreenView {
     private Label gunLabel;
     private BitmapFont font;
     private BitmapFont ammoFont;
-    private PlayerClass playerClass;
+    private AbstractCharacter character;
     // CHANGE BELOW WHEN ADDED AMMO/LIVES/GUN PROPERLY
     private int currentLives = 3;
     private int maxLives = 3;
@@ -46,12 +46,12 @@ public class HudView extends AbstractScreenView {
      * @param world The game world.
      * @param controller The application controller for handling state transitions.
      */
-    public HudView(AppWorld world, AppController controller, PlayerClass playerClass) {
+    public HudView(AppWorld world, AppController controller, AbstractCharacter character) {
         this.world = world;
         this.controller = controller;
-        this.playerClass = playerClass;
-        this.currentAmmo = playerClass.getEquippedWeapon().getCurrentAmmo();
-        this.maxAmmo = playerClass.getEquippedWeapon().getMaxAmmo();
+        this.character = character;
+        this.currentAmmo = character.getEquippedWeapon().getCurrentAmmo();
+        this.maxAmmo = character.getEquippedWeapon().getMaxAmmo();
         this.stage = new Stage(new FitViewport((float) world.width(), (float) world.height()));
         this.shape = new ShapeRenderer();
         create(world.width(), world.height());
@@ -134,14 +134,14 @@ public class HudView extends AbstractScreenView {
     }
 
     /**
-     * Updates the HUD's internal state and labels based on the current player model.
+     * Updates the HUD's internal state and labels based on the current character model.
      *
-     * @param player The current player instance.
+     * @param character The current character instance.
      */
-    public void update(PlayerClass player) {
-        if (player != null) {
-            this.currentLives = player.lives();
-            this.currentAmmo = playerClass.getEquippedWeapon().getCurrentAmmo();
+    public void update(AbstractCharacter character) {
+        if (character != null) {
+            this.currentLives = character.lives();
+            this.currentAmmo = character.getEquippedWeapon().getCurrentAmmo();
             livesLabel.setText("LIVES: " + currentLives);
         }
     }

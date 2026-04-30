@@ -92,6 +92,8 @@ public class AppWorld implements Iterable<EntityModel> {
 		return playerClass;
 	}
 
+	public EnemyClass getEnemyClass() {return enemyClass; }
+
 	public TiledMap getMap() {
 		return map;
 	}
@@ -110,6 +112,16 @@ public class AppWorld implements Iterable<EntityModel> {
 	    }
 	}
 
+	public void remove(Object obj) {
+		int before = objects.size();
+		objects.remove(obj);
+		int after = objects.size();
+
+		if (before != after) {
+			System.out.println("Removed " + (before - after) + " objects. Remaining: " + after);
+		}
+	}
+
 	public EntityFactory getEntityFactory() {
 		return fac;
 	}
@@ -123,13 +135,15 @@ public class AppWorld implements Iterable<EntityModel> {
 		}
 		weaponSpawnTimer += delta;
 		if (weaponSpawnTimer >= weaponSpawnInterval) {
-			fac.spawnWeapons();
+			System.out.println("Spawning weapon");
+			fac.spawnWeapon();
 			weaponSpawnTimer = 0f;
 		}
 
 		crateSpawnTimer += delta;
 		if (crateSpawnTimer >= crateSpawnInterval) {
-			fac.spawnCrates();
+			System.out.println("Spawning crate");
+			fac.spawnCrate();
 			crateSpawnTimer = 0f;
 		}
 

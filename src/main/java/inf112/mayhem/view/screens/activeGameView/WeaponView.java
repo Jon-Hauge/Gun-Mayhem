@@ -8,34 +8,37 @@ import inf112.mayhem.model.weapons.WeaponType;
 public class WeaponView {
 
     private Texture texture;
-    private float offsetX;
-    private float offsetY;
-    private float scale;
     private BodyPart weaponBodyPart;
     private AbstractWeapon weapon;
+    private final float scale = 0.15f;
 
     ///
-    /// Constructs a new HudView with the given world and controller.
+    /// Constructs a new WeaponView with a given weapon
     ///
-    /// @param texture Texture of weapon
-    /// @param offsetX Horizontal offset
-    /// @param offsetY Vertical offset
-    /// @param scale   Scale of texture
+    /// @param weapon Weapon to be viewed
     ///
-    public WeaponView(Texture texture, float offsetX, float offsetY, float scale, AbstractWeapon weapon) {
-        this.texture = texture;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
-        this.scale = scale;
-        this.weaponBodyPart = new BodyPart(texture, offsetX, offsetY);
-        this.weaponBodyPart.setScale(scale);
+    public WeaponView(AbstractWeapon weapon) {
         this.weapon = weapon;
+        this.texture = getTexture(weapon.getWeaponType());
+        this.weaponBodyPart = new BodyPart(texture, weapon.x(), weapon.y());
+        this.weaponBodyPart.setScale(scale);
     }
 
-    public void render(SpriteBatch batch) {
+    private Texture getTexture(WeaponType weaponType) {
+        return switch (weaponType) {
+            case PISTOL -> new Texture("weapons/pistol.png");
+            case SNIPER -> new Texture("weapons/sniper.png");
+            case PUMPACTION -> new Texture("weapons/shotgun.png");
+            case SEMIACTIONSHOTGUN -> new Texture("weapons/shotgun.png");
+            case SWORD -> new Texture("weapons/sword.png");
+            default -> new Texture("weapons/pistol.png");
+        };
+    }
+
+    public void draw(SpriteBatch batch) {
         batch.draw(texture,
-                offsetX,
-                offsetY,
+                weapon.x(),
+                weapon.y(),
                 weaponBodyPart.getWidth(),
                 weaponBodyPart.getHeight());
     }
@@ -45,8 +48,6 @@ public class WeaponView {
     /// @return Bodypart version of view
     ///
     public BodyPart toBodyPart() {
-        BodyPart viewToBodyPart = new BodyPart(texture, offsetX, offsetY);
-        viewToBodyPart.setScale(scale);
-        return viewToBodyPart;
+        return new BodyPart(texture, weapon.x(), weapon.y());
     }
 }

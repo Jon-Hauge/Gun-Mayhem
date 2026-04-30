@@ -30,7 +30,7 @@ public abstract class AbstractWeapon implements EntityModel {
     private Rectangle bounds = new Rectangle();
 
     protected float velocityY = 0;
-    protected float gravity = -500f;
+    protected float gravity = -10f;
     protected boolean grounded = false;
 
     public AbstractWeapon(float startX, float startY, AbstractCharacter character, float width, float height,
@@ -80,6 +80,10 @@ public abstract class AbstractWeapon implements EntityModel {
         return state;
     }
 
+    public void setState(EntityState state) {
+        this.state = state;
+    }
+
     @Override
     public void updateState() {
         int i = 1; // MIDDLERTIDIG
@@ -90,24 +94,25 @@ public abstract class AbstractWeapon implements EntityModel {
         if (character != null) {
             this.x = character.x();
             this.y = character.y();
+            return;
         }
         updateBounds();
         updateState();
         /// Update once mapcollisionhandler is given to world, and world is given to abstractweapon
-        ///if (state == EntityState.DROPPED && !grounded) {
-        ///    velocityY += gravity * delta;
-        ///    float previousY = y;
-        ///    y += velocityY * delta;
+        if (state == EntityState.DROPPED && !grounded) {
+            velocityY += gravity * delta;
+            float previousY = y;
+            y += velocityY * delta;
 
-        ///    Rectangle bounds = bounds();
-        ///    bounds.setPosition(x, y);
+            Rectangle bounds = bounds();
+            bounds.setPosition(x, y);
 
         ///    if (world.getMapCollisionHandler.isGrounded(bounds, previousY, false)) {
         ///        grounded = true;
         ///        velocityY = 0;
         ///        y = world.getMapCollisionHandler.getGroundY(bounds, false);
         ///    }
-        ///}
+        }
     }
 
     @Override
@@ -171,6 +176,10 @@ public abstract class AbstractWeapon implements EntityModel {
 
     public AbstractCharacter getCharacter() {
         return character;
+    }
+
+    public void setCharacter(AbstractCharacter character) {
+        this.character = character;
     }
 
     public WeaponView getWeaponView() {

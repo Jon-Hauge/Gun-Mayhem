@@ -42,32 +42,27 @@ public class EntityFactory {
 		world.add(projectile);
 	}
 
-	public void spawnCrates() {
-		int numOfCrates = 3;
-
-		for (int i = 0; i < numOfCrates; i++) {
-			float x = rand.nextFloat() * (float) world.width();
-			float y = rand.nextFloat() * (float) world.height();
+	public void spawnCrate() {
+		float x = rand.nextFloat() * (float) world.width();
+		float y = rand.nextFloat() * (float) world.height();
 
 			/// Add functionality for powerups here
 			///AbstractPowerUp powerUp = createRandomPowerUp(x, y);
 
 			///WeaponCrate crate = new WeaponCrate(x, y, powerUp);
 			///world.add(crate);
-		}
+			///
+
 	}
 
-	public void spawnWeapons() {
-		int numOfWeapons = 5;
+	public void spawnWeapon() {
+		float x = rand.nextFloat() * (float) world.width();
+		float y = (float) world.height() + 100f;
 
-		for (int i = 0; i < numOfWeapons; i++) {
-			float x = rand.nextFloat() * (float) world.width();
-			float y = rand.nextFloat() * (float) world.height();
+		AbstractWeapon weapon = createRandomWeapon(x, y);
+		weapon.dropWeapon();
+		world.add(weapon);
 
-			AbstractWeapon weapon = createRandomWeapon(x, y);
-			weapon.dropWeapon();
-			world.add(weapon);
-		}
 	}
 
 	private AbstractWeapon createRandomWeapon(float x, float y) {
