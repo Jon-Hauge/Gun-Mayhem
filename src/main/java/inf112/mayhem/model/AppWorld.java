@@ -54,8 +54,8 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.enemyClass = fac.spawnEnemy(900f, 400f);
 
 		// Weapons
-        AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f, playerClass);
-        AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f, enemyClass);
+        AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f);
+        AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f);
 		playerClass.equipWeapon(playerStartingWeapon);
 		enemyClass.equipWeapon(enemyStartingWeapon);
 	}

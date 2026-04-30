@@ -17,14 +17,13 @@ import inf112.mayhem.model.entities.characters.AbstractCharacter;
 
 class AbstractWeaponTest {
 
-    private AbstractCharacter character;
     private AppWorld world;
     private TestWeapon weapon;
 
     private static class TestWeapon extends AbstractWeapon {
-        public TestWeapon(float startX, float startY, AbstractCharacter character,
+        public TestWeapon(float startX, float startY,
                           int width, int height, int startingAmmo, float firingDelay) {
-            super(startX, startY, width, height, startingAmmo, firingDelay, character);
+            super(startX, startY, width, height, startingAmmo, firingDelay);
             this.weapon = WeaponType.PISTOL;
         }
 
@@ -36,9 +35,8 @@ class AbstractWeaponTest {
 
     @BeforeEach
     void setUp() {
-        character = mock(AbstractCharacter.class);
         world = mock(AppWorld.class);
-        weapon = new TestWeapon(10f, 20f, character, 30, 40, 6, 0.5f);
+        weapon = new TestWeapon(10f, 20f, 30, 40, 6, 0.5f);
     }
 
     @Test
@@ -55,15 +53,6 @@ class AbstractWeaponTest {
 
     @Test
     void typeReturnsWeapon() { assertEquals(EntityType.WEAPON, weapon.type()); }
-
-    @Test
-    void updateFollowsPlayerPosition() {
-        when(character.x()).thenReturn(100f);
-        when(character.y()).thenReturn(200f);
-        weapon.update(world, 0.016f);
-        assertEquals(100f, weapon.x());
-        assertEquals(200f, weapon.y());
-    }
 
     @Test
     void isActiveAlwaysReturnsTrue() { assertTrue(weapon.isActive()); }
@@ -93,7 +82,7 @@ class AbstractWeaponTest {
 
     @Test
     void shootReturnsFalseWhenAmmoIsZero() {
-        TestWeapon emptyWeapon = new TestWeapon(0f, 0f, character, 10, 10, 0, 0.2f);
+        TestWeapon emptyWeapon = new TestWeapon(0f, 0f, 10, 10, 0, 0.2f);
         assertFalse(emptyWeapon.shoot());
         assertEquals(0, emptyWeapon.getCurrentAmmo());
     }
@@ -106,7 +95,7 @@ class AbstractWeaponTest {
 
     @Test
     void shootReturnsTrueAndDoesNotReduceAmmoWhenAmmoIsNegative() {
-        TestWeapon infiniteWeapon = new TestWeapon(0f, 0f, character, 10, 10, -1, 0.2f);
+        TestWeapon infiniteWeapon = new TestWeapon(0f, 0f, 10, 10, -1, 0.2f);
         assertTrue(infiniteWeapon.shoot());
         assertEquals(-1, infiniteWeapon.getCurrentAmmo());
     }
@@ -132,6 +121,4 @@ class AbstractWeaponTest {
         assertEquals(6, weapon.getMaxAmmo());
     }
 
-    @Test
-    void getPlayerReturnsPlayer() { assertSame(character, weapon.getCharacter()); }
 }

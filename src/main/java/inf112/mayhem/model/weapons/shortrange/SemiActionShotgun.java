@@ -15,11 +15,8 @@ public class SemiActionShotgun extends ShortRangeWeapon {
     private static final float FIRING_DELAY = 4f;
     private static final float KNOCKBACK = 40f;
 
-    public SemiActionShotgun(float startX, float startY, AbstractCharacter character) {
-        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK, character);
-        if (character != null) {
-            setAttackBounds(new Rectangle(character.x(), character.y(), WIDTH, HEIGHT));
-        }
+    public SemiActionShotgun(float startX, float startY) {
+        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK);
         
         this.type = EntityType.WEAPON;
         this.state = EntityState.DROPPED;

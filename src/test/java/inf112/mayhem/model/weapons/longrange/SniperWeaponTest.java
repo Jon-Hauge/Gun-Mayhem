@@ -13,13 +13,11 @@ import inf112.mayhem.model.entities.characters.PlayerClass;
 
 class SniperWeaponTest {
 
-    private AbstractCharacter character;
     private SniperWeapon sniper;
 
     @BeforeEach
     void setUp() {
-        character = mock(AbstractCharacter.class);
-        sniper = new SniperWeapon(2f, 3f, character);
+        sniper = new SniperWeapon(2f, 3f);
     }
 
     @Test
@@ -36,6 +34,5 @@ class SniperWeaponTest {
         assertEquals(10, sniper.getMaxAmmo());
         assertEquals(10, sniper.getCurrentAmmo());
         assertEquals(3f, sniper.getFiringDelay());
-        assertSame(character, sniper.getCharacter());
     }
 }

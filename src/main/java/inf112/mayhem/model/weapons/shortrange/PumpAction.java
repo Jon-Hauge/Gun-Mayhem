@@ -15,15 +15,13 @@ public class PumpAction extends ShortRangeWeapon {
     private static final float FIRING_DELAY = 8f;
     private static final float KNOCKBACK = 100f;
 
-    public PumpAction(float startX, float startY, AbstractCharacter character) {
-        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK, character);
+    public PumpAction(float startX, float startY) {
+        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK);
         
         this.type = EntityType.WEAPON;
         this.weapon = WeaponType.PUMPACTION;
         this.state = EntityState.DROPPED;
-        if (character != null) {
-            setAttackBounds(new Rectangle(character.x(), character.y(), WIDTH, HEIGHT));
-        }
+ 
     }
 
 	@Override

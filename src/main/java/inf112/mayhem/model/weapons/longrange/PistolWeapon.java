@@ -12,8 +12,8 @@ public class PistolWeapon extends AbstractWeapon {
     private static final int AMMO = -1;
     private static final float FIRING_DELAY = 1f;
 
-    public PistolWeapon(float x, float y, AbstractCharacter character){
-        super(x, y, WIDTH, HEIGHT, AMMO, FIRING_DELAY, character);
+    public PistolWeapon(float x, float y){
+        super(x, y, WIDTH, HEIGHT, AMMO, FIRING_DELAY);
         
         this.type = EntityType.WEAPON;
         this.weapon = WeaponType.PISTOL;

@@ -16,9 +16,8 @@ public abstract class ShortRangeWeapon extends AbstractWeapon {
 
     // Short range has no bulletspeed or knockBackMultiplier —
     // Therefore 0f are sent in as a parameter
-    public ShortRangeWeapon(float startX, float startY, int width, int height,
-                            int startingAmmo, float firingDelay, float knockback, AbstractCharacter character) {
-        super(startX, startY, width, height, startingAmmo, firingDelay, character);
+    public ShortRangeWeapon(float startX, float startY, int width, int height, int startingAmmo, float firingDelay, float knockback) {
+        super(startX, startY, width, height, startingAmmo, firingDelay);
         
     }
 
@@ -38,14 +37,4 @@ public abstract class ShortRangeWeapon extends AbstractWeapon {
         this.attackBounds = attackBounds;
     }
 
-    protected void updateWeaponBounds() {
-        if (character != null) {
-            attackBounds.set(character.x(), character.y(), width(), height());
-        }
-    }
-
-    @Override
-    public void update(AppWorld world, float delta) {
-        updateWeaponBounds();
-    }
 }

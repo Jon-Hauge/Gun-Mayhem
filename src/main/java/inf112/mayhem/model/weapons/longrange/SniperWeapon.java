@@ -1,6 +1,5 @@
 package inf112.mayhem.model.weapons.longrange;
 
-import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.weapons.AbstractWeapon;
@@ -12,8 +11,8 @@ public class SniperWeapon extends AbstractWeapon {
     private static final int AMMO = 10;
     private static final float FIRING_DELAY = 3f;
 
-    public SniperWeapon(float startX, float startY, AbstractCharacter character) {
-        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, character);
+    public SniperWeapon(float startX, float startY) {
+        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY);
         
         this.type = EntityType.WEAPON;
         this.weapon = WeaponType.SNIPER;

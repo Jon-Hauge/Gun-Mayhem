@@ -1,8 +1,5 @@
 package inf112.mayhem.model.weapons.shortrange;
 
-import com.badlogic.gdx.math.Rectangle;
-
-import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.weapons.WeaponType;
@@ -15,17 +12,12 @@ public class Sword extends ShortRangeWeapon {
     private static final float FIRING_DELAY = 0.5f;
     private static final float KNOCKBACK = 200f;
 
-    public Sword(float startX, float startY, AbstractCharacter character) {
-    	super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK, character);
+    public Sword(float startX, float startY) {
+    	super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK);
     	
     	this.weapon = WeaponType.SWORD;
         this.type = EntityType.WEAPON;
         this.state = EntityState.IN_USE;
-
-
-        if (character != null) {
-            setAttackBounds(new Rectangle(character.x(), character.y(), 8, 12));
-        }
     }
 
 	@Override

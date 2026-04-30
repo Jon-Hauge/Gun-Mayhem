@@ -82,17 +82,17 @@ public class EntityFactory {
 
 		switch (num) {
 			case 0:
-				return new PistolWeapon(x, y, null);
+				return new PistolWeapon(x, y);
 			case 1:
-				return new SniperWeapon(x, y, null);
+				return new SniperWeapon(x, y);
 			case 2:
-				return new PumpAction(x, y, null);
+				return new PumpAction(x, y);
 			case 3:
-				return new SemiActionShotgun(x, y, null);
+				return new SemiActionShotgun(x, y);
 			case 4:
-				return new Sword(x, y, null);
+				return new Sword(x, y);
 			default:
-				return new PistolWeapon(x, y, null);
+				return new PistolWeapon(x, y);
 		}
 	}
 
