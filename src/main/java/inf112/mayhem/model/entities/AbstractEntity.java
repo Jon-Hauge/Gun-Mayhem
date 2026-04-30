@@ -1,11 +1,8 @@
 package inf112.mayhem.model.entities;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.EntityModel;
 
 public abstract class AbstractEntity implements EntityModel {
 	protected Vector2 position;
@@ -18,7 +15,7 @@ public abstract class AbstractEntity implements EntityModel {
 	
 	protected boolean active;
 	
-	public AbstractEntity(float x, float y, int width, int height, TiledMap map) {
+	public AbstractEntity(float x, float y, int width, int height) {
 		position = new Vector2(x, y);
 		velocity = new Vector2(0,0);
 		size = new Vector2(width, height);
