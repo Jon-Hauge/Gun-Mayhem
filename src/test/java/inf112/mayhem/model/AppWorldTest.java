@@ -1,6 +1,6 @@
 package inf112.mayhem.model;
 
-import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.collision.EntityCollisionHandler;
 import inf112.mayhem.model.entities.EntityFactory;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.characters.EnemyClass;
@@ -57,7 +57,7 @@ public class AppWorldTest {
     @Test
     void testAddAndIterator() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
-        ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
+        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
         setPrivateField(world, "pCollision", pCollision);
         
         EntityModel entity = mock(EntityModel.class);
@@ -78,7 +78,7 @@ public class AppWorldTest {
     @Test
     void testRemoveInactive() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
-        ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
+        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
         setPrivateField(world, "pCollision", pCollision);
         
         EntityModel activeEntity = mock(EntityModel.class);
@@ -156,7 +156,7 @@ public class AppWorldTest {
     void testUpdateSpawning() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
         EntityFactory factory = mock(EntityFactory.class);
-        ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
+        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
         setPrivateField(world, "fac", factory);
         setPrivateField(world, "pCollision", pCollision);
 
@@ -187,7 +187,7 @@ public class AppWorldTest {
     @Test
     void testAddNull() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
-        ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
+        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
         setPrivateField(world, "pCollision", pCollision);
         
         world.add(null);
@@ -208,7 +208,7 @@ public class AppWorldTest {
     @Test
     void testUpdateCallsEntityUpdate() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
-        ProjectileCollisionHandler pCollision = mock(ProjectileCollisionHandler.class);
+        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
         setPrivateField(world, "pCollision", pCollision);
         
         EntityModel entity = mock(EntityModel.class);

@@ -4,27 +4,24 @@ import com.badlogic.gdx.math.Rectangle;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.WeaponCrate;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
-import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.projectile.ProjectileModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 import static org.mockito.Mockito.*;
 
-public class ProjectileCollisionHandlerTest {
+public class EntityCollisionHandlerTest {
     private AppWorld world;
-    private ProjectileCollisionHandler handler;
+    private EntityCollisionHandler handler;
 
     @BeforeEach
     void setUp() {
         world = mock(AppWorld.class);
-        handler = new ProjectileCollisionHandler(world);
+        handler = new EntityCollisionHandler(world);
     }
 
     @Test

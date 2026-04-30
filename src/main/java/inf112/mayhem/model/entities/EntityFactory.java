@@ -63,7 +63,7 @@ public class EntityFactory {
 	}
 
 	public void spawnWeapon() {
-		float x = rand.nextFloat() * (float) world.width();
+		float x = 300f + rand.nextFloat() * ((float) world.width() - 2 * 300f);
 		float y = (float) world.height() + 100f;
 
 		AbstractWeapon weapon = createRandomWeapon(x, y);

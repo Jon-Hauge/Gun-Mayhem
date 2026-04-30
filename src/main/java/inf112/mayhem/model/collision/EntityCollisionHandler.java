@@ -10,10 +10,10 @@ import inf112.mayhem.model.projectile.ProjectileModel;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
-public class ProjectileCollisionHandler {
+public class EntityCollisionHandler {
 	private final AppWorld world;
 	
-	public ProjectileCollisionHandler(AppWorld world) {
+	public EntityCollisionHandler(AppWorld world) {
 		this.world = world;
 	}
 	
