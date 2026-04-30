@@ -36,11 +36,10 @@ public class ActiveGameView {
     private BitmapFont font; // used for writing
     private ShapeRenderer shape; // used for drawing shapes
     private Map<String, Texture> textures = new HashMap<>();
-    private AppWorld world;
+    private Map<AbstractWeapon, WeaponView> weaponViews = new HashMap<>();
     private AppController controller;
     private CharacterRig characterRig;
     private CharacterView characterView;
-    private ArrayList<WeaponView> weaponViews = new ArrayList<>();
     private final float scale = 0.15f;
     private float smoothCamX = 0;
     private float smoothCamY = 0;
@@ -51,7 +50,6 @@ public class ActiveGameView {
     private TileMapHelper tileMapHelper = new TileMapHelper();
 
     public ActiveGameView(AppWorld world, AppController controller) {
-        this.world = world;
         this.controller = controller;
 
         // To preserve aspect ratio, use FitViewport, ExtendViewport or FillViewport.
@@ -267,7 +265,6 @@ public class ActiveGameView {
     private void drawEntities(AppWorld world, float delta) {
         batch.begin();
         try {
-            weaponViews.clear();
 
             for (EntityModel obj : world) {
 
@@ -276,16 +273,10 @@ public class ActiveGameView {
                 }
 
                 if (obj instanceof AbstractWeapon weapon) {
-                    if (weapon.state() == EntityState.DROPPED) {
-                        if (weapon.getWeaponView() == null) {
-                            weapon.setWeaponView(new WeaponView(weapon));
-                        }
-                        weaponViews.add(weapon.getWeaponView());
-                    }
+                	if (weapon.state() == EntityState.DROPPED) {
+                		weaponViews.computeIfAbsent(weapon, WeaponView::new).draw(batch);
+                	}
                 }
-            }
-            for (WeaponView weaponView : weaponViews) {
-                weaponView.draw(batch);
             }
 
         } finally {

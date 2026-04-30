@@ -116,8 +116,8 @@ public class CharacterRig {
         float feetHeight = leftFoot.getHeight();
         float baseY = y + feetHeight / 2f;
 
-        if (equippedWeapon != null && equippedWeapon.getWeaponView() != null) {
-            setWeapon(equippedWeapon.getWeaponView());
+        if (equippedWeapon != null) {
+            setWeapon(new WeaponView(equippedWeapon));
         }
 
         rightFoot.draw(batch, x, baseY, mirrored);
