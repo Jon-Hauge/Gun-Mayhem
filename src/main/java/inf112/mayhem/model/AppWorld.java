@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.mayhem.model.collision.MapCollisionHandler;
-import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+import inf112.mayhem.model.collision.EntityCollisionHandler;
 import inf112.mayhem.model.entities.EntityFactory;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.characters.EnemyClass;
@@ -23,18 +22,17 @@ public class AppWorld implements Iterable<EntityModel> {
     private List<EntityModel> objects = new ArrayList<>();
     private List<EntityModel> toAdd = new ArrayList<>();
 	private TiledMap map;
+	private MapCollisionHandler collisionHandler;
 	private LevelLoader loader = new LevelLoader();
 	private EntityFactory fac;
 	private GameState state = GameState.MAIN_MENU;
-	private ProjectileCollisionHandler pCollision;
+	private EntityCollisionHandler pCollision;
 	private PlayerClass playerClass;
 	private EnemyClass enemyClass;
-	private AbstractWeapon playerStartingWeapon;
-	private AbstractWeapon enemyStartingWeapon;
-	private float weaponSpawnTimer = 0f;
-	private float weaponSpawnInterval = 10f;
+    private float weaponSpawnTimer = 0f;
+	private final float weaponSpawnInterval = 10f;
 	private float crateSpawnTimer = 0f;
-	private float crateSpawnInterval = 15f;
+	private final float crateSpawnInterval = 15f;
 
 	public AppWorld(double width, double height) {
 		super();
@@ -48,15 +46,16 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.fac = new EntityFactory(this, map);
 
 		// Send map to collision handler
-		this.pCollision = new ProjectileCollisionHandler(this);
+		this.pCollision = new EntityCollisionHandler(this);
+		this.collisionHandler = new MapCollisionHandler(map);
 
 		// Player
 		this.playerClass = fac.spawnPlayer(500f, 400f);
 		this.enemyClass = fac.spawnEnemy(900f, 400f);
 
 		// Weapons
-		this.playerStartingWeapon = new PistolWeapon(500f, 400f, playerClass);
-		this.enemyStartingWeapon = new PistolWeapon(900f, 400f, enemyClass);
+        AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f, playerClass);
+        AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f, enemyClass);
 		playerClass.equipWeapon(playerStartingWeapon);
 		enemyClass.equipWeapon(enemyStartingWeapon);
 	}
@@ -172,5 +171,9 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.setState(GameState.ACTIVE);
 		playerClass.setLives(3);
 		enemyClass.setLives(3);
+	}
+
+	public MapCollisionHandler getMapCollisionHandler() {
+		return collisionHandler;
 	}
 }

@@ -17,10 +17,12 @@ public abstract class AbstractWeapon extends AbstractEntity {
     protected float knockBackMultiplier;
     protected float bulletSpeed;
     protected WeaponType weapon;
-
     protected float velocityY = 0;
     protected float gravity = -10f;
     protected boolean grounded = false;
+    private boolean active = true;
+    private float timer = 0f;
+    private final float lifespan = 20f;
 
     public AbstractWeapon(float x, float y, int width, int height, int startingAmmo, float firingDelay,
 
@@ -32,7 +34,6 @@ public abstract class AbstractWeapon extends AbstractEntity {
         this.firingDelay = firingDelay;
         this.bulletSpeed = bulletSpeed;
         this.knockBackMultiplier = knockBackMultiplier;
-        
         this.type = EntityType.WEAPON;
         this.state = EntityState.DROPPED;
     }
@@ -44,27 +45,33 @@ public abstract class AbstractWeapon extends AbstractEntity {
             this.position.y = character.y();
             return;
         }
+
+        if (state == EntityState.DROPPED) {
+            timer += delta;
+        }
+
         updateBounds();
         updateState();
-        /// Update once mapcollisionhandler is given to world, and world is given to abstractweapon
+
         if (state == EntityState.DROPPED && !grounded) {
             velocityY += gravity * delta;
+            float previousY = position.y;
             position.y += velocityY * delta;
 
             Rectangle bounds = bounds();
             bounds.setPosition(position.x, position.y);
 
-        ///    if (world.getMapCollisionHandler.isGrounded(bounds, previousY, false)) {
-        ///        grounded = true;
-        ///        velocityY = 0;
-        ///        y = world.getMapCollisionHandler.getGroundY(bounds, false);
-        ///    }
+            if (world.getMapCollisionHandler().isGrounded(bounds, previousY, false)) {
+                grounded = true;
+                velocityY = 0;
+                position.y = world.getMapCollisionHandler().getGroundY(bounds, false);
+            }
         }
     }
 
     @Override
     public boolean isActive() {
-        return true; // MIDDLERTIDLIG
+        return active;
     }
 
     public void dropWeapon() {
@@ -129,6 +136,12 @@ public abstract class AbstractWeapon extends AbstractEntity {
     
     @Override
     public void updateState() {
+        if (position.y < -100f) {
+            active = false;
+        }
+        if (timer > lifespan) {
+            active = false;
+        }
     }
     
     public void setState(EntityState state) {
