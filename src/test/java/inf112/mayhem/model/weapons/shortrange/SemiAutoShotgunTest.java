@@ -38,8 +38,6 @@ class SemiAutoShotgunTest {
         assertEquals(8, weapon.getMaxAmmo());
         assertEquals(8, weapon.getCurrentAmmo());
         assertEquals(4f, weapon.getFiringDelay());
-        assertEquals(0f, weapon.getBulletSpeed());
-        assertEquals(0f, weapon.getKnockBackMultiplier());
     }
 
     @Test

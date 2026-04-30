@@ -40,8 +40,6 @@ class PumpActionTest {
         assertEquals(5, weapon.getMaxAmmo());
         assertEquals(5, weapon.getCurrentAmmo());
         assertEquals(8f, weapon.getFiringDelay());
-        assertEquals(0f, weapon.getBulletSpeed());
-        assertEquals(0f, weapon.getKnockBackMultiplier());
     }
 
     @Test

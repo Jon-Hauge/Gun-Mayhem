@@ -10,16 +10,19 @@ public class PistolWeapon extends AbstractWeapon {
     private static final int WIDTH = 10;
     private static final int HEIGHT = 10;
     private static final int AMMO = -1;
-    private static final float firingDelay = 1f;
-    private static final float knockBackMultiplier = 1200f;
-    private static final float bulletSpeed = 500f;
+    private static final float FIRING_DELAY = 1f;
 
     public PistolWeapon(float x, float y, AbstractCharacter character){
-        super(x, y, WIDTH, HEIGHT, AMMO, firingDelay, knockBackMultiplier, bulletSpeed, character);
+        super(x, y, WIDTH, HEIGHT, AMMO, FIRING_DELAY, character);
         
         this.type = EntityType.WEAPON;
         this.weapon = WeaponType.PISTOL;
         this.state = EntityState.IN_USE;
     }
+
+	@Override
+	public float getFiringDelay() {
+		return FIRING_DELAY;
+	}
 
 }

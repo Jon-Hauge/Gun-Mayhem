@@ -18,7 +18,7 @@ public abstract class ShortRangeWeapon extends AbstractWeapon {
     // Therefore 0f are sent in as a parameter
     public ShortRangeWeapon(float startX, float startY, int width, int height,
                             int startingAmmo, float firingDelay, float knockback, AbstractCharacter character) {
-        super(startX, startY, width, height, startingAmmo, firingDelay, 0f, 0f, character);
+        super(startX, startY, width, height, startingAmmo, firingDelay, character);
         
     }
 

@@ -25,4 +25,9 @@ public class PumpAction extends ShortRangeWeapon {
             setAttackBounds(new Rectangle(character.x(), character.y(), WIDTH, HEIGHT));
         }
     }
+
+	@Override
+	public float getFiringDelay() {
+		return FIRING_DELAY;
+	}
 }

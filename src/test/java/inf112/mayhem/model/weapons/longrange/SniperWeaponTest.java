@@ -36,8 +36,6 @@ class SniperWeaponTest {
         assertEquals(10, sniper.getMaxAmmo());
         assertEquals(10, sniper.getCurrentAmmo());
         assertEquals(3f, sniper.getFiringDelay());
-        assertEquals(200f, sniper.getKnockBackMultiplier());
-        assertEquals(800f, sniper.getBulletSpeed());
         assertSame(character, sniper.getCharacter());
     }
 }

@@ -12,12 +12,9 @@ import static org.mockito.Mockito.when;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.characters.PlayerClass;
-import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.weapons.WeaponType;
 
 class ShortRangeWeaponTest {
-
     private AbstractCharacter character;
     private AppWorld world;
     private TestShortRangeWeapon weapon;
@@ -49,6 +46,7 @@ class ShortRangeWeaponTest {
         public void exposeUpdateWeaponBounds() {
             updateWeaponBounds();
         }
+
     }
 
     @BeforeEach
@@ -117,11 +115,5 @@ class ShortRangeWeaponTest {
         assertEquals(80f, bounds.y);
         assertEquals(25f, bounds.width);
         assertEquals(15f, bounds.height);
-    }
-
-    @Test
-    void shortRangeWeaponHasZeroBulletSpeedAndKnockbackMultiplierFromSuperConstructor() {
-        assertEquals(0f, weapon.getBulletSpeed());
-        assertEquals(0f, weapon.getKnockBackMultiplier());
     }
 }

@@ -184,19 +184,15 @@ class PlayerClassTest {
     }
 
     @Test
-    void hitAppliesKnockbackFromProjectileWeapon() {
+    void hitAppliesKnockbackFromProjectile() {
         AbstractProjectile projectile = mock(AbstractProjectile.class);
-        AbstractWeapon weapon = mock(AbstractWeapon.class);
-
-        when(projectile.getWeapon()).thenReturn(weapon);
+        when(projectile.getKnockBackMultiplier()).thenReturn(100f);
         when(projectile.getDirection()).thenReturn(1);
-        when(weapon.getKnockBackMultiplier()).thenReturn(100f);
 
         player.hit(projectile);
 
-        verify(projectile).getWeapon();
+        verify(projectile).getKnockBackMultiplier();
         verify(projectile).getDirection();
-        verify(weapon).getKnockBackMultiplier();
     }
 
     private static void setBoolean(Object obj, String field, boolean value) throws Exception {

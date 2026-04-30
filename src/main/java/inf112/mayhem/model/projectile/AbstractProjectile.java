@@ -1,114 +1,60 @@
 package inf112.mayhem.model.projectile;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.characters.AbstractCharacter;
+import inf112.mayhem.model.entities.AbstractEntity;
+import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.model.weapons.AbstractWeapon;
 
-public abstract class AbstractProjectile implements ProjectileModel, EntityModel {
-    private final Vector2 size = new Vector2(10, 7);
-    protected Vector2 position = new Vector2();
-    protected final Rectangle bounds = new Rectangle();
-    private final AbstractWeapon weapon;
-    private final EntityType type = EntityType.PROJECTILE;
-    private EntityState state = EntityState.ACTIVE;
+public abstract class AbstractProjectile extends AbstractEntity implements ProjectileModel {
+
     protected boolean active = true;
     private final int direction;
-    private final float BULLET_SPEED = 350f;
-    private float knockBackMultiplier = 2500f;
+    private final float bulletSpeed;
+    private final float knockBackMultiplier;
 
-
-    public AbstractProjectile(AbstractWeapon weapon) {
-        this.weapon = weapon;
-        AbstractCharacter player = weapon.getCharacter();
-        this.direction = player.getDirection();
-
-        if (direction == -1) {
-            this.position.x = player.x() - size.x;
-        } else {
-            this.position.x = player.x() + player.width();
-        }
-        this.position.y = player.y() + (player.height() / 2);
-    }
-
-    @Override
-    public abstract void updateBounds();
-
-    public AbstractWeapon getWeapon() {
-        return weapon;
-    }
-
-    public int getDirection() {
-        return direction;
-    }
-
-    @Override
-    public float x() { return this.position.x; }
-
-    @Override
-    public float y() {
-        return this.position.y;
-    }
-
-    @Override
-    public float width() {
-        return size.x;
-    }
-
-    @Override
-    public float height() {
-        return size.y;
-    }
-
-    @Override
-    public EntityType type() {
-        return EntityType.PROJECTILE;
-    }
-
-    @Override
-    public EntityState state() {
-        return state;
-    }
-
-    @Override
-    public void updateState() {
-        if (active) {
-            this.state = EntityState.ACTIVE;
-        } else {
-            this.state = EntityState.HIT;
-        }
-
-    }
-
-    @Override
-    public abstract void update(AppWorld world, float delta);
-    // CHECK IF OUT OF BOUNDS
-
-    @Override
-    public Rectangle bounds() {
-        return this.bounds;
+    public AbstractProjectile(int width, int height, float startX, float startY, int direction, float bulletSpeed, float knockBackMultiplier) {
+        super(startX, startY, width, height);
+        this.type = EntityType.PROJECTILE;
+        this.state = EntityState.ACTIVE;
+        this.direction = direction;
+        this.bulletSpeed = bulletSpeed;
+        this.knockBackMultiplier = knockBackMultiplier;
     }
 
     @Override
     public boolean isActive() {
-        return this.active;
+    	return active;
     }
 
     @Override
-    public void hit(EntityModel obj) {
-        active = false;
+    public void updateState() {
+        this.state = active ? EntityState.ACTIVE : EntityState.HIT;
     }
 
+    @Override
+    public void update(AppWorld world, float delta) {
+        position.x += bulletSpeed * direction * delta;
+        updateBounds();
+        if (position.x < 0 || position.x > world.width() ||
+            position.y < 0 || position.y > world.height()) {
+            active = false;
+        }
+        updateState();
+    }
+
+    @Override
+    public void hit(EntityModel obj) { active = false; }
+
+    public int getDirection() {
+    	return direction;
+    }
+    
     public float getKnockBackMultiplier() {
-        return this.knockBackMultiplier;
+    	return knockBackMultiplier;
     }
-
+    
     public float getBulletSpeed() {
-        return this.BULLET_SPEED;
+    	return bulletSpeed;
     }
 }
