@@ -32,9 +32,9 @@ public class AppWorld implements Iterable<EntityModel> {
 	private AbstractWeapon playerStartingWeapon;
 	private AbstractWeapon enemyStartingWeapon;
 	private float weaponSpawnTimer = 0f;
-	private float weaponSpawnInterval = 2f;
+	private float weaponSpawnInterval = 10f;
 	private float crateSpawnTimer = 0f;
-	private float crateSpawnInterval = 20f;
+	private float crateSpawnInterval = 15f;
 
 	public AppWorld(double width, double height) {
 		super();
