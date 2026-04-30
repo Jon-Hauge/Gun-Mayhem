@@ -8,10 +8,11 @@ import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
+import inf112.mayhem.model.entities.AbstractEntity;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
 
-public abstract class AbstractWeapon implements EntityModel {
+public abstract class AbstractWeapon extends AbstractEntity {
 
     private float x;
     private float y;
@@ -33,9 +34,10 @@ public abstract class AbstractWeapon implements EntityModel {
     protected float gravity = -10f;
     protected boolean grounded = false;
 
-    public AbstractWeapon(float startX, float startY, AbstractCharacter character, float width, float height,
+    public AbstractWeapon(float startX, float startY, AbstractCharacter character, int width, int height,
                           WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay,
                           float knockBackMultiplier, float bulletSpeed) {
+    	super(startX, startY, width, height);
         this.x = startX;
         this.y = startY;
         this.character = character;
@@ -48,40 +50,9 @@ public abstract class AbstractWeapon implements EntityModel {
         this.firingDelay = firingDelay;
         this.bulletSpeed = bulletSpeed;
         this.knockBackMultiplier = knockBackMultiplier;
-    }
-
-    @Override
-    public float x() {
-        return x;
-    }
-
-    @Override
-    public float y() {
-        return y;
-    }
-
-    @Override
-    public float width() {
-        return width;
-    }
-
-    @Override
-    public float height() {
-        return height;
-    }
-
-    @Override
-    public EntityType type() {
-        return EntityType.WEAPON;
-    }
-
-    @Override
-    public EntityState state() {
-        return state;
-    }
-
-    public void setState(EntityState state) {
-        this.state = state;
+        
+        this.type = EntityType.WEAPON;
+        this.state = EntityState.IDLE;
     }
 
     @Override
@@ -116,18 +87,8 @@ public abstract class AbstractWeapon implements EntityModel {
     }
 
     @Override
-    public Rectangle bounds() {
-        return bounds;
-    }
-
-    @Override
     public boolean isActive() {
         return true; // MIDDLERTIDLIG
-    }
-
-    @Override
-    public void updateBounds() {
-        bounds.set(x, y, width, height);
     }
 
     public void dropWeapon() {
