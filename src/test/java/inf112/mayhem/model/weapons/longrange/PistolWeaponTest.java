@@ -27,10 +27,10 @@ class PistolWeaponTest {
 
     @Test
     void constructorSetsPositionAndSize() {
-        assertEquals(5f, pistol.x());
-        assertEquals(7f, pistol.y());
-        assertEquals(10f, pistol.width());
-        assertEquals(10f, pistol.height());
+        assertEquals(5, pistol.x());
+        assertEquals(7, pistol.y());
+        assertEquals(10, pistol.width());
+        assertEquals(10, pistol.height());
     }
 
     @Test
