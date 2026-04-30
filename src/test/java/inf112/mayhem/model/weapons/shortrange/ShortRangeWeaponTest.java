@@ -24,9 +24,14 @@ class ShortRangeWeaponTest {
 
     private static class TestShortRangeWeapon extends ShortRangeWeapon {
         public TestShortRangeWeapon(float startX, float startY, AbstractCharacter character,
-                float width, float height, WeaponType weaponType,
-                EntityState startingState, int startingAmmo, float firingDelay) {
-            super(startX, startY, character, width, height, weaponType, startingState, startingAmmo, firingDelay);
+                                     int width, int height, int startingAmmo, float firingDelay) {
+            super(startX, startY, width, height, startingAmmo, firingDelay, firingDelay, character);
+            this.weapon = WeaponType.SWORD;
+        }
+
+        @Override
+        public WeaponType getWeaponType() {
+            return this.weapon;
         }
 
         public void exposeSetKnockback(float value) {
@@ -50,14 +55,8 @@ class ShortRangeWeaponTest {
     void setUp() {
         character = mock(AbstractCharacter.class);
         world = mock(AppWorld.class);
-
         weapon = new TestShortRangeWeapon(
-                1f, 2f, character,
-                25f, 15f,
-                WeaponType.SWORD,
-                EntityState.IN_USE,
-                3,
-                0.8f
+            1f, 2f, character, 25, 15, 3, 0.8f 
         );
     }
 

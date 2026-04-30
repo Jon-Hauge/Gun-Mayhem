@@ -26,41 +26,27 @@ class AbstractWeaponTest {
     private TestWeapon weapon;
 
     private static class TestWeapon extends AbstractWeapon {
-        public TestWeapon(
-                float startX,
-                float startY,
-                AbstractCharacter character,
-                float width,
-                float height,
-                WeaponType weaponType,
-                EntityState startingState,
-                int startingAmmo,
-                float firingDelay,
-                float knockBackMultiplier,
-                float bulletSpeed) {
-            super(startX, startY, character, width, height, weaponType, startingState, startingAmmo,
-                    firingDelay, knockBackMultiplier, bulletSpeed);
+        public TestWeapon(float startX, float startY, AbstractCharacter character,
+                          int width, int height, int startingAmmo,
+                          float firingDelay, float knockBackMultiplier, float bulletSpeed) {
+            super(startX, startY, width, height, startingAmmo,
+                  firingDelay, knockBackMultiplier, bulletSpeed, character);
+            this.weapon = WeaponType.PISTOL; // settes her for tester
+        }
+
+        @Override
+        public WeaponType getWeaponType() {
+            return this.weapon;
         }
     }
-
+    
     @BeforeEach
     void setUp() {
         character = mock(AbstractCharacter.class);
         world = mock(AppWorld.class);
         weaponView = mock(WeaponView.class);
-
         weapon = new TestWeapon(
-                10f,
-                20f,
-                character,
-                30f,
-                40f,
-                WeaponType.PISTOL,
-                EntityState.IN_USE,
-                6,
-                0.5f,
-                2.0f,
-                15.0f
+            10f, 20f, character, 30, 40, 6, 0.5f, 2.0f, 15.0f
         );
     }
 
@@ -132,11 +118,8 @@ class AbstractWeaponTest {
     @Test
     void shootReturnsFalseWhenAmmoIsZero() {
         TestWeapon emptyWeapon = new TestWeapon(
-                0f, 0f, character, 10f, 10f,
-                WeaponType.PISTOL, EntityState.IN_USE,
-                0, 0.2f, 1f, 5f
+            0f, 0f, character, 10, 10, 0, 0.2f, 1f, 5f
         );
-
         assertFalse(emptyWeapon.shoot());
         assertEquals(0, emptyWeapon.getCurrentAmmo());
     }
@@ -150,11 +133,8 @@ class AbstractWeaponTest {
     @Test
     void shootReturnsTrueAndDoesNotReduceAmmoWhenAmmoIsNegative() {
         TestWeapon infiniteWeapon = new TestWeapon(
-                0f, 0f, character, 10f, 10f,
-                WeaponType.PISTOL, EntityState.IN_USE,
-                -1, 0.2f, 1f, 5f
+            0f, 0f, character, 10, 10, -1, 0.2f, 1f, 5f
         );
-
         assertTrue(infiniteWeapon.shoot());
         assertEquals(-1, infiniteWeapon.getCurrentAmmo());
     }
@@ -189,15 +169,6 @@ class AbstractWeaponTest {
     @Test
     void getPlayerReturnsPlayer() {
         assertSame(character, weapon.getCharacter());
-    }
-
-    @Test
-    void weaponViewCanBeSetAndRetrieved() {
-        assertNull(weapon.getWeaponView());
-
-        weapon.setWeaponView(weaponView);
-
-        assertSame(weaponView, weapon.getWeaponView());
     }
 
     @Test

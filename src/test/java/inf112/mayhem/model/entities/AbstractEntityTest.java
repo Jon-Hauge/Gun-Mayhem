@@ -13,7 +13,7 @@ class AbstractEntityTest {
 
     class TestEntity extends AbstractEntity {
         TestEntity(float x, float y) {
-            super(x, y, 10, 20, new TiledMap());
+            super(x, y, 10, 20);
             this.type = EntityType.PROJECTILE;
             this.state = EntityState.ACTIVE;
         }
