@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.PlayerClass;
+import inf112.mayhem.model.projectile.AbstractProjectile;
+import inf112.mayhem.model.projectile.ProjectileFactory;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerController {
@@ -19,10 +21,7 @@ public class PlayerController {
 	public PlayerController(PlayerClass player, AppWorld world) {
 		this.player = player;
 		this.world = world;
-	}
-	
-	public PlayerClass getPlayer() {
-		return player;
+		
 	}
 
 	public void update(float delta) {
@@ -51,6 +50,26 @@ public class PlayerController {
 	    
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
 	    	player.drop();
+	    }
+	    
+	    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && COOLDOWN_TIMER <= 0) {
+	        AbstractWeapon weapon = player.getEquippedWeapon();
+	        if (weapon != null && weapon.shoot()) {
+	            float spawnX = player.getDirection() == 1
+	                ? player.x() + player.width()
+	                : player.x() - 10;
+	            float spawnY = player.y() + (player.height() / 2);
+
+	            AbstractProjectile projectile = ProjectileFactory.create(
+	                spawnX, spawnY,
+	                player.getDirection(),
+	                weapon.getWeaponType()
+	            );
+	            if (projectile != null) {
+	                world.add(projectile);
+	            }
+	            COOLDOWN_TIMER = weapon.getFiringDelay();
+	        }
 	    }
 	     
 	    player.updateState();

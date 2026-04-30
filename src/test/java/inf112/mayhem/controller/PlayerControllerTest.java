@@ -36,11 +36,6 @@ public class PlayerControllerTest {
     }
 
     @Test
-    void getPlayerReturnsCorrectPlayer() {
-        assertSame(player, playerController.getPlayer());
-    }
-
-    @Test
     void updateMovesLeftWhenLeftOrAPressed() {
         when(input.isKeyPressed(Input.Keys.LEFT)).thenReturn(true);
         

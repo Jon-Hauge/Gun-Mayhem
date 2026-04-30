@@ -38,17 +38,6 @@ public class EntityFactory {
 		return enemy;
 	}
 
-	public void spawnProjectile(AbstractCharacter character) {
-	    float spawnX = character.getDirection() == 1
-	        ? character.x() + character.width()
-	        : character.x() - 10;
-	    float spawnY = character.y() + (character.height() / 2);
-	    int direction = character.getDirection();
-
-	    AbstractProjectile projectile = new PistolProjectile(spawnX, spawnY, direction);
-	    world.add(projectile);
-	}
-
 	public void spawnCrate() {
 		float x = rand.nextFloat() * (float) world.width();
 		float y = rand.nextFloat() * (float) world.height();

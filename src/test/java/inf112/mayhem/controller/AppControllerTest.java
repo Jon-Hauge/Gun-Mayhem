@@ -28,7 +28,6 @@ public class AppControllerTest {
     private AppWorld world;
     private ScreenManager screenManager;
     private PlayerController playerController;
-    private WeaponController weaponController;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -36,12 +35,10 @@ public class AppControllerTest {
         world = mock(AppWorld.class);
         screenManager = mock(ScreenManager.class);
         playerController = mock(PlayerController.class);
-        weaponController = mock(WeaponController.class);
 
         setField(appController, "world", world);
         setField(appController, "screenManager", screenManager);
         setField(appController, "playerController", playerController);
-        setField(appController, "weaponController", weaponController);
         appController.skipCreate = true;
     }
 
@@ -200,7 +197,6 @@ public class AppControllerTest {
 
         verify(world).update(0.16f);
         verify(playerController).update(0.16f);
-        verify(weaponController).update(0.16f);
         verify(world).evaluateState();
         verify(world).updateLevelCount(anyInt(), anyInt());
     }
@@ -239,6 +235,5 @@ public class AppControllerTest {
 
         verify(world, org.mockito.Mockito.never()).update(anyFloat());
         verify(playerController, org.mockito.Mockito.never()).update(anyFloat());
-        verify(weaponController, org.mockito.Mockito.never()).update(anyFloat());
     }
 }
