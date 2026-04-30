@@ -19,7 +19,7 @@ public class WeaponController {
 	public WeaponController(AbstractWeapon weapon, AppWorld world) {
 		this.weapon = weapon;
 		this.world = world;
-		this.fac = new EntityFactory(world, world.getMap());
+		this.fac = world.getEntityFactory();
 	}
 
 	public void update(float delta) {

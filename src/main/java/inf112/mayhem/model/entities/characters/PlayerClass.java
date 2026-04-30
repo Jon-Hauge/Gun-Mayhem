@@ -104,7 +104,7 @@ public class PlayerClass extends AbstractCharacter {
     @Override
     public void hit(EntityModel obj) {
         AbstractProjectile projectile = (AbstractProjectile) obj;
-        knockBack = projectile.getWeapon().getKnockBackMultiplier() * projectile.getDirection();
+        knockBack = projectile.getKnockBackMultiplier() * projectile.getDirection();
     }
 
     @Override

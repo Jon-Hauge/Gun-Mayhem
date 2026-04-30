@@ -118,10 +118,4 @@ class ShortRangeWeaponTest {
         assertEquals(25f, bounds.width);
         assertEquals(15f, bounds.height);
     }
-
-    @Test
-    void shortRangeWeaponHasZeroBulletSpeedAndKnockbackMultiplierFromSuperConstructor() {
-        assertEquals(0f, weapon.getBulletSpeed());
-        assertEquals(0f, weapon.getKnockBackMultiplier());
-    }
 }

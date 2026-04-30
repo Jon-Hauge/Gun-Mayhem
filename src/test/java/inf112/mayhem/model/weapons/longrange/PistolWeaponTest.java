@@ -39,28 +39,7 @@ class PistolWeaponTest {
         assertEquals(-1, pistol.getMaxAmmo());
         assertEquals(-1, pistol.getCurrentAmmo());
         assertEquals(1f, pistol.getFiringDelay());
-        assertEquals(1200f, pistol.getKnockBackMultiplier());
-        assertEquals(500f, pistol.getBulletSpeed());
         assertSame(character, pistol.getCharacter());
-    }
-
-    @Test
-    void hitAppliesKnockbackToPlayer() throws Exception {
-        PlayerClass player = mock(PlayerClass.class);
-        AbstractProjectile projectile = mock(AbstractProjectile.class);
-
-        when(projectile.getWeapon()).thenReturn(pistol);
-        when(projectile.getDirection()).thenReturn(1);
-
-        doCallRealMethod().when(player).hit(any());
-
-        player.hit(projectile);
-
-        Field knockBackField = PlayerClass.class.getDeclaredField("knockBack");
-        knockBackField.setAccessible(true);
-        float knockBackValue = knockBackField.getFloat(player);
-
-        assertEquals(1200f, knockBackValue);
     }
 
 }

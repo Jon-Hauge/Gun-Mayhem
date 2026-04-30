@@ -30,7 +30,7 @@ class AbstractWeaponTest {
                           int width, int height, int startingAmmo,
                           float firingDelay, float knockBackMultiplier, float bulletSpeed) {
             super(startX, startY, width, height, startingAmmo,
-                  firingDelay, knockBackMultiplier, bulletSpeed, character);
+                  firingDelay, character);
             this.weapon = WeaponType.PISTOL; // settes her for tester
         }
 
@@ -171,13 +171,4 @@ class AbstractWeaponTest {
         assertSame(character, weapon.getCharacter());
     }
 
-    @Test
-    void getKnockBackMultiplierReturnsKnockBackMultiplier() {
-        assertEquals(2.0f, weapon.getKnockBackMultiplier());
-    }
-
-    @Test
-    void getBulletSpeedReturnsBulletSpeed() {
-        assertEquals(15.0f, weapon.getBulletSpeed());
-    }
 }

@@ -14,25 +14,19 @@ public abstract class AbstractWeapon extends AbstractEntity {
     private int currentAmmo;
     private float firingDelay;
     protected AbstractCharacter character;
-    protected float knockBackMultiplier;
-    protected float bulletSpeed;
     protected WeaponType weapon;
 
     protected float velocityY = 0;
     protected float gravity = -10f;
     protected boolean grounded = false;
 
-    public AbstractWeapon(float x, float y, int width, int height, int startingAmmo, float firingDelay,
-
-                          float knockBackMultiplier, float bulletSpeed, AbstractCharacter character) {
+    public AbstractWeapon(float x, float y, int width, int height, int startingAmmo, float firingDelay, AbstractCharacter character) {
     	super(x, y, width, height);
         this.maxAmmo = startingAmmo;
         this.currentAmmo = startingAmmo;
         this.character = character;
         this.firingDelay = firingDelay;
-        this.bulletSpeed = bulletSpeed;
-        this.knockBackMultiplier = knockBackMultiplier;
-        
+     
         this.type = EntityType.WEAPON;
         this.state = EntityState.DROPPED;
     }
@@ -117,14 +111,6 @@ public abstract class AbstractWeapon extends AbstractEntity {
 
     public void setCharacter(AbstractCharacter character) {
         this.character = character;
-    }
-
-    public float getKnockBackMultiplier() {
-        return this.knockBackMultiplier;
-    }
-
-    public float getBulletSpeed() {
-        return this.bulletSpeed;
     }
     
     @Override

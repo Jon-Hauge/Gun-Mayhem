@@ -2,12 +2,13 @@ package inf112.mayhem.model.entities;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.RandomXS128;
+
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.projectile.LongRangeProjectile;
+import inf112.mayhem.model.projectile.PistolProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.longrange.PistolWeapon;
 import inf112.mayhem.model.weapons.longrange.SniperWeapon;
@@ -38,8 +39,14 @@ public class EntityFactory {
 	}
 
 	public void spawnProjectile(AbstractCharacter character) {
-		AbstractProjectile projectile = new LongRangeProjectile(character.getEquippedWeapon());
-		world.add(projectile);
+	    float spawnX = character.getDirection() == 1
+	        ? character.x() + character.width()
+	        : character.x() - 10;
+	    float spawnY = character.y() + (character.height() / 2);
+	    int direction = character.getDirection();
+
+	    AbstractProjectile projectile = new PistolProjectile(spawnX, spawnY, direction);
+	    world.add(projectile);
 	}
 
 	public void spawnCrate() {

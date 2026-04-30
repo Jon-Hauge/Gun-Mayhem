@@ -137,7 +137,7 @@ public class EnemyClass extends AbstractCharacter {
     public void hit(EntityModel obj) {
         if (obj instanceof AbstractProjectile projectile) {
             float knockbackResistance = 1.0f - (aggression - 1) * 0.15f;
-            knockBack += projectile.getWeapon().getKnockBackMultiplier()
+            knockBack += projectile.getKnockBackMultiplier()
                         * projectile.getDirection()
                         * knockbackResistance;
         }

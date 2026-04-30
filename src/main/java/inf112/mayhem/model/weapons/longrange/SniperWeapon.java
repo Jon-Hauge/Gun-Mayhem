@@ -11,11 +11,9 @@ public class SniperWeapon extends AbstractWeapon {
     private static final int HEIGHT = 15;
     private static final int AMMO = 10;
     private static final float FIRING_DELAY = 3f;
-    private static final float KNOCKBACK_MULTIPLIER = 200f;
-    private static final float BULLET_SPEED = 800f;
 
     public SniperWeapon(float startX, float startY, AbstractCharacter character) {
-        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK_MULTIPLIER, BULLET_SPEED, character);
+        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, character);
         
         this.type = EntityType.WEAPON;
         this.weapon = WeaponType.SNIPER;
