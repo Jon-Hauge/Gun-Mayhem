@@ -12,7 +12,6 @@ public class AppController implements ApplicationListener, IController {
     private AppWorld world;
     private ScreenManager screenManager;
     private PlayerController playerController;
-    private WeaponController weaponController;
     private int currentLevel = 1;
     private int unlockedLevels = 1;
 
@@ -27,7 +26,6 @@ public class AppController implements ApplicationListener, IController {
         world.loadLevel(levelNumber);
 
         playerController = new PlayerController(world.getPlayerClass(), world);
-        weaponController = new WeaponController(world.getPlayerClass().getEquippedWeapon(), world);
 
         screenManager = new ScreenManager(world, this, world.getPlayerClass(), world.getEnemyClass());
         screenManager.setupWeaponViews(world.getPlayerClass(), world.getEnemyClass());
@@ -51,7 +49,6 @@ public class AppController implements ApplicationListener, IController {
             if (world.state() == GameState.ACTIVE) {
                 world.update(delta);
                 playerController.update(delta);
-                weaponController.update(delta);
 
                 world.evaluateState();
             }

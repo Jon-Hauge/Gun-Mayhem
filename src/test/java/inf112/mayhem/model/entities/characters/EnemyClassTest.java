@@ -20,6 +20,8 @@ import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.weapons.WeaponType;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.mockito.Mockito.*;
@@ -191,23 +193,19 @@ class EnemyClassTest {
         AbstractWeapon weapon = mock(AbstractWeapon.class);
         when(weapon.getFiringDelay()).thenReturn(0.3f);
         when(weapon.shoot()).thenReturn(true);
+        when(weapon.getWeaponType()).thenReturn(WeaponType.PISTOL);
         enemy.equipWeapon(weapon);
         
-        // Force player detected AND spawn delay finished
         setBoolean(enemy, "playerDetected", true);
         setFloat(enemy, "spawnDelayTimer", 0f);
 
         PlayerClass player = mock(PlayerClass.class);
         when(player.isActive()).thenReturn(true);
-        // Position player within attack range
         when(player.bounds()).thenReturn(new Rectangle(enemy.x() + 20, enemy.y(), 32, 32));
 
         AppWorld world = mock(AppWorld.class);
         when(world.width()).thenReturn(1280.0);
         when(world.height()).thenReturn(768.0);
-        
-        inf112.mayhem.model.entities.EntityFactory fac = mock(inf112.mayhem.model.entities.EntityFactory.class);
-        when(world.getEntityFactory()).thenReturn(fac);
         
         List<EntityModel> objects = new ArrayList<>();
         objects.add(player);
@@ -216,7 +214,7 @@ class EnemyClassTest {
         enemy.update(world, 0.1f);
 
         verify(weapon).shoot();
-        verify(fac).spawnProjectile(enemy);
+        verify(world).add(any(AbstractProjectile.class)); // ← verifiser prosjektil lagt til
     }
 
     @Test
@@ -273,15 +271,14 @@ class EnemyClassTest {
 
     @Test
     void enemyUsesDoubleJumpInChase() throws Exception {
-        enemy.setAggression(5); // Allows double jump
+        enemy.setAggression(5);
         setBoolean(enemy, "isGrounded", false);
         setInt(enemy, "jump_counter", 1);
-        enemy.velocity.y = 10f; // Moving up
+        enemy.velocity.y = 10f;
         setFloat(enemy, "spawnDelayTimer", 0f);
 
         PlayerClass player = mock(PlayerClass.class);
         when(player.isActive()).thenReturn(true);
-        // Player is much higher
         when(player.bounds()).thenReturn(new Rectangle(enemy.x(), enemy.y() + 100, 32, 32));
 
         AppWorld world = mock(AppWorld.class);
@@ -290,17 +287,11 @@ class EnemyClassTest {
         List<EntityModel> objects = new ArrayList<>();
         objects.add(player);
         when(world.iterator()).thenReturn(objects.iterator());
-        
-        // Mock EntityFactory
-        inf112.mayhem.model.entities.EntityFactory fac = mock(inf112.mayhem.model.entities.EntityFactory.class);
-        when(world.getEntityFactory()).thenReturn(fac);
 
-        // Force detection
         setBoolean(enemy, "playerDetected", true);
 
         enemy.update(world, 0.1f);
 
-        // Should have jumped again (double jump)
         assertEquals(2, getInt(enemy, "jump_counter"));
         assertTrue(enemy.velocity.y > 10f);
     }

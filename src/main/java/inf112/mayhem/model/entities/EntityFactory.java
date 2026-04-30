@@ -8,7 +8,7 @@ import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.projectile.PistolProjectile;
+import inf112.mayhem.model.projectile.ProjectileFactory;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.longrange.PistolWeapon;
 import inf112.mayhem.model.weapons.longrange.SniperWeapon;
@@ -37,16 +37,21 @@ public class EntityFactory {
 		world.add(enemy);
 		return enemy;
 	}
-
+	
 	public void spawnProjectile(AbstractCharacter character) {
 	    float spawnX = character.getDirection() == 1
 	        ? character.x() + character.width()
 	        : character.x() - 10;
 	    float spawnY = character.y() + (character.height() / 2);
-	    int direction = character.getDirection();
 
-	    AbstractProjectile projectile = new PistolProjectile(spawnX, spawnY, direction);
-	    world.add(projectile);
+	    AbstractProjectile projectile = ProjectileFactory.create(
+	        spawnX, spawnY,
+	        character.getDirection(),
+	        character.getEquippedWeapon().getWeaponType()
+	    );
+	    if (projectile != null) {
+	        world.add(projectile);
+	    }
 	}
 
 	public void spawnCrate() {

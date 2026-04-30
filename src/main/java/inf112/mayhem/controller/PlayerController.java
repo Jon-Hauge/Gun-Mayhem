@@ -19,10 +19,7 @@ public class PlayerController {
 	public PlayerController(PlayerClass player, AppWorld world) {
 		this.player = player;
 		this.world = world;
-	}
-	
-	public PlayerClass getPlayer() {
-		return player;
+		
 	}
 
 	public void update(float delta) {
@@ -51,6 +48,14 @@ public class PlayerController {
 	    
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
 	    	player.drop();
+	    }
+	    
+	    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && COOLDOWN_TIMER <= 0) {
+	        AbstractWeapon weapon = player.getEquippedWeapon();
+	        if (weapon != null && weapon.shoot()) {
+	            world.getEntityFactory().spawnProjectile(player);
+	            COOLDOWN_TIMER = weapon.getFiringDelay();
+	        }
 	    }
 	     
 	    player.updateState();

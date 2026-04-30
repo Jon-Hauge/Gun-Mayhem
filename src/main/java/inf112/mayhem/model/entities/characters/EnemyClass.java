@@ -4,10 +4,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.entities.EntityModel;
+import inf112.mayhem.model.projectile.AbstractProjectile;
+import inf112.mayhem.model.projectile.ProjectileFactory;
 
 /**
  * Represents an AI-controlled enemy character in the game.
@@ -270,7 +271,20 @@ public class EnemyClass extends AbstractCharacter {
         if (distance <= attackRange * 2 || aggression >= 4) {
             if (shootingTimer <= 0 && getEquippedWeapon() != null) {
                 if (getEquippedWeapon().shoot()) {
-                    world.getEntityFactory().spawnProjectile(this);
+                    float spawnX = getDirection() == 1
+                        ? x() + width()
+                        : x() - 10;
+                    float spawnY = y() + (height() / 2);
+
+                    AbstractProjectile projectile = ProjectileFactory.create(
+                        spawnX, spawnY,
+                        getDirection(),
+                        getEquippedWeapon().getWeaponType()
+                    );
+                    if (projectile != null) {
+                        world.add(projectile);
+                    }
+
                     shootingTimer = getEquippedWeapon().getFiringDelay();
                     shootingTimer *= (1.2f - (aggression * 0.1f));
                 }
