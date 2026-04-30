@@ -29,7 +29,7 @@ public class SemiActionShotgun extends ShortRangeWeapon {
     }
 
 	@Override
-	public float getFiringDealy() {
+	public float getFiringDelay() {
 		return FIRING_DELAY;
 	}
 }

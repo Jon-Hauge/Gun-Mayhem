@@ -12,12 +12,9 @@ import static org.mockito.Mockito.when;
 import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.characters.PlayerClass;
-import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.weapons.WeaponType;
 
 class ShortRangeWeaponTest {
-
     private AbstractCharacter character;
     private AppWorld world;
     private TestShortRangeWeapon weapon;
@@ -49,6 +46,7 @@ class ShortRangeWeaponTest {
         public void exposeUpdateWeaponBounds() {
             updateWeaponBounds();
         }
+
     }
 
     @BeforeEach

@@ -22,7 +22,7 @@ public class SniperWeapon extends AbstractWeapon {
     }
 
 	@Override
-	public float getFiringDealy() {
+	public float getFiringDelay() {
 		return FIRING_DELAY;
 	}
 }
