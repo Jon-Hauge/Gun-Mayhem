@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
+import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
 
@@ -15,9 +16,10 @@ public abstract class ShortRangeWeapon extends AbstractWeapon {
 
     // Short range has no bulletspeed or knockBackMultiplier —
     // Therefore 0f are sent in as a parameter
-    public ShortRangeWeapon(float startX, float startY, AbstractCharacter character, float width, float height,
-                            WeaponType weaponType, EntityState startingState, int startingAmmo, float firingDelay) {
-        super(startX, startY, character, width, height, weaponType, startingState, startingAmmo, firingDelay, 0f, 0f);
+    public ShortRangeWeapon(float startX, float startY, int width, int height,
+                            int startingAmmo, float firingDelay, float knockback, AbstractCharacter character) {
+        super(startX, startY, width, height, startingAmmo, firingDelay, 0f, 0f, character);
+        
     }
 
     public Rectangle getAttackBounds() {
@@ -38,7 +40,7 @@ public abstract class ShortRangeWeapon extends AbstractWeapon {
 
     protected void updateWeaponBounds() {
         if (character != null) {
-            attackBounds.set(character.x(), character.y(), this.width(), this.height());
+            attackBounds.set(character.x(), character.y(), width(), height());
         }
     }
 

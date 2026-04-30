@@ -101,9 +101,9 @@ public class ScreenManager {
 
     public void setupWeaponViews(AbstractCharacter player, AbstractCharacter enemy) {
         AbstractWeapon playerWeapon = player.getEquippedWeapon();
-        playerWeapon.setWeaponView(new WeaponView(playerWeapon));
+       new WeaponView(playerWeapon);
 
         AbstractWeapon enemyWeapon = enemy.getEquippedWeapon();
-        enemyWeapon.setWeaponView(new WeaponView(enemyWeapon));
+        new WeaponView(enemyWeapon);
     }
 }

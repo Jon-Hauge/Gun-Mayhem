@@ -4,21 +4,23 @@ import com.badlogic.gdx.math.Rectangle;
 
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
+import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.weapons.WeaponType;
 
 public class PumpAction extends ShortRangeWeapon {
 
-    private static final WeaponType WEAPON_TYPE = WeaponType.PUMPACTION;
-    private static final float WIDTH = 25f;
-    private static final float HEIGHT = 10f;
-    private static final EntityState STARTING_STATE = EntityState.IN_USE;
+    private static final int WIDTH = 25;
+    private static final int HEIGHT = 10;
     private static final int AMMO = 5;
     private static final float FIRING_DELAY = 8f;
-    private static final float knockBackMultiplier = 100f;
+    private static final float KNOCKBACK = 100f;
 
     public PumpAction(float startX, float startY, AbstractCharacter character) {
-        super(startX, startY, character, WIDTH, HEIGHT, WEAPON_TYPE, STARTING_STATE, AMMO, FIRING_DELAY);
-        setKnockback(knockBackMultiplier);
+        super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY, KNOCKBACK, character);
+        
+        this.type = EntityType.WEAPON;
+        this.weapon = WeaponType.PUMPACTION;
+        this.state = EntityState.DROPPED;
         if (character != null) {
             setAttackBounds(new Rectangle(character.x(), character.y(), WIDTH, HEIGHT));
         }
