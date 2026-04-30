@@ -27,7 +27,6 @@ public class ProjectileCollisionHandler {
 							character.equipWeapon(weapon);
 							weapon.setCharacter(character);
 							weapon.setState(EntityState.IN_USE);
-							world.remove(weapon.getWeaponView());
 						}
 					}
 				}
