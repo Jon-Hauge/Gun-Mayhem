@@ -10,8 +10,8 @@ import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerClass extends AbstractCharacter {
 
-    private static final int WIDTH = 32;
-    private static final int HEIGHT = 32;
+    private static final float WIDTH = 32f;
+    private static final float HEIGHT = 32f;
     private static final int LIVES = 3;
     private float knockBack = 0f;
     private static final float KNOCKBACK_DECAY = 8f;
@@ -104,7 +104,7 @@ public class PlayerClass extends AbstractCharacter {
     @Override
     public void hit(EntityModel obj) {
         AbstractProjectile projectile = (AbstractProjectile) obj;
-        knockBack = projectile.getKnockBackMultiplier() * projectile.getDirection();
+        knockBack = projectile.getKnockBack() * projectile.getDirection();
     }
 
     @Override

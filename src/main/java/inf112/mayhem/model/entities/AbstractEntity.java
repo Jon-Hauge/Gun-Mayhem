@@ -15,7 +15,7 @@ public abstract class AbstractEntity implements EntityModel {
 	
 	protected boolean active;
 	
-	public AbstractEntity(float x, float y, int width, int height) {
+	public AbstractEntity(float x, float y, float width, float height) {
 		position = new Vector2(x, y);
 		velocity = new Vector2(0,0);
 		size = new Vector2(width, height);

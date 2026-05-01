@@ -7,8 +7,8 @@ import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
 
 public class PistolWeapon extends AbstractWeapon {
-    private static final int WIDTH = 10;
-    private static final int HEIGHT = 10;
+    private static final float WIDTH = 10f;
+    private static final float HEIGHT = 10f;
     private static final int AMMO = -1;
     private static final float FIRING_DELAY = 1f;
 

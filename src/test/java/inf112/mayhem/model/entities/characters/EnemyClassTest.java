@@ -157,7 +157,7 @@ class EnemyClassTest {
     @Test
     void hitAppliesProjectileKnockback() throws Exception {
         AbstractProjectile projectile = mock(AbstractProjectile.class);
-        when(projectile.getKnockBackMultiplier()).thenReturn(100f);
+        when(projectile.getKnockBack()).thenReturn(100f);
         when(projectile.getDirection()).thenReturn(1);
 
         enemy.hit(projectile);

@@ -11,15 +11,15 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     protected boolean active = true;
     private final int direction;
     private final float bulletSpeed;
-    private final float knockBackMultiplier;
+    private final float knockback;
 
-    public AbstractProjectile(int width, int height, float startX, float startY, int direction, float bulletSpeed, float knockBackMultiplier) {
+    public AbstractProjectile(float startX, float startY, float width, float height, int direction, float bulletSpeed, float knockback) {
         super(startX, startY, width, height);
         this.type = EntityType.PROJECTILE;
         this.state = EntityState.ACTIVE;
         this.direction = direction;
         this.bulletSpeed = bulletSpeed;
-        this.knockBackMultiplier = knockBackMultiplier;
+        this.knockback = knockback;
     }
 
     @Override
@@ -50,8 +50,8 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     	return direction;
     }
     
-    public float getKnockBackMultiplier() {
-    	return knockBackMultiplier;
+    public float getKnockBack() {
+    	return knockback;
     }
     
     public float getBulletSpeed() {

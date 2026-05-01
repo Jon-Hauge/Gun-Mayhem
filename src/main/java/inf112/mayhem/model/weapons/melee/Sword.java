@@ -6,8 +6,8 @@ import inf112.mayhem.model.weapons.WeaponType;
 
 public class Sword extends AbstractMeleeWeapon {
 
-    private static final int WIDTH = 25;
-    private static final int HEIGHT = 15;
+    private static final float WIDTH = 25f;
+    private static final float HEIGHT = 15f;
     private static final int AMMO = -1;
     private static final float FIRING_DELAY = 0.5f;
 

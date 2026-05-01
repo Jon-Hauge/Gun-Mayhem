@@ -14,7 +14,7 @@ public abstract class AbstractMeleeWeapon extends AbstractWeapon {
 	protected Rectangle attackBounds = new Rectangle();
 	protected float KNOCKBACK;
 	
-    public AbstractMeleeWeapon(float x, float y, int width, int height, int startingAmmo, float firingDelay) {
+    public AbstractMeleeWeapon(float x, float y, float width, float height, int startingAmmo, float firingDelay) {
 		super(x, y, width, height, startingAmmo, firingDelay);
 	}
     

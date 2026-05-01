@@ -32,7 +32,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	protected boolean ignorePlatforms;
 	
 
-	public AbstractCharacter(float x, float y, int width, int height, int lives, TiledMap map) {
+	public AbstractCharacter(float x, float y, float width, float height, int lives, TiledMap map) {
 		super(x, y, width, height);
 		this.startX = x;
 		this.startY = y;
