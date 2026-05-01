@@ -15,7 +15,7 @@ import inf112.mayhem.model.weapons.guns.PistolWeapon;
 import inf112.mayhem.model.weapons.guns.PumpActionShotgun;
 import inf112.mayhem.view.maps.LevelLoader;
 
-public class AppWorld implements Iterable<EntityModel> {
+public class AppWorld implements Iterable<EntityModel>, IWorld {
 	private double width;
 	private double height;
 	private double currentTime = 0;
@@ -45,11 +45,7 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.height = height;
 	}
 
-	/// Loads the current level into the gameworld.
-	/// Which level is chosen is given by the level-number
-	///
-	/// @param levelNumber Number of current level to load
-	///
+	@Override
 	public void loadLevel(int levelNumber) {
 		// Load in map and factories
 		this.map = loader.loadLevel(levelNumber);
@@ -75,89 +71,64 @@ public class AppWorld implements Iterable<EntityModel> {
 		return objects.iterator();
 	}
 
-	///
-	/// @return width of gameworld
-	///
+	@Override
 	public double width() {
 		return width;
 	}
 
-	///
-	/// @return height of gameworld
-	///
+	@Override
 	public double height() {
 		return height;
 	}
 
-	///
-	/// @return current time in the gameworld
-	///
+	@Override
 	public double currentTime() {
 		return currentTime;
 	}
 
-	/// Adds objects to the gameworld provided they are not null
-	///
-	/// @param obj Object to add to gameworld
-	///
+	@Override
 	public void add(EntityModel obj) {
 		if (obj != null) {
 			toAdd.add(obj);
 		}
 	}
 
-	///
-	/// @return State of the gameworld
-	///
+	@Override
 	public GameState state() {
 		return state;
 	}
 
-	///
-	/// @return player in the gameworld
-	///
+	@Override
 	public PlayerClass getPlayerClass() {
 		return playerClass;
 	}
 
-	///
-	/// @return enemy in the gameworld
-	///
+	@Override
 	public EnemyClass getEnemyClass() {
 		return enemyClass;
 	}
 
-	///
-	/// @return map used in the gameworld
-	///
+	@Override
 	public TiledMap getMap() {
 		return map;
 	}
 
-	///
-	/// @return collision handler used between map and entities
-	///
+	@Override
 	public MapCollisionHandler getMapCollisionHandler() {
 		return collisionHandler;
 	}
 
-	/// Sets state of the gameworld
-	///
-	/// @param state State to set the gameworld to
-	///
+	@Override
 	public void setState(GameState state) {
 		this.state = state;
 	}
 
-	///
-	/// @return Entity factory used in gameworld
-	///
+	@Override
 	public EntityFactory getEntityFactory() {
 		return fac;
 	}
 
-	/// Removes inactive objects from gameworld
-	///
+	@Override
 	public void removeInactive() {
 		int before = objects.size();
 		objects.removeIf(obj -> !obj.isActive());
@@ -168,10 +139,18 @@ public class AppWorld implements Iterable<EntityModel> {
 		}
 	}
 
-	/// Updates the gameworld each gametic, i.e. since last update.
-	///
-	/// @param delta One gametic
-	///
+	@Override
+	public void remove(Object obj) {
+		int before = objects.size();
+		objects.remove(obj);
+		int after = objects.size();
+
+		if (before != after) {
+			System.out.println("Removed " + (before - after) + " objects. Remaining: " + after);
+		}
+	}
+
+	@Override
 	public void update(float delta) {
 		objects.addAll(toAdd);
 		toAdd.clear();
@@ -197,8 +176,7 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.removeInactive();
 	}
 
-	/// Evaluates state to check for victory or loss
-	///
+	@Override
 	public void evaluateState() {
 		if (playerClass.lives() <= 0) {
 			this.setState(GameState.GAME_OVER);
@@ -207,9 +185,7 @@ public class AppWorld implements Iterable<EntityModel> {
 		}
 	}
 
-	///
-	/// @return Current level count, i.e. levels unlocked so far
-	///
+	@Override
 	public int updateLevelCount(int currentLevel, int unlockedLevels) {
 		int newUnlockedLevels = unlockedLevels;
 
@@ -219,8 +195,7 @@ public class AppWorld implements Iterable<EntityModel> {
 		return newUnlockedLevels;
 	}
 
-	/// Reset gameworld.
-	///
+	@Override
 	public void reset() {
 		this.setState(GameState.ACTIVE);
 		playerClass.setLives(3);
