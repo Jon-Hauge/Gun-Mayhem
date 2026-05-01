@@ -12,7 +12,7 @@ public class PumpActionShotgunProjectile extends AbstractShotgunProjectile {
     /// @param startX Starting horizontal coordinate of projectile
     /// @param startY Starting vertical coordinate of projectile
     /// @param direction Direction of projectile: -1 for left, 1 for right
-    ///
+    /// 
     public PumpActionShotgunProjectile(float startX, float startY, int direction) {
         super(startX, startY, WIDTH, HEIGHT, direction, BULLET_SPEED, KNOCKBACK, MAX_RANGE);
     }
