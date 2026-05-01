@@ -59,6 +59,8 @@ public class PlayerClass extends AbstractCharacter {
 
     @Override
     public void update(AppWorld world, float delta) {
+    	super.update(world, delta);
+    	
         float previousY = position.y;
 
         velocity.y -= GRAVITY * delta;

@@ -31,7 +31,7 @@ public class AppWorld implements Iterable<EntityModel> {
 	private PlayerClass playerClass;
 	private EnemyClass enemyClass;
     private float weaponSpawnTimer = 0f;
-	private final float weaponSpawnInterval = 10f;
+	private final float weaponSpawnInterval = 100f;
 	private float crateSpawnTimer = 0f;
 	private final float crateSpawnInterval = 15f;
 
@@ -53,12 +53,8 @@ public class AppWorld implements Iterable<EntityModel> {
 		// Player
 		this.playerClass = fac.spawnPlayer(500f, 400f);
 		this.enemyClass = fac.spawnEnemy(900f, 400f);
-
-		// Weapons
-        AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f);
-        AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f);
-		playerClass.equipWeapon(playerStartingWeapon);
-		enemyClass.equipWeapon(enemyStartingWeapon);
+		
+		this.playerClass.equipWeapon(new PumpActionShotgun(500f, 400f));
 	}
 
 	@Override
