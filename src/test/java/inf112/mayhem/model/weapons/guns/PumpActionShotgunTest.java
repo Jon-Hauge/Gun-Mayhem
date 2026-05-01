@@ -23,6 +23,6 @@ class PumpActionShotgunTest {
         assertEquals(WeaponType.PUMPACTION, weapon.getWeaponType());
         assertEquals(5, weapon.getCurrentAmmo());
         assertEquals(5, weapon.getMaxAmmo());
-        assertEquals(8f, weapon.getFiringDelay());
+        assertEquals(4f, weapon.getFiringDelay());
     }
 }
