@@ -136,6 +136,24 @@ public class AppWorldTest {
     }
 
     @Test
+    void testEvaluateStateNoTransitionWhenBothAlive() throws Exception {
+        AppWorld world = new AppWorld(1280, 768);
+        PlayerClass player = mock(PlayerClass.class);
+        EnemyClass enemy = mock(EnemyClass.class);
+
+        setPrivateField(world, "playerClass", player);
+        setPrivateField(world, "enemyClass", enemy);
+        world.setState(GameState.ACTIVE);
+
+        when(player.lives()).thenReturn(2);
+        when(enemy.lives()).thenReturn(1);
+
+        world.evaluateState();
+
+        assertEquals(GameState.ACTIVE, world.state());
+    }
+
+    @Test
     void testReset() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
         PlayerClass player = mock(PlayerClass.class);
@@ -185,6 +203,15 @@ public class AppWorldTest {
     }
 
     @Test
+    void testGetEnemyClass() throws Exception {
+        AppWorld world = new AppWorld(1280, 768);
+        EnemyClass enemy = mock(EnemyClass.class);
+        setPrivateField(world, "enemyClass", enemy);
+
+        assertEquals(enemy, world.getEnemyClass());
+    }
+
+    @Test
     void testAddNull() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
         EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
@@ -221,6 +248,42 @@ public class AppWorldTest {
     }
 
     @Test
+    void testRemoveObject() throws Exception {
+        AppWorld world = new AppWorld(1280, 768);
+        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
+        setPrivateField(world, "pCollision", pCollision);
+
+        EntityModel entity = mock(EntityModel.class);
+        when(entity.isActive()).thenReturn(true);
+        world.add(entity);
+        world.update(0.1f);
+
+        world.remove(entity);
+
+        assertFalse(world.iterator().hasNext());
+    }
+
+    @Test
+    void testRemoveNonExistingObject() throws Exception {
+        AppWorld world = new AppWorld(1280, 768);
+        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
+        setPrivateField(world, "pCollision", pCollision);
+
+        EntityModel existing = mock(EntityModel.class);
+        EntityModel nonExisting = mock(EntityModel.class);
+        when(existing.isActive()).thenReturn(true);
+        world.add(existing);
+        world.update(0.1f);
+
+        world.remove(nonExisting);
+
+        Iterator<EntityModel> iterator = world.iterator();
+        assertTrue(iterator.hasNext());
+        assertEquals(existing, iterator.next());
+        assertFalse(iterator.hasNext());
+    }
+
+    @Test
     void testLoadLevel() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
         LevelLoader loader = mock(LevelLoader.class);
@@ -245,6 +308,7 @@ public class AppWorldTest {
         assertNotNull(getPrivateField(world, "enemyClass"));
         
         assertNotNull(world.getPlayerClass().getEquippedWeapon());
+        assertNotNull(world.getMapCollisionHandler());
     }
 
     private Object getPrivateField(Object object, String fieldName) throws Exception {
