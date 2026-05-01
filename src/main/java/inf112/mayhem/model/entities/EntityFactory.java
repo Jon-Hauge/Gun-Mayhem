@@ -10,6 +10,7 @@ import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.projectile.ProjectileFactory;
 import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.weapons.WeaponType;
 import inf112.mayhem.model.weapons.guns.PistolWeapon;
 import inf112.mayhem.model.weapons.guns.PumpActionShotgun;
 import inf112.mayhem.model.weapons.guns.SemiAutoShotgun;
@@ -39,10 +40,20 @@ public class EntityFactory {
 	}
 	
 	public void spawnProjectile(AbstractCharacter character) {
+		
+		AbstractWeapon weapon = character.getEquippedWeapon();
+		
 	    float spawnX = character.getDirection() == 1
-	        ? character.x() + character.width()
-	        : character.x() - 10;
-	    float spawnY = character.y() + (character.height() / 2);
+		        ? character.x() + character.width()
+		        : character.x() - 10;
+		    float spawnY = character.y() + (character.height() / 2);
+		
+		if (weapon.getWeaponType() == WeaponType.SEMIAUTOSHOTGUN ||
+			weapon.getWeaponType() == WeaponType.PUMPACTION) {
+			
+			spawnY -= 15f;
+		}
+		
 
 	    AbstractProjectile projectile = ProjectileFactory.create(
 	        spawnX, spawnY,
