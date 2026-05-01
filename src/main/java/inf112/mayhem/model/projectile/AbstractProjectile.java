@@ -52,7 +52,9 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     }
 
     @Override
-    public void hit(EntityModel obj) { active = false; }
+    public void hit(EntityModel obj) {
+    	active = false;
+    }
 
     @Override
     public int getDirection() {

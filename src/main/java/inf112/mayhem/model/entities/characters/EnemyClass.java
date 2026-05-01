@@ -140,6 +140,8 @@ public class EnemyClass extends AbstractCharacter {
 
     @Override
     public void update(AppWorld world, float delta) {
+    	super.update(world, delta);
+    	
         this.world = world;
         if (shootingTimer > 0) shootingTimer -= delta;
         if (edgeWaitTimer > 0) edgeWaitTimer -= delta;

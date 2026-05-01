@@ -116,6 +116,10 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
         return maxAmmo;
     }
     
+    public boolean outOfAmmo() {
+    	return currentAmmo == 0;
+    }
+    
     @Override
     public void updateState() {
         if (position.y < -100f) {
