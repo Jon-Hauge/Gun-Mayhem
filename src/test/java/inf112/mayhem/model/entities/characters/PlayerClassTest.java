@@ -109,6 +109,19 @@ class PlayerClassTest {
         player.jump();
 
         assertTrue(player.velocity.y > 0);
+        assertEquals(2, getInt(player, "jump_counter"));
+    }
+
+    @Test
+    void jumpDoesNothingWhenAlreadyUsedDoubleJump() throws Exception {
+        setBoolean(player, "isGrounded", false);
+        setInt(player, "jump_counter", 2);
+        player.velocity.y = 0;
+
+        player.jump();
+
+        assertEquals(0, player.velocity.y);
+        assertEquals(2, getInt(player, "jump_counter"));
     }
 
     @Test
@@ -120,6 +133,17 @@ class PlayerClassTest {
         assertTrue(player.velocity.y < 0);
         assertFalse(getBoolean(player, "isGrounded"));
         assertTrue(getBoolean(player, "ignorePlatforms"));
+    }
+
+    @Test
+    void dropWhenNotGroundedDoesNothing() throws Exception {
+        setBoolean(player, "isGrounded", false);
+        player.velocity.y = 0;
+
+        player.drop();
+
+        assertEquals(0, player.velocity.y);
+        assertFalse(getBoolean(player, "ignorePlatforms"));
     }
 
     @Test
@@ -195,6 +219,56 @@ class PlayerClassTest {
         verify(projectile).getDirection();
     }
 
+    @Test
+    void hitAffectsHorizontalMovementOnUpdate() {
+        AppWorld world = mock(AppWorld.class);
+        when(world.width()).thenReturn((double) 1000);
+        when(world.height()).thenReturn((double) 1000);
+
+        AbstractProjectile projectile = mock(AbstractProjectile.class);
+        when(projectile.getKnockBack()).thenReturn(100f);
+        when(projectile.getDirection()).thenReturn(1);
+
+        float xBefore = player.x();
+        player.hit(projectile);
+        player.update(world, 0.1f);
+
+        assertTrue(player.x() > xBefore);
+    }
+
+    @Test
+    void updateOutOfBoundsDecrementsLivesAndRespawnsWhenLivesRemain() {
+        AppWorld world = mock(AppWorld.class);
+        when(world.width()).thenReturn((double) 100);
+        when(world.height()).thenReturn((double) 100);
+
+        PlayerClass out = new PlayerClass(-10, 20, map);
+        out.velocity.y = 500;
+
+        out.update(world, 0.1f);
+
+        assertEquals(2, out.lives());
+        assertEquals(0, out.velocity.x);
+        assertEquals(20, out.y());
+        assertTrue(out.isActive());
+    }
+
+    @Test
+    void updateOutOfBoundsKillsPlayerWhenNoLivesRemain() {
+        AppWorld world = mock(AppWorld.class);
+        when(world.width()).thenReturn((double) 100);
+        when(world.height()).thenReturn((double) 100);
+
+        PlayerClass out = new PlayerClass(-10, 20, map);
+        out.setLives(1);
+        out.velocity.y = 500;
+
+        out.update(world, 0.1f);
+
+        assertEquals(0, out.lives());
+        assertFalse(out.isActive());
+    }
+
     private static void setBoolean(Object obj, String field, boolean value) throws Exception {
         Field f = AbstractCharacter.class.getDeclaredField(field);
         f.setAccessible(true);
@@ -211,5 +285,11 @@ class PlayerClassTest {
         Field f = AbstractCharacter.class.getDeclaredField(field);
         f.setAccessible(true);
         f.setInt(obj, value);
+    }
+
+    private static int getInt(Object obj, String field) throws Exception {
+        Field f = AbstractCharacter.class.getDeclaredField(field);
+        f.setAccessible(true);
+        return f.getInt(obj);
     }
 }
