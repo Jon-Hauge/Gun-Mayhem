@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.weapons.WeaponType;
+import inf112.mayhem.model.weapons.guns.SniperWeapon;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;

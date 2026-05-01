@@ -7,6 +7,8 @@ import static org.mockito.Mockito.*;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.WeaponType;
+import inf112.mayhem.model.weapons.guns.PistolWeapon;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

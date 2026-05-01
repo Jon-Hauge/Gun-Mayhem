@@ -8,6 +8,7 @@ public class ProjectileFactory {
         return switch (weaponType) {
             case PISTOL -> new PistolProjectile(spawnX, spawnY, direction);
             case SNIPER -> new SniperProjectile(spawnX, spawnY, direction);
+            case PUMPACTION -> new PumpActionShotgunProjectile(spawnX, spawnY, direction);
             case SWORD -> null; // sword bruker ikke prosjektil
             default -> throw new IllegalArgumentException("Ukjent våpentype: " + weaponType);
         };

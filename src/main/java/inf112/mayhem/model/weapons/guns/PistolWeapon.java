@@ -1,4 +1,4 @@
-package inf112.mayhem.model.weapons.longrange;
+package inf112.mayhem.model.weapons.guns;
 
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
