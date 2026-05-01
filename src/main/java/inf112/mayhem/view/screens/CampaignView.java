@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
-
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 
@@ -24,6 +23,11 @@ public class CampaignView extends AbstractScreenView {
     private VideoPlayer videoPlayer;
     private SpriteBatch videoBatch;
 
+    /// Constructs a new CampaignView with the given world and controller.
+    ///
+    /// @param world The game world
+    /// @param controller The application controller for handling state transitions
+    ///
     public CampaignView(AppWorld world, AppController controller) {
         this.world = world;
         this.controller = controller;

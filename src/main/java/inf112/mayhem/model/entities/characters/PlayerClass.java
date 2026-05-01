@@ -6,7 +6,6 @@ import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public class PlayerClass extends AbstractCharacter {
 
@@ -16,6 +15,12 @@ public class PlayerClass extends AbstractCharacter {
     private float knockBack = 0f;
     private static final float KNOCKBACK_DECAY = 8f;
 
+    /// Initializes a new player at the specified position.
+    ///
+    /// @param startX Horizontal starting coordinate of player
+    /// @param startY Vertical starting coordinate of player
+    /// @param map Map player resides in
+    ///
     public PlayerClass(float startX, float startY, TiledMap map) {
         super(startX, startY, WIDTH, HEIGHT, LIVES, map);
         this.type = EntityType.PLAYER;
@@ -105,15 +110,5 @@ public class PlayerClass extends AbstractCharacter {
     public void hit(EntityModel obj) {
         AbstractProjectile projectile = (AbstractProjectile) obj;
         knockBack = projectile.getKnockBack() * projectile.getDirection();
-    }
-
-    @Override
-    public void equipWeapon(AbstractWeapon weapon) {
-        this.equippedWeapon = weapon;
-    }
-
-    @Override
-    public AbstractWeapon getEquippedWeapon() {
-        return equippedWeapon;
     }
 }

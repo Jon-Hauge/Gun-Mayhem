@@ -30,7 +30,7 @@ public abstract class AbstractScreenView {
     protected abstract Table createButtons();
 
     /// Renders the game world.
-    /// Happens multiple times per second
+    /// Happens multiple times per second.
     ///
     public void render() {
         com.badlogic.gdx.utils.ScreenUtils.clear(Color.WHITE);

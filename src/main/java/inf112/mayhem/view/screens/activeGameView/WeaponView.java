@@ -12,8 +12,7 @@ public class WeaponView {
     private AbstractWeapon weapon;
     private final float scale = 0.15f;
 
-    ///
-    /// Constructs a new WeaponView with a given weapon
+    /// Constructs a WeaponView for a given weapon
     ///
     /// @param weapon Weapon to be viewed
     ///
@@ -35,6 +34,10 @@ public class WeaponView {
         };
     }
 
+    /// Draws the weapon in the gameworld
+    ///
+    /// @param batch Batch to draw on
+    ///
     public void draw(SpriteBatch batch) {
         batch.draw(texture,
                 weapon.x(),

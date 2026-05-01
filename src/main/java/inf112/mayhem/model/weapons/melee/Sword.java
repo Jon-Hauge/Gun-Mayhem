@@ -11,6 +11,11 @@ public class Sword extends AbstractMeleeWeapon {
     private static final int AMMO = -1;
     private static final float FIRING_DELAY = 0.5f;
 
+    /// Initiates a sword weapon.
+    ///
+    /// @param startX Starting horizontal coordinate
+    /// @param startY Starting vertical coordinate
+    ///
     public Sword(float startX, float startY) {
     	super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY);
     	

@@ -3,7 +3,6 @@ package inf112.mayhem.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.collision.EntityCollisionHandler;
@@ -20,8 +19,8 @@ public class AppWorld implements Iterable<EntityModel> {
 	private double width;
 	private double height;
 	private double currentTime = 0;
-    private List<EntityModel> objects = new ArrayList<>();
-    private List<EntityModel> toAdd = new ArrayList<>();
+	private List<EntityModel> objects = new ArrayList<>();
+	private List<EntityModel> toAdd = new ArrayList<>();
 	private TiledMap map;
 	private MapCollisionHandler collisionHandler;
 	private LevelLoader loader = new LevelLoader();
@@ -30,17 +29,27 @@ public class AppWorld implements Iterable<EntityModel> {
 	private EntityCollisionHandler pCollision;
 	private PlayerClass playerClass;
 	private EnemyClass enemyClass;
-    private float weaponSpawnTimer = 0f;
+	private float weaponSpawnTimer = 0f;
 	private final float weaponSpawnInterval = 10f;
 	private float crateSpawnTimer = 0f;
 	private final float crateSpawnInterval = 15f;
 
+	/// Initiates a gameworld capable of interaction between entities and the map.
+	/// Used as the playing field for the game.
+	///
+	/// @param width  Width of the gameworld
+	/// @param height Height of the gameworld
 	public AppWorld(double width, double height) {
 		super();
 		this.width = width;
 		this.height = height;
 	}
 
+	/// Loads the current level into the gameworld.
+	/// Which level is chosen is given by the level-number
+	///
+	/// @param levelNumber Number of current level to load
+	///
 	public void loadLevel(int levelNumber) {
 		// Load in map and factories
 		this.map = loader.loadLevel(levelNumber);
@@ -55,8 +64,8 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.enemyClass = fac.spawnEnemy(900f, 400f);
 
 		// Weapons
-        AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f);
-        AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f);
+		AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f);
+		AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f);
 		playerClass.equipWeapon(playerStartingWeapon);
 		enemyClass.equipWeapon(enemyStartingWeapon);
 	}
@@ -66,55 +75,92 @@ public class AppWorld implements Iterable<EntityModel> {
 		return objects.iterator();
 	}
 
+	///
+	/// @return width of gameworld
+	///
 	public double width() {
 		return width;
 	}
 
+	///
+	/// @return height of gameworld
+	///
 	public double height() {
 		return height;
 	}
 
+	///
+	/// @return current time in the gameworld
+	///
 	public double currentTime() {
 		return currentTime;
 	}
 
+	/// Adds objects to the gameworld provided they are not null
+	///
+	/// @param obj Object to add to gameworld
+	///
 	public void add(EntityModel obj) {
 		if (obj != null) {
 			toAdd.add(obj);
 		}
 	}
 
+	///
+	/// @return State of the gameworld
+	///
 	public GameState state() {
 		return state;
 	}
 
+	///
+	/// @return player in the gameworld
+	///
 	public PlayerClass getPlayerClass() {
 		return playerClass;
 	}
 
-	public EnemyClass getEnemyClass() {return enemyClass; }
+	///
+	/// @return enemy in the gameworld
+	///
+	public EnemyClass getEnemyClass() {
+		return enemyClass;
+	}
 
+	///
+	/// @return map used in the gameworld
+	///
 	public TiledMap getMap() {
 		return map;
 	}
 
+	///
+	/// @return collision handler used between map and entities
+	///
+	public MapCollisionHandler getMapCollisionHandler() {
+		return collisionHandler;
+	}
+
+	/// Sets state of the gameworld
+	///
+	/// @param state State to set the gameworld to
+	///
 	public void setState(GameState state) {
 		this.state = state;
 	}
 
+	///
+	/// @return Entity factory used in gameworld
+	///
+	public EntityFactory getEntityFactory() {
+		return fac;
+	}
+
+	/// Removes inactive objects from gameworld
+	///
 	public void removeInactive() {
 		int before = objects.size();
 		objects.removeIf(obj -> !obj.isActive());
-		int after = objects.size();
-		
-		if (before != after) {
-	        System.out.println("Removed " + (before - after) + " objects. Remaining: " + after);
-	    }
-	}
-
-	public void remove(Object obj) {
-		int before = objects.size();
-		objects.remove(obj);
 		int after = objects.size();
 
 		if (before != after) {
@@ -122,10 +168,10 @@ public class AppWorld implements Iterable<EntityModel> {
 		}
 	}
 
-	public EntityFactory getEntityFactory() {
-		return fac;
-	}
-
+	/// Updates the gameworld each gametic, i.e. since last update.
+	///
+	/// @param delta One gametic
+	///
 	public void update(float delta) {
 		objects.addAll(toAdd);
 		toAdd.clear();
@@ -151,6 +197,8 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.removeInactive();
 	}
 
+	/// Evaluates state to check for victory or loss
+	///
 	public void evaluateState() {
 		if (playerClass.lives() <= 0) {
 			this.setState(GameState.GAME_OVER);
@@ -159,6 +207,9 @@ public class AppWorld implements Iterable<EntityModel> {
 		}
 	}
 
+	///
+	/// @return Current level count, i.e. levels unlocked so far
+	///
 	public int updateLevelCount(int currentLevel, int unlockedLevels) {
 		int newUnlockedLevels = unlockedLevels;
 
@@ -168,13 +219,11 @@ public class AppWorld implements Iterable<EntityModel> {
 		return newUnlockedLevels;
 	}
 
+	/// Reset gameworld.
+	///
 	public void reset() {
 		this.setState(GameState.ACTIVE);
 		playerClass.setLives(3);
 		enemyClass.setLives(3);
-	}
-
-	public MapCollisionHandler getMapCollisionHandler() {
-		return collisionHandler;
 	}
 }

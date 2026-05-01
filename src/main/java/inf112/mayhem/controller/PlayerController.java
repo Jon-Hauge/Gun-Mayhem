@@ -2,7 +2,6 @@ package inf112.mayhem.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
@@ -10,18 +9,25 @@ import inf112.mayhem.model.weapons.AbstractWeapon;
 public class PlayerController {
 	
 	private static final float SPEED = 150f;
-	private static final float COOLDOWN_DURATION = 0.3f;
 	private float COOLDOWN_TIMER = 0;
 	
     private final PlayerClass player;
     private final AppWorld world;
-	
+
+	/// Creates a controller for the player to execute tasks in game
+	///
+	/// @param player Player to create controller for
+	/// @param world World player resides in
+	///
 	public PlayerController(PlayerClass player, AppWorld world) {
 		this.player = player;
 		this.world = world;
-		
 	}
 
+	/// Updates controller for every tick in game
+	///
+	/// @param delta One gametic
+	///
 	public void update(float delta) {
 	    float x = 0f;
 	    
@@ -61,6 +67,10 @@ public class PlayerController {
 	    player.updateState();
 	}
 
+	/// Picks up weapon if weapon is dropped
+	///
+	/// @param weapon Weapon to be picked up
+	///
 	public void pickUpWeapon(AbstractWeapon weapon) {
 		player.equipWeapon(weapon);
 	}

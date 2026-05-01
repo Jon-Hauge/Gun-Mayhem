@@ -9,19 +9,23 @@ public abstract class AbstractEntity implements EntityModel {
 	public Vector2 velocity;
 	protected Vector2 size;
 	protected Rectangle bounds;
-	
 	protected EntityType type;
 	protected EntityState state;
-	
 	protected boolean active;
-	
+
+	/// Initiates an abstract entity capable of interacting with the gameworld.
+	///
+	/// @param x Horizontal coordinate of entity
+	/// @param y Vertical coordinate of entity
+	/// @param width Width of entity
+	/// @param height Height of entity
+	///
 	public AbstractEntity(float x, float y, float width, float height) {
 		position = new Vector2(x, y);
 		velocity = new Vector2(0,0);
 		size = new Vector2(width, height);
 		bounds = new Rectangle(x, y, width, height);
 		active = true;
-		
 	}
 	
 	@Override
@@ -74,7 +78,4 @@ public abstract class AbstractEntity implements EntityModel {
 	
 	@Override
 	public abstract void update(AppWorld world, float delta);
-
-	
-
 }

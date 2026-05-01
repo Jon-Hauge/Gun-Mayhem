@@ -3,7 +3,6 @@ package inf112.mayhem.view.screens.activeGameView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import java.util.ArrayList;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
@@ -49,6 +47,11 @@ public class ActiveGameView {
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TileMapHelper tileMapHelper = new TileMapHelper();
 
+    /// Initiates the view for an active game of the app.
+    ///
+    /// @param world Gameworld to display
+    /// @param controller Controller to control actions in the display
+    ///
     public ActiveGameView(AppWorld world, AppController controller) {
         this.controller = controller;
 
@@ -306,17 +309,6 @@ public class ActiveGameView {
 
     }
 
-    /**
-     * Renders a parallax background layer.
-     *
-     * @param tex The texture to draw.
-     * @param camLeft The camera's left position.
-     * @param camBottom The camera's bottom position.
-     * @param vW The viewport width.
-     * @param vH The viewport height.
-     * @param pFactor The parallax factor (0.0 means fixed to camera, higher values move slower).
-     * @param texScale The scale of the texture.
-     */
     private void drawLayer(Texture tex, float camLeft, float camBottom, float vW, float vH, float pFactor, float texScale) {
         if (tex == null) return;
 
@@ -346,10 +338,10 @@ public class ActiveGameView {
         );
     }
 
-    /// Resizes screen to account for changes in resolution
+    /// Resizes screen to account for changes in resolution.
     ///
-    /// @param width - width of the resized screen
-    /// @param height - height of the resized screen
+    /// @param width Width of the resized screen
+    /// @param height Weight of the resized screen
     ///
     public void resize(int width, int height) {
         // Called whenever the window is resized (including with its original size at
@@ -364,5 +356,4 @@ public class ActiveGameView {
     /// @return current stage
     ///
     public Stage getStage() {return new Stage(viewport, batch); }
-
 }

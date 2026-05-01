@@ -16,11 +16,17 @@ public interface IController {
     ///
     void render();
 
+    ///
+    /// @return number of current level
+    ///
+    int getCurrentLevelNumber();
+
     /// Resizes screen in accordance with resolution.
     /// Called whenever the window is resized, including startup.
     ///
     /// @param width width of the gameworld
     /// @param height height of the gameworld
+    ///
     void resize(int width, int height);
 
     /// Pauses the game
@@ -40,18 +46,26 @@ public interface IController {
     void restartGame();
 
     /// Returns game to main menu
+    ///
     void goToMainMenu();
 
     /// Opens the campaign screen
+    ///
     void campaign();
 
     /// Starts a specific level
+    ///
+    /// @param levelNumber Current level number
+    ///
     void startLevel(int levelNumber);
 
     /// Checks if a level is unlocked
+    ///
+    /// @param levelNumber Current level number
+    ///
     boolean isLevelUnlocked(int levelNumber);
 
     /// Progresses to the next level
+    ///
     void nextLevel();
-
 }

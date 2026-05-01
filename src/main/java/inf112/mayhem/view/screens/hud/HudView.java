@@ -8,18 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.view.screens.AbstractScreenView;
 
-
-/**
- * The HudView class is responsible for displaying information during active gameplay
- * such as remaining lives and ammo levels.
- * The HUD elements are rendered as an overlay on top of the game world.
- */
 public class HudView extends AbstractScreenView {
     private AppWorld world;
     private AppController controller;
@@ -40,12 +33,13 @@ public class HudView extends AbstractScreenView {
     private float barWidth = 175;
     private float barHeight = 20;
 
-    /**
-     * Constructs a new HudView with the given world and controller.
-     *
-     * @param world The game world.
-     * @param controller The application controller for handling state transitions.
-     */
+    /// Constructs a new HudView with the given world and controller.
+    /// The hud is responsible for displaying information during active gameplay
+    /// such as remaining lives and ammo levels, rendered on top of the world.
+    ///
+    /// @param world The game world to render the hud in
+    /// @param controller The application controller for handling state transitions
+    ///
     public HudView(AppWorld world, AppController controller, AbstractCharacter character) {
         this.world = world;
         this.controller = controller;
@@ -57,13 +51,6 @@ public class HudView extends AbstractScreenView {
         create(world.width(), world.height());
     }
 
-    /**
-     * Initializes the HUD's stage and UI elements.
-     * This includes creating fonts, labels, and the main UI table.
-     *
-     * @param worldWidth The width of the virtual viewport.
-     * @param worldHeight The height of the virtual viewport.
-     */
     @Override
     public void create(double worldWidth, double worldHeight) {
         table = new Table();
@@ -133,11 +120,10 @@ public class HudView extends AbstractScreenView {
         shape.end();
     }
 
-    /**
-     * Updates the HUD's internal state and labels based on the current character model.
-     *
-     * @param character The current character instance.
-     */
+    /// Updates the HUD's internal state and labels based on the current character model.
+    ///
+    /// @param character The current character instance to update for
+    ///
     public void update(AbstractCharacter character) {
         if (character != null) {
             this.currentLives = character.lives();
@@ -159,5 +145,4 @@ public class HudView extends AbstractScreenView {
             shape.dispose();
         }
     }
-
 }

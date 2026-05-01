@@ -5,6 +5,11 @@ import inf112.mayhem.view.screens.activeGameView.CharacterRig;
 public abstract class AbstractAnimation {
     private float elapsedTime = 0;
 
+    /// Updates animations each gametic, i.e. since last update
+    ///
+    /// @param character Character-rig to update
+    /// @param delta One gametic
+    ///
     public void update(CharacterRig character, float delta) {
         elapsedTime += delta;
         animate(character, elapsedTime);
@@ -16,5 +21,4 @@ public abstract class AbstractAnimation {
     /// @param elapsedTime Time passed in rendering
     ///
     protected abstract void animate(CharacterRig character, float elapsedTime);
-
 }

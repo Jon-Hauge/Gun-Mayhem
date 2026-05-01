@@ -18,12 +18,11 @@ public class VictoryView extends AbstractScreenView {
     private AppController controller;
     private ShapeRenderer shapeRenderer;
 
-    /**
-     * Constructs a new VictoryView with the given world and controller.
-     *
-     * @param world The game world.
-     * @param controller The application controller for handling state transitions.
-     */
+    /// Constructs a new VictoryView with the given world and controller.
+    ///
+    /// @param world The game world
+    /// @param controller The application controller for handling state transitions
+    ///
     public VictoryView(AppWorld world, AppController controller) {
         this.world = world;
         this.controller = controller;

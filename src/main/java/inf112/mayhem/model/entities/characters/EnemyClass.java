@@ -2,7 +2,6 @@ package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
@@ -10,11 +9,6 @@ import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.projectile.ProjectileFactory;
 
-/**
- * Represents an AI-controlled enemy character in the game.
- * The enemy has different aggression levels that affect its movement speed, detection range,
- * attack range, and reaction time.
- */
 public class EnemyClass extends AbstractCharacter {
 
     private static final float WIDTH = 32f;
@@ -47,14 +41,15 @@ public class EnemyClass extends AbstractCharacter {
     private static final float BASE_PATROL_SPEED = 30f;
     private static final float BASE_PATROL_DISTANCE = 80f;
 
-    /**
-     * Initializes a new enemy at the specified position with a given aggression level.
-     *
-     * @param startX     The starting X position.
-     * @param startY     The starting Y position.
-     * @param map        The tiled map for collision detection.
-     * @param aggression The aggression level (1-5).
-     */
+    /// Initializes a new enemy at the specified position with a given aggression level.
+    /// Enemy represents an AI-controlled character in the game with different aggression
+    /// levels that affect its movement speed, detection range, attack range, and reaction time.
+    ///
+    /// @param startX The starting vertical position
+    /// @param startY The starting horizontal position
+    /// @param map The tiled map for collision detection
+    /// @param aggression The aggression level (1-5)
+    ///
     public EnemyClass(float startX, float startY, TiledMap map, int aggression) {
         super(startX, startY, WIDTH, HEIGHT, 3, map);
         this.type = EntityType.ENEMY;
@@ -67,17 +62,16 @@ public class EnemyClass extends AbstractCharacter {
         setAggression(aggression);
     }
 
-    /**
-     * Sets the aggression level (1-5) and adjusts all AI parameters accordingly.
-     * <p>
-     * Level 1: Passive - Slow, short range, slow reaction.
-     * Level 2: Cautious.
-     * Level 3: Normal.
-     * Level 4: Aggressive.
-     * Level 5: Furious - Fast, long range, immediate reaction.
-     *
-     * @param aggression The desired aggression level.
-     */
+    /// Sets the aggression level (1-5) and adjusts all AI parameters accordingly.
+    ///
+    /// Level 1: Passive - Slow, short range, slow reaction
+    /// Level 2: Cautious
+    /// Level 3: Normal
+    /// Level 4: Aggressive
+    /// Level 5: Furious - Fast, long range, immediate reaction
+    ///
+    /// @param aggression The desired aggression level.
+    ///
     public void setAggression(int aggression) {
         this.aggression = Math.max(1, Math.min(5, aggression));
         float scale = this.aggression;
@@ -90,19 +84,15 @@ public class EnemyClass extends AbstractCharacter {
         this.patrolDistance = BASE_PATROL_DISTANCE + (scale - 1) * 30f;
     }
 
-    /**
-     * Returns the current aggression level of the enemy.
-     *
-     * @return The aggression level (1-5).
-     */
+    ///
+    /// Returns the current aggression level of the enemy.
+    ///
+    /// @return The aggression level (1-5).
+    ///
     public int getAggression() {
         return aggression;
     }
 
-    /**
-     * Makes the enemy jump.
-     * High aggression enemies (level 3 and above) are capable of double jumping.
-     */
     @Override
     public void jump() {
         if (isGrounded) {
@@ -115,9 +105,6 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
-    /**
-     * Makes the enemy drop down from a platform.
-     */
     @Override
     public void drop() {
         if (isGrounded) {
@@ -128,12 +115,6 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
-    /**
-     * Handles the enemy being hit by another entity.
-     * Applies knockback based on the projectile's weapon and the enemy's aggression level.
-     *
-     * @param obj The entity that hit the enemy.
-     */
     @Override
     public void hit(EntityModel obj) {
         if (obj instanceof AbstractProjectile projectile) {
@@ -144,9 +125,6 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
-    /**
-     * Updates the animation state of the enemy based on its current movement.
-     */
     @Override
     public void updateState() {
         if (!isGrounded && velocity.y > 0) {
@@ -160,12 +138,6 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
-    /**
-     * Updates the enemy's AI logic, physics, and state.
-     *
-     * @param world The game world.
-     * @param delta The time elapsed since the last update.
-     */
     @Override
     public void update(AppWorld world, float delta) {
         this.world = world;
@@ -249,16 +221,6 @@ public class EnemyClass extends AbstractCharacter {
         updateState();
     }
 
-    /**
-     * Pursues the detected player.
-     * The enemy will move towards the player, jump if they are above, or drop if they are below.
-     * It will also fire its weapon if the player is within attack range.
-     *
-     * @param distX    The horizontal distance to the player.
-     * @param distY    The vertical distance to the player.
-     * @param distance The total distance to the player.
-     * @param delta    The time elapsed since the last update.
-     */
     private void chasePlayer(float distX, float distY, float distance, float delta) {
         int targetDirection = distX > 0 ? 1 : -1;
         
@@ -320,11 +282,6 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
-    /**
-     * Checks if the enemy is about to walk off the edge of a platform.
-     *
-     * @return True if an edge is detected in front of the enemy, false otherwise.
-     */
     private boolean isAtEdge() {
         if (!isGrounded) return false;
 
@@ -340,12 +297,6 @@ public class EnemyClass extends AbstractCharacter {
         return !groundBelow;
     }
 
-    /**
-     * Moves the enemy back and forth around its starting position.
-     * Reverses direction if it reaches the patrol distance or hits an edge.
-     *
-     * @param delta The time elapsed since the last update.
-     */
     private void patrol(float delta) {
         if (edgeWaitTimer <= 0) {
             direction = patrolDirection;
@@ -365,12 +316,6 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
-    /**
-     * Finds the closest active player in the game world.
-     *
-     * @param world The game world.
-     * @return The closest PlayerClass instance, or null if no players are active.
-     */
     private PlayerClass findClosestPlayer(AppWorld world) {
         PlayerClass closest = null;
         float closestDist = Float.MAX_VALUE;

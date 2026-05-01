@@ -1,17 +1,24 @@
 package inf112.mayhem.view.maps;
 
 import java.util.List;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 public class LevelLoader {
 
+    /// Loads a given level based on the level number.
+    ///
+    /// @param levelNumber Number of level to load in
+    ///
     public TiledMap loadLevel(int levelNumber) {
         TileMapHelper tileMapHelper = new TileMapHelper();
         String mapPath = getMapPath(levelNumber);
         return tileMapHelper.setupMap(mapPath);
     }
 
+    ///
+    /// @param levelNumber Number of level to find path to
+    /// @return String of path to load in
+    ///
     public String getMapPath(int levelNumber) {
         return switch (levelNumber) {
             case 1 -> "maps/level1_heaven/map.tmx";
@@ -21,6 +28,10 @@ public class LevelLoader {
         };
     }
 
+    ///
+    /// @param levelNumber Number of level to find background for
+    /// @return list of paths to backgrounds for levels
+    ///
     public List<String> getMapBackgroundPaths(int levelNumber){
     return switch (levelNumber) {
             case 1 -> List.of(

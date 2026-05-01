@@ -1,14 +1,11 @@
 package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
-import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.WeaponType;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
 import inf112.mayhem.view.screens.hud.HudView;
@@ -24,6 +21,14 @@ public class ScreenManager {
     private final AbstractCharacter player;
     private final AbstractCharacter enemy;
 
+    /// Initiates a screenmanager with the given world and controller.
+    /// Is responsible for displaying the different views correctly.
+    ///
+    /// @param world The game world
+    /// @param controller The application controller for handling state transitions
+    /// @param player Player to display
+    /// @param enemy Enemy to display
+    ///
     public ScreenManager(AppWorld world, AppController controller, AbstractCharacter player, AbstractCharacter enemy) {
         this.player = player;
         this.enemy = enemy;
@@ -36,6 +41,8 @@ public class ScreenManager {
         this.hudView = new HudView(world, controller, player);
     }
 
+    /// Disposes of all elements in stage.
+    ///
     public void dispose() {
         activeGameView.dispose();
         mainMenuView.dispose();
@@ -46,6 +53,11 @@ public class ScreenManager {
         hudView.dispose();
     }
 
+    /// Resizes screen to account for changes in resolution
+    ///
+    /// @param width width of the resized screen
+    /// @param height height of the resized screen
+    ///
     public void resize(int width, int height) {
         activeGameView.resize(width, height);
         mainMenuView.resize(width, height);
@@ -56,6 +68,9 @@ public class ScreenManager {
         hudView.resize(width, height);
     }
 
+    /// Renders the game world.
+    /// Happens multiple times per second.
+    ///
     public void render(AppWorld world, float delta) {
         switch (world.state()) {
             case MAIN_MENU -> mainMenuView.render();
@@ -65,7 +80,7 @@ public class ScreenManager {
                 hudView.render();
             }
             case PAUSED -> {
-                activeGameView.render(world, delta);
+                activeGameView.render(world, 0);
                 hudView.render();
                 pauseView.render();
             }
@@ -83,6 +98,10 @@ public class ScreenManager {
         }
     }
 
+    /// Updates input processor for the stages.
+    /// Makes sure the correct view is displayed at a given time.
+    ///
+    /// @param state State of the gameworld
     public void updateInputProcessor(GameState state) {
         switch (state) {
             case MAIN_MENU -> Gdx.input.setInputProcessor(mainMenuView.getStage());
@@ -95,10 +114,17 @@ public class ScreenManager {
         }
     }
 
+    /// Rebuild UI when starting or restarting game
+    ///
     public void rebuildUI() {
         campaignView.rebuildUI();
     }
 
+    /// Sets up views for the weapons.
+    /// Since these are dynamic, they are constantly updated.
+    ///
+    /// @param player Player's weapon to display
+    /// @param enemy Enemy's weapon to display
     public void setupWeaponViews(AbstractCharacter player, AbstractCharacter enemy) {
         AbstractWeapon playerWeapon = player.getEquippedWeapon();
        new WeaponView(playerWeapon);
