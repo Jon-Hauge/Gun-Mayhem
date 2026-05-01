@@ -10,7 +10,7 @@ public class PumpActionShotgun extends AbstractWeapon {
     private static final float WIDTH = 25f;
     private static final float HEIGHT = 10f;
     private static final int AMMO = 5;
-    private static final float FIRING_DELAY = 8f;
+    private static final float FIRING_DELAY = 4f;
 
     public PumpActionShotgun(float startX, float startY) {
         super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY);
@@ -21,8 +21,4 @@ public class PumpActionShotgun extends AbstractWeapon {
  
     }
 
-	@Override
-	public float getFiringDelay() {
-		return FIRING_DELAY;
-	}
 }
