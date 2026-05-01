@@ -12,7 +12,7 @@ import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.longrange.PistolWeapon;
+import inf112.mayhem.model.weapons.guns.PistolWeapon;
 import inf112.mayhem.view.maps.LevelLoader;
 
 public class AppWorld implements Iterable<EntityModel> {
@@ -54,8 +54,8 @@ public class AppWorld implements Iterable<EntityModel> {
 		this.enemyClass = fac.spawnEnemy(900f, 400f);
 
 		// Weapons
-        AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f, playerClass);
-        AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f, enemyClass);
+        AbstractWeapon playerStartingWeapon = new PistolWeapon(500f, 400f);
+        AbstractWeapon enemyStartingWeapon = new PistolWeapon(900f, 400f);
 		playerClass.equipWeapon(playerStartingWeapon);
 		enemyClass.equipWeapon(enemyStartingWeapon);
 	}

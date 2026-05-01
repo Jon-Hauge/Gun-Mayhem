@@ -20,17 +20,16 @@ public class EntityCollisionHandler {
 	public void checkCollisions() {
 	    for (EntityModel obj : world) {
 
-			if (obj instanceof AbstractWeapon weapon && weapon.state() == EntityState.DROPPED) {
-				for (EntityModel other : world) {
-					if (other instanceof AbstractCharacter character) {
-						if (weapon.bounds().overlaps(character.bounds())) {
-							character.equipWeapon(weapon);
-							weapon.setCharacter(character);
-							weapon.setState(EntityState.IN_USE);
-						}
-					}
-				}
-			}
+	    	if (obj instanceof AbstractWeapon weapon && weapon.state() == EntityState.DROPPED) {
+	    	    for (EntityModel other : world) {
+	    	        if (other instanceof AbstractCharacter character) {
+	    	            if (weapon.bounds().overlaps(character.bounds())) {
+	    	                character.equipWeapon(weapon);
+	    	                weapon.setState(EntityState.IN_USE);
+	    	            }
+	    	        }
+	    	    }
+	    	}
 
 			if (obj instanceof WeaponCrate crate) {
 				for (EntityModel other : world) {

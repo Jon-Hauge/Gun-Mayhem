@@ -17,8 +17,8 @@ import inf112.mayhem.model.projectile.ProjectileFactory;
  */
 public class EnemyClass extends AbstractCharacter {
 
-    private static final int WIDTH = 32;
-    private static final int HEIGHT = 32;
+    private static final float WIDTH = 32f;
+    private static final float HEIGHT = 32f;
 
     private int aggression; // 1-5
     private float moveSpeed;
@@ -138,7 +138,7 @@ public class EnemyClass extends AbstractCharacter {
     public void hit(EntityModel obj) {
         if (obj instanceof AbstractProjectile projectile) {
             float knockbackResistance = 1.0f - (aggression - 1) * 0.15f;
-            knockBack += projectile.getKnockBackMultiplier()
+            knockBack += projectile.getKnockBack()
                         * projectile.getDirection()
                         * knockbackResistance;
         }

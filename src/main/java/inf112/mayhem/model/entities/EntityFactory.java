@@ -10,11 +10,11 @@ import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.projectile.ProjectileFactory;
 import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.longrange.PistolWeapon;
-import inf112.mayhem.model.weapons.longrange.SniperWeapon;
-import inf112.mayhem.model.weapons.shortrange.PumpAction;
-import inf112.mayhem.model.weapons.shortrange.SemiActionShotgun;
-import inf112.mayhem.model.weapons.shortrange.Sword;
+import inf112.mayhem.model.weapons.guns.PistolWeapon;
+import inf112.mayhem.model.weapons.guns.PumpActionShotgun;
+import inf112.mayhem.model.weapons.guns.SemiAutoShotgun;
+import inf112.mayhem.model.weapons.guns.SniperWeapon;
+import inf112.mayhem.model.weapons.melee.Sword;
 
 public class EntityFactory {
 	private final AppWorld world;
@@ -82,17 +82,17 @@ public class EntityFactory {
 
 		switch (num) {
 			case 0:
-				return new PistolWeapon(x, y, null);
+				return new PistolWeapon(x, y);
 			case 1:
-				return new SniperWeapon(x, y, null);
+				return new SniperWeapon(x, y);
 			case 2:
-				return new PumpAction(x, y, null);
+				return new PumpActionShotgun(x, y);
 			case 3:
-				return new SemiActionShotgun(x, y, null);
+				return new SemiAutoShotgun(x, y);
 			case 4:
-				return new Sword(x, y, null);
+				return new Sword(x, y);
 			default:
-				return new PistolWeapon(x, y, null);
+				return new PistolWeapon(x, y);
 		}
 	}
 

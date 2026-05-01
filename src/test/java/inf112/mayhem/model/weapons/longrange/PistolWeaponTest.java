@@ -7,6 +7,8 @@ import static org.mockito.Mockito.*;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.WeaponType;
+import inf112.mayhem.model.weapons.guns.PistolWeapon;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,13 +18,11 @@ import inf112.mayhem.model.entities.characters.PlayerClass;
 
 class PistolWeaponTest {
 
-    private AbstractCharacter character;
     private PistolWeapon pistol;
 
     @BeforeEach
     void setUp() {
-        character = mock(AbstractCharacter.class);
-        pistol = new PistolWeapon(5f, 7f, character);
+        pistol = new PistolWeapon(5f, 7f);
     }
 
     @Test
@@ -39,7 +39,6 @@ class PistolWeaponTest {
         assertEquals(-1, pistol.getMaxAmmo());
         assertEquals(-1, pistol.getCurrentAmmo());
         assertEquals(1f, pistol.getFiringDelay());
-        assertSame(character, pistol.getCharacter());
     }
 
 }

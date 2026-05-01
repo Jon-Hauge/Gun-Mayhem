@@ -186,12 +186,12 @@ class PlayerClassTest {
     @Test
     void hitAppliesKnockbackFromProjectile() {
         AbstractProjectile projectile = mock(AbstractProjectile.class);
-        when(projectile.getKnockBackMultiplier()).thenReturn(100f);
+        when(projectile.getKnockBack()).thenReturn(100f);
         when(projectile.getDirection()).thenReturn(1);
 
         player.hit(projectile);
 
-        verify(projectile).getKnockBackMultiplier();
+        verify(projectile).getKnockBack();
         verify(projectile).getDirection();
     }
 

@@ -1,9 +1,7 @@
 package inf112.mayhem.model.weapons;
 
 import com.badlogic.gdx.math.Rectangle;
-
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.AbstractEntity;
@@ -13,7 +11,6 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
     private int maxAmmo; // set ammo to -1 for inf
     private int currentAmmo;
     private float firingDelay;
-    protected AbstractCharacter character;
     protected WeaponType weapon;
     protected float velocityY = 0;
     protected float gravity = -10f;
@@ -22,11 +19,10 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
     private float timer = 0f;
     private final float lifespan = 20f;
 
-    public AbstractWeapon(float x, float y, int width, int height, int startingAmmo, float firingDelay, AbstractCharacter character) {
+    public AbstractWeapon(float x, float y, float width, float height, int startingAmmo, float firingDelay) {
     	super(x, y, width, height);
         this.maxAmmo = startingAmmo;
         this.currentAmmo = startingAmmo;
-        this.character = character;
         this.firingDelay = firingDelay;
         this.type = EntityType.WEAPON;
         this.state = EntityState.DROPPED;
@@ -34,11 +30,6 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
 
     @Override
     public void update(AppWorld world, float delta) {
-        if (character != null) {
-            this.position.x = character.x();
-            this.position.y = character.y();
-            return;
-        }
 
         if (state == EntityState.DROPPED) {
             timer += delta;
@@ -110,14 +101,6 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
 
     public int getMaxAmmo() {
         return maxAmmo;
-    }
-
-    public AbstractCharacter getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(AbstractCharacter character) {
-        this.character = character;
     }
     
     @Override
