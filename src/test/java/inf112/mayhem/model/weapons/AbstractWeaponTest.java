@@ -2,7 +2,6 @@ package inf112.mayhem.model.weapons;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -11,13 +10,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.entities.characters.AbstractCharacter;
 
 class AbstractWeaponTest {
 
     private AppWorld world;
+    private MapCollisionHandler collisionHandler;
     private TestWeapon weapon;
 
     private static class TestWeapon extends AbstractWeapon {
@@ -36,6 +36,10 @@ class AbstractWeaponTest {
     @BeforeEach
     void setUp() {
         world = mock(AppWorld.class);
+        collisionHandler = mock(MapCollisionHandler.class);
+        when(world.getMapCollisionHandler()).thenReturn(collisionHandler);
+        when(collisionHandler.isGrounded(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.anyFloat(), org.mockito.ArgumentMatchers.eq(false))).thenReturn(false);
+        when(collisionHandler.getGroundY(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.eq(false))).thenReturn(0f);
         weapon = new TestWeapon(10f, 20f, 30, 40, 6, 0.5f);
     }
 
@@ -119,6 +123,42 @@ class AbstractWeaponTest {
     void getMaxAmmoReturnsMaxAmmo() {
         weapon.shoot();
         assertEquals(6, weapon.getMaxAmmo());
+    }
+
+    @Test
+    void setStateUpdatesWeaponState() {
+        weapon.setState(EntityState.IN_USE);
+        assertEquals(EntityState.IN_USE, weapon.state());
+    }
+
+    @Test
+    void updateStateSetsInactiveWhenYIsBelowThreshold() {
+        weapon.update(world, 10f);
+        weapon.updateState();
+        assertFalse(weapon.isActive());
+    }
+
+    @Test
+    void updateSetsInactiveWhenDroppedLongerThanLifespan() {
+        weapon.update(world, 21f);
+        assertFalse(weapon.isActive());
+    }
+
+    @Test
+    void updateDoesNotExpireWhenWeaponIsNotDropped() {
+        weapon.setState(EntityState.IN_USE);
+        weapon.update(world, 21f);
+        assertTrue(weapon.isActive());
+    }
+
+    @Test
+    void updateGroundsWeaponWhenMapCollisionHandlerReportsGrounded() {
+        when(collisionHandler.isGrounded(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.anyFloat(), org.mockito.ArgumentMatchers.eq(false))).thenReturn(true);
+        when(collisionHandler.getGroundY(org.mockito.ArgumentMatchers.any(), org.mockito.ArgumentMatchers.eq(false))).thenReturn(64f);
+
+        weapon.update(world, 1f);
+
+        assertEquals(64f, weapon.y());
     }
 
 }
