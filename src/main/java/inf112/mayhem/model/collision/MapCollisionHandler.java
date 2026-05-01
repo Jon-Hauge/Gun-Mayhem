@@ -4,14 +4,17 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MapCollisionHandler {
 	private TiledMapTileLayer groundLayer;
 	private List<TiledMapTileLayer> platformLayers;
-	
+
+	/// Creates a collision handler between the map and entities on it.
+	///
+	/// @param map Map to handle collisions on
+	///
 	public MapCollisionHandler(TiledMap map) {
 		this.groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
 		this.platformLayers = new ArrayList<>();
@@ -21,7 +24,13 @@ public class MapCollisionHandler {
 			}
 		}
 	}
-	
+
+	/// Checks if entity is grounded by comparing bounds.
+	///
+	/// @param bounds Bounds of the entity
+	/// @param previousY Last recorded vertical position
+	/// @param ignorePlatforms Whether platforms are ignored
+	///
 	public boolean isGrounded(Rectangle bounds, float previousY, boolean ignorePlatforms) {
 	    int tileY = (int) ((bounds.y - 1) / 32);
 	    int tileXLeft = (int) (bounds.x / 32);
@@ -48,11 +57,14 @@ public class MapCollisionHandler {
 
 	    return wasAboveTile && (onGround || onPlatform);
 	}
-	
+
+	///
+	/// @param bounds Bounds of entity
+	/// @param ignorePlatforms Whether to ignore platforms
+	/// @return distance between entity and closest ground
+	///
 	public float getGroundY(Rectangle bounds, boolean ignorePlatforms) {
 	    int tileY = (int) ((bounds.y - 1) / 32);
 	    return (tileY + 1) * 32;
 	}
-	
-
 }

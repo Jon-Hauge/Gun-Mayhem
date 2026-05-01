@@ -12,6 +12,11 @@ public class SemiAutoShotgun extends AbstractWeapon {
     private static final int AMMO = 8;
     private static final float FIRING_DELAY = 4f;
 
+    /// Initiates a semi auto shotgun weapon.
+    ///
+    /// @param startX Horizontal coordinate of weapon
+    /// @param startY Horizontal coordinate of weapon
+    ///
     public SemiAutoShotgun(float startX, float startY) {
         super(startX, startY, WIDTH, HEIGHT, AMMO, FIRING_DELAY);
         

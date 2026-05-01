@@ -2,27 +2,36 @@ package inf112.mayhem.model.entities;
 
 import com.badlogic.gdx.math.Rectangle;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.weapons.AbstractWeapon;
 
-public class WeaponCrate implements EntityModel {
+public class Crate implements EntityModel {
     private float x,y;
     private boolean opened = false;
-    private AbstractWeapon hiddenWeapon;
+    private PowerUp powerUp;
     private Rectangle bounds;
     private float width = 50f;
     private float height = 50f;
 
-    public WeaponCrate(float x, float y, AbstractWeapon weapon) {
+    /// Initiates a crate entity containing powerUps.
+    ///
+    /// @param x Horizontal coordinate of character
+    /// @param y Vertical coordinate of character
+    /// @param powerUp PowerUp contained within crate
+    ///
+    public Crate(float x, float y, PowerUp powerUp) {
         this.x = x;
         this.y = y;
-        this.hiddenWeapon = weapon;
+        this.powerUp = powerUp;
     }
 
+    /// Opens crate revealing powerUp inside.
+    ///
+    /// @param world Gameworld crate is opened in
+    ///
     public void open(AppWorld world) {
         if (!opened) {
             opened = true;
-            hiddenWeapon.dropWeapon();
-            world.add(hiddenWeapon);
+            // Activate powerUp
+            world.add(powerUp);
         }
     }
 
@@ -80,6 +89,4 @@ public class WeaponCrate implements EntityModel {
 
     @Override
     public void updateState() {}
-
-
 }

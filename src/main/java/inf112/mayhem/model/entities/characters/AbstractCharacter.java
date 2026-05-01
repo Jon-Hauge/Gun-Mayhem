@@ -2,13 +2,11 @@ package inf112.mayhem.model.entities.characters;
 
 	
 import com.badlogic.gdx.maps.tiled.TiledMap;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.AbstractEntity;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
-
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
@@ -31,7 +29,15 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	protected boolean isGrounded;
 	protected boolean ignorePlatforms;
 	
-
+	/// Initiates a character entity able to interact with other entities and the map in the gameworld.
+	///
+	/// @param x Horizontal coordinate of the character
+	/// @param y Vertical coordinate of the character
+	/// @param width Width of the character
+	/// @param height Height of the character
+	/// @param lives Amount of lives the character starts with
+	/// @param map Map character resides in
+	///
 	public AbstractCharacter(float x, float y, float width, float height, int lives, TiledMap map) {
 		super(x, y, width, height);
 		this.startX = x;

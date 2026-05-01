@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 
@@ -18,12 +17,11 @@ public class GameOverView extends AbstractScreenView {
     private AppController controller;
     private ShapeRenderer shapeRenderer;
 
-    /**
-     * Constructs a new VictoryView with the given world and controller.
-     *
-     * @param world The game world.
-     * @param controller The application controller for handling state transitions.
-     */
+    /// Constructs a new GameOverView with the given world and controller.
+    ///
+    /// @param world The game world
+    /// @param controller The application controller for handling state transitions
+    ///
     public GameOverView(AppWorld world, AppController controller) {
         this.world = world;
         this.controller = controller;

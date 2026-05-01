@@ -86,16 +86,19 @@ public class BodyPart {
                 false);
     }
 
+    ///
     /// @return Width of texture
     ///
     public float getWidth() {return texture.getWidth() * scale; }
 
+    ///
     /// @return Height of texture
     ///
     public float getHeight() {
         return texture.getHeight() * scale;
     }
 
+    ///
     /// @return Scale of texture
     ///
     public float getScale() {

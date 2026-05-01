@@ -20,12 +20,11 @@ public class PauseView extends AbstractScreenView {
     private AppWorld world;
     private AppController controller;
 
-    /**
-     * Constructs a new PauseView with the given world and controller.
-     *
-     * @param world The game world.
-     * @param controller The application controller for handling state transitions.
-     */
+    /// Constructs a new PauseView with the given world and controller.
+    ///
+    /// @param world The game world.
+    /// @param controller The application controller for handling state transitions.
+    ///
     public PauseView(AppWorld world, AppController controller) {
         this.world = world;
         this.controller = controller;

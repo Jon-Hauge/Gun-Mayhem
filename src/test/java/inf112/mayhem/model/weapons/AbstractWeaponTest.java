@@ -68,12 +68,6 @@ class AbstractWeaponTest {
     }
 
     @Test
-    void openCrateSetsOpenedWeaponCrateState() {
-        weapon.openCrate();
-        assertEquals(EntityState.OPENED_WEAPON_CRATE, weapon.state());
-    }
-
-    @Test
     void pickUpWeaponSetsOpenedWeaponCrateState() {
         weapon.pickUpWeapon();
         assertEquals(EntityState.OPENED_WEAPON_CRATE, weapon.state());

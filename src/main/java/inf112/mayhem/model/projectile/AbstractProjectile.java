@@ -13,6 +13,14 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     private final float bulletSpeed;
     private final float knockback;
 
+    /// Initiates an abstract projectile entity capable of interacting with the characters in the gameworld.
+    ///
+    /// @param startX Starting horizontal coordinate of projectile
+    /// @param startY Starting vertical coordinate of projectile
+    /// @param direction Direction of projectile: -1 for left, 1 for right
+    /// @param bulletSpeed Speed of projectile
+    /// @param knockback Knockback caused by projectile
+    ///
     public AbstractProjectile(float startX, float startY, float width, float height, int direction, float bulletSpeed, float knockback) {
         super(startX, startY, width, height);
         this.type = EntityType.PROJECTILE;
@@ -46,14 +54,17 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     @Override
     public void hit(EntityModel obj) { active = false; }
 
+    @Override
     public int getDirection() {
     	return direction;
     }
-    
+
+    @Override
     public float getKnockBack() {
     	return knockback;
     }
-    
+
+    @Override
     public float getBulletSpeed() {
     	return bulletSpeed;
     }

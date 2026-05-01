@@ -3,11 +3,13 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.view.screens.ScreenManager;
 
+/// Creates a controller for the current instance of the app, allowing
+/// global navigation, event coordination and executing tasks in the model.
+///
 public class AppController implements ApplicationListener, IController {
     private AppWorld world;
     private ScreenManager screenManager;
@@ -20,7 +22,7 @@ public class AppController implements ApplicationListener, IController {
         createLevel(currentLevel);
     }
 
-    public void createLevel(int levelNumber) {
+    private void createLevel(int levelNumber) {
         currentLevel = levelNumber;
         world = new AppWorld(1280, 768);
         world.loadLevel(levelNumber);
@@ -75,6 +77,7 @@ public class AppController implements ApplicationListener, IController {
         }
     }
 
+    @Override
     public int getCurrentLevelNumber(){
         return currentLevel;
     }
@@ -110,16 +113,12 @@ public class AppController implements ApplicationListener, IController {
         updateInputProcessor();
     }
 
-    // For testing purposes
-    protected boolean skipCreate = false;
-
     @Override
     public void goToMainMenu() {
         world.setState(GameState.MAIN_MENU);
         updateInputProcessor();
     }
 
-    // TODO: create next level function
     @Override
     public void nextLevel() {
         if (currentLevel < 3) {
@@ -154,4 +153,9 @@ public class AppController implements ApplicationListener, IController {
     private void updateInputProcessor() {
         screenManager.updateInputProcessor(world.state());
     }
+
+    /// Used for testing
+    ///
+    protected boolean skipCreate = false;
+
 }

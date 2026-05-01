@@ -19,6 +19,15 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
     private float timer = 0f;
     private final float lifespan = 20f;
 
+    /// Initiates a weapon.
+    ///
+    /// @param x Horizontal coordinate of weapon
+    /// @param y Vertical coordinate of weapon
+    /// @param width Width of weapon
+    /// @param height Height of weapon
+    /// @param startingAmmo Amount of ammo weapon starts with
+    /// @param firingDelay Delay between firing projectiles
+    ///
     public AbstractWeapon(float x, float y, float width, float height, int startingAmmo, float firingDelay) {
     	super(x, y, width, height);
         this.maxAmmo = startingAmmo;
@@ -59,22 +68,22 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
         return active;
     }
 
+    @Override
     public void dropWeapon() {
         state = EntityState.DROPPED;
     }
 
-    public void openCrate() {
-        state = EntityState.OPENED_WEAPON_CRATE;
-    }
-
+    @Override
     public void pickUpWeapon() {
         state = EntityState.OPENED_WEAPON_CRATE;
     }
 
+    @Override
     public WeaponType getWeaponType() {
     	return this.weapon;
     }
 
+    @Override
     public boolean shoot() {
         if (currentAmmo == 0) {
             return false;
@@ -87,18 +96,22 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
         }
     }
 
+    @Override
     public void pickUpAmmo() {
         currentAmmo = maxAmmo;
     }
 
+    @Override
     public float getFiringDelay() {
         return firingDelay;
     }
 
+    @Override
     public int getCurrentAmmo() {
         return currentAmmo;
     }
 
+    @Override
     public int getMaxAmmo() {
         return maxAmmo;
     }
@@ -112,7 +125,8 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
             active = false;
         }
     }
-    
+
+    @Override
     public void setState(EntityState state) {
     	this.state = state;
     }

@@ -2,7 +2,7 @@ package inf112.mayhem.model.collision;
 
 import com.badlogic.gdx.math.Rectangle;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.WeaponCrate;
+import inf112.mayhem.model.entities.Crate;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.projectile.AbstractProjectile;
@@ -26,7 +26,7 @@ public class EntityCollisionHandlerTest {
 
     @Test
     void testCrateCharacterCollision() {
-        WeaponCrate crate = mock(WeaponCrate.class);
+        Crate crate = mock(Crate.class);
         AbstractCharacter character = mock(AbstractCharacter.class);
         
         Rectangle crateBounds = new Rectangle(0, 0, 50, 50);
@@ -44,7 +44,7 @@ public class EntityCollisionHandlerTest {
 
     @Test
     void testCrateCharacterNoCollision() {
-        WeaponCrate crate = mock(WeaponCrate.class);
+        Crate crate = mock(Crate.class);
         AbstractCharacter character = mock(AbstractCharacter.class);
         
         Rectangle crateBounds = new Rectangle(0, 0, 50, 50);
