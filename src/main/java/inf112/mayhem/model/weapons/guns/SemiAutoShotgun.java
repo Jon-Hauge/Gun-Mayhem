@@ -17,7 +17,7 @@ public class SemiAutoShotgun extends AbstractWeapon {
         
         this.type = EntityType.WEAPON;
         this.state = EntityState.DROPPED;
-        this.weapon = WeaponType.SEMIACTIONSHOTGUN;
+        this.weapon = WeaponType.SEMIAUTOSHOTGUN;
         
     }
 
