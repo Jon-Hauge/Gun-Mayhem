@@ -2,7 +2,8 @@
 **Team:** *Team Mayhem* – *Adrian, Jon, Malik, Sverre, Andreas, Aleksander*
 Prosjektrapport 3 - Team Mayhem
 
-Rollene på teamet ser fortsatt ut til å fungere bra, men vi har også jobbet mye utover rollene for å kunne gi hjelp til de andre på gruppen. Dette innebærer f.eks. at en person som er ansvarlig for grafikk hjelper til med spillogikk når dette kreves.
+## Team/Prosjekt
+* Rollene på teamet ser fortsatt ut til å fungere bra, men vi har også jobbet mye utover rollene for å kunne gi hjelp til de andre på gruppen. Dette innebærer f.eks. at en person som er ansvarlig for grafikk hjelper til med spillogikk når dette kreves.
 Så langt trenger vi heller ikke andre roller, da de eksisterende dekker prosjektet godt. Det er tre primærroller, spillogikk, grafikk og assets/lyd + git manager. Spillogikk innebærer å utvikle logikken for spillet, i vårt tilfelle er dette metoder for å kunne skyte, hoppe, motstander-oppførsel, mm. For grafikk innebærer dette å lage menyer, hud, og å sørge for at spiller, terreng og motstandere er synlige. For assets/lyd innebærer dette å finne passende assets, som bakgrunn, maps, mm. og passende lyder å implementere i spillet. Git ansvarlig er delegert til en person, men alle tok opp ansvaret om å f.eks akseptere merge-requests om ansvarlig ikke kunne.
 Erfaringene med metodikken er at det har fungert bra så langt. Vi ligger nok litt bak på tester, men dette er fordi mye av koden er i konstant endring, noe som fører til at flere tester kan feile dersom mer kode blir lagt til for å utdype metodene, f.eks. testing for våpen når vi bare har ett implementert.
 Gruppedynamikken er fortsatt bra og forblir uendret.
@@ -12,13 +13,16 @@ Per nå er det store forskjeller mellom hvem som commiter, der enkelte har svær
 Vi har ikke hatt en stor mengde møter, men av de vi har hatt så finnes det møtereferat vedlagt i dokumentasjonen i prosjektet.
 Tre forbedringspunkter fra retrospektivet er å innføre manglende funksjonalitet (f.eks power-ups), utvide den allerede eksisterende funksjonalitet (f.eks legge til flere skins for spiller, maps, osv.) og grundig testing.
 
-Kravene for oppgaven har vi holdt til issue boards, der vi lager og åpner ulike krav/issues, deretter kan vi delegere ansvar, løse og lukke de. Siden forrige innlevering har vi fullført en rekke krav, og vi har gått fra å ha noen hardkodete animasjoner, enkle bakgrunn, ingen gameplay, osv, til å nå ha flere maps på lager (ikke implementert helt enda), fullt fungerende animasjonssystem, skytevåpen som har fungerende knockback og mulighet til å låse opp nye nivåer. Vi er vel forbi MVP, og prioriterer nå å legge til flere maps, pusse opp eksisterende features og finstille spillet.
+## Krav og spesifikasjon
+* Kravene for oppgaven har vi holdt til issue boards, der vi lager og åpner ulike krav/issues, deretter kan vi delegere ansvar, løse og lukke de. Siden forrige innlevering har vi fullført en rekke krav, og vi har gått fra å ha noen hardkodete animasjoner, enkle bakgrunn, ingen gameplay, osv, til å nå ha flere maps på lager (ikke implementert helt enda), fullt fungerende animasjonssystem, skytevåpen som har fungerende knockback og mulighet til å låse opp nye nivåer. Vi er vel forbi MVP, og prioriterer nå å legge til flere maps, pusse opp eksisterende features og finstille spillet.
 Prioritering av oppgavene fremover har vi ikke diskutert i stor grad, vi gjør stort sett ferdig issues fra issue board i ingen særlig rekkefølge. Dette er nok et punkt vi kan bli bedre på, da noen ting er bedre å gjøre før andre.
 Vi har ikke justert særlig på mvp. Selv om denne ble lagt til ved innlevering 3, så har den vært uendret siden starten.
 Vi har per nå ingen merkbare bugs, kun noe manglende funksjonalitet, f.eks. å kunne gå til nivå 2.
 Ferdig kravliste vil ligge under issue boards ved innlevering.
 
-Det har vært noen større endringer/refaktoreringer i koden, noe som stammer fra dårlig planlegging og/eller utvidet funksjonalitet. Vi har måttet gjøre større endringer i koden, men selv om dette kunne blitt løst med mer grundig planlegging, så var det også vanskelig å se for seg hele oppgaven uten å begynne først. Vi prioriterte å komme i gang med koding, selv om dette førte til noen uønskete refaktoreringer senere.
+
+## Kode
+* Det har vært noen større endringer/refaktoreringer i koden, noe som stammer fra dårlig planlegging og/eller utvidet funksjonalitet. Vi har måttet gjøre større endringer i koden, men selv om dette kunne blitt løst med mer grundig planlegging, så var det også vanskelig å se for seg hele oppgaven uten å begynne først. Vi prioriterte å komme i gang med koding, selv om dette førte til noen uønskete refaktoreringer senere.
 Arkitekturen på prosjektet er nå i et stadie der det er lett å få ting til å henge sammen. Vi har hatt god abstraksjon i oppgaven, noe som gjør at mer funksjonalitet nå ikke trenger linjer på linjer med kode å innføre.
 Kodekvalitet gjennom prosjektet har stort sett vært god, men det er selvsagt forbedringspotensiale her også. Å vedlikeholde koden virker ok per nå, og alle har en grunnleggende forståelse av koden, selv om noe må forklares mer grundig.
 Testing har som sagt blitt nedprioritert, og er nok den største jobben vi har igjen før ferdigstilling. Utenom dette virker prosjektet til å legge svært godt an.
