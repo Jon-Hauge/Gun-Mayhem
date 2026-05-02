@@ -85,12 +85,12 @@ public class ScreenManager {
                 pauseView.render();
             }
             case GAME_OVER -> {
-                activeGameView.render(world, delta);
+                activeGameView.render(world, 0);
                 hudView.render();
                 gameOverView.render();
             }
             case VICTORY -> {
-                activeGameView.render(world, delta);
+                activeGameView.render(world, 0);
                 hudView.render();
                 victoryView.render();
             }

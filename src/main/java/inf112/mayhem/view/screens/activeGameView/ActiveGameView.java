@@ -28,24 +28,22 @@ import inf112.mayhem.view.maps.LevelLoader;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
-    private Viewport viewport; // defines screen / world size, aspect ratio and camera
-    private OrthographicCamera camera; // defines which part of the world to show
-    private SpriteBatch batch; // used for drawing images / textures
-    private BitmapFont font; // used for writing
-    private ShapeRenderer shape; // used for drawing shapes
-    private Map<String, Texture> textures = new HashMap<>();
-    private Map<AbstractWeapon, WeaponView> weaponViews = new HashMap<>();
-    private AppController controller;
-    private CharacterRig characterRig;
-    private CharacterView characterView;
+    private final Viewport viewport;
+    private final OrthographicCamera camera;
+    private final SpriteBatch batch;
+    private BitmapFont font;
+    private final ShapeRenderer shape;
+    private final Map<String, Texture> textures = new HashMap<>();
+    private final Map<AbstractWeapon, WeaponView> weaponViews = new HashMap<>();
+    private final AppController controller;
+    private final CharacterView characterView;
     private final float scale = 0.15f;
     private float smoothCamX = 0;
     private float smoothCamY = 0;
-    private LevelLoader lvlLoader;
+    private final LevelLoader lvlLoader;
 
     //TILEMAP
-    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
-    private TileMapHelper tileMapHelper = new TileMapHelper();
+    private final OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 
     /// Initiates the view for an active game of the app.
     ///
@@ -65,12 +63,12 @@ public class ActiveGameView {
         this.shape = new ShapeRenderer();
 
         // LOAD ANIMATIONS
-        this.characterRig = initiateCharacterRig();
+        CharacterRig characterRig = initiateCharacterRig();
         this.characterView = new CharacterView(characterRig);
 
         
         //LOAD TILEDMAP
-        this.tileMapHelper = new TileMapHelper();
+        TileMapHelper tileMapHelper = new TileMapHelper();
         this.lvlLoader = new LevelLoader();
         tileMapHelper.setupMap(lvlLoader.getMapPath(controller.getCurrentLevelNumber()));
         this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
