@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map1.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -114,9 +114,8 @@
     "map.layerDataFormat": "3",
     "map.width": 40,
     "openFiles": [
-        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map1.tmx"
     ],
-    "project": "",
+    "project": "untitled.tiled-project",
     "recentFiles": [
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity/map.tmx",
         "map.tmx",

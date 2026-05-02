@@ -3,9 +3,16 @@ package inf112.mayhem.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+<<<<<<< HEAD
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.collision.EntityCollisionHandler;
+=======
+
+import com.badlogic.gdx.maps.tiled.TiledMap;
+
+import inf112.mayhem.model.collision.ProjectileCollisionHandler;
+>>>>>>> 710a2a4 (increased structure height on heaven)
 import inf112.mayhem.model.entities.EntityFactory;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.characters.EnemyClass;
@@ -60,8 +67,8 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 		this.collisionHandler = new MapCollisionHandler(map);
 
 		// Player
-		this.playerClass = fac.spawnPlayer(500f, 400f);
-		this.enemyClass = fac.spawnEnemy(900f, 400f);
+		this.playerClass = fac.spawnPlayer(500f, 800f);
+		this.enemyClass = fac.spawnEnemy(900f, 800f);
 	}
 
 	@Override
