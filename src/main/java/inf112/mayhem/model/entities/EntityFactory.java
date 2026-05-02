@@ -1,11 +1,13 @@
 package inf112.mayhem.model.entities;
 
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.RandomXS128;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
+import inf112.mayhem.model.entities.powerUp.*;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.projectile.ProjectileFactory;
 import inf112.mayhem.model.weapons.AbstractWeapon;
@@ -88,17 +90,26 @@ public class EntityFactory {
 	}
 
 	/// Spawns a crate entity within the gameworld.
+	/// Crates contain powerUp which affect the character in a variety of ways.
 	///
 	public void spawnCrate() {
-		float x = rand.nextFloat() * (float) world.width();
-		float y = rand.nextFloat() * (float) world.height();
+		float x = 300f + rand.nextFloat() * ((float) world.width() - 2 * 300f);
+		float y = (float) world.height() + 100f;
 
-			/// Add functionality for powerups here
-			///AbstractPowerUp powerUp = createRandomPowerUp(x, y);
+		PowerUp powerUp = createRandomPowerUp();
+		Crate crate = new Crate(x, y, 30f, 30f, powerUp);
+		world.add(crate);
+	}
 
-			///Crate crate = new Crate(x, y, powerUp);
-			///world.add(crate);
-			///
+	private PowerUp createRandomPowerUp() {
+		int num = rand.nextInt(2);
+
+		return switch (num) {
+			case 0 -> new JumpBoostPowerUp();
+			case 1 -> new LowGravityPowerUp();
+			case 2 -> new SpeedBoostPowerUp();
+			default -> new JumpBoostPowerUp();
+		};
 	}
 
 	/// Spawns a weapon within the gameworld.

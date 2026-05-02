@@ -72,4 +72,26 @@ public interface CharacterModel extends EntityModel {
     /// @return Currently equipped weapon
     ///
     AbstractWeapon getEquippedWeapon();
+
+    /// Set speed multiplier of character.
+    /// Allows for powerUps to increase speed.
+    ///
+    /// @param speedMultiplier Multiplier to calculate horizontal speed with
+    ///
+    void setSpeedMultiplier(float speedMultiplier);
+
+    /// Set gravity multiplier of character.
+    /// Allows for powerUps to lower gravity.
+    ///
+    /// @param gravityMultiplier Multiplier to calculate vertical gravity with
+    ///
+    void setGravityMultiplier(float gravityMultiplier);
+
+    /// Set jumpboost multiplier of character.
+    /// Allows for powerUps to increase jump height.
+    ///
+    /// @param jumpBoostMultiplier Multiplier to calculate jump boost with
+    ///
+    void setJumpBoostMultiplier(float jumpBoostMultiplier);
+
 }

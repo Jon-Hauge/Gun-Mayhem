@@ -32,9 +32,11 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 
 	private float weaponSpawnTimer = 0f;
 	private final float weaponSpawnInterval = 10f;
-
 	private float crateSpawnTimer = 0f;
 	private final float crateSpawnInterval = 15f;
+	private String popupMessage = null;
+	private float popupTimer = 0f;
+	private final float popupDuration = 2f;
 
 	/// Initiates a gameworld capable of interaction between entities and the map.
 	/// Used as the playing field for the game.
@@ -136,17 +138,6 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 	}
 
 	@Override
-	public void remove(Object obj) {
-		int before = objects.size();
-		objects.remove(obj);
-		int after = objects.size();
-
-		if (before != after) {
-			System.out.println("Removed " + (before - after) + " objects. Remaining: " + after);
-		}
-	}
-
-	@Override
 	public void update(float delta) {
 		objects.addAll(toAdd);
 		toAdd.clear();
@@ -166,6 +157,13 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 			System.out.println("Spawning crate");
 			fac.spawnCrate();
 			crateSpawnTimer = 0f;
+		}
+
+		if (popupTimer > 0) {
+			popupTimer -= delta;
+			if (popupTimer <= 0f) {
+				popupMessage = null;
+			}
 		}
 
 		pCollision.checkCollisions();
@@ -196,5 +194,16 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 		this.setState(GameState.ACTIVE);
 		playerClass.setLives(3);
 		enemyClass.setLives(3);
+	}
+
+	@Override
+	public void showPopup(String message) {
+		this.popupMessage = message;
+		this.popupTimer = popupDuration;
+	}
+
+	@Override
+	public String getPopupMessage() {
+		return popupMessage;
 	}
 }

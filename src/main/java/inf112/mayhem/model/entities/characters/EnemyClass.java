@@ -96,11 +96,11 @@ public class EnemyClass extends AbstractCharacter {
     @Override
     public void jump() {
         if (isGrounded) {
-            velocity.y = JUMP_FORCE;
+            velocity.y = JUMP_FORCE * jumpBoostMultiplier;
             isGrounded = false;
             jump_counter++;
         } else if (jump_counter < 2 && aggression >= 3) {
-            velocity.y = DOUBLE_JUMP_FORCE;
+            velocity.y = DOUBLE_JUMP_FORCE * jumpBoostMultiplier;
             jump_counter++;
         }
     }
@@ -122,19 +122,6 @@ public class EnemyClass extends AbstractCharacter {
             knockBack += projectile.getKnockBack()
                         * projectile.getDirection()
                         * knockbackResistance;
-        }
-    }
-
-    @Override
-    public void updateState() {
-        if (!isGrounded && velocity.y > 0) {
-            state = EntityState.JUMPING;
-        } else if (!isGrounded && velocity.y < 0) {
-            state = EntityState.FALLING;
-        } else if (velocity.x != 0) {
-            state = EntityState.WALKING;
-        } else {
-            state = EntityState.IDLE;
         }
     }
 
@@ -179,9 +166,9 @@ public class EnemyClass extends AbstractCharacter {
         // Physics
         float previousY = position.y;
 
-        velocity.y -= GRAVITY * delta;
+        velocity.y -= GRAVITY * delta * gravityMultiplier;
 
-        position.x += velocity.x * delta;
+        position.x += velocity.x * delta * speedMultiplier;
         position.x += knockBack * delta;
         knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
 
@@ -257,7 +244,7 @@ public class EnemyClass extends AbstractCharacter {
 
         if (Math.abs(distX) > attackRange * 0.8f) {
             if (!atEdge) {
-                velocity.x = direction * moveSpeed;
+                velocity.x = direction * moveSpeed * speedMultiplier;
             } else {
                 velocity.x = 0;
                 if (edgeWaitTimer <= 0) {
@@ -308,7 +295,7 @@ public class EnemyClass extends AbstractCharacter {
             }
         }
         
-        velocity.x = patrolDirection * patrolSpeed;
+        velocity.x = patrolDirection * patrolSpeed * speedMultiplier;
 
         if (Math.abs(position.x - patrolOrigin) >= patrolDistance) {
             if (edgeWaitTimer <= 0) {

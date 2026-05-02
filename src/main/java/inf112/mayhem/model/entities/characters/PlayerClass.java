@@ -30,11 +30,11 @@ public class PlayerClass extends AbstractCharacter {
     @Override
     public void jump() {
         if (isGrounded) {
-            velocity.y = JUMP_FORCE;
+            velocity.y = JUMP_FORCE * jumpBoostMultiplier;
             isGrounded = false;
             jump_counter++;
         } else if (jump_counter < 2) {
-            velocity.y = DOUBLE_JUMP_FORCE;
+            velocity.y = DOUBLE_JUMP_FORCE * jumpBoostMultiplier;
             jump_counter++;
         }
     }
@@ -50,26 +50,13 @@ public class PlayerClass extends AbstractCharacter {
     }
 
     @Override
-    public void updateState() {
-        if (!isGrounded && velocity.y > 0) {
-            state = EntityState.JUMPING;
-        } else if (!isGrounded && velocity.y < 0) {
-            state = EntityState.FALLING;
-        } else if (velocity.x != 0) {
-            state = EntityState.WALKING;
-        } else {
-            state = EntityState.IDLE;
-        }
-    }
-
-    @Override
     public void update(AppWorld world, float delta) {
     	super.update(world, delta);
     	
         float previousY = position.y;
 
-        velocity.y -= GRAVITY * delta;
-        position.x += velocity.x * delta;
+        velocity.y -= GRAVITY * delta * gravityMultiplier;
+        position.x += velocity.x * delta * speedMultiplier;
         position.x += knockBack * delta;
         knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
         knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);

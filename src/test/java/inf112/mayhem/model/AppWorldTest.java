@@ -248,42 +248,6 @@ public class AppWorldTest {
     }
 
     @Test
-    void testRemoveObject() throws Exception {
-        AppWorld world = new AppWorld(1280, 768);
-        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
-        setPrivateField(world, "pCollision", pCollision);
-
-        EntityModel entity = mock(EntityModel.class);
-        when(entity.isActive()).thenReturn(true);
-        world.add(entity);
-        world.update(0.1f);
-
-        world.remove(entity);
-
-        assertFalse(world.iterator().hasNext());
-    }
-
-    @Test
-    void testRemoveNonExistingObject() throws Exception {
-        AppWorld world = new AppWorld(1280, 768);
-        EntityCollisionHandler pCollision = mock(EntityCollisionHandler.class);
-        setPrivateField(world, "pCollision", pCollision);
-
-        EntityModel existing = mock(EntityModel.class);
-        EntityModel nonExisting = mock(EntityModel.class);
-        when(existing.isActive()).thenReturn(true);
-        world.add(existing);
-        world.update(0.1f);
-
-        world.remove(nonExisting);
-
-        Iterator<EntityModel> iterator = world.iterator();
-        assertTrue(iterator.hasNext());
-        assertEquals(existing, iterator.next());
-        assertFalse(iterator.hasNext());
-    }
-
-    @Test
     void testLoadLevel() throws Exception {
         AppWorld world = new AppWorld(1280, 768);
         LevelLoader loader = mock(LevelLoader.class);

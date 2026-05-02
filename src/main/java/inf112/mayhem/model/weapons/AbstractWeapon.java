@@ -75,7 +75,7 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
 
     @Override
     public void pickUpWeapon() {
-        state = EntityState.OPENED_WEAPON_CRATE;
+        state = EntityState.IN_USE;
     }
 
     @Override

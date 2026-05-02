@@ -2,7 +2,7 @@ package inf112.mayhem.model.collision;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityState;
-import inf112.mayhem.model.entities.Crate;
+import inf112.mayhem.model.entities.powerUp.Crate;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.entities.EntityModel;
@@ -43,7 +43,7 @@ public class EntityCollisionHandler {
 				for (EntityModel other : world) {
 					if (other instanceof AbstractCharacter character) {
 						if (crate.bounds().overlaps(character.bounds())) {
-							crate.open(world);
+							crate.open(world, character);
 						}
 					}
 				}
