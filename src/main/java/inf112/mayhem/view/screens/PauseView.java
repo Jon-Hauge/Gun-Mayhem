@@ -7,14 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.GameState;
-
-import org.w3c.dom.views.AbstractView;
-
-import java.util.HashMap;
 
 public class PauseView extends AbstractScreenView {
     private AppWorld world;

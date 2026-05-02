@@ -23,29 +23,30 @@ import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.characters.CharacterModel;
+import inf112.mayhem.model.entities.characters.EnemyClass;
+import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.LevelLoader;
 import inf112.mayhem.view.maps.TileMapHelper;
 
 public class ActiveGameView {
-    private Viewport viewport; // defines screen / world size, aspect ratio and camera
-    private OrthographicCamera camera; // defines which part of the world to show
-    private SpriteBatch batch; // used for drawing images / textures
-    private BitmapFont font; // used for writing
-    private ShapeRenderer shape; // used for drawing shapes
-    private Map<String, Texture> textures = new HashMap<>();
-    private Map<AbstractWeapon, WeaponView> weaponViews = new HashMap<>();
-    private AppController controller;
-    private CharacterRig characterRig;
-    private CharacterView characterView;
+    private final Viewport viewport;
+    private final OrthographicCamera camera;
+    private final SpriteBatch batch;
+    private BitmapFont font;
+    private final ShapeRenderer shape;
+    private final Map<String, Texture> textures = new HashMap<>();
+    private final Map<AbstractWeapon, WeaponView> weaponViews = new HashMap<>();
+    private final AppController controller;
+    private final CharacterView playerView;
+    private final CharacterView enemyView;
     private final float scale = 0.15f;
     private float smoothCamX = 0;
     private float smoothCamY = 0;
-    private LevelLoader lvlLoader;
+    private final LevelLoader lvlLoader;
 
     //TILEMAP
-    private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
-    private TileMapHelper tileMapHelper = new TileMapHelper();
+    private final OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 
     /// Initiates the view for an active game of the app.
     ///
@@ -65,12 +66,13 @@ public class ActiveGameView {
         this.shape = new ShapeRenderer();
 
         // LOAD ANIMATIONS
-        this.characterRig = initiateCharacterRig();
-        this.characterView = new CharacterView(characterRig);
-
+        CharacterRig playerRig = initiateCharacterRig(0);
+        this.playerView = new CharacterView(playerRig);
+        CharacterRig enemyRig = initiateCharacterRig(1);
+        this.enemyView = new CharacterView(enemyRig);
         
         //LOAD TILEDMAP
-        this.tileMapHelper = new TileMapHelper();
+        TileMapHelper tileMapHelper = new TileMapHelper();
         this.lvlLoader = new LevelLoader();
         tileMapHelper.setupMap(lvlLoader.getMapPath(controller.getCurrentLevelNumber()));
         this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
@@ -94,17 +96,31 @@ public class ActiveGameView {
         Gdx.graphics.setForegroundFPS(60);
     }
 
-    private CharacterRig initiateCharacterRig() {
-        return new CharacterRig(
-                new Texture(Gdx.files.internal("character_sprites/body.png")),
-                new Texture(Gdx.files.internal("character_sprites/face.png")),
-                new Texture(Gdx.files.internal("character_sprites/feet.png")),
-                new Texture(Gdx.files.internal("character_sprites/feet.png")),
-                new Texture(Gdx.files.internal("character_sprites/gun_glock.png")),
-                new Texture(Gdx.files.internal("character_sprites/hands.png")),
-                new Texture(Gdx.files.internal("character_sprites/hands.png")),
-                new Texture(Gdx.files.internal("character_sprites/head.png")),
-                scale);
+    /// @param n 0 for player, 1 for enemy
+    private CharacterRig initiateCharacterRig(int n) {
+        if (n == 0) {
+            return new CharacterRig(
+                    new Texture(Gdx.files.internal("character_sprites/body_orange.png")),
+                    new Texture(Gdx.files.internal("character_sprites/face.png")),
+                    new Texture(Gdx.files.internal("character_sprites/feet_orange.png")),
+                    new Texture(Gdx.files.internal("character_sprites/feet_orange.png")),
+                    new Texture(Gdx.files.internal("character_sprites/gun_glock.png")),
+                    new Texture(Gdx.files.internal("character_sprites/hands_orange.png")),
+                    new Texture(Gdx.files.internal("character_sprites/hands_orange.png")),
+                    new Texture(Gdx.files.internal("character_sprites/head_orange.png")),
+                    scale);
+        } else {
+            return new CharacterRig(
+                    new Texture(Gdx.files.internal("character_sprites/body.png")),
+                    new Texture(Gdx.files.internal("character_sprites/face.png")),
+                    new Texture(Gdx.files.internal("character_sprites/feet.png")),
+                    new Texture(Gdx.files.internal("character_sprites/feet.png")),
+                    new Texture(Gdx.files.internal("character_sprites/gun_glock.png")),
+                    new Texture(Gdx.files.internal("character_sprites/hands.png")),
+                    new Texture(Gdx.files.internal("character_sprites/hands.png")),
+                    new Texture(Gdx.files.internal("character_sprites/head.png")),
+                    scale);
+        }
     }
 
     private void preloadTextures() {
@@ -124,11 +140,15 @@ public class ActiveGameView {
 
 
                 "character_sprites/body.png",
+                "character_sprites/body_orange.png",
                 "character_sprites/face.png",
                 "character_sprites/feet.png",
+                "character_sprites/feet_orange.png",
                 "character_sprites/gun_glock.png",
                 "character_sprites/hands.png",
-                "character_sprites/head.png"
+                "character_sprites/hands_orange.png",
+                "character_sprites/head.png",
+                "character_sprites/head_orange.png"
         )) {
             getTexture(fileName);
         }
@@ -271,8 +291,11 @@ public class ActiveGameView {
 
             for (EntityModel obj : world) {
 
-                if (obj instanceof CharacterModel character && character.isActive()) {
-                    characterView.draw(batch, character, delta);
+                if (obj instanceof PlayerClass character && character.isActive()) {
+                    playerView.draw(batch, character, delta);
+                }
+                if (obj instanceof EnemyClass character && character.isActive()) {
+                    enemyView.draw(batch, character, delta);
                 }
 
                 if (obj instanceof AbstractWeapon weapon) {

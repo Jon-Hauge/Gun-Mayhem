@@ -19,7 +19,6 @@ public class HudView extends AbstractScreenView {
     private Table table;
     private Label livesLabel;
     private Label ammoLabel;
-    private Label gunLabel;
     private BitmapFont font;
     private BitmapFont ammoFont;
     private AbstractCharacter character;
@@ -113,7 +112,16 @@ public class HudView extends AbstractScreenView {
         shape.setColor(Color.DARK_GRAY);
         shape.rect(x, y, width, height);
 
-        float progress = (float) currentAmmo / maxAmmo;
+        float progress = 0;
+        if (currentAmmo < 0) {
+            progress = 1f;
+        } else if (maxAmmo > 0) {
+            progress = (float) currentAmmo / maxAmmo;
+            progress = Math.max(0f, Math.min(1f, progress));
+        } else {
+            progress = 0f;
+        }
+
         shape.setColor(progress > 0.5f ? Color.GREEN : progress > 0.2f ? Color.ORANGE : Color.RED);
         shape.rect(x, y, width * progress, height);
 
@@ -128,6 +136,7 @@ public class HudView extends AbstractScreenView {
         if (character != null) {
             this.currentLives = character.lives();
             this.currentAmmo = character.getEquippedWeapon().getCurrentAmmo();
+            this.maxAmmo = character.getEquippedWeapon().getMaxAmmo();
             livesLabel.setText("LIVES: " + currentLives);
         }
     }

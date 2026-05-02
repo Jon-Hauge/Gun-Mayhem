@@ -149,6 +149,7 @@ public class CampaignView extends AbstractScreenView {
     @Override
     public void dispose() {
         if (videoPlayer != null) {
+            videoPlayer.stop();
             videoPlayer.dispose();
         }
 
