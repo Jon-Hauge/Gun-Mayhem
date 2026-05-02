@@ -3,23 +3,15 @@ package inf112.mayhem.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-<<<<<<< HEAD
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import inf112.mayhem.model.collision.MapCollisionHandler;
+
 import inf112.mayhem.model.collision.EntityCollisionHandler;
-=======
-
-import com.badlogic.gdx.maps.tiled.TiledMap;
-
-import inf112.mayhem.model.collision.ProjectileCollisionHandler;
->>>>>>> 710a2a4 (increased structure height on heaven)
+import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.EntityFactory;
 import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.model.entities.characters.EnemyClass;
+import inf112.mayhem.model.entities.characters.EnemyClass; 
 import inf112.mayhem.model.entities.characters.PlayerClass;
-import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.guns.PistolWeapon;
-import inf112.mayhem.model.weapons.guns.PumpActionShotgun;
 import inf112.mayhem.view.maps.LevelLoader;
 
 public class AppWorld implements Iterable<EntityModel>, IWorld {
@@ -67,15 +59,6 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 		// Player
 		this.playerClass = fac.spawnPlayer(500f, 800f);
 		this.enemyClass = fac.spawnEnemy(900f, 800f);
-<<<<<<< HEAD
-=======
-
-		// Weapons
-		this.playerStartingWeapon = new PistolWeapon(this.playerClass.x(), this.playerClass.y(), playerClass);
-		this.enemyStartingWeapon = new PistolWeapon(this.enemyClass.x(), this.enemyClass.y(), enemyClass);
-		playerClass.equipWeapon(playerStartingWeapon);
-		enemyClass.equipWeapon(enemyStartingWeapon);
->>>>>>> ee67555 (increasing midnight city map height and macing wepon spwan follow player)
 	}
 
 	@Override
