@@ -76,12 +76,6 @@ public interface IWorld {
     ///
     void removeInactive();
 
-    /// Removes chosen objects from gameworld.
-    ///
-    /// @param obj Object to be removed
-    ///
-    void remove(Object obj);
-
     /// Updates the gameworld each gametic, i.e. since last update.
     ///
     /// @param delta One gametic
@@ -100,4 +94,16 @@ public interface IWorld {
     /// Reset gameworld.
     ///
     void reset();
+
+    /// Shows a quick popup of the current activated powerUp.
+    ///
+    /// @param message Name of powerUp to be displayed
+    ///
+    void showPopup(String message);
+
+    ///
+    /// @return Message of currently picked up powerUp
+    ///
+    String getPopupMessage();
+
 }

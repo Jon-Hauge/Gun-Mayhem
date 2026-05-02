@@ -25,6 +25,7 @@ import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
+import inf112.mayhem.model.entities.powerUp.Crate;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.LevelLoader;
 import inf112.mayhem.view.maps.TileMapHelper;
@@ -37,6 +38,7 @@ public class ActiveGameView {
     private final ShapeRenderer shape;
     private final Map<String, Texture> textures = new HashMap<>();
     private final Map<AbstractWeapon, WeaponView> weaponViews = new HashMap<>();
+    private final Map<Crate, CrateView> crateViews = new HashMap<>();
     private final AppController controller;
     private final CharacterView playerView;
     private final CharacterView enemyView;
@@ -300,9 +302,18 @@ public class ActiveGameView {
 
                 if (obj instanceof AbstractWeapon weapon) {
                 	if (weapon.state() == EntityState.DROPPED) {
-                		weaponViews.computeIfAbsent(weapon, WeaponView::new).draw(batch);
+                        weaponViews.computeIfAbsent(weapon, WeaponView::new).draw(batch);
                 	}
                 }
+
+                if (obj instanceof Crate crate && crate.isActive()) {
+                    crateViews.computeIfAbsent(crate, CrateView::new).draw(batch);
+                }
+            }
+
+            String message = world.getPopupMessage();
+            if (message != null) {
+                font.draw(batch, message, camera.position.x, camera.position.y + 100f);
             }
 
         } finally {

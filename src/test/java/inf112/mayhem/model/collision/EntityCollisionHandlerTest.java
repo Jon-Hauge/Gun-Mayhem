@@ -2,7 +2,7 @@ package inf112.mayhem.model.collision;
 
 import com.badlogic.gdx.math.Rectangle;
 import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.Crate;
+import inf112.mayhem.model.entities.powerUp.Crate;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.projectile.AbstractProjectile;
@@ -39,7 +39,7 @@ public class EntityCollisionHandlerTest {
         
         handler.checkCollisions();
         
-        verify(crate).open(world);
+        verify(crate).open(world, character);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class EntityCollisionHandlerTest {
         
         handler.checkCollisions();
         
-        verify(crate, never()).open(world);
+        verify(crate, never()).open(world, character);
     }
 
     @Test

@@ -6,8 +6,12 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.AbstractEntity;
 import inf112.mayhem.model.entities.EntityModel;
+import inf112.mayhem.model.entities.EntityState;
+import inf112.mayhem.model.entities.powerUp.PowerUp;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.guns.PistolWeapon;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
@@ -20,6 +24,10 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
     protected final float DOUBLE_JUMP_FORCE = 200f;
     protected final float DROP_DURATION = 2f;
     protected final int WORLD_PADDING = 200;
+
+	protected float speedMultiplier = 1f;
+	protected float gravityMultiplier = 1f;
+	protected float jumpBoostMultiplier = 1f;
 	 
 	protected int direction;
 	protected int jump_counter;
@@ -30,6 +38,8 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	
 	protected boolean isGrounded;
 	protected boolean ignorePlatforms;
+
+	private ArrayList<ActivePowerUp> activePowerUps = new ArrayList<>();
 	
 	/// Initiates a character entity able to interact with other entities and the map in the gameworld.
 	///
@@ -108,6 +118,31 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 		    this.equippedWeapon.dropWeapon();
 		    this.equippedWeapon = baseWeapon;
 		}
+
+		Iterator<ActivePowerUp> iter = activePowerUps.iterator();
+
+		while (iter.hasNext()) {
+			ActivePowerUp p = iter.next();
+			p.timeLeft -= delta;
+
+			if (p.timeLeft <= 0) {
+				p.powerUp.removePowerUp(this);
+				iter.remove();
+			}
+		}
+	}
+
+	@Override
+	public void updateState() {
+		if (!isGrounded && velocity.y > 0) {
+			state = EntityState.JUMPING;
+		} else if (!isGrounded && velocity.y < 0) {
+			state = EntityState.FALLING;
+		} else if (velocity.x != 0) {
+			state = EntityState.WALKING;
+		} else {
+			state = EntityState.IDLE;
+		}
 	}
 
 	@Override
@@ -116,5 +151,40 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 			   bounds().x + bounds().width > world.width()    ||
 			   bounds().y < 0 							      || 
 			   bounds().y + bounds().height > world.height();
+	}
+
+	@Override
+	public void setSpeedMultiplier(float speedMultiplier) {
+		this.speedMultiplier = speedMultiplier;
+	}
+
+	@Override
+	public void setGravityMultiplier(float gravityMultiplier) {
+		this.gravityMultiplier = gravityMultiplier;
+	}
+
+	@Override
+	public void setJumpBoostMultiplier(float jumpBoostMultiplier) {
+		this.jumpBoostMultiplier = jumpBoostMultiplier;
+	}
+
+	/// Adds a powerUp to the list of active powerUps.
+	///
+	/// @param powerUp PowerUp to be added to list
+	/// @param duration Duration of added powerUp
+	///
+	public void addPowerUp(PowerUp powerUp, float duration) {
+		powerUp.applyPowerUp(this);
+		activePowerUps.add(new ActivePowerUp(powerUp, duration));
+	}
+
+	private static class ActivePowerUp {
+		PowerUp powerUp;
+		float timeLeft;
+
+		ActivePowerUp(PowerUp powerUp, float timeLeft) {
+			this.powerUp = powerUp;
+			this.timeLeft = timeLeft;
+		}
 	}
 }

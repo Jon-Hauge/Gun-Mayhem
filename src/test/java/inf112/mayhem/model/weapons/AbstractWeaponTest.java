@@ -70,7 +70,7 @@ class AbstractWeaponTest {
     @Test
     void pickUpWeaponSetsOpenedWeaponCrateState() {
         weapon.pickUpWeapon();
-        assertEquals(EntityState.OPENED_WEAPON_CRATE, weapon.state());
+        assertEquals(EntityState.IN_USE, weapon.state());
     }
 
     @Test
