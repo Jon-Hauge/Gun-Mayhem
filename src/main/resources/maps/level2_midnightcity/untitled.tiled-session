@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map.tmx",
+    "activeFile": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -94,8 +94,8 @@
             "scale": 0.75,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 553.3333333333334,
-                "y": 440.66666666666663
+                "x": 1313.333333333333,
+                "y": 619.3333333333334
             }
         },
         "map.tmx#25": {
@@ -119,14 +119,12 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 40,
     "openFiles": [
-        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
-        "map.tmx",
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
-        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx",
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
         "map.tmx",
         "Ladder2.tsx",
         "Box1.tsx",
