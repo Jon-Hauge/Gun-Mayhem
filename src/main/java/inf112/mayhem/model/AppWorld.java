@@ -69,6 +69,15 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 		// Player
 		this.playerClass = fac.spawnPlayer(500f, 800f);
 		this.enemyClass = fac.spawnEnemy(900f, 800f);
+<<<<<<< HEAD
+=======
+
+		// Weapons
+		this.playerStartingWeapon = new PistolWeapon(this.playerClass.x(), this.playerClass.y(), playerClass);
+		this.enemyStartingWeapon = new PistolWeapon(this.enemyClass.x(), this.enemyClass.y(), enemyClass);
+		playerClass.equipWeapon(playerStartingWeapon);
+		enemyClass.equipWeapon(enemyStartingWeapon);
+>>>>>>> ee67555 (increasing midnight city map height and macing wepon spwan follow player)
 	}
 
 	@Override

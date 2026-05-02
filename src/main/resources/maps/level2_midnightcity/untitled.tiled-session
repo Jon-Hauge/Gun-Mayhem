@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
+    "activeFile": "map.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -59,8 +59,19 @@
             "scale": 0.5,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 728,
-                "y": 469
+                "x": 1132,
+                "y": 737
+            }
+        },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/Tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 650,
+                "y": 847
             }
         },
         "Ladder2.tsx": {
@@ -80,11 +91,11 @@
             "scaleInEditor": 1
         },
         "map.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 5,
+            "scale": 0.75,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 1436,
-                "y": 731
+                "x": 553.3333333333334,
+                "y": 440.66666666666663
             }
         },
         "map.tmx#25": {
@@ -108,11 +119,14 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 40,
     "openFiles": [
-        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx"
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
+        "map.tmx",
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
         "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level1_heaven/map.tmx",
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx",
         "map.tmx",
         "Ladder2.tsx",
         "Box1.tsx",
@@ -122,8 +136,7 @@
         "4.tsx",
         "25.tsx",
         "Trap.tsx",
-        "Ladder3.tsx",
-        "Box3.tsx"
+        "Ladder3.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx"
