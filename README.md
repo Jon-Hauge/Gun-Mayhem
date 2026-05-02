@@ -1,65 +1,73 @@
 # Gun Mayhem 3
 
-- This project acts as a remake/sequel of the popular shooter Gun Mayhem 2. It is a platformer / shooter played against one or several bots, where the goal is to knock your opponents of the map using knockback from your guns. We decided on this game because of its complexity, fun-factor and a sprinkle of nostalgia.
+* This project acts as a remake/sequel of the popular shooter Gun Mayhem 2. It is a platformer / shooter played against one or several bots, where the goal is to knock your opponents of the map using knockback from your guns. We decided on this game because of its complexity, fun-factor and a sprinkle of nostalgia.
 
 ---
-
-- PS: WILL NEED TO ELABORATE ON THIS FURTHER WHEN PROJECT IS CLOSED TO FINISHED\*\*
-- **Installation and Running** – Explain how to install / clone+compile project, and how to run it. Also, any requirements (e.g., Java version), additional dependencies that must be installed, how to run tests, etc. See/copy text above.
-- You can run the project with Maven using mvn exec:java. You will need Java 25:
+### Running the project
+* You can run the project with Maven using mvn exec:java. You will need Java 25:
 
       <main.class>inf112.mayhem.app.Main</main.class>
 
-Running the program should open a window with ... Exit by pressing Escape or closing the window.
-You may have to compile first, with mvn compile – or in a single step, mvn compile exec:java
+* Running the program should open a new window. Exit by pressing the Exit-button or by closing the window.
 
-- **PS: WILL NEED TO BE ELABORATED ON WHEN CONTROLS HAVE BEEN DECIDED**
-- **Usage / Documentation** – Explain how to use it. E.g., which keys to use, how to control player, where to find out more etc. Examples are good!
+* You may have to compile first, with mvn compile – or in a single step, *mvn compile exec:java*
+
+* To run the tests, use: *mvn test*
+
+---
+### Controls
+- Controls for the game can be found by pressing the **Controls** button on the main menu.
+
+---
+### Security
+
+* As of now, there are no security risks us developers are aware of.
+* If found, send any of the devs a message through our UIB mails.
+
+---
+### Notable bugs:
+
+* *Character entities may fall through solid ground when resizing windows*
+
+**Other bugs may be reported as a message to any of the devs through our UIB mails.**
+
+---
+### Structure
+* Notable parts of the code are found under team-mayhem [gun-mayhem-3] / src
+* https://git.app.uib.no/inf112/26v/proj/team-mayhem/-/blob/c15a76c5179f7e3a7cdebe86ac8216acbcf7241f/src
+
+---
+### Contributing
+* How to contribute code is found under [Contributing](CONTRIBUTING.md)
+
+---
+### License
+* Licensing is found under [License](LICENSE.md)
 
 ---
 
-- **PS: WILL NEED TO BE ELABORATED ON WHEN GAME IS FINISHED**
-- **Security** – any security considerations the user should be aware of (probably not applicable for INF112)
-
 ---
-
-- **PS: WILL NEED TO BE ELABORATED ON WHEN GAME IS FINISHED**
-- **Bugs/issues** – if applicable, list bugs/problems a normal user should be aware of. Also, where to file bug reports.
-
----
-
-- **PS: WILL NEED TO BE ELABORATED ON WHEN GAME IS FINISHED**
-- **Code structure** – where to find important parts of the code (might go under _Contributing_)
-
----
-
-- **PS: WILL NEED TO BE ELABORATED ON WHEN GAME IS FINISHED**
-- **Contributing** – how to contribute to the project (often found in a separate `CONTRIBUTING` file)
-
----
-
-- **PS: WILL NEED TO BE UPDATED UNDERWAYS**
-- **License** – copyright information (often found in a separate `LICENSE` file)
-
----
-
-- **PS: WILL NEED TO BE UPDATED UNDERWAYS**
-- **Authors / Credits** – who's responsible for the project, and who made the graphics, sounds, code copied from somewhere else, etc (attribution)
-
 ## Credits
 
 ### Authors
-
-- _Adrian Bliktun Strand, Malik Andreas Cissé, Alexander Wurm Møster, Martin Andreas Drevdal, Jon Hauge, Sverre Kristian Legria Thune_
+* **Adrian Bliktun Strand**
+* **Malik Andreas Cissé**
+* **Alexander Wurm Møster**
+* **Martin Andreas Drevdal**
+* **Jon Hauge**
+* **Sverre Kristian Legria Thune**
 
 ### Contributors
+* Certain parts of code were helped by users on StackOverflow. Relevant examples are commented within the code itself.
+* Other parts of the code in the project was formulated / helped by AI/LLMs, such as OpenAI's ChatGPT and Anthropic's ClaudeAI.
+* All code helped by AI is understood in and of itself and in relation to the rest of the project.
 
-- _TODO: did you include code from anyone else? Did you use AI/LLMs to generate or edit the code?_
+
+* StackOverflow - https://stackoverflow.com/
+* OpenAI - https://chatgpt.com - first retrieved 09.02.2026
+* Anthropic - https://chat.chaton.ai - first retrieved 09.02.2025
 
 ### Sound and Graphics
 
-- **Examples on how to list sources (delete these files and references before delivering project)**
-- `src/main/resources/obligator.png` – Ingrid Næss Johansen
-- `src/main/resources/blipp.ogg`– Dr. Richard Boulanger et al (CC-BY-3.0)
-
-_(You should probably delete these if you don't need them! If possible, include link to where you found them. Many resources come with instructions on how to cite properly.)_
+- `src/main/resources/character_sprites` – JoyceQuan, GitHub Repository, https://github.com/Randonee1/Gun-Mayhem-master
+- `src/main/resources/weapons` - JoyceQuan, GitHub Repository, https://github.com/Randonee1/Gun-Mayhem-master
