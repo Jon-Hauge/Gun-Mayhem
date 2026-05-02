@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -50,6 +51,34 @@ class AbstractCharacterTest {
             position.x += velocity.x * delta;
             position.y += velocity.y * delta;
             updateBounds();
+        }
+    }
+
+    static class BaseTestCharacter extends AbstractCharacter {
+        BaseTestCharacter(float x, float y) {
+            super(x, y, 32, 32, 3, new TiledMap());
+            this.type = EntityType.PLAYER;
+            this.state = EntityState.IDLE;
+        }
+
+        @Override
+        public void jump() {
+            velocity.y = 100;
+        }
+
+        @Override
+        public void drop() {
+            velocity.y = -100;
+        }
+
+        @Override
+        public void hit(EntityModel obj) {
+            lives--;
+        }
+
+        @Override
+        public void update(AppWorld world, float delta) {
+            super.update(world, delta);
         }
     }
 
@@ -134,6 +163,55 @@ class AbstractCharacterTest {
         TestCharacter character = new TestCharacter(-50, 10);
 
         assertTrue(character.outOfBounds(world));
+    }
+
+    @Test
+    void baseUpdateStateUsesEntityVelocityAndGrounding() {
+        BaseTestCharacter character = new BaseTestCharacter(0, 0);
+
+        character.isGrounded = false;
+        character.velocity.y = 100;
+        character.updateState();
+        assertEquals(EntityState.JUMPING, character.state());
+
+        character.velocity.y = -100;
+        character.updateState();
+        assertEquals(EntityState.FALLING, character.state());
+
+        character.velocity.y = 0;
+        character.velocity.x = 50;
+        character.updateState();
+        assertEquals(EntityState.WALKING, character.state());
+
+        character.velocity.x = 0;
+        character.isGrounded = true;
+        character.updateState();
+        assertEquals(EntityState.IDLE, character.state());
+    }
+
+    @Test
+    void updateSwitchesBackToBaseWeaponWhenEquippedWeaponIsOutOfAmmo() {
+        BaseTestCharacter character = new BaseTestCharacter(0, 0);
+        AbstractWeapon weapon = mock(AbstractWeapon.class);
+        when(weapon.outOfAmmo()).thenReturn(true);
+
+        character.equipWeapon(weapon);
+        character.update(mock(AppWorld.class), 1f);
+
+        assertSame(character.baseWeapon, character.getEquippedWeapon());
+        verify(weapon).dropWeapon();
+    }
+
+    @Test
+    void addPowerUpRemovesExpiredPowerUpOnUpdate() {
+        BaseTestCharacter character = new BaseTestCharacter(0, 0);
+        character.addPowerUp(new inf112.mayhem.model.entities.powerUp.JumpBoostPowerUp(), 0.5f);
+
+        assertEquals(1.5f, character.jumpBoostMultiplier);
+
+        character.update(mock(AppWorld.class), 1f);
+
+        assertEquals(1f, character.jumpBoostMultiplier);
     }
 
     @Test
