@@ -12,10 +12,10 @@ class SemiAutoShotgunProjectileTest {
 
         assertEquals(7f, projectile.x());
         assertEquals(8f, projectile.y());
-        assertEquals(35f, projectile.width());
-        assertEquals(40f, projectile.height());
+        assertEquals(10f, projectile.width());
+        assertEquals(30f, projectile.height());
         assertEquals(-1, projectile.getDirection());
         assertEquals(500f, projectile.getBulletSpeed());
-        assertEquals(2000f, projectile.getKnockBack());
+        assertEquals(2500f, projectile.getKnockBack());
     }
 }

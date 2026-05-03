@@ -6,11 +6,10 @@ import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.WeaponType;
 
 public class SemiAutoShotgun extends AbstractWeapon {
-
     private static final float WIDTH = 25f;
     private static final float HEIGHT = 15f;
     private static final int AMMO = 8;
-    private static final float FIRING_DELAY = 4f;
+    private static final float FIRING_DELAY = 1.5f;
 
     /// Initiates a semi auto shotgun weapon.
     ///

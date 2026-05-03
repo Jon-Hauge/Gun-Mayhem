@@ -17,7 +17,7 @@ public class AbstractShotgunProjectile extends AbstractProjectile {
 	/// @param width	   the width of the projectile hitbox
 	/// @param height	   the height of the projectile hitbox
 	/// @param direction   the direction of travel (-1 for left, 1 for right)
-	/// @param bulletspeed the speed of the projectile
+	/// @param bulletSpeed the speed of the projectile
 	/// @param knockback   the speed of the projectile
 	/// @param range       the knockback force applied on hit
 	///

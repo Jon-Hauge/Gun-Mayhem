@@ -9,7 +9,7 @@ public class PumpActionShotgun extends AbstractWeapon {
     private static final float WIDTH = 25f;
     private static final float HEIGHT = 10f;
     private static final int AMMO = 5;
-    private static final float FIRING_DELAY = 4f;
+    private static final float FIRING_DELAY = 2f;
 
     /// Initiates a pump action shotgun weapon.
     ///

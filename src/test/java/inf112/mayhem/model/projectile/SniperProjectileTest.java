@@ -16,6 +16,6 @@ class SniperProjectileTest {
         assertEquals(5f, projectile.height());
         assertEquals(1, projectile.getDirection());
         assertEquals(900f, projectile.getBulletSpeed());
-        assertEquals(5000f, projectile.getKnockBack());
+        assertEquals(3000f, projectile.getKnockBack());
     }
 }

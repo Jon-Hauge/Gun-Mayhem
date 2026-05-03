@@ -4,7 +4,7 @@ public class SniperProjectile extends AbstractProjectile {
     private static final float WIDTH = 15f;
     private static final float HEIGHT = 5f;
     private static final float BULLET_SPEED = 900f;
-    private static final float KNOCKBACK = 5000f;
+    private static final float KNOCKBACK = 3000f;
     private static final float DAMAGE = 20f;
 
     /// Initiates a sniper projectile from a sniper weapon.
