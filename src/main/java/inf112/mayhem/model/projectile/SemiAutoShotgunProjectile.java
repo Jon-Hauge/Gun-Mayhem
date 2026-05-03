@@ -1,11 +1,11 @@
 package inf112.mayhem.model.projectile;
 
 public class SemiAutoShotgunProjectile extends AbstractShotgunProjectile {
-	private static final float WIDTH = 35f;
-    private static final float HEIGHT = 40f;
+	private static final float WIDTH = 10f;
+    private static final float HEIGHT = 30f;
     private static final float BULLET_SPEED = 500f;
-    private static final float KNOCKBACK = 2000f;
-    private static final float MAX_RANGE = 15f;
+    private static final float KNOCKBACK = 2500f;
+    private static final float MAX_RANGE = 50f;
     private static final float DAMAGE = 8f;
 
     /// Initiates a semi auto shotgun projectile from a semi auto shotgun weapon.

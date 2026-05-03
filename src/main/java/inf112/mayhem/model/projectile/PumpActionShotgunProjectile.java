@@ -4,8 +4,8 @@ public class PumpActionShotgunProjectile extends AbstractShotgunProjectile {
     private static final float WIDTH = 10f;
     private static final float HEIGHT = 20f;
     private static final float BULLET_SPEED = 500f;
-    private static final float KNOCKBACK = 1000f;
-    private static final float MAX_RANGE = 20f;
+    private static final float KNOCKBACK = 3000f;
+    private static final float MAX_RANGE = 50f;
     private static final float DAMAGE = 10f;
 
     /// Initiates a pump action shotgun projectile from a pump action shotgun weapon.

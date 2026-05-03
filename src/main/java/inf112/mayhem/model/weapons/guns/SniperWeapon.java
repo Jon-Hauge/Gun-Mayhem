@@ -8,7 +8,7 @@ import inf112.mayhem.model.weapons.WeaponType;
 public class SniperWeapon extends AbstractWeapon {
     private static final float WIDTH = 25f;
     private static final float HEIGHT = 15f;
-    private static final int AMMO = 10;
+    private static final int AMMO = 6;
     private static final float FIRING_DELAY = 3f;
 
     /// Initiates a sniper weapon.

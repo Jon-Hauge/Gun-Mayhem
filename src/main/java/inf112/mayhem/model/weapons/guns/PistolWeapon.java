@@ -9,7 +9,7 @@ public class PistolWeapon extends AbstractWeapon {
     private static final float WIDTH = 10f;
     private static final float HEIGHT = 10f;
     private static final int AMMO = -1;
-    private static final float FIRING_DELAY = 1f;
+    private static final float FIRING_DELAY = 0.5f;
 
     /// Initiates a pistol weapon.
     ///
