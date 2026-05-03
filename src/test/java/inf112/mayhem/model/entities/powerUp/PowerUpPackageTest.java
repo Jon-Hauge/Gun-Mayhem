@@ -9,15 +9,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import inf112.mayhem.model.collision.MapCollisionHandler;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import inf112.mayhem.model.AppWorld;
-import inf112.mayhem.model.entities.characters.AbstractCharacter;
-import inf112.mayhem.model.entities.powerUp.Crate;
-import inf112.mayhem.model.entities.powerUp.JumpBoostPowerUp;
-import inf112.mayhem.model.entities.powerUp.LowGravityPowerUp;
-import inf112.mayhem.model.entities.powerUp.SpeedBoostPowerUp;
 import org.junit.jupiter.api.Test;
+
+import com.badlogic.gdx.maps.tiled.TiledMap;
+
+import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.collision.MapCollisionHandler;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
+import inf112.mayhem.model.projectile.AbstractProjectile;
 
 class PowerUpPackageTest {
 
@@ -35,7 +34,7 @@ class PowerUpPackageTest {
         }
 
         @Override
-        public void hit(inf112.mayhem.model.entities.EntityModel obj) {
+        public void hit(AbstractProjectile obj) {
         }
 
         @Override
@@ -53,6 +52,11 @@ class PowerUpPackageTest {
         float getSpeedMultiplier() {
             return speedMultiplier;
         }
+
+		@Override
+		public float getDamagePercentage() {
+			return damagePercent;
+		}
     }
 
     @Test
