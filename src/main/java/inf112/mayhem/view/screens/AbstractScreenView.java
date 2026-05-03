@@ -3,13 +3,18 @@ package inf112.mayhem.view.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.video.VideoPlayer;
+import com.badlogic.gdx.video.VideoPlayerCreator;
 
 public abstract class AbstractScreenView {
     protected Stage stage;
+    protected VideoPlayer videoPlayer;
+    protected SpriteBatch videoBatch;
 
     /// Creates a stationary stage and initiates UI
     /// Should be called once before render()
@@ -65,8 +70,49 @@ public abstract class AbstractScreenView {
     /// Disposes all elements in stage
     ///
     public void dispose() {
+        disposeVideo();
+
         if (stage != null) {
             stage.dispose();
+        }
+    }
+
+    /// Shows background video.
+    /// Used for screens unrelated to gameplay.
+    ///
+    public void show() {
+        if (videoPlayer == null) {
+            setupBackgroundVideo();
+        }
+    }
+
+    /// Hides background video.
+    /// Used for screens related to gameplay.
+    ///
+    public void hide() {
+        disposeVideo();
+    }
+
+    ///
+    /// @returns false if current screen uses video
+    ///
+    public boolean usesVideo() {
+        return false;
+    }
+
+    /// Sets up background video for screens where needed
+    ///
+    protected void setupBackgroundVideo() {};
+
+    private void disposeVideo() {
+        if (videoPlayer != null) {
+            videoPlayer.stop();
+            videoPlayer.dispose();
+            videoPlayer = null;
+        }
+        if (videoBatch != null) {
+            videoBatch.dispose();
+            videoBatch = null;
         }
     }
 

@@ -21,6 +21,7 @@ public class ScreenManager {
     private final ControlsView controlsView;
     private final AbstractCharacter player;
     private final AbstractCharacter enemy;
+    private GameState currentState;
 
     /// Initiates a screenmanager with the given world and controller.
     /// Is responsible for displaying the different views correctly.
@@ -41,6 +42,11 @@ public class ScreenManager {
         this.campaignView = new CampaignView(world, controller);
         this.hudView = new HudView(world, controller, player);
         this.controlsView = new ControlsView(world, controller);
+        currentState = world.state();
+        AbstractScreenView initial = getScreen(currentState);
+        if (initial != null && initial.usesVideo()) {
+            initial.show();
+        }
     }
 
     /// Disposes of all elements in stage.
@@ -76,6 +82,11 @@ public class ScreenManager {
     /// Happens multiple times per second.
     ///
     public void render(AppWorld world, float delta) {
+        if (world.state() != currentState) {
+            handleStateChange(currentState, world.state());
+            currentState = world.state();
+        }
+
         switch (world.state()) {
             case MAIN_MENU -> mainMenuView.render();
             case ACTIVE -> {
@@ -101,6 +112,31 @@ public class ScreenManager {
             case CAMPAIGN -> campaignView.render();
             case CONTROLS ->  controlsView.render();
         }
+    }
+
+    private void handleStateChange(GameState oldState, GameState newState) {
+        AbstractScreenView oldScreen = oldState != null ? getScreen(oldState) : null;
+        AbstractScreenView newScreen = getScreen(newState);
+
+        if (oldScreen != null && oldScreen.usesVideo()) {
+            oldScreen.hide();
+        }
+
+        if (newScreen != null && newScreen.usesVideo()) {
+            newScreen.show();
+        }
+    }
+
+    private AbstractScreenView getScreen(GameState state) {
+        return switch (state) {
+            case MAIN_MENU -> mainMenuView;
+            case PAUSED -> pauseView;
+            case GAME_OVER -> gameOverView;
+            case VICTORY -> victoryView;
+            case CAMPAIGN -> campaignView;
+            case CONTROLS -> controlsView;
+            default -> null; // Account for ActiveGameView
+        };
     }
 
     /// Updates input processor for the stages.
