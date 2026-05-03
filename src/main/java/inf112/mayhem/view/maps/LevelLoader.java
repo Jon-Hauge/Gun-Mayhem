@@ -1,6 +1,7 @@
 package inf112.mayhem.view.maps;
 
 import java.util.List;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 public class LevelLoader {
@@ -47,6 +48,13 @@ public class LevelLoader {
                 "maps/level2_midnightcity/bg4.png",
                 "maps/level2_midnightcity/bg5.png",
                 "maps/level2_midnightcity/bg6.png"
+            );
+            case 3 -> List.of(
+                "maps/level3_moistymire/bg1.png",
+                "maps/level3_moistymire/bg2.png",
+                "maps/level3_moistymire/bg3.png",
+                "maps/level3_moistymire/bg4.png",
+                "maps/level3_moistymire/bg5.png"
             );
         default -> throw new IllegalStateException("Unexpected value: " + (levelNumber));
         };
