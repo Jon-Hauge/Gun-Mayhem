@@ -28,8 +28,6 @@ public class EnemyClass extends AbstractCharacter {
     private boolean playerDetected;
     private AppWorld world;
 
-    private float knockBack = 0f;
-    private static final float KNOCKBACK_DECAY = 8f;
     private float edgeWaitTimer = 0f;
     private static final float EDGE_WAIT_DURATION = 0.5f;
     private float spawnDelayTimer = 1.0f;
@@ -116,12 +114,14 @@ public class EnemyClass extends AbstractCharacter {
     }
 
     @Override
-    public void hit(EntityModel obj) {
+    public void hit(AbstractProjectile obj) {
+    	super.hit(obj);
         if (obj instanceof AbstractProjectile projectile) {
             float knockbackResistance = 1.0f - (aggression - 1) * 0.15f;
-            knockBack += projectile.getKnockBack()
-                        * projectile.getDirection()
-                        * knockbackResistance;
+            applyKnockback(obj.getKnockBack(), obj.getDirection());
+//            knockBack += projectile.getKnockBack()
+//                        * projectile.getDirection()
+//                        * knockbackResistance;
         }
     }
 
@@ -169,8 +169,9 @@ public class EnemyClass extends AbstractCharacter {
         velocity.y -= GRAVITY * delta * gravityMultiplier;
 
         position.x += velocity.x * delta * speedMultiplier;
-        position.x += knockBack * delta;
-        knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
+        
+        position.x += knockbackVelocity * delta;  
+        knockbackVelocity *= Math.max(0, 1 - KNOCKBACK_DECAY * delta); 
 
         updateBounds();
 
