@@ -9,9 +9,10 @@ import inf112.mayhem.model.entities.EntityType;
 public abstract class AbstractProjectile extends AbstractEntity implements ProjectileModel {
 
     protected boolean active = true;
-    private final int direction;
-    private final float bulletSpeed;
-    private final float knockback;
+    protected final int direction;
+    protected final float bulletSpeed;
+    protected final float knockback;
+    protected final float damage;
 
     /// Initiates an abstract projectile entity capable of interacting with the characters in the gameworld.
     ///
@@ -21,13 +22,14 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     /// @param bulletSpeed Speed of projectile
     /// @param knockback Knockback caused by projectile
     ///
-    public AbstractProjectile(float startX, float startY, float width, float height, int direction, float bulletSpeed, float knockback) {
+    public AbstractProjectile(float startX, float startY, float width, float height, int direction, float bulletSpeed, float knockback, float damage) {
         super(startX, startY, width, height);
         this.type = EntityType.PROJECTILE;
         this.state = EntityState.ACTIVE;
         this.direction = direction;
         this.bulletSpeed = bulletSpeed;
         this.knockback = knockback;
+        this.damage = damage;
     }
 
     @Override
@@ -52,7 +54,7 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     }
 
     @Override
-    public void hit(EntityModel obj) {
+    public void hit() {
     	active = false;
     }
 
@@ -69,5 +71,10 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     @Override
     public float getBulletSpeed() {
     	return bulletSpeed;
+    }
+    
+    @Override
+    public float getDamage() {
+    	return damage;
     }
 }

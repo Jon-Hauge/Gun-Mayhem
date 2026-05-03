@@ -2,6 +2,7 @@ package inf112.mayhem.model.entities.characters;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
+import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 public interface CharacterModel extends EntityModel {
@@ -22,7 +23,13 @@ public interface CharacterModel extends EntityModel {
     ///
     /// @param obj Object character is hit by.
     ///
-    void hit(EntityModel obj);
+    void hit(AbstractProjectile obj);
+    
+    /// Applies a scaled knockback for the character based on its damage percentage
+    ///
+    /// @param baseKnockback knockback from projectile hit
+    /// @param direction direction knockback is applied
+    void applyKnockback(float baseKnockback, int direction);
 
     /// Sets horizontal direction of character
     ///
@@ -61,6 +68,11 @@ public interface CharacterModel extends EntityModel {
     /// @return Amount of lives character has left
     ///
     int lives();
+    
+    ///
+    /// @return Amount of damagepercentage character has
+    ///
+    float getDamagePercentage();
 
     /// Equips weapon provided it is dropped
     ///

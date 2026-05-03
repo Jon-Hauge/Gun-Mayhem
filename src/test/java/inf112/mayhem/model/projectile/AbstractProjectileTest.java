@@ -60,7 +60,7 @@ class AbstractProjectileTest {
 
     @Test
     void hitDeactivatesProjectile() {
-        projectile.hit(null);
+        projectile.hit();
         projectile.updateState();
 
         assertFalse(projectile.isActive());

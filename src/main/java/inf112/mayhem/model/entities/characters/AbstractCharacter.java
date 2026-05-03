@@ -9,9 +9,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.AbstractEntity;
-import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.powerUp.PowerUp;
+import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.guns.PistolWeapon;
 
@@ -26,10 +26,13 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
     protected final float DOUBLE_JUMP_FORCE = 200f;
     protected final float DROP_DURATION = 2f;
     protected final int WORLD_PADDING = 200;
+    protected final float KNOCKBACK_DECAY = 18f;
 
 	protected float speedMultiplier = 1f;
 	protected float gravityMultiplier = 1f;
 	protected float jumpBoostMultiplier = 1f;
+	protected float damagePercent = 0f;
+	protected float knockbackVelocity = 0f;
 	 
 	protected int direction;
 	protected int jump_counter;
@@ -71,8 +74,16 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	public abstract void drop();
 
 	@Override
-	public abstract void hit(EntityModel obj);
+	public void hit(AbstractProjectile obj) {
+		damagePercent += obj.getDamage();
+	}
 
+	@Override
+	public void applyKnockback(float baseKnockback, int direction) {
+		float scaledKnockback = calculateKnockback(baseKnockback);
+		knockbackVelocity += scaledKnockback * direction;
+	}
+	
 	@Override
 	public void die() {
 		this.active = false;
@@ -178,6 +189,31 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	public void addPowerUp(PowerUp powerUp, float duration) {
 		powerUp.applyPowerUp(this);
 		activePowerUps.add(new ActivePowerUp(powerUp, duration));
+	}
+	
+	/// Calculates the final knockback force applied to the character when hit.
+	///
+	/// @param base The base knockback force provided by the attacking weapon
+	/// @return The final knockback force to be applied to the character
+	public float calculateKnockback(float base) {
+		
+		float multiplier = 1.0f + (damagePercent / 100f);
+		float scaledKnockback = base * multiplier;
+		
+		if (rollForHardKnockback()) {
+			scaledKnockback *= 1.5f;
+		}
+		
+		return scaledKnockback;
+	}
+	
+	/// Determines whether a hit triggers a hard knockback effect.
+	/// 
+	/// @return true if hard knockback is triggered, false otherwise
+	private boolean rollForHardKnockback() {
+	    float chance = damagePercent /300f;
+	    float clampedChance = Math.min(chance, 0.25f); 
+	    return Math.random() < clampedChance;
 	}
 
 	private static class ActivePowerUp {

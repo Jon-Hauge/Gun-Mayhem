@@ -13,6 +13,11 @@ public interface ProjectileModel extends EntityModel {
 	/// @return Amount of knockback in projectile
 	///
 	float getKnockBack();
+	
+	///
+	/// @return Amount of damage in projectile
+	///
+	float getDamage();
 
 	///
 	/// @return Speed of projectile
@@ -23,5 +28,5 @@ public interface ProjectileModel extends EntityModel {
 	///
 	/// @param obj Object that the projectile hits
 	///
-	void hit(EntityModel obj);
+	void hit();
 }

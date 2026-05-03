@@ -59,10 +59,10 @@ public class EntityCollisionHandler {
 	            }
 
 	            if (projectileHit(projectile, target)) {
-	                projectile.hit(target);
+	                projectile.hit();
 
 	                if (target instanceof ProjectileModel targetProjectile) {
-	                    targetProjectile.hit(projectile);
+	                    targetProjectile.hit();
 	                } else if (target instanceof CharacterModel character) {
 	                    character.hit(projectile);
 	                }
