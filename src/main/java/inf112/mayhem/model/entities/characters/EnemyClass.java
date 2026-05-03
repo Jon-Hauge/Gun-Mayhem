@@ -90,6 +90,11 @@ public class EnemyClass extends AbstractCharacter {
     public int getAggression() {
         return aggression;
     }
+    
+	@Override
+	public float getDamagePercentage() {
+		return damagePercent;
+	}
 
     @Override
     public void jump() {
