@@ -30,6 +30,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	protected float speedMultiplier = 1f;
 	protected float gravityMultiplier = 1f;
 	protected float jumpBoostMultiplier = 1f;
+	protected float damagePercent = 0f;
 	 
 	protected int direction;
 	protected int jump_counter;
@@ -73,6 +74,21 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	@Override
 	public abstract void hit(EntityModel obj);
 
+	@Override
+	public void applyKnockback(float baseKnockback, int direction) {
+		float scaledKnockback = calculateKnockback(baseKnockback);
+		velocity.x += scaledKnockback * direction;
+	}
+	
+	@Override 
+	public float calculateKnockback(float base) {
+		
+		float multiplier = 1.0f + (damagePercent / 100f);
+		float scaledKnockback = base * multiplier;
+		
+		return scaledKnockback;
+	}
+	
 	@Override
 	public void die() {
 		this.active = false;
