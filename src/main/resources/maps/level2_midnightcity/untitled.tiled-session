@@ -58,6 +58,17 @@
                 "y": 383.338714885373
             }
         },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/Tileset.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 622.6666666666665,
+                "y": 295.3333333333333
+            }
+        },
         "Ladder2.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -76,7 +87,7 @@
         },
         "map.tmx": {
             "scale": 0.75,
-            "selectedLayer": 5,
+            "selectedLayer": 6,
             "viewCenter": {
                 "x": 658.6666666666665,
                 "y": 392.66666666666663
@@ -98,15 +109,18 @@
         }
     },
     "last.externalTilesetPath": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity",
-    "last.imagePath": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level2_midnightcity",
+    "last.imagePath": "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/Bushes",
     "map.height": 24,
     "map.lastUsedFormat": "tmx",
     "map.width": 40,
     "openFiles": [
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx",
+        "map.tmx"
     ],
     "project": "untitled.tiled-project",
     "recentFiles": [
         "map.tmx",
+        "C:/Users/andre/Documents/Programmering/INF112/team-mayhem/src/main/resources/maps/level3_moistymire/map.tmx",
         "Ladder2.tsx",
         "Box1.tsx",
         "cityTile.tsx",
@@ -116,9 +130,12 @@
         "25.tsx",
         "Trap.tsx",
         "Ladder3.tsx",
-        "Box3.tsx",
-        "Box5.tsx"
+        "Box3.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
-    "tileset.lastUsedFormat": "tsx"
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 18,
+        "width": 31
+    }
 }
