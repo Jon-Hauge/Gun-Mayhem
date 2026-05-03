@@ -1,10 +1,11 @@
 package inf112.mayhem.model.weapons;
 
 import com.badlogic.gdx.math.Rectangle;
+
 import inf112.mayhem.model.AppWorld;
+import inf112.mayhem.model.entities.AbstractEntity;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.entities.AbstractEntity;
 
 public abstract class AbstractWeapon extends AbstractEntity implements WeaponModel {
 
@@ -18,6 +19,7 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
     private boolean active = true;
     private float timer = 0f;
     private final float lifespan = 20f;
+    private boolean hasShot = false;
 
     /// Initiates a weapon.
     ///
@@ -89,9 +91,11 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
             return false;
         }
         if (currentAmmo < 0) {
+            hasShot = true;
             return true;
         } else {
             currentAmmo -= 1;
+            hasShot = true;
             return true;
         }
     }
@@ -133,5 +137,13 @@ public abstract class AbstractWeapon extends AbstractEntity implements WeaponMod
     @Override
     public void setState(EntityState state) {
     	this.state = state;
+    }
+
+    public boolean hasSHot(){
+        return hasShot;
+    }
+
+    public void soundMade(){
+        hasShot = false;
     }
 }

@@ -2,6 +2,7 @@ package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
@@ -38,6 +39,7 @@ public class EnemyClass extends AbstractCharacter {
     private static final float BASE_REACTION_TIME = 1.5f;
     private static final float BASE_PATROL_SPEED = 30f;
     private static final float BASE_PATROL_DISTANCE = 80f;
+    private boolean hasJumped = false;
 
     /// Initializes a new enemy at the specified position with a given aggression level.
     /// Enemy represents an AI-controlled character in the game with different aggression
@@ -102,9 +104,11 @@ public class EnemyClass extends AbstractCharacter {
             velocity.y = JUMP_FORCE * jumpBoostMultiplier;
             isGrounded = false;
             jump_counter++;
+            hasJumped = true;
         } else if (jump_counter < 2 && aggression >= 3) {
             velocity.y = DOUBLE_JUMP_FORCE * jumpBoostMultiplier;
             jump_counter++;
+            hasJumped = true;
         }
     }
 
@@ -327,5 +331,15 @@ public class EnemyClass extends AbstractCharacter {
             }
         }
         return closest;
+    }
+
+    @Override
+    public boolean hasJumped() {
+        return hasJumped;
+    }
+
+    @Override
+    public void jumpSoundMade() {
+        hasJumped = false;
     }
 }

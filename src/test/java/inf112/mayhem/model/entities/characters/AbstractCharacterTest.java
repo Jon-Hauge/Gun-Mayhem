@@ -59,6 +59,16 @@ class AbstractCharacterTest {
 		public float getDamagePercentage() {
 			return damagePercent;
 		}
+
+        @Override
+        public boolean hasJumped() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void jumpSoundMade() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     static class BaseTestCharacter extends AbstractCharacter {
@@ -92,6 +102,16 @@ class AbstractCharacterTest {
 		public float getDamagePercentage() {
 			return damagePercent;
 		}
+
+        @Override
+        public boolean hasJumped() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void jumpSoundMade() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
 
     @Test

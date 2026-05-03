@@ -1,10 +1,10 @@
 package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.projectile.AbstractProjectile;
 
 public class PlayerClass extends AbstractCharacter {
@@ -12,6 +12,7 @@ public class PlayerClass extends AbstractCharacter {
     private static final float WIDTH = 32f;
     private static final float HEIGHT = 32f;
     private static final int LIVES = 3;
+    private boolean hasJumped = false;
 
     /// Initializes a new player at the specified position.
     ///
@@ -31,9 +32,11 @@ public class PlayerClass extends AbstractCharacter {
             velocity.y = JUMP_FORCE * jumpBoostMultiplier;
             isGrounded = false;
             jump_counter++;
+            hasJumped = true;
         } else if (jump_counter < 2) {
             velocity.y = DOUBLE_JUMP_FORCE * jumpBoostMultiplier;
             jump_counter++;
+            hasJumped = true;
         }
     }
 
@@ -102,4 +105,14 @@ public class PlayerClass extends AbstractCharacter {
 	public float getDamagePercentage() {
 		return damagePercent;
 	}
+
+    @Override
+    public boolean hasJumped() {
+        return hasJumped;
+    }
+
+    @Override
+    public void jumpSoundMade() {
+        hasJumped = false;
+    }
 }

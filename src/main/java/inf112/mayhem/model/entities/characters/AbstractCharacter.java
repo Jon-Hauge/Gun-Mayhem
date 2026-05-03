@@ -79,6 +79,9 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	}
 
 	@Override
+	public abstract boolean hasJumped();
+
+	@Override
 	public void applyKnockback(float baseKnockback, int direction) {
 		float scaledKnockback = calculateKnockback(baseKnockback);
 		knockbackVelocity += scaledKnockback * direction;
