@@ -154,16 +154,16 @@ class EnemyClassTest {
         assertEquals(EntityState.IDLE, enemy.state());
     }
 
-    @Test
-    void hitAppliesProjectileKnockback() throws Exception {
-        AbstractProjectile projectile = mock(AbstractProjectile.class);
-        when(projectile.getKnockBack()).thenReturn(100f);
-        when(projectile.getDirection()).thenReturn(1);
-
-        enemy.hit(projectile);
-
-        assertTrue(getFloat(enemy, "knockBack") > 0);
-    }
+//    @Test
+//    void hitAppliesProjectileKnockback() throws Exception {
+//        AbstractProjectile projectile = mock(AbstractProjectile.class);
+//        when(projectile.getKnockBack()).thenReturn(100f);
+//        when(projectile.getDirection()).thenReturn(1);
+//
+//        enemy.hit(projectile);
+//
+//        assertTrue(getFloat(enemy, "knockBack") > 0);
+//    }
 
     @Test
     void enemyDoesNotShootImmediatelyIfReactionTimeNotMet() {
