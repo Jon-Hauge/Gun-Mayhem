@@ -16,6 +16,6 @@ class PumpActionShotgunProjectileTest {
         assertEquals(20f, projectile.height());
         assertEquals(1, projectile.getDirection());
         assertEquals(500f, projectile.getBulletSpeed());
-        assertEquals(1000f, projectile.getKnockBack());
+        assertEquals(3000f, projectile.getKnockBack());
     }
 }

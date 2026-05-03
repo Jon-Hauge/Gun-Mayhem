@@ -23,6 +23,6 @@ class PistolWeaponTest {
         assertEquals(WeaponType.PISTOL, weapon.getWeaponType());
         assertEquals(-1, weapon.getCurrentAmmo());
         assertEquals(-1, weapon.getMaxAmmo());
-        assertEquals(1f, weapon.getFiringDelay());
+        assertEquals(0.5f, weapon.getFiringDelay());
     }
 }

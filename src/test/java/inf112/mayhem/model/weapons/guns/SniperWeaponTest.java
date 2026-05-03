@@ -21,8 +21,8 @@ class SniperWeaponTest {
         assertEquals(EntityType.WEAPON, weapon.type());
         assertEquals(EntityState.DROPPED, weapon.state());
         assertEquals(WeaponType.SNIPER, weapon.getWeaponType());
-        assertEquals(10, weapon.getCurrentAmmo());
-        assertEquals(10, weapon.getMaxAmmo());
+        assertEquals(6, weapon.getCurrentAmmo());
+        assertEquals(6, weapon.getMaxAmmo());
         assertEquals(3f, weapon.getFiringDelay());
     }
 }
