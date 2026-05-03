@@ -114,6 +114,7 @@ public abstract class AbstractScreenView {
             parameter.shadowColor = shadowColor;
             parameter.borderWidth = borderWidth;
             parameter.borderColor = borderColor;
+            parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + "↑↓←→";
             BitmapFont font = generator.generateFont(parameter);
             generator.dispose();
             return font;

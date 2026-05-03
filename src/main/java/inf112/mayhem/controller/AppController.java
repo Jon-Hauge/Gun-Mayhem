@@ -120,6 +120,12 @@ public class AppController implements ApplicationListener, IController {
     }
 
     @Override
+    public void goToControls() {
+        world.setState(GameState.CONTROLS);
+        updateInputProcessor();
+    }
+
+    @Override
     public void nextLevel() {
         if (currentLevel < 3) {
             startLevel(currentLevel + 1);
