@@ -75,7 +75,7 @@ public class EntityCollisionHandlerTest {
 
         handler.checkCollisions();
 
-        verify(projectile).hit(character);
+        verify(projectile).hit();
         verify(character).hit(projectile);
     }
 
@@ -94,8 +94,8 @@ public class EntityCollisionHandlerTest {
 
         handler.checkCollisions();
 
-        verify(p1).hit(p2);
-        verify(p2).hit(p1);
+        verify(p1).hit();
+        verify(p2).hit();
     }
 
     @Test
@@ -108,6 +108,6 @@ public class EntityCollisionHandlerTest {
 
         handler.checkCollisions();
 
-        verify(projectile, never()).hit(any());
+        verify(projectile, never()).hit();
     }
 }

@@ -4,10 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.Test;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
@@ -15,6 +16,7 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
+import inf112.mayhem.model.projectile.AbstractProjectile;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 
 class AbstractCharacterTest {
@@ -37,7 +39,7 @@ class AbstractCharacterTest {
         }
 
         @Override
-        public void hit(EntityModel obj) {
+        public void hit(AbstractProjectile obj) {
             lives--;
         }
 
@@ -52,6 +54,11 @@ class AbstractCharacterTest {
             position.y += velocity.y * delta;
             updateBounds();
         }
+
+		@Override
+		public float getDamagePercentage() {
+			return damagePercent;
+		}
     }
 
     static class BaseTestCharacter extends AbstractCharacter {
@@ -72,7 +79,7 @@ class AbstractCharacterTest {
         }
 
         @Override
-        public void hit(EntityModel obj) {
+        public void hit(AbstractProjectile obj) {
             lives--;
         }
 
@@ -80,6 +87,11 @@ class AbstractCharacterTest {
         public void update(AppWorld world, float delta) {
             super.update(world, delta);
         }
+
+		@Override
+		public float getDamagePercentage() {
+			return damagePercent;
+		}
     }
 
     @Test
@@ -224,7 +236,7 @@ class AbstractCharacterTest {
         character.drop();
         assertEquals(-100, character.velocity.y);
 
-        character.hit(mock(EntityModel.class));
+        character.hit(mock(AbstractProjectile.class));
         assertEquals(2, character.lives());
 
         character.updateState();
