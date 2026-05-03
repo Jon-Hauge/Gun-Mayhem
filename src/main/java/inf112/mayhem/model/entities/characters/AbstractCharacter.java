@@ -1,7 +1,11 @@
 package inf112.mayhem.model.entities.characters;
 
 	
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
+
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.AbstractEntity;
@@ -10,8 +14,6 @@ import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.powerUp.PowerUp;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.model.weapons.guns.PistolWeapon;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
@@ -150,7 +152,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 		return bounds().x < 0 							      ||
 			   bounds().x + bounds().width > world.width()    ||
 			   bounds().y < 0 							      || 
-			   bounds().y + bounds().height > world.height();
+			   bounds().y + bounds().height > world.height() + 1000;
 	}
 
 	@Override

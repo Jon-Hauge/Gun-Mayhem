@@ -59,8 +59,8 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 		this.collisionHandler = new MapCollisionHandler(map);
 
 		// Player
-		this.playerClass = fac.spawnPlayer(500f, 800f);
-		this.enemyClass = fac.spawnEnemy(900f, 800f);
+		this.playerClass = fac.spawnPlayer(500f,(float) this.height + 100);
+		this.enemyClass = fac.spawnEnemy(900f, (float) this.height + 100);
 	}
 
 	@Override
