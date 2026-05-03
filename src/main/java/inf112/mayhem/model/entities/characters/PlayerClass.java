@@ -97,4 +97,9 @@ public class PlayerClass extends AbstractCharacter {
     	super.hit(obj);
         applyKnockback(obj.getKnockBack(), obj.getDirection());
     }
+
+	@Override
+	public float getDamagePercentage() {
+		return damagePercent;
+	}
 }

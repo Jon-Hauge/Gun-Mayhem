@@ -68,6 +68,11 @@ public interface CharacterModel extends EntityModel {
     /// @return Amount of lives character has left
     ///
     int lives();
+    
+    ///
+    /// @return Amount of damagepercentage character has
+    ///
+    float getDamagePercentage();
 
     /// Equips weapon provided it is dropped
     ///
