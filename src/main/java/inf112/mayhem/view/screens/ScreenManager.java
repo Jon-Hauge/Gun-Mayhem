@@ -18,6 +18,7 @@ public class ScreenManager {
     private final VictoryView victoryView;
     private final HudView hudView;
     private final CampaignView campaignView;
+    private final ControlsView controlsView;
     private final AbstractCharacter player;
     private final AbstractCharacter enemy;
 
@@ -39,6 +40,7 @@ public class ScreenManager {
         this.victoryView = new VictoryView(world, controller);
         this.campaignView = new CampaignView(world, controller);
         this.hudView = new HudView(world, controller, player);
+        this.controlsView = new ControlsView(world, controller);
     }
 
     /// Disposes of all elements in stage.
@@ -51,6 +53,7 @@ public class ScreenManager {
         victoryView.dispose();
         campaignView.dispose();
         hudView.dispose();
+        controlsView.dispose();
     }
 
     /// Resizes screen to account for changes in resolution
@@ -66,6 +69,7 @@ public class ScreenManager {
         victoryView.resize(width, height);
         campaignView.resize(width, height);
         hudView.resize(width, height);
+        controlsView.resize(width, height);
     }
 
     /// Renders the game world.
@@ -95,6 +99,7 @@ public class ScreenManager {
                 victoryView.render();
             }
             case CAMPAIGN -> campaignView.render();
+            case CONTROLS ->  controlsView.render();
         }
     }
 
@@ -110,6 +115,7 @@ public class ScreenManager {
             case GAME_OVER -> Gdx.input.setInputProcessor(gameOverView.getStage());
             case VICTORY -> Gdx.input.setInputProcessor(victoryView.getStage());
             case CAMPAIGN -> Gdx.input.setInputProcessor(campaignView.getStage());
+            case CONTROLS -> Gdx.input.setInputProcessor(controlsView.getStage());
             default -> Gdx.input.setInputProcessor(null);
         }
     }

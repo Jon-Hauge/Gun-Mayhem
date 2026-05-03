@@ -79,6 +79,7 @@ public class MainMenuView extends AbstractScreenView {
     @Override
     protected Table createButtons() {
         Table table = new Table();
+        table.bottom();
         table.setFillParent(true);
 
         BitmapFont buttonFont = generateFont("fonts/Inter_28pt-Black.ttf", 50, 1, 1, Color.BLACK, 3, Color.BLACK);
@@ -96,6 +97,15 @@ public class MainMenuView extends AbstractScreenView {
         });
         table.add(campaignButton).padBottom(10).row();
 
+        TextButton controlsButton = new TextButton("Controls", buttonStyle);
+        controlsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                controller.goToControls();
+            }
+        });
+        table.add(controlsButton).pad(10).row();
+
         TextButton exitButton = new TextButton("Exit game", buttonStyle);
         exitButton.addListener(new ClickListener() {
             @Override
@@ -103,7 +113,7 @@ public class MainMenuView extends AbstractScreenView {
                 controller.exitGame();
             }
         });
-        table.add(exitButton);
+        table.add(exitButton).padTop(10).padBottom(200).row();
 
         return table;
     }
