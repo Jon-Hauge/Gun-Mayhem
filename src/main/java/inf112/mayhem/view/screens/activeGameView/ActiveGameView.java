@@ -104,11 +104,11 @@ public class ActiveGameView {
             return new CharacterRig(
                     new Texture(Gdx.files.internal("character_sprites/body_orange.png")),
                     new Texture(Gdx.files.internal("character_sprites/face.png")),
-                    new Texture(Gdx.files.internal("character_sprites/feet_orange.png")),
-                    new Texture(Gdx.files.internal("character_sprites/feet_orange.png")),
+                    new Texture(Gdx.files.internal("character_sprites/feet.png")),
+                    new Texture(Gdx.files.internal("character_sprites/feet.png")),
                     new Texture(Gdx.files.internal("character_sprites/gun_glock.png")),
-                    new Texture(Gdx.files.internal("character_sprites/hands_orange.png")),
-                    new Texture(Gdx.files.internal("character_sprites/hands_orange.png")),
+                    new Texture(Gdx.files.internal("character_sprites/hands.png")),
+                    new Texture(Gdx.files.internal("character_sprites/hands.png")),
                     new Texture(Gdx.files.internal("character_sprites/head_orange.png")),
                     scale);
         } else {
