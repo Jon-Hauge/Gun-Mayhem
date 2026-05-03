@@ -28,5 +28,5 @@ public interface ProjectileModel extends EntityModel {
 	///
 	/// @param obj Object that the projectile hits
 	///
-	void hit(EntityModel obj);
+	void hit();
 }

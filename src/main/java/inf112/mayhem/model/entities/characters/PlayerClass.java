@@ -12,8 +12,6 @@ public class PlayerClass extends AbstractCharacter {
     private static final float WIDTH = 32f;
     private static final float HEIGHT = 32f;
     private static final int LIVES = 3;
-    private float knockBack = 0f;
-    private static final float KNOCKBACK_DECAY = 8f;
 
     /// Initializes a new player at the specified position.
     ///
@@ -57,9 +55,8 @@ public class PlayerClass extends AbstractCharacter {
 
         velocity.y -= GRAVITY * delta * gravityMultiplier;
         position.x += velocity.x * delta * speedMultiplier;
-        position.x += knockBack * delta;
-        knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
-        knockBack *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
+        position.x += knockbackVelocity * delta;
+        knockbackVelocity *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
         updateBounds();
         position.y += velocity.y * delta;
         updateBounds();
@@ -96,8 +93,8 @@ public class PlayerClass extends AbstractCharacter {
     }
 
     @Override
-    public void hit(EntityModel obj) {
-        AbstractProjectile projectile = (AbstractProjectile) obj;
-        knockBack = projectile.getKnockBack() * projectile.getDirection();
+    public void hit(AbstractProjectile obj) {
+    	super.hit(obj);
+        applyKnockback(obj.getKnockBack(), obj.getDirection());
     }
 }

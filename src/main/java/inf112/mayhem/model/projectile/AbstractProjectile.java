@@ -54,7 +54,7 @@ public abstract class AbstractProjectile extends AbstractEntity implements Proje
     }
 
     @Override
-    public void hit(EntityModel obj) {
+    public void hit() {
     	active = false;
     }
 
