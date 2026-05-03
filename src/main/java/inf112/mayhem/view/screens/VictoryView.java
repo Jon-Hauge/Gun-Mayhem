@@ -42,7 +42,7 @@ public class VictoryView extends AbstractScreenView {
         buttonStyle.font = buttonFont;
         buttonStyle.fontColor = Color.WHITE;
 
-        Label.LabelStyle labelStyle = new Label.LabelStyle(titleFont, Color.WHITE);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(titleFont, Color.ORANGE);
         Label title = new Label("VICTORY", labelStyle);
         table.add(title).padBottom(20).row();
 
