@@ -4,7 +4,9 @@
 
 ---
 ### Running the project
-* You can run the project with Maven using mvn exec:java. You will need Java 25:
+* You can run the project with Maven using *mvn exec:java*
+* You will need Java 25.
+* If Maven is not installed locally on your PC, you can run the main class directly through your IDE:
 
       <main.class>inf112.mayhem.app.Main</main.class>
 
@@ -12,11 +14,13 @@
 
 * You may have to compile first, with mvn compile – or in a single step, *mvn compile exec:java*
 
+
 * To run the tests, use: *mvn test*
+* If Maven is not installed locally, you can run the tests through the test package with your IDE.
 
 ---
 ### Controls
-- Controls for the game can be found by pressing the **Controls** button on the main menu.
+- Controls for the game can be found by pressing the **Controls** button in the main menu.
 
 ---
 ### Security
@@ -26,8 +30,7 @@
 
 ---
 ### Notable bugs:
-
-* *Character entities may fall through solid ground when resizing windows*
+* *NaN*
 
 **Other bugs may be reported as a message to any of the devs through our UIB mails.**
 
