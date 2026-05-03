@@ -3,6 +3,7 @@ package inf112.mayhem.view.screens.activeGameView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -17,12 +18,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.entities.characters.CharacterModel;
+import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.entities.powerUp.Crate;
@@ -46,6 +48,7 @@ public class ActiveGameView {
     private float smoothCamX = 0;
     private float smoothCamY = 0;
     private final LevelLoader lvlLoader;
+    private final GameSounds gameSounds = new GameSounds();
 
     //TILEMAP
     private final OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -178,14 +181,7 @@ public class ActiveGameView {
                 tex.dispose();
         });
     }
-
-
-    /// Plays a sound
-    ///
-    public void playSound() {
-        // TODO: play different sounds
-    }
-
+    
     /// Renders the game world.
     /// Happens multiple times per second.
     ///
@@ -295,9 +291,11 @@ public class ActiveGameView {
 
                 if (obj instanceof PlayerClass character && character.isActive()) {
                     playerView.draw(batch, character, delta);
+                    getSound(character);
                 }
                 if (obj instanceof EnemyClass character && character.isActive()) {
                     enemyView.draw(batch, character, delta);
+                    getSound(character);
                 }
 
                 if (obj instanceof AbstractWeapon weapon) {
@@ -390,4 +388,19 @@ public class ActiveGameView {
     /// @return current stage
     ///
     public Stage getStage() {return new Stage(viewport, batch); }
+
+    private void getSound(AbstractCharacter character){
+        if(character.hasJumped()){
+            gameSounds.playSound(GameSounds.SoundType.JUMP);
+            character.jumpSoundMade();
+        }
+        if(character.getEquippedWeapon().hasSHot()){
+        switch (character.getEquippedWeapon().getWeaponType()){
+            case PISTOL -> gameSounds.playSound(GameSounds.SoundType.PISTOL);
+            case SNIPER -> gameSounds.playSound(GameSounds.SoundType.SNIPER);
+            case SEMIAUTOSHOTGUN -> gameSounds.playSound(GameSounds.SoundType.SHOTGUN);
+            }
+        character.getEquippedWeapon().soundMade();
+        }
+    }
 }

@@ -57,6 +57,18 @@ class PowerUpPackageTest {
 		public float getDamagePercentage() {
 			return damagePercent;
 		}
+
+        @Override
+        public void jumpSoundMade() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'jumpSoundMade'");
+        }
+
+        @Override
+        public boolean hasJumped() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'hasJumped'");
+        }
     }
 
     @Test

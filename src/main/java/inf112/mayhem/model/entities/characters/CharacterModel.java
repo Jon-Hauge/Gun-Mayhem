@@ -106,4 +106,10 @@ public interface CharacterModel extends EntityModel {
     ///
     void setJumpBoostMultiplier(float jumpBoostMultiplier);
 
+    /// @return if player has jumped.
+    /// Is in place so gameView can make jumping sound.
+    boolean hasJumped();
+
+    /// Makes hasJumped false so sound will only be played once
+    void jumpSoundMade();
 }
