@@ -21,9 +21,6 @@ public class ControlsView extends AbstractScreenView {
     private AppController controller;
     private ShapeRenderer shapeRenderer;
 
-    private VideoPlayer videoPlayer;
-    private SpriteBatch videoBatch;
-
     /// Constructs a new view over the controls of the game with the given world and controller.
     ///
     /// @param world The game world
@@ -34,21 +31,25 @@ public class ControlsView extends AbstractScreenView {
         this.controller = controller;
         this.shapeRenderer = new ShapeRenderer();
 
-        setupBackgroundVideo();
-
         create(world.width(), world.height());
     }
 
-    private void setupBackgroundVideo() {
+    @Override
+    public boolean usesVideo() {
+        return true;
+    }
+
+    @Override
+    protected void setupBackgroundVideo() {
         videoBatch = new SpriteBatch();
 
         try {
             videoPlayer = VideoPlayerCreator.createVideoPlayer();
-            videoPlayer.load(Gdx.files.internal("screens/level_select.webm"));
+            videoPlayer.load(Gdx.files.internal("screens/controls_screen.webm"));
             videoPlayer.setLooping(true);
             videoPlayer.play();
         } catch (Exception e) {
-            Gdx.app.error("CampaignView", "Could not load background video", e);
+            Gdx.app.error("ControlsView", "Could not load background video", e);
             videoPlayer = null;
         }
     }
@@ -121,15 +122,6 @@ public class ControlsView extends AbstractScreenView {
 
     @Override
     public void dispose() {
-        if (videoPlayer != null) {
-            videoPlayer.stop();
-            videoPlayer.dispose();
-        }
-
-        if (videoBatch != null) {
-            videoBatch.dispose();
-        }
-
         super.dispose();
         if (shapeRenderer != null) {
             shapeRenderer.dispose();

@@ -19,9 +19,6 @@ public class MainMenuView extends AbstractScreenView {
     private AppWorld world;
     private AppController controller;
 
-    private VideoPlayer videoPlayer;
-    private SpriteBatch videoBatch;
-
     /// Constructs a new MainMenuView with the given world and controller.
     ///
     /// @param world The game world
@@ -31,12 +28,16 @@ public class MainMenuView extends AbstractScreenView {
         this.world = world;
         this.controller = controller;
 
-        setupBackgroundVideo();
-
         create(world.width(), world.height());
     }
 
-    private void setupBackgroundVideo() {
+    @Override
+    public boolean usesVideo() {
+        return true;
+    }
+
+    @Override
+    protected void setupBackgroundVideo() {
         videoBatch = new SpriteBatch();
 
         try {
@@ -120,15 +121,6 @@ public class MainMenuView extends AbstractScreenView {
 
     @Override
     public void dispose() {
-        if (videoPlayer != null) {
-            videoPlayer.stop();
-            videoPlayer.dispose();
-        }
-
-        if (videoBatch != null) {
-            videoBatch.dispose();
-        }
-
         super.dispose();
     }
 }

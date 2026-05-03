@@ -71,3 +71,4 @@
 
 - `src/main/resources/character_sprites` – JoyceQuan, GitHub Repository, https://github.com/Randonee1/Gun-Mayhem-master
 - `src/main/resources/weapons` - JoyceQuan, GitHub Repository, https://github.com/Randonee1/Gun-Mayhem-master
+- `src/main/resources/fonts/DejaVuSans.ttf` - Bitstream Inc - https://dejavu-fonts.github.io

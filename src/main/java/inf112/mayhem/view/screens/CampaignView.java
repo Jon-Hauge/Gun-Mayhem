@@ -20,9 +20,6 @@ public class CampaignView extends AbstractScreenView {
     private AppWorld world;
     private AppController controller;
 
-    private VideoPlayer videoPlayer;
-    private SpriteBatch videoBatch;
-
     /// Constructs a new CampaignView with the given world and controller.
     ///
     /// @param world The game world
@@ -32,12 +29,16 @@ public class CampaignView extends AbstractScreenView {
         this.world = world;
         this.controller = controller;
 
-        setupBackgroundVideo();
-
         create(world.width(), world.height());
     }
 
-    private void setupBackgroundVideo() {
+    @Override
+    public boolean usesVideo() {
+        return true;
+    }
+
+    @Override
+    protected void setupBackgroundVideo() {
         videoBatch = new SpriteBatch();
 
         try {
@@ -46,7 +47,7 @@ public class CampaignView extends AbstractScreenView {
             videoPlayer.setLooping(true);
             videoPlayer.play();
         } catch (Exception e) {
-            Gdx.app.error("CampaignView", "Could not load background video", e);
+            Gdx.app.error("Campaignview", "Could not load background video", e);
             videoPlayer = null;
         }
     }
@@ -148,15 +149,6 @@ public class CampaignView extends AbstractScreenView {
 
     @Override
     public void dispose() {
-        if (videoPlayer != null) {
-            videoPlayer.stop();
-            videoPlayer.dispose();
-        }
-
-        if (videoBatch != null) {
-            videoBatch.dispose();
-        }
-
         super.dispose();
     }
 }
