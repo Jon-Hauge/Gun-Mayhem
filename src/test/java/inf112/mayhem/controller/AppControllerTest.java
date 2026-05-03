@@ -88,6 +88,14 @@ public class AppControllerTest {
     }
 
     @Test
+    void controlsSetsGameStateToControls() {
+        when(world.state()).thenReturn(GameState.CONTROLS);
+        appController.goToControls();
+        verify(world).setState(GameState.CONTROLS);
+        verify(screenManager).updateInputProcessor(GameState.CONTROLS);
+    }
+
+    @Test
     void isLevelUnlockedReturnsTrueForUnlockedLevels() throws Exception {
         setField(appController, "unlockedLevels", 2);
 
