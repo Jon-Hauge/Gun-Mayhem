@@ -191,6 +191,10 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 		activePowerUps.add(new ActivePowerUp(powerUp, duration));
 	}
 	
+	/// Calculates the final knockback force applied to the character when hit.
+	///
+	/// @param base The base knockback force provided by the attacking weapon
+	/// @return The final knockback force to be applied to the character
 	public float calculateKnockback(float base) {
 		
 		float multiplier = 1.0f + (damagePercent / 100f);
@@ -203,6 +207,9 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 		return scaledKnockback;
 	}
 	
+	/// Determines whether a hit triggers a hard knockback effect.
+	/// 
+	/// @return true if hard knockback is triggered, false otherwise
 	private boolean rollForHardKnockback() {
 	    float chance = damagePercent /300f;
 	    float clampedChance = Math.min(chance, 0.25f); 
