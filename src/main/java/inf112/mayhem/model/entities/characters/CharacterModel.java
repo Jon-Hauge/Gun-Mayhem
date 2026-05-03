@@ -23,6 +23,17 @@ public interface CharacterModel extends EntityModel {
     /// @param obj Object character is hit by.
     ///
     void hit(EntityModel obj);
+    
+    /// Calculates knockback based on projectile and damage percentage
+    ///
+    /// @param base knockback of projectile hit
+    float calculateKnockback(float base);
+    
+    /// Applies a scaled knockback for the character based on its damage percentage
+    ///
+    /// @param baseKnockback knockback from projectile hit
+    /// @param direction direction knockback is applied
+    void applyKnockback(float baseKnockback, int direction);
 
     /// Sets horizontal direction of character
     ///

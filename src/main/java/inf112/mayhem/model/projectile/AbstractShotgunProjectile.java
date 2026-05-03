@@ -21,8 +21,8 @@ public class AbstractShotgunProjectile extends AbstractProjectile {
 	/// @param knockback   the speed of the projectile
 	/// @param range       the knockback force applied on hit
 	///
-	public AbstractShotgunProjectile(float startX, float startY, float width, float height, int direction, float bulletSpeed, float knockback, float range) {
-		super(startX, startY, width, height, direction, bulletSpeed, knockback);
+	public AbstractShotgunProjectile(float startX, float startY, float width, float height, int direction, float bulletSpeed, float knockback, float range, float damage) {
+		super(startX, startY, width, height, direction, bulletSpeed, knockback, damage);
 		this.maxRange = range;
 		this.startX = startX;
 	}
