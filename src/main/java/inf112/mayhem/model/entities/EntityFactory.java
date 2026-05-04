@@ -16,7 +16,6 @@ import inf112.mayhem.model.weapons.guns.PistolWeapon;
 import inf112.mayhem.model.weapons.guns.PumpActionShotgun;
 import inf112.mayhem.model.weapons.guns.SemiAutoShotgun;
 import inf112.mayhem.model.weapons.guns.SniperWeapon;
-import inf112.mayhem.model.weapons.melee.Sword;
 
 public class EntityFactory {
 	private final AppWorld world;
@@ -130,7 +129,6 @@ public class EntityFactory {
             case 1 -> new SniperWeapon(x, y);
             case 2 -> new PumpActionShotgun(x, y);
             case 3 -> new SemiAutoShotgun(x, y);
-            case 4 -> new Sword(x, y);
             default -> new PistolWeapon(x, y);
         };
 	}

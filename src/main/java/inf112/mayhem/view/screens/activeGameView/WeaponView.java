@@ -29,7 +29,6 @@ public class WeaponView {
             case SNIPER -> new Texture("weapons/sniper.png");
             case PUMPACTION -> new Texture("weapons/pumpaction.png");
             case SEMIAUTOSHOTGUN -> new Texture("weapons/semiaction.png");
-            case SWORD -> new Texture("weapons/sword.png");
             default -> new Texture("weapons/pistol.png");
         };
     }

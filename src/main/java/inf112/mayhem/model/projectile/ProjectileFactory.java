@@ -17,7 +17,6 @@ public class ProjectileFactory {
             case SNIPER -> new SniperProjectile(spawnX, spawnY, direction);
             case PUMPACTION -> new PumpActionShotgunProjectile(spawnX, spawnY, direction);
             case SEMIAUTOSHOTGUN -> new SemiAutoShotgunProjectile(spawnX, spawnY, direction);
-            case SWORD -> null; // sword does not use projectiles
             default -> throw new IllegalArgumentException("Unknown weapon-type: " + weaponType);
         };
     }
