@@ -32,7 +32,7 @@ public class EnemyClass extends AbstractCharacter {
     private boolean hasLandedAfterSpawn = false;
     private boolean hasEdgeJumped = false;
     private boolean isCrossingGap = false;
-
+    
     private float airJumpCheckTimer = 0f;
     private float jumpDecisionCooldown = 0f;
 
