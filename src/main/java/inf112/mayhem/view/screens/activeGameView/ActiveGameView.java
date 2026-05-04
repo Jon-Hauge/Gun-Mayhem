@@ -176,6 +176,7 @@ public class ActiveGameView {
         batch.dispose();
         shape.dispose();
         font.dispose();
+        gameSounds.dispose();
         textures.values().forEach(tex -> {
             if (tex != null)
                 tex.dispose();
