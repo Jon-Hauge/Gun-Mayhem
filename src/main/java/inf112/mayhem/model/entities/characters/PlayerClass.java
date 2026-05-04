@@ -53,6 +53,9 @@ public class PlayerClass extends AbstractCharacter {
     @Override
     public void update(AppWorld world, float delta) {
     	super.update(world, delta);
+        if (waitingForRespawn) {
+            return;
+        }
     	
         float previousY = position.y;
 
@@ -73,11 +76,14 @@ public class PlayerClass extends AbstractCharacter {
             updateBounds();
         } else if (outOfBounds(world)) {
             lives--;
+
             if (lives <= 0) {
                 die();
             } else {
-                respawn();
-                updateBounds();
+                waitingForRespawn = true;
+                respawnTimer = 0f;
+                velocity.x = 0;
+                velocity.y = 0;
             }
         } else {
             isGrounded = false;
