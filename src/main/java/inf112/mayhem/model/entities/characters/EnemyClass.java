@@ -36,8 +36,8 @@ public class EnemyClass extends AbstractCharacter {
     private float airJumpCheckTimer = 0f;
     private float jumpDecisionCooldown = 0f;
 
-    private static final float AIR_JUMP_CHECK_INTERVAL = 0.7f;
-    private static final float JUMP_DECISION_COOLDOWN = 0.6f;
+    private static final float AIR_JUMP_CHECK_INTERVAL = 1.2f;
+    private static final float JUMP_DECISION_COOLDOWN = 1.2f;
 
     private static final float BASE_SPEED = 60f;
     private static final float BASE_ATTACK_RANGE = 40f;
@@ -233,18 +233,20 @@ public class EnemyClass extends AbstractCharacter {
         velocity.x = direction * moveSpeed * speedMultiplier;
 
         if (!isGrounded
-                && isCrossingGap
-                && airJumpCheckTimer <= 0
-                && jumpDecisionCooldown <= 0
+                && hasLandedAfterSpawn
+                && jump_counter < MAX_JUMPS
                 && velocity.y <= 0
-                && jump_counter < MAX_JUMPS) {
+                && airJumpCheckTimer <= 0
+                && jumpDecisionCooldown <= 0) {
 
-            if (!hasGroundAnywhereBelow(world)) {
+            boolean noGroundBelow = !hasGroundAnywhereBelow(world);
+
+            if (noGroundBelow) {
+                isCrossingGap = true;
                 emergencyJump(distX);
+                airJumpCheckTimer = AIR_JUMP_CHECK_INTERVAL;
                 jumpDecisionCooldown = JUMP_DECISION_COOLDOWN;
             }
-
-            airJumpCheckTimer = AIR_JUMP_CHECK_INTERVAL;
         }
 
         if (isGrounded && distY > HEIGHT && !isAtEdge()) {
