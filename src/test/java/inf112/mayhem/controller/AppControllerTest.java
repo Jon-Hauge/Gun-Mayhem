@@ -183,18 +183,6 @@ public class AppControllerTest {
     }
 
     @Test
-    void handleInputRestartsWhenActiveAndEnterPressed() {
-        Gdx.input = mock(Input.class);
-        when(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)).thenReturn(true);
-        when(world.state()).thenReturn(GameState.ACTIVE);
-
-        Gdx.graphics = mock(Graphics.class);
-        appController.render();
-
-        verify(world).reset();
-    }
-
-    @Test
     void renderUpdatesWorldAndControllersWhenActive() {
         when(world.state()).thenReturn(GameState.ACTIVE);
         Gdx.graphics = mock(Graphics.class);

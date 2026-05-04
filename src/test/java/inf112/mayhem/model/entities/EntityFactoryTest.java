@@ -20,9 +20,9 @@ import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.entities.powerUp.Crate;
-import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.WeaponType;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.WeaponType;
 
 class EntityFactoryTest {
 

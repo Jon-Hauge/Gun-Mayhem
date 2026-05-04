@@ -3,9 +3,7 @@ package inf112.mayhem.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
-
 import inf112.mayhem.model.collision.EntityCollisionHandler;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.EntityFactory;
@@ -15,14 +13,14 @@ import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.view.maps.LevelLoader;
 
 public class AppWorld implements Iterable<EntityModel>, IWorld {
-	private double width;
-	private double height;
+	private final double width;
+	private final double height;
 	private double currentTime = 0;
-	private List<EntityModel> objects = new ArrayList<>();
-	private List<EntityModel> toAdd = new ArrayList<>();
+	private final List<EntityModel> objects = new ArrayList<>();
+	private final List<EntityModel> toAdd = new ArrayList<>();
 	private TiledMap map;
 	private MapCollisionHandler collisionHandler;
-	private LevelLoader loader = new LevelLoader();
+	private final LevelLoader loader = new LevelLoader();
 	private EntityFactory fac;
 	private GameState state = GameState.MAIN_MENU;
 	private EntityCollisionHandler pCollision;
@@ -30,18 +28,19 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 	private EnemyClass enemyClass;
 
 	private float weaponSpawnTimer = 0f;
-	private final float weaponSpawnInterval = 10f;
+	private final float WEAPON_SPAWN_INTERVAL = 10f;
 	private float crateSpawnTimer = 0f;
-	private final float crateSpawnInterval = 15f;
+	private final float CRATE_SPAWN_INTERVAL = 15f;
 	private String popupMessage = null;
 	private float popupTimer = 0f;
-	private final float popupDuration = 2f;
+	private final float POPUP_DURATION = 2f;
 
 	/// Initiates a gameworld capable of interaction between entities and the map.
 	/// Used as the playing field for the game.
 	///
 	/// @param width  Width of the gameworld
 	/// @param height Height of the gameworld
+	///
 	public AppWorld(double width, double height) {
 		super();
 		this.width = width;
@@ -127,13 +126,7 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 
 	@Override
 	public void removeInactive() {
-		int before = objects.size();
 		objects.removeIf(obj -> !obj.isActive());
-		int after = objects.size();
-
-		if (before != after) {
-			System.out.println("Removed " + (before - after) + " objects. Remaining: " + after);
-		}
 	}
 
 	@Override
@@ -145,15 +138,13 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 			obj.update(this, delta);
 		}
 		weaponSpawnTimer += delta;
-		if (weaponSpawnTimer >= weaponSpawnInterval) {
-			System.out.println("Spawning weapon");
+		if (weaponSpawnTimer >= WEAPON_SPAWN_INTERVAL) {
 			fac.spawnWeapon();
 			weaponSpawnTimer = 0f;
 		}
 
 		crateSpawnTimer += delta;
-		if (crateSpawnTimer >= crateSpawnInterval) {
-			System.out.println("Spawning crate");
+		if (crateSpawnTimer >= CRATE_SPAWN_INTERVAL) {
 			fac.spawnCrate();
 			crateSpawnTimer = 0f;
 		}
@@ -198,7 +189,7 @@ public class AppWorld implements Iterable<EntityModel>, IWorld {
 	@Override
 	public void showPopup(String message) {
 		this.popupMessage = message;
-		this.popupTimer = popupDuration;
+		this.popupTimer = POPUP_DURATION;
 	}
 
 	@Override

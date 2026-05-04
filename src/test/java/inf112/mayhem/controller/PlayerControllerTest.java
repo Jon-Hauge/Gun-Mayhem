@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.PlayerClass;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 import java.lang.reflect.Field;
 
 public class PlayerControllerTest {

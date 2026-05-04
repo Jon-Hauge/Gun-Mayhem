@@ -14,9 +14,9 @@ import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 
 public class VictoryView extends AbstractScreenView {
-    private AppWorld world;
-    private AppController controller;
-    private ShapeRenderer shapeRenderer;
+    private final AppWorld world;
+    private final AppController controller;
+    private final ShapeRenderer shapeRenderer;
 
     /// Constructs a new VictoryView with the given world and controller.
     ///

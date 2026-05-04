@@ -3,7 +3,6 @@ package inf112.mayhem.model.entities.powerUp;
 import com.badlogic.gdx.math.Rectangle;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.AbstractEntity;
-import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
@@ -12,13 +11,12 @@ public class Crate extends AbstractEntity {
     private boolean opened = false;
     private boolean active = true;
     private boolean grounded = false;
-    protected float velocityY = 0;
-    protected float gravity = -10f;
     private final PowerUp powerUp;
-    private final static float powerUpDuration = 15f;
+    protected float velocityY = 0;
+    protected float GRAVITY = -10f;
+    private final static float POWER_UP_DURATION = 15f;
+    private final float LIFESPAN = 20f;
     private float timer = 0f;
-    private final float lifespan = 20f;
-
 
     /// Initiates a crate entity containing powerUps.
     ///
@@ -44,7 +42,7 @@ public class Crate extends AbstractEntity {
         if (!opened) {
             opened = true;
             state = EntityState.OPENED_WEAPON_CRATE;
-            character.addPowerUp(powerUp, powerUpDuration);
+            character.addPowerUp(powerUp, POWER_UP_DURATION);
             world.showPopup(getPowerUpName());
         }
     }
@@ -80,7 +78,7 @@ public class Crate extends AbstractEntity {
         updateState();
 
         if (state == EntityState.UNOPENED_WEAPON_CRATE && !grounded) {
-            velocityY += gravity * delta;
+            velocityY += GRAVITY * delta;
             float previousY = position.y;
             position.y += velocityY * delta;
 
@@ -100,7 +98,7 @@ public class Crate extends AbstractEntity {
         if (position.y < -100f) {
             active = false;
         }
-        if (timer > lifespan) {
+        if (timer > LIFESPAN) {
             active = false;
         }
         if (opened) {

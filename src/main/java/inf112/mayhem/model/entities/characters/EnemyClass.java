@@ -2,13 +2,12 @@ package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.projectile.ProjectileFactory;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.projectile.ProjectileFactory;
 
 public class EnemyClass extends AbstractCharacter {
 
@@ -146,7 +145,7 @@ public class EnemyClass extends AbstractCharacter {
 
             chasePlayer(world, player, distX, distY, distance, delta);
         } else if (spawnDelayTimer <= 0) {
-            patrol(delta);
+            patrol();
         }
 
         float previousY = position.y;
@@ -239,7 +238,7 @@ public class EnemyClass extends AbstractCharacter {
                 && airJumpCheckTimer <= 0
                 && jumpDecisionCooldown <= 0) {
 
-            boolean noGroundBelow = !hasGroundAnywhereBelow(world);
+            boolean noGroundBelow = !hasGroundAnywhereBelow();
 
             if (noGroundBelow) {
                 isCrossingGap = true;
@@ -250,7 +249,7 @@ public class EnemyClass extends AbstractCharacter {
         }
 
         if (isGrounded && distY > HEIGHT && !isAtEdge()) {
-            smartJump(distY);
+            smartJump();
         }
 
         if (distY < -HEIGHT && isGrounded) {
@@ -260,9 +259,7 @@ public class EnemyClass extends AbstractCharacter {
 
     /// Performs a smart jump only when the enemy is safely on a platform.
     ///
-    /// @param distY Vertical distance to the player.
-    ///
-    private void smartJump(float distY) {
+    private void smartJump() {
         if (!isGrounded || isAtEdge()) {
             return;
         }
@@ -272,10 +269,9 @@ public class EnemyClass extends AbstractCharacter {
 
     /// Scans all space below the enemy down to the bottom of the world.
     ///
-    /// @param world The current game world.
-    /// @return true if there is ground anywhere below the enemy.
+    /// @return True if there is ground anywhere below the enemy
     ///
-    private boolean hasGroundAnywhereBelow(AppWorld world) {
+    private boolean hasGroundAnywhereBelow() {
         float bottomOfWorld = 0f;
         float scanHeight = bounds.y - bottomOfWorld;
 
@@ -295,7 +291,7 @@ public class EnemyClass extends AbstractCharacter {
 
     /// Performs an emergency jump toward the player when crossing a gap.
     ///
-    /// @param distX Horizontal distance to the player.
+    /// @param distX Horizontal distance to the player
     ///
     private void emergencyJump(float distX) {
         if (!hasLandedAfterSpawn || spawnDelayTimer > 0) {
@@ -316,8 +312,8 @@ public class EnemyClass extends AbstractCharacter {
 
     /// Handles shooting logic when chasing the player.
     ///
-    /// @param world The current game world.
-    /// @param player The player being targeted.
+    /// @param world The current game world
+    /// @param player The player being targeted
     ///
     private void handleShooting(AppWorld world, PlayerClass player) {
         if (shootingTimer > 0 || getEquippedWeapon() == null || player == null) {
@@ -358,7 +354,7 @@ public class EnemyClass extends AbstractCharacter {
 
     /// Checks if the enemy is about to walk off the platform it is standing on.
     ///
-    /// @return true if there is no ground in front of the enemy.
+    /// @return True if there is no ground in front of the enemy
     ///
     private boolean isAtEdge() {
         if (!isGrounded) {
@@ -379,7 +375,9 @@ public class EnemyClass extends AbstractCharacter {
         return !collision.isGrounded(edgeSensor, bounds.y, ignorePlatforms);
     }
 
-    private void patrol(float delta) {
+    /// Patrols around map looking for player if not engaged in combat
+    ///
+    private void patrol() {
         if (edgeWaitTimer <= 0) {
             direction = patrolDirection;
             if (isAtEdge()) {
@@ -398,6 +396,11 @@ public class EnemyClass extends AbstractCharacter {
         }
     }
 
+    /// Finds closest player in game world
+    ///
+    /// @param world Gameworld characters are in
+    /// @return Closest player
+    ///
     private PlayerClass findClosestPlayer(AppWorld world) {
         PlayerClass closest = null;
         float closestDist = Float.MAX_VALUE;

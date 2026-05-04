@@ -10,14 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 
 public class MainMenuView extends AbstractScreenView {
-    private AppWorld world;
-    private AppController controller;
+    private final AppController controller;
 
     /// Constructs a new MainMenuView with the given world and controller.
     ///
@@ -25,7 +23,6 @@ public class MainMenuView extends AbstractScreenView {
     /// @param controller The application controller for handling state transitions
     ///
     public MainMenuView(AppWorld world, AppController controller) {
-        this.world = world;
         this.controller = controller;
 
         create(world.width(), world.height());

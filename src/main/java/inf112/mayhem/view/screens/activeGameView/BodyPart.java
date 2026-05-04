@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BodyPart {
-    private Texture texture;
+    private final Texture texture;
     private float offsetX, offsetY;
     private float rotation;
     private float scale = 1f;

@@ -6,9 +6,9 @@ import inf112.mayhem.model.entities.powerUp.Crate;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.model.projectile.ProjectileModel;
-import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.projectile.ProjectileModel;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 
 public class EntityCollisionHandler {
 	private final AppWorld world;
@@ -28,6 +28,7 @@ public class EntityCollisionHandler {
 	public void checkCollisions() {
 	    for (EntityModel obj : world) {
 
+			// WEAPON-COLLISION
 	    	if (obj instanceof AbstractWeapon weapon && weapon.state() == EntityState.DROPPED) {
 	    	    for (EntityModel other : world) {
 	    	        if (other instanceof AbstractCharacter character) {
@@ -39,6 +40,7 @@ public class EntityCollisionHandler {
 	    	    }
 	    	}
 
+			// CRATE-COLLISION
 			if (obj instanceof Crate crate) {
 				for (EntityModel other : world) {
 					if (other instanceof AbstractCharacter character) {
@@ -49,6 +51,7 @@ public class EntityCollisionHandler {
 				}
 			}
 
+			// PROJECTILE-COLLISION
 	        if (!(obj instanceof AbstractProjectile projectile)) continue;
 
 	        for (EntityModel target : world) {

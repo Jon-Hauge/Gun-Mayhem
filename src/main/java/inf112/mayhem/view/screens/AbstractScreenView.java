@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.video.VideoPlayer;
-import com.badlogic.gdx.video.VideoPlayerCreator;
 
 public abstract class AbstractScreenView {
     protected Stage stage;
@@ -94,7 +93,7 @@ public abstract class AbstractScreenView {
     }
 
     ///
-    /// @returns false if current screen uses video
+    /// @return false if current screen uses video
     ///
     public boolean usesVideo() {
         return false;
@@ -169,5 +168,4 @@ public abstract class AbstractScreenView {
             return new BitmapFont();
         }
     }
-
 }

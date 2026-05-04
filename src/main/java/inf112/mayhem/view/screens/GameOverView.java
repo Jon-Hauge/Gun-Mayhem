@@ -13,9 +13,9 @@ import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 
 public class GameOverView extends AbstractScreenView {
-    private AppWorld world;
-    private AppController controller;
-    private ShapeRenderer shapeRenderer;
+    private final AppWorld world;
+    private final AppController controller;
+    private final ShapeRenderer shapeRenderer;
 
     /// Constructs a new GameOverView with the given world and controller.
     ///

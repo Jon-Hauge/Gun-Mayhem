@@ -1,11 +1,10 @@
 package inf112.mayhem.model.entities.characters;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
 
 public class PlayerClass extends AbstractCharacter {
 

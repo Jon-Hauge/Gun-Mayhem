@@ -50,6 +50,7 @@ public interface IController {
     void goToMainMenu();
 
     /// Goes to controls for the game
+    ///
     void goToControls();
 
     /// Opens the campaign screen

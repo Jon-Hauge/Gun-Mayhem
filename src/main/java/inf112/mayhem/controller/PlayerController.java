@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.characters.PlayerClass;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 
 public class PlayerController {
 	
@@ -33,7 +33,7 @@ public class PlayerController {
 	    
 	    if (COOLDOWN_TIMER > 0) COOLDOWN_TIMER -= delta;
 	        
-	    //INPUT
+	    // MOVEMENT INPUT
 	    if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
 	        x -= 1;
 	        player.setDirection(-1);
@@ -44,7 +44,7 @@ public class PlayerController {
 	        player.setDirection(1);
 	    }
 	        
-	    //VELOCITY
+	    // VELOCITY
 	    player.velocity.x = x * SPEED;
 	    
 	    // JUMP AND DROP
@@ -55,7 +55,8 @@ public class PlayerController {
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
 	    	player.drop();
 	    }
-	    
+
+		// SHOOTING
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && COOLDOWN_TIMER <= 0) {
 	        AbstractWeapon weapon = player.getEquippedWeapon();
 	        if (weapon != null && weapon.shoot()) {

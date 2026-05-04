@@ -6,7 +6,7 @@ import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
 import inf112.mayhem.view.screens.activeGameView.GameSounds;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
@@ -22,22 +22,19 @@ public class ScreenManager {
     private final CampaignView campaignView;
     private final ControlsView controlsView;
     private final AbstractCharacter player;
-    private final AbstractCharacter enemy;
     private final AppController controller;
     private GameState currentState;
     private final GameSounds gameSounds = new GameSounds();
 
-    /// Initiates a screenmanager with the given world and controller.
+    /// Initiates a screen manager with the given world and controller.
     /// Is responsible for displaying the different views correctly.
     ///
     /// @param world The game world
     /// @param controller The application controller for handling state transitions
-    /// @param player Player to display
-    /// @param enemy Enemy to display
+    /// @param player Player to display hud for
     ///
-    public ScreenManager(AppWorld world, AppController controller, AbstractCharacter player, AbstractCharacter enemy) {
+    public ScreenManager(AppWorld world, AppController controller, AbstractCharacter player) {
         this.player = player;
-        this.enemy = enemy;
         this.activeGameView = new ActiveGameView(world, controller);
         this.mainMenuView = new MainMenuView(world, controller);
         this.pauseView = new PauseView(world, controller);
@@ -47,11 +44,12 @@ public class ScreenManager {
         this.hudView = new HudView(world, controller, player);
         this.controlsView = new ControlsView(world, controller);
         this.controller = controller;
+
         currentState = world.state();
         AbstractScreenView initial = getScreen(currentState);
         if (initial != null && initial.usesVideo()) {
             initial.show();
-            musicHandeler(currentState);
+            musicHandler(currentState);
         }
     }
 
@@ -92,7 +90,7 @@ public class ScreenManager {
         if (world.state() != currentState) {
             handleStateChange(currentState, world.state());
             currentState = world.state();
-            musicHandeler(currentState);
+            musicHandler(currentState);
         }
 
         switch (world.state()) {
@@ -153,6 +151,7 @@ public class ScreenManager {
     /// Makes sure the correct view is displayed at a given time.
     ///
     /// @param state State of the gameworld
+    ///
     public void updateInputProcessor(GameState state) {
         switch (state) {
             case MAIN_MENU -> Gdx.input.setInputProcessor(mainMenuView.getStage());
@@ -177,6 +176,7 @@ public class ScreenManager {
     ///
     /// @param player Player's weapon to display
     /// @param enemy Enemy's weapon to display
+    ///
     public void setupWeaponViews(AbstractCharacter player, AbstractCharacter enemy) {
         AbstractWeapon playerWeapon = player.getEquippedWeapon();
        new WeaponView(playerWeapon);
@@ -185,7 +185,7 @@ public class ScreenManager {
         new WeaponView(enemyWeapon);
     }
 
-    private void musicHandeler(GameState state){
+    private void musicHandler(GameState state){
         switch (state) {
             case ACTIVE -> {
                 switch (controller.getCurrentLevelNumber()){

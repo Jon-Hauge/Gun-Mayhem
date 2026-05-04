@@ -3,6 +3,9 @@ package inf112.mayhem.view.screens.activeGameView.animations;
 import com.badlogic.gdx.math.Matrix4;
 import inf112.mayhem.view.screens.activeGameView.CharacterRig;
 
+/// Initiates an instance of an animation, which affects viewable character.
+/// Inherited classes determine animation-type.
+///
 public abstract class AbstractAnimation {
     private float elapsedTime = 0;
 

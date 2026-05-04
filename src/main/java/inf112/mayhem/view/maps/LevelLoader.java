@@ -1,7 +1,6 @@
 package inf112.mayhem.view.maps;
 
 import java.util.List;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
 
 public class LevelLoader {

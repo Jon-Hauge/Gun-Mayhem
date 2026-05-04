@@ -3,7 +3,6 @@ package inf112.mayhem.view.screens.activeGameView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
@@ -28,7 +26,7 @@ import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.entities.powerUp.Crate;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 import inf112.mayhem.view.maps.LevelLoader;
 import inf112.mayhem.view.maps.TileMapHelper;
 
@@ -49,8 +47,6 @@ public class ActiveGameView {
     private float smoothCamY = 0;
     private final LevelLoader lvlLoader;
     private final GameSounds gameSounds = new GameSounds();
-
-    //TILEMAP
     private final OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
 
     /// Initiates the view for an active game of the app.
@@ -60,11 +56,6 @@ public class ActiveGameView {
     ///
     public ActiveGameView(AppWorld world, AppController controller) {
         this.controller = controller;
-
-        // To preserve aspect ratio, use FitViewport, ExtendViewport or FillViewport.
-        // FitViewport keeps aspect by leaving empty space.
-        // ExtendViewport keeps aspect by extending the world size in one direction.
-        // FillViewport keeps aspect by hiding part of the world in the other direction.
         this.viewport = new FillViewport((float) world.width(), (float) world.height());
         this.camera = (OrthographicCamera) viewport.getCamera();
         this.batch = new SpriteBatch();
@@ -76,12 +67,13 @@ public class ActiveGameView {
         CharacterRig enemyRig = initiateCharacterRig(1);
         this.enemyView = new CharacterView(enemyRig);
         
-        //LOAD TILEDMAP
+        // LOAD TILEDMAP
         TileMapHelper tileMapHelper = new TileMapHelper();
         this.lvlLoader = new LevelLoader();
         tileMapHelper.setupMap(lvlLoader.getMapPath(controller.getCurrentLevelNumber()));
         this.orthogonalTiledMapRenderer = tileMapHelper.getRenderer();
 
+        // LOAD FONTS
         try {
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Inter_28pt-Black.ttf"));
             FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -96,12 +88,14 @@ public class ActiveGameView {
         }
         font.setColor(Color.WHITE);
 
+        // PRELOAD TEXTURES
         preloadTextures();
 
         Gdx.graphics.setForegroundFPS(60);
     }
 
     /// @param n 0 for player, 1 for enemy
+    ///
     private CharacterRig initiateCharacterRig(int n) {
         if (n == 0) {
             return new CharacterRig(
@@ -143,7 +137,6 @@ public class ActiveGameView {
                 "maps/level2_midnightcity/bg5.png",
                 "maps/level2_midnightcity/bg6.png",
 
-
                 "character_sprites/body.png",
                 "character_sprites/body_orange.png",
                 "character_sprites/face.png",
@@ -153,7 +146,14 @@ public class ActiveGameView {
                 "character_sprites/hands.png",
                 "character_sprites/hands_orange.png",
                 "character_sprites/head.png",
-                "character_sprites/head_orange.png"
+                "character_sprites/head_orange.png",
+
+                "crate/crate.png",
+
+                "weapons/pistol.png",
+                "weapons/pumpaction.png",
+                "weapons/semiaction.png",
+                "weapons/sniper.png"
         )) {
             getTexture(fileName);
         }
@@ -200,7 +200,7 @@ public class ActiveGameView {
         // Draw background
         drawBackground();
 
-        // Tiled Map
+        // Draw tiled map
         orthogonalTiledMapRenderer.setView(camera);
         orthogonalTiledMapRenderer.render();
 
@@ -338,14 +338,6 @@ public class ActiveGameView {
                     shape.setColor(Color.YELLOW);
                     shape.rect(obj.x() - 12.5f * scale, obj.y() + 125 * scale, obj.width(), obj.height());
                 }
-                // Debugging code used to see center of player
-                // Remove once game is finished
-                //if (obj.type() == EntityType.PLAYER) {
-                //    shape.setColor(Color.RED);
-                //    shape.circle(obj.x(), obj.y(), 3);
-                //}
-                //shape.setColor(Color.GREEN);
-                //shape.rectLine(obj.x(), obj.y(), obj.x(), obj.y() + 100, 1);
             }
         } finally {
             shape.end();
@@ -388,12 +380,7 @@ public class ActiveGameView {
     /// @param height Weight of the resized screen
     ///
     public void resize(int width, int height) {
-        // Called whenever the window is resized (including with its original size at
-        // startup)
         viewport.update(width, height, true);
-        // System.out.printf("%dx%d, %fx%f%n", viewport.getScreenWidth(),
-        // viewport.getScreenHeight(),
-        // viewport.getWorldWidth(), viewport.getWorldHeight());
     }
 
     ///
@@ -406,11 +393,11 @@ public class ActiveGameView {
             gameSounds.playSound(GameSounds.SoundType.JUMP);
             character.jumpSoundMade();
         }
-        if(character.getEquippedWeapon().hasSHot()){
+        if(character.getEquippedWeapon().hasShot()){
         switch (character.getEquippedWeapon().getWeaponType()){
             case PISTOL -> gameSounds.playSound(GameSounds.SoundType.PISTOL);
             case SNIPER -> gameSounds.playSound(GameSounds.SoundType.SNIPER);
-            case PUMPACTION -> gameSounds.playSound(GameSounds.SoundType.SHOTGUN);
+            case PUMPACTION -> gameSounds.playSound(GameSounds.SoundType.PUMPACTION);
             case SEMIAUTOSHOTGUN -> gameSounds.playSound(GameSounds.SoundType.SEMIAUTO);
             }
         character.getEquippedWeapon().soundMade();
