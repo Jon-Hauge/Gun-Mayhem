@@ -30,7 +30,8 @@
 
 ---
 ### Notable bugs:
-* *NaN*
+* Out of ammo weapons may occasionally bug other weapons of similar type when trying to pick them up.
+* Player may spawn on an area which lands them directly into the void on level 3 if controller does not move first few seconds from spawning.
 
 **Other bugs may be reported as a message to any of the devs through our UIB mails.**
 
