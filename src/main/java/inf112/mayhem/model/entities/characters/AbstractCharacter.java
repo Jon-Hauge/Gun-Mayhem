@@ -134,7 +134,6 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	@Override
 	public void update(AppWorld world, float delta) {
 		if (waitingForRespawn) {
-			updateState();
 			respawnTimer += delta;
 
 			if (respawnTimer >= RESPAWN_DELAY) {
