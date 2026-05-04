@@ -1,12 +1,14 @@
 package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
+
 import inf112.mayhem.controller.AppController;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.weapons.AbstractWeapon;
 import inf112.mayhem.view.screens.activeGameView.ActiveGameView;
+import inf112.mayhem.view.screens.activeGameView.GameSounds;
 import inf112.mayhem.view.screens.activeGameView.WeaponView;
 import inf112.mayhem.view.screens.hud.HudView;
 
@@ -21,7 +23,9 @@ public class ScreenManager {
     private final ControlsView controlsView;
     private final AbstractCharacter player;
     private final AbstractCharacter enemy;
+    private final AppController controller;
     private GameState currentState;
+    private final GameSounds gameSounds = new GameSounds();
 
     /// Initiates a screenmanager with the given world and controller.
     /// Is responsible for displaying the different views correctly.
@@ -42,10 +46,12 @@ public class ScreenManager {
         this.campaignView = new CampaignView(world, controller);
         this.hudView = new HudView(world, controller, player);
         this.controlsView = new ControlsView(world, controller);
+        this.controller = controller;
         currentState = world.state();
         AbstractScreenView initial = getScreen(currentState);
         if (initial != null && initial.usesVideo()) {
             initial.show();
+            musicHandeler(currentState);
         }
     }
 
@@ -60,6 +66,7 @@ public class ScreenManager {
         campaignView.dispose();
         hudView.dispose();
         controlsView.dispose();
+        gameSounds.dispose();
     }
 
     /// Resizes screen to account for changes in resolution
@@ -85,10 +92,13 @@ public class ScreenManager {
         if (world.state() != currentState) {
             handleStateChange(currentState, world.state());
             currentState = world.state();
+            musicHandeler(currentState);
         }
 
         switch (world.state()) {
-            case MAIN_MENU -> mainMenuView.render();
+            case MAIN_MENU -> {
+                mainMenuView.render();
+            }
             case ACTIVE -> {
                 activeGameView.render(world, delta);
                 hudView.update(player);
@@ -173,5 +183,18 @@ public class ScreenManager {
 
         AbstractWeapon enemyWeapon = enemy.getEquippedWeapon();
         new WeaponView(enemyWeapon);
+    }
+
+    private void musicHandeler(GameState state){
+        switch (state) {
+            case ACTIVE -> {
+                switch (controller.getCurrentLevelNumber()){
+                    case 1 -> gameSounds.playMusic(GameSounds.MusicType.LEVEL1);
+                    case 2 -> gameSounds.playMusic(GameSounds.MusicType.LEVEL2);
+                    case 3 -> gameSounds.playMusic(GameSounds.MusicType.LEVEL3);
+                }
+            }
+            case MAIN_MENU -> gameSounds.playMusic(GameSounds.MusicType.MAIN_MENU);
+        }
     }
 }

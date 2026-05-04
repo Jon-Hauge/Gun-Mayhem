@@ -3,6 +3,7 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.view.screens.ScreenManager;
@@ -29,6 +30,8 @@ public class AppController implements ApplicationListener, IController {
 
         playerController = new PlayerController(world.getPlayerClass(), world);
 
+        dispose();
+
         screenManager = new ScreenManager(world, this, world.getPlayerClass(), world.getEnemyClass());
         screenManager.setupWeaponViews(world.getPlayerClass(), world.getEnemyClass());
 
@@ -38,9 +41,10 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void dispose() {
-        screenManager.dispose();
+        if(screenManager != null){
+            screenManager.dispose();
+        }
     }
-
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
