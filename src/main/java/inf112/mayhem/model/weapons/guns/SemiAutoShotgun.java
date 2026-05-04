@@ -1,3 +1,4 @@
+
 package inf112.mayhem.model.weapons.guns;
 
 import inf112.mayhem.model.entities.EntityState;
