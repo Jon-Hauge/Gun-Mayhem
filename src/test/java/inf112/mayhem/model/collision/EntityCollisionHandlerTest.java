@@ -5,7 +5,7 @@ import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.powerUp.Crate;
 import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.model.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

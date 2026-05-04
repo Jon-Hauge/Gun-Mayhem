@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class TileMapHelper {
     private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
 
     ///
     /// @param mapPath Path of map to return
@@ -21,7 +20,6 @@ public class TileMapHelper {
     /// @return Renderer for tiled map
     ///
     public OrthogonalTiledMapRenderer getRenderer() {
-    	renderer = new OrthogonalTiledMapRenderer(map);
-        return renderer;
+        return new OrthogonalTiledMapRenderer(map);
     }
 }

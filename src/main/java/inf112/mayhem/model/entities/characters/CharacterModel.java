@@ -2,21 +2,21 @@ package inf112.mayhem.model.entities.characters;
 
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityModel;
-import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 
 public interface CharacterModel extends EntityModel {
-    /// Initates the jump action for the character
+    /// Initiates the jump action for the character
     /// High aggression enemies (level 3 and above) are capable of double jumping.
     ///
     void jump();
 
-    /// Initates the drop action for the character.
+    /// Initiates the drop action for the character.
     /// Allows them to drop through platforms.
     ///
     void drop();
 
-    /// Initates the hit action for the character.
+    /// Initiates the hit action for the character.
     ///
     /// When hit by projectile: applies knockback based on the projectile's weapon.
     /// For players, the enemy's aggression level factors in to.
@@ -29,6 +29,7 @@ public interface CharacterModel extends EntityModel {
     ///
     /// @param baseKnockback knockback from projectile hit
     /// @param direction direction knockback is applied
+    ///
     void applyKnockback(float baseKnockback, int direction);
 
     /// Sets horizontal direction of character
@@ -70,7 +71,7 @@ public interface CharacterModel extends EntityModel {
     int lives();
     
     ///
-    /// @return Amount of damagepercentage character has
+    /// @return Amount of damage percentage character has
     ///
     float getDamagePercentage();
 
@@ -99,17 +100,20 @@ public interface CharacterModel extends EntityModel {
     ///
     void setGravityMultiplier(float gravityMultiplier);
 
-    /// Set jumpboost multiplier of character.
+    /// Set jump boost multiplier of character.
     /// Allows for powerUps to increase jump height.
     ///
     /// @param jumpBoostMultiplier Multiplier to calculate jump boost with
     ///
     void setJumpBoostMultiplier(float jumpBoostMultiplier);
 
-    /// @return if player has jumped.
-    /// Is in place so gameView can make jumping sound.
+    /// In place so gameView can make jumping sound.
+    ///
+    /// @return if player has jumped
+    ///
     boolean hasJumped();
 
     /// Makes hasJumped false so sound will only be played once
+    ///
     void jumpSoundMade();
 }

@@ -17,8 +17,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.EntityType;
-import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 
 class PlayerClassTest {
 

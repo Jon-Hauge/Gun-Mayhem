@@ -1,6 +1,5 @@
 package inf112.mayhem.model.entities;
 
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.RandomXS128;
 import inf112.mayhem.model.AppWorld;
@@ -8,14 +7,14 @@ import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.model.entities.characters.EnemyClass;
 import inf112.mayhem.model.entities.characters.PlayerClass;
 import inf112.mayhem.model.entities.powerUp.*;
-import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.projectile.ProjectileFactory;
-import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.WeaponType;
-import inf112.mayhem.model.weapons.guns.PistolWeapon;
-import inf112.mayhem.model.weapons.guns.PumpActionShotgun;
-import inf112.mayhem.model.weapons.guns.SemiAutoShotgun;
-import inf112.mayhem.model.weapons.guns.SniperWeapon;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.projectile.ProjectileFactory;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.WeaponType;
+import inf112.mayhem.model.entities.weapons.PistolWeapon;
+import inf112.mayhem.model.entities.weapons.PumpActionShotgun;
+import inf112.mayhem.model.entities.weapons.SemiAutoShotgun;
+import inf112.mayhem.model.entities.weapons.SniperWeapon;
 
 public class EntityFactory {
 	private final AppWorld world;
@@ -76,17 +75,15 @@ public class EntityFactory {
 			
 			spawnY -= 15f;
 		}
-		
 
 	    AbstractProjectile projectile = ProjectileFactory.create(
 	        spawnX, spawnY,
 	        character.getDirection(),
 	        character.getEquippedWeapon().getWeaponType()
 	    );
-	    if (projectile != null) {
-	        world.add(projectile);
-	    }
-	}
+
+        world.add(projectile);
+    }
 
 	/// Spawns a crate entity within the gameworld.
 	/// Crates contain powerUp which affect the character in a variety of ways.
@@ -101,7 +98,7 @@ public class EntityFactory {
 	}
 
 	private PowerUp createRandomPowerUp() {
-		int num = rand.nextInt(2);
+		int num = rand.nextInt(3);
 
 		return switch (num) {
 			case 0 -> new JumpBoostPowerUp();
@@ -112,6 +109,8 @@ public class EntityFactory {
 	}
 
 	/// Spawns a weapon within the gameworld.
+	/// Weapons can be equipped to shoot projectiles, which interact with other characters.
+	///
 	public void spawnWeapon() {
 		float x = 300f + rand.nextFloat() * ((float) world.width() - 2 * 300f);
 		float y = (float) world.height() + 100f;

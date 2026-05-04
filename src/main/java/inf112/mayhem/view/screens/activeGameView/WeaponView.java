@@ -2,15 +2,15 @@ package inf112.mayhem.view.screens.activeGameView;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.WeaponType;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.WeaponType;
 
 public class WeaponView {
 
-    private Texture texture;
-    private BodyPart weaponBodyPart;
-    private AbstractWeapon weapon;
-    private final float scale = 0.15f;
+    private final Texture texture;
+    private final BodyPart weaponBodyPart;
+    private final AbstractWeapon weapon;
+    private final float SCALE = 0.15f;
 
     /// Constructs a WeaponView for a given weapon
     ///
@@ -20,7 +20,7 @@ public class WeaponView {
         this.weapon = weapon;
         this.texture = getTexture(weapon.getWeaponType());
         this.weaponBodyPart = new BodyPart(texture, weapon.x(), weapon.y());
-        this.weaponBodyPart.setScale(scale);
+        this.weaponBodyPart.setScale(SCALE);
     }
 
     private Texture getTexture(WeaponType weaponType) {

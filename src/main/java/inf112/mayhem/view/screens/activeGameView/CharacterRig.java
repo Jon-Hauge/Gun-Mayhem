@@ -2,7 +2,7 @@ package inf112.mayhem.view.screens.activeGameView;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 
 public class CharacterRig {
     public BodyPart body;
@@ -16,22 +16,22 @@ public class CharacterRig {
 
     private float scale;
 
-    private float bodyOffsetX = 0f;
-    private float bodyOffsetY = 170f;
-    private float faceOffsetX = 65f;
-    private float faceOffsetY = 300f;
-    private float leftFootOffsetX = -60f;
-    private float leftFootOffsetY = 0f;
-    private float rightFootOffsetX = 60f;
-    private float rightFootOffsetY = 0f;
-    private float gunOffsetX = 60f;
-    private float gunoffsetY = 140f;
-    private float leftHandOffsetX = -10f;
-    private float leftHandOffsetY = 135f;
-    private float rightHandOffsetX = 85f;
-    private float rightHandOffsetY = 125f;
-    private float headOffsetX = 50f;
-    private float headOffsetY = 300f;
+    private final float BODY_OFFSET_X = 0f;
+    private final float BODY_OFFSET_Y = 170f;
+    private final float FACE_OFFSET_X = 65f;
+    private final float FACE_OFFSET_Y = 300f;
+    private final float LEFT_FOOT_OFFSET_X = -60f;
+    private final float LEFT_FOOT_OFFSET_Y = 0f;
+    private final float RIGHT_FOOT_OFFSET_X = 60f;
+    private final float RIGHT_FOOT_OFFSET_Y = 0f;
+    private final float GUN_OFFSET_X = 60f;
+    private final float GUN_OFFSET_Y = 140f;
+    private final float LEFT_HAND_OFFSET_X = -10f;
+    private final float LEFT_HAND_OFFSET_Y = 135f;
+    private final float RIGHT_HAND_OFFSET_X = 85f;
+    private final float RIGHT_HAND_OFFSET_Y = 125f;
+    private final float HEAD_OFFSET_X = 50f;
+    private final float HEAD_OFFSET_Y = 300f;
 
 
     /// Initiates a character composed of several bodypart textures.
@@ -50,14 +50,14 @@ public class CharacterRig {
                         Texture rightFootTex, Texture gunTex, Texture leftHandTex,
                         Texture rightHandTex, Texture headTex, float scale) {
         this.scale = scale;
-        body = new BodyPart(bodyTex, bodyOffsetX * scale, bodyOffsetY * scale);
-        face = new BodyPart(faceTex, faceOffsetX * scale, faceOffsetY * scale);
-        leftFoot = new BodyPart(leftFootTex, leftFootOffsetX * scale, leftFootOffsetY * scale);
-        rightFoot = new BodyPart(rightFootTex, rightFootOffsetX * scale, rightFootOffsetY * scale);
-        gun = new BodyPart(gunTex, gunOffsetX * scale, gunoffsetY * scale);
-        leftHand = new BodyPart(leftHandTex, leftHandOffsetX * scale, leftHandOffsetY * scale);
-        rightHand = new BodyPart(rightHandTex, rightHandOffsetX * scale, rightHandOffsetY * scale);
-        head = new BodyPart(headTex, headOffsetX * scale, headOffsetY * scale);
+        body = new BodyPart(bodyTex, BODY_OFFSET_X * scale, BODY_OFFSET_Y * scale);
+        face = new BodyPart(faceTex, FACE_OFFSET_X * scale, FACE_OFFSET_Y * scale);
+        leftFoot = new BodyPart(leftFootTex, LEFT_FOOT_OFFSET_X * scale, LEFT_FOOT_OFFSET_Y * scale);
+        rightFoot = new BodyPart(rightFootTex, RIGHT_FOOT_OFFSET_X * scale, RIGHT_FOOT_OFFSET_Y * scale);
+        gun = new BodyPart(gunTex, GUN_OFFSET_X * scale, GUN_OFFSET_Y * scale);
+        leftHand = new BodyPart(leftHandTex, LEFT_HAND_OFFSET_X * scale, LEFT_HAND_OFFSET_Y * scale);
+        rightHand = new BodyPart(rightHandTex, RIGHT_HAND_OFFSET_X * scale, RIGHT_HAND_OFFSET_Y * scale);
+        head = new BodyPart(headTex, HEAD_OFFSET_X * scale, HEAD_OFFSET_Y * scale);
 
         setScale(scale);
     }
@@ -68,7 +68,7 @@ public class CharacterRig {
     ///
     public void setWeapon(WeaponView weaponView) {
         this.gun = weaponView.toBodyPart();
-        this.gun.setOffset(gunOffsetX * scale, gunoffsetY * scale);
+        this.gun.setOffset(GUN_OFFSET_X * scale, GUN_OFFSET_Y * scale);
         this.gun.setScale(scale);
 
     }
@@ -91,14 +91,14 @@ public class CharacterRig {
     /// Resets added offsets horizontally and vertically to defaults
     ///
     public void resetOffsets() {
-        body.setOffset(bodyOffsetX * scale, bodyOffsetY * scale);
-        face.setOffset(faceOffsetX * scale, faceOffsetY * scale);
-        leftFoot.setOffset(leftFootOffsetX * scale, leftFootOffsetY * scale);
-        rightFoot.setOffset(rightFootOffsetX * scale, rightFootOffsetY * scale);
-        gun.setOffset(gunOffsetX * scale, gunoffsetY * scale);
-        leftHand.setOffset(leftHandOffsetX * scale, leftHandOffsetY * scale);
-        rightHand.setOffset(rightHandOffsetX * scale, rightHandOffsetY * scale);
-        head.setOffset(headOffsetX * scale, headOffsetY * scale);
+        body.setOffset(BODY_OFFSET_X * scale, BODY_OFFSET_Y * scale);
+        face.setOffset(FACE_OFFSET_X * scale, FACE_OFFSET_Y * scale);
+        leftFoot.setOffset(LEFT_FOOT_OFFSET_X * scale, LEFT_FOOT_OFFSET_Y * scale);
+        rightFoot.setOffset(RIGHT_FOOT_OFFSET_X * scale, RIGHT_FOOT_OFFSET_Y * scale);
+        gun.setOffset(GUN_OFFSET_X * scale, GUN_OFFSET_Y * scale);
+        leftHand.setOffset(LEFT_HAND_OFFSET_X * scale, LEFT_HAND_OFFSET_Y * scale);
+        rightHand.setOffset(RIGHT_HAND_OFFSET_X * scale, RIGHT_HAND_OFFSET_Y * scale);
+        head.setOffset(HEAD_OFFSET_X * scale, HEAD_OFFSET_Y * scale);
     }
 
     /// Draws the character on a canvas.

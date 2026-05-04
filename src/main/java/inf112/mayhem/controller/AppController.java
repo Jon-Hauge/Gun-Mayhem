@@ -3,7 +3,6 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.view.screens.ScreenManager;
@@ -32,7 +31,7 @@ public class AppController implements ApplicationListener, IController {
 
         dispose();
 
-        screenManager = new ScreenManager(world, this, world.getPlayerClass(), world.getEnemyClass());
+        screenManager = new ScreenManager(world, this, world.getPlayerClass());
         screenManager.setupWeaponViews(world.getPlayerClass(), world.getEnemyClass());
 
         Gdx.graphics.setForegroundFPS(60);
@@ -55,7 +54,6 @@ public class AppController implements ApplicationListener, IController {
             if (world.state() == GameState.ACTIVE) {
                 world.update(delta);
                 playerController.update(delta);
-
                 world.evaluateState();
             }
             unlockedLevels = world.updateLevelCount(currentLevel, unlockedLevels);
@@ -71,12 +69,6 @@ public class AppController implements ApplicationListener, IController {
                 resume();
             } else if (world.state() == GameState.ACTIVE) {
                 pause();
-            }
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            if (world.state() == GameState.ACTIVE) {
-                restartGame();
             }
         }
     }

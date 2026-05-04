@@ -5,12 +5,12 @@ import com.badlogic.gdx.math.Matrix4;
 import inf112.mayhem.view.screens.activeGameView.CharacterRig;
 
 public class DeathAnimation extends AbstractAnimation {
-    private final float animationDuration = 1.5f;
+    private final float ANIMATION_DURATION = 1.5f;
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     @Override
     protected void animate(CharacterRig character, float x, float y, float elapsedTime, Matrix4 projection) {
-        if (elapsedTime > animationDuration) {
+        if (elapsedTime > ANIMATION_DURATION) {
             reset();
         }
         float duration = 0.5f;

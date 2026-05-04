@@ -3,18 +3,17 @@ package inf112.mayhem.view.screens.activeGameView;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.characters.CharacterModel;
-import inf112.mayhem.model.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
 import inf112.mayhem.view.screens.activeGameView.animations.*;
 
 public class CharacterView {
-    private CharacterRig characterRig;
-    private AbstractAnimation idleAnimation;
-    private AbstractAnimation walkingAnimation;
-    private AbstractAnimation jumpingAnimation;
-    private AbstractAnimation fallingAnimation;
-    private AbstractAnimation deathAnimation;
+    private final CharacterRig characterRig;
+    private final AbstractAnimation idleAnimation;
+    private final AbstractAnimation walkingAnimation;
+    private final AbstractAnimation jumpingAnimation;
+    private final AbstractAnimation deathAnimation;
 
-    /// Inititates a character and its animations
+    /// Initiates a character and its animations
     ///
     /// @param characterRig Character to be added to view
     ///
@@ -24,11 +23,10 @@ public class CharacterView {
         idleAnimation = new IdleAnimation();
         walkingAnimation = new WalkingAnimation();
         jumpingAnimation = new JumpingAnimation();
-        fallingAnimation = new JumpingAnimation();
         deathAnimation = new DeathAnimation();
     }
 
-    /// Draws the view on a canvas
+    /// Draws the character on a canvas
     ///
     /// @param batch Canvas to draw on
     /// @param obj Entity model to draw player-state from
@@ -38,9 +36,8 @@ public class CharacterView {
         characterRig.resetOffsets();
 
         AbstractAnimation currAnimation = switch(obj.state()) {
-            case WALKING ->  walkingAnimation;
-            case JUMPING ->   jumpingAnimation;
-            case FALLING ->   fallingAnimation;
+            case WALKING -> walkingAnimation;
+            case JUMPING, FALLING -> jumpingAnimation;
             case RECENTLY_DEAD -> deathAnimation;
             default ->  idleAnimation;
         };
@@ -68,6 +65,5 @@ public class CharacterView {
             );
             batch.begin();
         }
-
     }
 }

@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MapCollisionHandler {
-	private TiledMapTileLayer groundLayer;
-	private List<TiledMapTileLayer> platformLayers;
+	private final TiledMapTileLayer groundLayer;
+	private final List<TiledMapTileLayer> platformLayers;
 
 	/// Creates a collision handler between the map and entities on it.
 	///
@@ -18,6 +18,7 @@ public class MapCollisionHandler {
 	public MapCollisionHandler(TiledMap map) {
 		this.groundLayer = (TiledMapTileLayer) map.getLayers().get("ground");
 		this.platformLayers = new ArrayList<>();
+
 		for (MapLayer layer : map.getLayers()) {
 			if (layer.getName().startsWith("platform") && layer instanceof TiledMapTileLayer) {
 				platformLayers.add((TiledMapTileLayer) layer);

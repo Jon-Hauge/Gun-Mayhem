@@ -14,23 +14,17 @@ import inf112.mayhem.model.entities.characters.AbstractCharacter;
 import inf112.mayhem.view.screens.AbstractScreenView;
 
 public class HudView extends AbstractScreenView {
-    private AppWorld world;
-    private AppController controller;
     private Table table;
     private Label livesLabel;
     private Label ammoLabel;
     private BitmapFont font;
     private BitmapFont ammoFont;
-    private AbstractCharacter character;
-    // CHANGE BELOW WHEN ADDED AMMO/LIVES/GUN PROPERLY
-    private int currentLives = 3;
-    private int maxLives = 3;
     private int currentAmmo;
     private int maxAmmo;
-    private ShapeRenderer shape;
+    private final ShapeRenderer shape;
 
-    private float barWidth = 175;
-    private float barHeight = 20;
+    private final float BAR_WIDTH = 175;
+    private final float BAR_HEIGHT = 20;
 
     /// Constructs a new HudView with the given world and controller.
     /// The hud is responsible for displaying information during active gameplay
@@ -40,9 +34,6 @@ public class HudView extends AbstractScreenView {
     /// @param controller The application controller for handling state transitions
     ///
     public HudView(AppWorld world, AppController controller, AbstractCharacter character) {
-        this.world = world;
-        this.controller = controller;
-        this.character = character;
         this.currentAmmo = character.getEquippedWeapon().getCurrentAmmo();
         this.maxAmmo = character.getEquippedWeapon().getMaxAmmo();
         this.stage = new Stage(new FitViewport((float) world.width(), (float) world.height()));
@@ -91,9 +82,9 @@ public class HudView extends AbstractScreenView {
 
         // Positioning the bar to the right of the ammoLabel
         float x = table.getX() + table.getPadLeft() + ammoLabel.getWidth() + 10;
-        float y = table.getY() + table.getPadBottom() + (ammoLabel.getHeight() * ammoLabel.getScaleY() - barHeight) / 2;
-        float width = barWidth;
-        float height = barHeight;
+        float y = table.getY() + table.getPadBottom() + (ammoLabel.getHeight() * ammoLabel.getScaleY() - BAR_HEIGHT) / 2;
+        float width = BAR_WIDTH;
+        float height = BAR_HEIGHT;
 
         shape.setProjectionMatrix(stage.getCamera().combined);
         shape.begin(ShapeRenderer.ShapeType.Filled);
@@ -134,7 +125,7 @@ public class HudView extends AbstractScreenView {
     ///
     public void update(AbstractCharacter character) {
         if (character != null) {
-            this.currentLives = character.lives();
+            int currentLives = character.lives();
             this.currentAmmo = character.getEquippedWeapon().getCurrentAmmo();
             this.maxAmmo = character.getEquippedWeapon().getMaxAmmo();
             livesLabel.setText("LIVES: " + currentLives);

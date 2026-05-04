@@ -5,7 +5,7 @@ import inf112.mayhem.model.entities.characters.AbstractCharacter;
 public class JumpBoostPowerUp implements PowerUp {
     private final static float JUMPBOOSTMULTIPLIER = 1.5f;
 
-    /// Initiates an instance of a jumpboost powerUp.
+    /// Initiates an instance of a jump boost powerUp.
     /// If character activates a powerUp, they receive its benefits.
     ///
     public JumpBoostPowerUp() {}

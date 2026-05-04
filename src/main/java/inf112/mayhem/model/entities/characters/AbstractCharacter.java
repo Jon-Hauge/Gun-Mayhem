@@ -1,19 +1,16 @@
 package inf112.mayhem.model.entities.characters;
 
-	
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import com.badlogic.gdx.maps.tiled.TiledMap;
-
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.collision.MapCollisionHandler;
 import inf112.mayhem.model.entities.AbstractEntity;
 import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.powerUp.PowerUp;
-import inf112.mayhem.model.projectile.AbstractProjectile;
-import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.model.weapons.guns.PistolWeapon;
+import inf112.mayhem.model.entities.projectile.AbstractProjectile;
+import inf112.mayhem.model.entities.weapons.AbstractWeapon;
+import inf112.mayhem.model.entities.weapons.PistolWeapon;
 
 public abstract class AbstractCharacter extends AbstractEntity implements CharacterModel {
 	
@@ -48,7 +45,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	protected boolean isGrounded;
 	protected boolean ignorePlatforms;
 
-	private ArrayList<ActivePowerUp> activePowerUps = new ArrayList<>();
+	private final ArrayList<ActivePowerUp> activePowerUps = new ArrayList<>();
 	
 	/// Initiates a character entity able to interact with other entities and the map in the gameworld.
 	///
@@ -166,8 +163,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	public void updateState() {
 		if (waitingForRespawn) {
 			state = EntityState.RECENTLY_DEAD;
-			return;
-		} else if (!isGrounded && velocity.y > 0) {
+        } else if (!isGrounded && velocity.y > 0) {
 			state = EntityState.JUMPING;
 		} else if (!isGrounded && velocity.y < 0) {
 			state = EntityState.FALLING;
@@ -226,10 +222,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 		
 		return scaledKnockback;
 	}
-	
-	/// Determines whether a hit triggers a hard knockback effect.
-	/// 
-	/// @return true if hard knockback is triggered, false otherwise
+
 	private boolean rollForHardKnockback() {
 	    float chance = damagePercent /300f;
 	    float clampedChance = Math.min(chance, 0.25f); 
