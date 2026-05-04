@@ -98,6 +98,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	public void respawn() {
 		position.set(this.startX, this.startY);
 		velocity.x = 0;
+		damagePercent = 0;
 	}
 	
 	@Override
