@@ -410,7 +410,8 @@ public class ActiveGameView {
         switch (character.getEquippedWeapon().getWeaponType()){
             case PISTOL -> gameSounds.playSound(GameSounds.SoundType.PISTOL);
             case SNIPER -> gameSounds.playSound(GameSounds.SoundType.SNIPER);
-            case SEMIAUTOSHOTGUN -> gameSounds.playSound(GameSounds.SoundType.SHOTGUN);
+            case PUMPACTION -> gameSounds.playSound(GameSounds.SoundType.SHOTGUN);
+            case SEMIAUTOSHOTGUN -> gameSounds.playSound(GameSounds.SoundType.SEMIAUTO);
             }
         character.getEquippedWeapon().soundMade();
         }
