@@ -32,6 +32,7 @@ public class EnemyClass extends AbstractCharacter {
     private float edgeWaitTimer = 0f;
     private static final float EDGE_WAIT_DURATION = 0.5f;
     private float spawnDelayTimer = 1.0f;
+    private boolean hasJumped = false;
 
     private static final float BASE_SPEED = 60f;
     private static final float BASE_DETECTION_RANGE = 100f;
@@ -39,7 +40,6 @@ public class EnemyClass extends AbstractCharacter {
     private static final float BASE_REACTION_TIME = 1.5f;
     private static final float BASE_PATROL_SPEED = 30f;
     private static final float BASE_PATROL_DISTANCE = 80f;
-    private boolean hasJumped = false;
 
     /// Initializes a new enemy at the specified position with a given aggression level.
     /// Enemy represents an AI-controlled character in the game with different aggression
@@ -92,11 +92,11 @@ public class EnemyClass extends AbstractCharacter {
     public int getAggression() {
         return aggression;
     }
-    
-	@Override
-	public float getDamagePercentage() {
-		return damagePercent;
-	}
+
+    @Override
+    public float getDamagePercentage() {
+        return damagePercent;
+    }
 
     @Override
     public void jump() {
@@ -124,29 +124,24 @@ public class EnemyClass extends AbstractCharacter {
 
     @Override
     public void hit(AbstractProjectile obj) {
-    	super.hit(obj);
-        if (obj instanceof AbstractProjectile projectile) {
-            float knockbackResistance = 1.0f - (aggression - 1) * 0.15f;
-            applyKnockback(obj.getKnockBack(), obj.getDirection());
-//            knockBack += projectile.getKnockBack()
-//                        * projectile.getDirection()
-//                        * knockbackResistance;
-        }
+        super.hit(obj);
+        float knockbackResistance = 1.0f - (aggression - 1) * 0.15f;
+        applyKnockback(obj.getKnockBack() * knockbackResistance, obj.getDirection());
     }
 
     @Override
     public void update(AppWorld world, float delta) {
-    	super.update(world, delta);
+        super.update(world, delta);
         if (waitingForRespawn) {
             return;
         }
-    	
+
         this.world = world;
         if (shootingTimer > 0) shootingTimer -= delta;
         if (edgeWaitTimer > 0) edgeWaitTimer -= delta;
         if (spawnDelayTimer > 0) {
             spawnDelayTimer -= delta;
-            velocity.x = 0; // Ensure no movement during spawn delay
+            velocity.x = 0;
         }
 
         // AI logic
@@ -181,9 +176,9 @@ public class EnemyClass extends AbstractCharacter {
         velocity.y -= GRAVITY * delta * gravityMultiplier;
 
         position.x += velocity.x * delta * speedMultiplier;
-        
-        position.x += knockbackVelocity * delta;  
-        knockbackVelocity *= Math.max(0, 1 - KNOCKBACK_DECAY * delta); 
+
+        position.x += knockbackVelocity * delta;
+        knockbackVelocity *= Math.max(0, 1 - KNOCKBACK_DECAY * delta);
 
         updateBounds();
 
@@ -199,7 +194,6 @@ public class EnemyClass extends AbstractCharacter {
             updateBounds();
         } else if (outOfBounds(world)) {
             lives--;
-
             if (lives <= 0) {
                 die();
             } else {
@@ -225,64 +219,112 @@ public class EnemyClass extends AbstractCharacter {
         updateState();
     }
 
+    /// Chases the player using smart jumping and platform awareness.
+    /// Higher aggression levels jump more willingly and take more risks in the air.
+    ///
     private void chasePlayer(float distX, float distY, float distance, float delta) {
         int targetDirection = distX > 0 ? 1 : -1;
-        
+
         if (edgeWaitTimer <= 0) {
             direction = targetDirection;
         }
-        
+
+        handleShooting();
+
         boolean atEdge = isAtEdge();
 
-        if (distance <= attackRange * 2 || aggression >= 4) {
-            if (shootingTimer <= 0 && getEquippedWeapon() != null) {
-                if (getEquippedWeapon().shoot()) {
-                    float spawnX = getDirection() == 1
-                        ? x() + width()
-                        : x() - 10;
-                    float spawnY = y() + (height() / 2);
-
-                    AbstractProjectile projectile = ProjectileFactory.create(
-                        spawnX, spawnY,
-                        getDirection(),
-                        getEquippedWeapon().getWeaponType()
-                    );
-                    if (projectile != null) {
-                        world.add(projectile);
-                    }
-
-                    shootingTimer = getEquippedWeapon().getFiringDelay();
-                    shootingTimer *= (1.2f - (aggression * 0.1f));
-                }
-            }
-        }
-
         if (Math.abs(distX) > attackRange * 0.8f) {
-            if (!atEdge) {
+        	if (!isGrounded) {
+        	    System.out.println("In air — platformBelow: " + hasPlatformBelow() + " jumpCounter: " + jump_counter);
+        	    if (!hasPlatformBelow()) {
+        	        emergencyJump(distX);
+        	    }
+        	    velocity.x = direction * moveSpeed * speedMultiplier;
+            } else if (!atEdge) {
                 velocity.x = direction * moveSpeed * speedMultiplier;
             } else {
-                velocity.x = 0;
-                if (edgeWaitTimer <= 0) {
-                    edgeWaitTimer = EDGE_WAIT_DURATION;
-                }
-                if (isGrounded && (distY > 0 || Math.abs(distX) > detectionRange * 0.3f)) {
-                    jump();
-                }
+                // Ved kant — hopp over istedet for å stoppe
+                velocity.x = direction * moveSpeed * speedMultiplier;
+                smartJump(distY);
+                edgeWaitTimer = EDGE_WAIT_DURATION;
             }
         } else {
             velocity.x = 0;
         }
 
-        if (distY > HEIGHT && isGrounded) {
-            jump();
+        // Hopp opp mot spiller hvis de er høyere
+        if (distY > HEIGHT) {
+            smartJump(distY);
         }
 
-        if (!isGrounded && velocity.y > 0 && velocity.y < JUMP_FORCE * 0.5f && distY > HEIGHT * 2) {
-            jump();
-        }
-
-        if (distY < -HEIGHT) {
+        // Drop ned hvis spiller er lavere
+        if (distY < -HEIGHT && isGrounded) {
             drop();
+        }
+    }
+
+    /// Performs a smart jump that uses double jump only when needed and beneficial.
+    /// Higher aggression levels double jump more aggressively.
+    ///
+    /// @param distY Vertical distance to the player (positive = player is above)
+    ///
+    private void smartJump(float distY) {
+        if (isGrounded) {
+            jump();
+        } else if (jump_counter < 2 && aggression >= 3) {
+            // Dobbelthopp hvis spilleren er høyt oppe, skalert med aggresjon
+            float doubleJumpThreshold = HEIGHT * (3 - aggression * 0.4f);
+            if (distY > doubleJumpThreshold) {
+                jump();
+            }
+        }
+    }
+
+    /// Checks whether there is a platform within falling range below the enemy.
+    /// Uses a sensor rectangle that scales with aggression — more aggressive enemies
+    /// look further down before panicking.
+    ///
+    /// @return true if a platform is detected below, false otherwise
+    ///
+    private boolean hasPlatformBelow() {
+        float lookDistance = 64f + aggression * 20f;
+        Rectangle sensor = new Rectangle(bounds.x, bounds.y - lookDistance, bounds.width, lookDistance);
+        boolean result = collision.isGrounded(sensor, bounds.y, ignorePlatforms);
+        System.out.println("hasPlatformBelow: " + result + " | inAir: " + !isGrounded + " | jumps: " + jump_counter);
+        return result;
+    }
+
+    /// Performs an emergency double jump when no platform is detected below.
+    /// The enemy jumps toward the side the player is on to land on a platform.
+    /// Only triggers for aggression level 2 and above.
+    ///
+    /// @param distX Horizontal distance to the player (positive = player is to the right)
+    ///
+    private void emergencyJump(float distX) {
+        if (aggression < 2 || jump_counter >= 2) return;
+        direction = distX > 0 ? 1 : -1;
+        jump();
+    }
+
+    /// Handles shooting logic when chasing the player.
+    /// Firing rate scales with aggression level.
+    ///
+    private void handleShooting() {
+        if (shootingTimer > 0 || getEquippedWeapon() == null) return;
+
+        if (getEquippedWeapon().shoot()) {
+            float spawnX = getDirection() == 1 ? x() + width() : x() - 10;
+            float spawnY = y() + (height() / 2);
+
+            AbstractProjectile projectile = ProjectileFactory.create(
+                spawnX, spawnY,
+                getDirection(),
+                getEquippedWeapon().getWeaponType()
+            );
+            if (projectile != null) world.add(projectile);
+
+            shootingTimer = getEquippedWeapon().getFiringDelay();
+            shootingTimer *= (1.2f - (aggression * 0.1f));
         }
     }
 
@@ -291,13 +333,13 @@ public class EnemyClass extends AbstractCharacter {
 
         float sensorX = direction == 1 ? bounds.x + bounds.width : bounds.x - 5;
         Rectangle edgeSensor = new Rectangle(sensorX, bounds.y - 1, 5, bounds.height);
-        
+
         boolean groundBelow = collision.isGrounded(edgeSensor, bounds.y, ignorePlatforms);
-        
+
         if (!groundBelow) {
-            groundBelow = collision.isGrounded(edgeSensor, bounds.y - 32, ignorePlatforms);
+            groundBelow = collision.isGrounded(edgeSensor, bounds.y - 64, ignorePlatforms);
         }
-        
+
         return !groundBelow;
     }
 
@@ -309,7 +351,7 @@ public class EnemyClass extends AbstractCharacter {
                 edgeWaitTimer = EDGE_WAIT_DURATION;
             }
         }
-        
+
         velocity.x = patrolDirection * patrolSpeed * speedMultiplier;
 
         if (Math.abs(position.x - patrolOrigin) >= patrolDistance) {
