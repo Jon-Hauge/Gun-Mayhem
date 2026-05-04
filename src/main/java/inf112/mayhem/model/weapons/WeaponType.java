@@ -4,6 +4,5 @@ public enum WeaponType {
     PISTOL,
     SNIPER,
     PUMPACTION,
-    SEMIAUTOSHOTGUN,
-    SWORD
+    SEMIAUTOSHOTGUN
 }

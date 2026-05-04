@@ -28,9 +28,4 @@ class ProjectileFactoryTest {
     void createReturnsSemiAutoProjectileForSemiAutoShotgun() {
         assertInstanceOf(SemiAutoShotgunProjectile.class, ProjectileFactory.create(0f, 0f, 1, WeaponType.SEMIAUTOSHOTGUN));
     }
-
-    @Test
-    void createReturnsNullForSword() {
-        assertNull(ProjectileFactory.create(0f, 0f, 1, WeaponType.SWORD));
-    }
 }
