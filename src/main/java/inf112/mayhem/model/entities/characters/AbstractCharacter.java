@@ -28,6 +28,10 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
     protected final int WORLD_PADDING = 200;
     protected final float KNOCKBACK_DECAY = 18f;
 
+	protected final float RESPAWN_DELAY = 1.5f;
+	protected float respawnTimer = 0f;
+	protected boolean waitingForRespawn = false;
+
 	protected float speedMultiplier = 1f;
 	protected float gravityMultiplier = 1f;
 	protected float jumpBoostMultiplier = 1f;
@@ -88,9 +92,7 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	}
 	
 	@Override
-	public void die() {
-		this.active = false;
-	}
+	public void die() { this.active = false; }
 	
 	@Override
 	public void respawn() {
@@ -130,6 +132,17 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 	
 	@Override
 	public void update(AppWorld world, float delta) {
+		if (waitingForRespawn) {
+			respawnTimer += delta;
+
+			if (respawnTimer >= RESPAWN_DELAY) {
+				respawn();
+				updateBounds();
+				waitingForRespawn = false;
+			}
+			return;
+		}
+
 		if (this.equippedWeapon != null && this.equippedWeapon != baseWeapon && this.equippedWeapon.outOfAmmo()) {
 		    this.equippedWeapon.dropWeapon();
 		    this.equippedWeapon = baseWeapon;
@@ -150,7 +163,10 @@ public abstract class AbstractCharacter extends AbstractEntity implements Charac
 
 	@Override
 	public void updateState() {
-		if (!isGrounded && velocity.y > 0) {
+		if (waitingForRespawn) {
+			state = EntityState.RECENTLY_DEAD;
+			return;
+		} else if (!isGrounded && velocity.y > 0) {
 			state = EntityState.JUMPING;
 		} else if (!isGrounded && velocity.y < 0) {
 			state = EntityState.FALLING;

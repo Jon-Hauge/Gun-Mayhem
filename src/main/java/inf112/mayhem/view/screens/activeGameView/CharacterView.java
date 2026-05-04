@@ -1,12 +1,10 @@
 package inf112.mayhem.view.screens.activeGameView;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import inf112.mayhem.model.entities.EntityState;
 import inf112.mayhem.model.entities.characters.CharacterModel;
 import inf112.mayhem.model.weapons.AbstractWeapon;
-import inf112.mayhem.view.screens.activeGameView.animations.AbstractAnimation;
-import inf112.mayhem.view.screens.activeGameView.animations.IdleAnimation;
-import inf112.mayhem.view.screens.activeGameView.animations.JumpingAnimation;
-import inf112.mayhem.view.screens.activeGameView.animations.WalkingAnimation;
+import inf112.mayhem.view.screens.activeGameView.animations.*;
 
 public class CharacterView {
     private CharacterRig characterRig;
@@ -14,6 +12,7 @@ public class CharacterView {
     private AbstractAnimation walkingAnimation;
     private AbstractAnimation jumpingAnimation;
     private AbstractAnimation fallingAnimation;
+    private AbstractAnimation deathAnimation;
 
     /// Inititates a character and its animations
     ///
@@ -26,6 +25,7 @@ public class CharacterView {
         walkingAnimation = new WalkingAnimation();
         jumpingAnimation = new JumpingAnimation();
         fallingAnimation = new JumpingAnimation();
+        deathAnimation = new DeathAnimation();
     }
 
     /// Draws the view on a canvas
@@ -41,14 +41,33 @@ public class CharacterView {
             case WALKING ->  walkingAnimation;
             case JUMPING ->   jumpingAnimation;
             case FALLING ->   fallingAnimation;
+            case RECENTLY_DEAD -> deathAnimation;
             default ->  idleAnimation;
         };
 
-        currAnimation.update(characterRig, delta);
+        boolean recentlyDead = obj.state() == EntityState.RECENTLY_DEAD;
+
+        batch.end();
+        if (!recentlyDead) {
+            currAnimation.update(characterRig, obj.x(), obj.y(), delta, batch.getProjectionMatrix());
+        }
+        batch.begin();
 
         boolean mirrored = obj.getDirection() == -1;
         AbstractWeapon weapon = obj.getEquippedWeapon();
 
         characterRig.draw(batch, obj.x(), obj.y(), mirrored, weapon);
+
+        if (recentlyDead) {
+            batch.end();
+            currAnimation.update(characterRig,
+                    obj.x(),
+                    obj.y(),
+                    delta,
+                    batch.getProjectionMatrix()
+            );
+            batch.begin();
+        }
+
     }
 }

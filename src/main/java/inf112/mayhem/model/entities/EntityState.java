@@ -6,6 +6,7 @@ public enum EntityState {
 	FALLING,
 	WALKING,
 	ACTIVE,
+	RECENTLY_DEAD,
 	HIT,
 	IN_USE,
 	DROPPED,

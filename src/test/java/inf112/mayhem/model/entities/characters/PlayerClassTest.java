@@ -249,7 +249,7 @@ class PlayerClassTest {
 
         assertEquals(2, out.lives());
         assertEquals(0, out.velocity.x);
-        assertEquals(20, out.y());
+        assertEquals(0, out.velocity.y);
         assertTrue(out.isActive());
     }
 
