@@ -248,7 +248,7 @@ public class ActiveGameView {
                     Math.min(camera.position.x, (float) world.width() - halfWidth));
             camera.position.y = Math.max(halfHeight,
                     Math.min(camera.position.y, (float) world.height() - halfHeight + topPadding));
-            //
+
 
             float width = maxX - minX;
             float height = maxY - minY;
