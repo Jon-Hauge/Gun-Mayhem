@@ -82,7 +82,6 @@ public class PlayerClass extends AbstractCharacter {
             } else {
                 waitingForRespawn = true;
                 respawnTimer = 0f;
-                velocity.x = 0;
                 velocity.y = 0;
             }
         } else {
