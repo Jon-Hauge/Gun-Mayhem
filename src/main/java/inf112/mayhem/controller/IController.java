@@ -53,6 +53,14 @@ public interface IController {
     ///
     void goToControls();
 
+    /// Switches display mode to fullscreen.
+    ///
+    void setFullscreenMode();
+
+    /// Switches display mode to windowed mode.
+    ///
+    void setWindowedMode();
+
     /// Opens the campaign screen
     ///
     void campaign();

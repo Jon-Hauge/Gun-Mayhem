@@ -2,10 +2,13 @@ package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.video.VideoPlayer;
@@ -102,6 +105,33 @@ public abstract class AbstractScreenView {
     /// Sets up background video for screens where needed
     ///
     protected void setupBackgroundVideo() {};
+
+    protected void renderVideoBackground() {
+        ScreenUtils.clear(Color.BLACK);
+
+        if (videoPlayer == null || videoBatch == null || stage == null) {
+            return;
+        }
+
+        videoPlayer.update();
+        Texture videoTexture = videoPlayer.getTexture();
+        if (videoTexture == null) {
+            return;
+        }
+
+        Viewport viewport = stage.getViewport();
+        viewport.apply();
+
+        videoBatch.setProjectionMatrix(viewport.getCamera().combined);
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+        float x = viewport.getCamera().position.x - worldWidth / 2f;
+        float y = viewport.getCamera().position.y - worldHeight / 2f;
+
+        videoBatch.begin();
+        videoBatch.draw(videoTexture, x, y, worldWidth, worldHeight);
+        videoBatch.end();
+    }
 
     private void disposeVideo() {
         if (videoPlayer != null) {

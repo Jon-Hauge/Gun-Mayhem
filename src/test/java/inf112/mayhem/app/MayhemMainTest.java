@@ -55,8 +55,8 @@ class MayhemMainTest {
 
             Lwjgl3ApplicationConfiguration cfg = (Lwjgl3ApplicationConfiguration) args.get(1);
             assertEquals("Gun Mayhem 3", getPrivateField(cfg, "title"));
-            assertEquals(1280, getPrivateField(cfg, "windowWidth"));
-            assertEquals(768, getPrivateField(cfg, "windowHeight"));
+            assertNotNull(getPrivateField(cfg, "fullscreenMode"));
+            assertEquals(Boolean.TRUE, getPrivateField(cfg, "windowResizable"));
         } finally {
             SharedLibraryLoader.os = originalOs;
         }

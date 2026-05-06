@@ -2,7 +2,6 @@ package inf112.mayhem.view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -71,7 +70,7 @@ public class ControlsView extends AbstractScreenView {
         buttonStyle.fontColor = Color.ORANGE;
 
         // Title
-        table.add(new Label("Controls", titleStyle)).padBottom(50f).row();
+        table.add(new Label("Settings", titleStyle)).padBottom(50f).row();
 
         // Controls
         table.add(new Label("Jump: W / \u2191", textStyle)).padBottom(10).row();
@@ -81,6 +80,24 @@ public class ControlsView extends AbstractScreenView {
         table.add(new Label("Shoot: Z", textStyle)).padBottom(10).row();
 
         // Buttons
+        TextButton fullscreenButton = new TextButton("Fullscreen", buttonStyle);
+        fullscreenButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                controller.setFullscreenMode();
+            }
+        });
+        table.add(fullscreenButton).padTop(30).row();
+
+        TextButton windowedButton = new TextButton("Windowed", buttonStyle);
+        windowedButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                controller.setWindowedMode();
+            }
+        });
+        table.add(windowedButton).padTop(20).row();
+
         TextButton goToMainMenuButton = new TextButton("Return to main menu", buttonStyle);
         goToMainMenuButton.addListener(new ClickListener() {
             @Override
@@ -95,23 +112,7 @@ public class ControlsView extends AbstractScreenView {
 
     @Override
     public void render() {
-        if (videoPlayer != null) {
-            videoPlayer.update();
-
-            Texture videoTexture = videoPlayer.getTexture();
-
-            if (videoTexture != null) {
-                videoBatch.begin();
-                videoBatch.draw(
-                        videoTexture,
-                        0,
-                        0,
-                        Gdx.graphics.getWidth(),
-                        Gdx.graphics.getHeight()
-                );
-                videoBatch.end();
-            }
-        }
+        renderVideoBackground();
 
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();

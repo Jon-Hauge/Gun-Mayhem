@@ -19,7 +19,7 @@ public class MayhemMain {
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Gun Mayhem 3");
-		cfg.setWindowedMode(1280, 768);
+		cfg.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 
 		ApplicationListener appListener = new AppController();
 		new Lwjgl3Application(appListener, cfg);

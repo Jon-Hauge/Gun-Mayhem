@@ -3,6 +3,7 @@ package inf112.mayhem.controller;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import inf112.mayhem.model.AppWorld;
 import inf112.mayhem.model.GameState;
 import inf112.mayhem.view.screens.ScreenManager;
@@ -119,6 +120,17 @@ public class AppController implements ApplicationListener, IController {
     public void goToControls() {
         world.setState(GameState.CONTROLS);
         updateInputProcessor();
+    }
+
+    @Override
+    public void setFullscreenMode() {
+        DisplayMode displayMode = Gdx.graphics.getDisplayMode();
+        Gdx.graphics.setFullscreenMode(displayMode);
+    }
+
+    @Override
+    public void setWindowedMode() {
+        Gdx.graphics.setWindowedMode(1280, 768);
     }
 
     @Override
