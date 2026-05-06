@@ -14,6 +14,7 @@ import static org.mockito.Mockito.when;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Input;
 
 import inf112.mayhem.model.AppWorld;
@@ -93,6 +94,26 @@ public class AppControllerTest {
         appController.goToControls();
         verify(world).setState(GameState.CONTROLS);
         verify(screenManager).updateInputProcessor(GameState.CONTROLS);
+    }
+
+    @Test
+    void setFullscreenModeUsesCurrentDisplayMode() {
+        Gdx.graphics = mock(Graphics.class);
+        DisplayMode displayMode = mock(DisplayMode.class);
+        when(Gdx.graphics.getDisplayMode()).thenReturn(displayMode);
+
+        appController.setFullscreenMode();
+
+        verify(Gdx.graphics).setFullscreenMode(displayMode);
+    }
+
+    @Test
+    void setWindowedModeUsesDefaultResolution() {
+        Gdx.graphics = mock(Graphics.class);
+
+        appController.setWindowedMode();
+
+        verify(Gdx.graphics).setWindowedMode(1280, 768);
     }
 
     @Test
