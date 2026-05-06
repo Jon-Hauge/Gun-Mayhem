@@ -3,9 +3,10 @@ package inf112.mayhem.app;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockConstruction;
+import static org.mockito.Mockito.verify;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -37,11 +38,13 @@ class MayhemMainTest {
         SharedLibraryLoader.os = Os.Windows;
         AtomicReference<List<?>> constructorArguments = new AtomicReference<>();
 
-        try (MockedConstruction<Lwjgl3Application> mockedConstruction = mockConstruction(Lwjgl3Application.class,
-                (mock, context) -> constructorArguments.set(context.arguments()))) {
+        try (MockedConstruction<Lwjgl3ApplicationConfiguration> mockedConfigConstruction = mockConstruction(Lwjgl3ApplicationConfiguration.class);
+             MockedConstruction<Lwjgl3Application> mockedConstruction = mockConstruction(Lwjgl3Application.class,
+                     (mock, context) -> constructorArguments.set(context.arguments()))) {
             MayhemMain.main(new String[0]);
 
             assertEquals(1, mockedConstruction.constructed().size());
+            assertEquals(1, mockedConfigConstruction.constructed().size());
 
             List<?> args = constructorArguments.get();
             assertNotNull(args);
@@ -53,10 +56,10 @@ class MayhemMainTest {
             assertNotNull(listener);
             assertTrue(listener instanceof AppController);
 
-            Lwjgl3ApplicationConfiguration cfg = (Lwjgl3ApplicationConfiguration) args.get(1);
-            assertEquals("Gun Mayhem 3", getPrivateField(cfg, "title"));
-            assertNotNull(getPrivateField(cfg, "fullscreenMode"));
-            assertEquals(Boolean.TRUE, getPrivateField(cfg, "windowResizable"));
+            Lwjgl3ApplicationConfiguration cfg = mockedConfigConstruction.constructed().get(0);
+            verify(cfg).setTitle("Gun Mayhem 3");
+            verify(cfg).setFullscreenMode(any());
+            assertTrue(args.get(1) == cfg);
         } finally {
             SharedLibraryLoader.os = originalOs;
         }
@@ -67,31 +70,16 @@ class MayhemMainTest {
         Os originalOs = SharedLibraryLoader.os;
         SharedLibraryLoader.os = Os.MacOsX;
 
-        try (MockedConstruction<Lwjgl3Application> ignored = mockConstruction(Lwjgl3Application.class)) {
+        try (MockedConstruction<Lwjgl3ApplicationConfiguration> mockedConfigConstruction = mockConstruction(Lwjgl3ApplicationConfiguration.class);
+             MockedConstruction<Lwjgl3Application> ignored = mockConstruction(Lwjgl3Application.class)) {
             MayhemMain.main(new String[0]);
+
+            Lwjgl3ApplicationConfiguration cfg = mockedConfigConstruction.constructed().get(0);
+            verify(cfg).setFullscreenMode(any());
 
             assertEquals("glfw_async", Configuration.GLFW_LIBRARY_NAME.get());
         } finally {
             SharedLibraryLoader.os = originalOs;
-        }
-    }
-
-    private static Object getPrivateField(Object object, String fieldName) {
-        try {
-            Class<?> type = object.getClass();
-            while (type != null) {
-                try {
-                    Field field = type.getDeclaredField(fieldName);
-                    field.setAccessible(true);
-                    return field.get(object);
-                } catch (NoSuchFieldException ignored) {
-                    type = type.getSuperclass();
-                }
-            }
-
-            throw new NoSuchFieldException(fieldName);
-        } catch (ReflectiveOperationException e) {
-            throw new AssertionError(e);
         }
     }
 }
