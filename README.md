@@ -20,7 +20,7 @@
 
 ---
 ### Controls
-- Controls for the game can be found by pressing the **Controls** button in the main menu.
+- Controls for the game can be found by pressing the **Options** button in the main menu.
 
 ---
 ### Security

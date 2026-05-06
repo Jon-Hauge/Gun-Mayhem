@@ -86,14 +86,18 @@ public class AppController implements ApplicationListener, IController {
 
     @Override
     public void pause() {
-        world.setState(GameState.PAUSED);
-        updateInputProcessor();
+        if (world.state() == GameState.ACTIVE) {
+            world.setState(GameState.PAUSED);
+            updateInputProcessor();
+        }
     }
 
     @Override
     public void resume() {
-        world.setState(GameState.ACTIVE);
-        updateInputProcessor();
+        if (world.state() == GameState.ACTIVE) {
+            world.setState(GameState.ACTIVE);
+            updateInputProcessor();
+        }
     }
 
     @Override
