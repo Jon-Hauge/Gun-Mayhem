@@ -57,7 +57,7 @@ public class AppControllerTest {
 
     @Test
     void pauseSetsGameStateToPaused() {
-        when(world.state()).thenReturn(GameState.PAUSED);
+        when(world.state()).thenReturn(GameState.ACTIVE, GameState.PAUSED);
         appController.pause();
         verify(world).setState(GameState.PAUSED);
         verify(screenManager).updateInputProcessor(GameState.PAUSED);
@@ -65,7 +65,7 @@ public class AppControllerTest {
 
     @Test
     void resumeSetsGameStateToActive() {
-        when(world.state()).thenReturn(GameState.ACTIVE);
+        when(world.state()).thenReturn(GameState.PAUSED, GameState.ACTIVE);
         appController.resume();
         verify(world).setState(GameState.ACTIVE);
         verify(screenManager).updateInputProcessor(GameState.ACTIVE);
